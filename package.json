@@ -1,0 +1,49 @@
+{
+  "name": "spasm.js",
+  "version": "0.1.0",
+  "description": "Tools for developing Signer and Protocol Agnostic Social Media (SPASM) apps.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean-esm": "rm -rf lib.esm/* && cp -r misc/basedirs/lib.esm/* ./lib.esm/",
+    "clean-commonjs": "rm -rf lib.commonjs/* && cp -r misc/basedirs/lib.commonjs/* ./lib.commonjs/",
+    "clean-all": "npm run clean-esm && npm run clean-commonjs",
+    "clean": "npm run clean-all",
+    "build-esm": "tsc --project tsconfig.esm.json",
+    "build-commonjs": "tsc --project tsconfig.commonjs.json",
+    "build-all": "npm run build-esm && npm run build-commonjs",
+    "build": "npm run clean-all && npm run build-all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/degenrocket/spasm.js.git"
+  },
+  "keywords": [
+    "spasm",
+    "dmp",
+    "nostr",
+    "ethereum",
+    "social"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/degenrocket/spasm.js/issues"
+  },
+  "homepage": "https://github.com/degenrocket/spasm.js#readme",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@types/node": "^20.11.20",
+    "bech32": "^2.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib.esm/index.js",
+      "default": "./lib.commonjs/index.js"
+    }
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2020",
+      "es5"
+    ],
+    "pretty": false,
+    "rootDir": "./src.ts",
+    "strict": false,
+    "sourceMap": true,
+    "target": "es2022"
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "include": [
+    "./src.ts/**/*.ts"
+  ]
+}

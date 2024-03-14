@@ -1,0 +1,11 @@
+{
+  "exclude": [
+    "src.ts/_admin/**"
+  ],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "outDir": "./lib.commonjs"
+  }
+}

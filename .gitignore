@@ -1,0 +1,12 @@
+node_modules/**
+output/**
+
+**/*.save
+**/*.swp
+**/*.tgz
+dist/*.gz
+
+# Vim swap files
+*~
+*.swp
+*.swo
