@@ -1,11 +1,13 @@
 {
   "name": "spasm.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Tools for developing Signer and Protocol Agnostic Social Media (SPASM) apps.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-ts": "jest ./src.ts/",
+    "test-esm": "npm run build-esm && jest ./lib.esm/",
+    "test-commonjs": "npm run build-commonjs && jest ./lib.commonjs/",
     "clean-esm": "rm -rf lib.esm/* && cp -r misc/basedirs/lib.esm/* ./lib.esm/",
     "clean-commonjs": "rm -rf lib.commonjs/* && cp -r misc/basedirs/lib.commonjs/* ./lib.commonjs/",
     "clean-all": "npm run clean-esm && npm run clean-commonjs",
@@ -33,6 +35,9 @@
   },
   "homepage": "https://github.com/degenrocket/spasm.js#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
@@ -43,6 +48,22 @@
     ".": {
       "import": "./lib.esm/index.js",
       "default": "./lib.commonjs/index.js"
+    },
+    "./identify": {
+      "import": "./lib.esm/identify/index.js",
+      "default": "./lib.commonjs/identify/index.js"
+    },
+    "./convert": {
+      "import": "./lib.esm/convert/index.js",
+      "default": "./lib.commonjs/convert/index.js"
+    },
+    "./utils": {
+      "import": "./lib.esm/utils/index.js",
+      "default": "./lib.commonjs/utils/index.js"
+    },
+    "./types": {
+      "import": "./lib.esm/types/index.js",
+      "default": "./lib.commonjs/types/index.js"
     }
   },
   "sideEffects": false

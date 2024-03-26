@@ -1,0 +1,1 @@
+export { identifyObject } from "./identifyEvent"

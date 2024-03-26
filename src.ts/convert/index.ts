@@ -1,0 +1,1 @@
+export { convertToSpasm } from "./convertToSpasm"

@@ -1,3 +1,5 @@
-import { identifyPostOrEvent, convertToSpasm } from "./identifyEvent";
+import * as spasm from "./spasm";
 
-export { identifyPostOrEvent, convertToSpasm }
+export { spasm };
+
+export * from "./spasm";

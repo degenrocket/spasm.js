@@ -1,3 +1,4 @@
-import { identifyPostOrEvent, convertToSpasm } from "./identifyEvent";
-export { identifyPostOrEvent, convertToSpasm };
+import * as spasm from "./spasm";
+export { spasm };
+export * from "./spasm";
 //# sourceMappingURL=index.js.map
