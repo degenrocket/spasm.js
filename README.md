@@ -23,6 +23,24 @@ export type UnknownEvent =
   SpasmEvent
 ```
 
+After converting an unknown event to the Spasm event, you can now easily access common properties across most public messaging formats such as:
+- `spasmEvent.eventId`
+- `spasmEvent.author`
+- `spasmEvent.action`
+- `spasmEvent.content`
+- `spasmEvent.timestamp`
+- `spasmEvent.signature`
+- `spasmEvent.parentEvent`
+
+The original event will be stored under:
+- `spasmEvent.originalEventObject`
+- `spasmEvent.originalEventString`
+
+The event metadata can be found under:
+- `spasmEvent.meta`
+
+See the full list of properties of `SpasmEvent` at `./src.ts/types/interfaces.ts`.
+
 ### Features
 
 - identify web2 posts and web3 events
@@ -195,6 +213,7 @@ export const event: NostrSpasmEventSignedOpened = {
   pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
   id: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
   sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+}
 ```
 
 Here is the result of `identifyEvent(event)`
@@ -223,33 +242,34 @@ const spasmEvent: SpasmEvent = {
   meta: {
     baseProtocol: 'nostr',
     hasExtraSpasmFields: true,
-    convertedFrom: 'NostrSpasmEventSignedOpened',
     extraSpasmFieldsVersion: '1.0.0',
-    license: 'SPDX-License-Identifier: CC0-1.0]',
+    convertedFrom: 'NostrSpasmEventSignedOpened',
     privateKeyType: 'nostr'
+    license: 'SPDX-License-Identifier: CC0-1.0]',
   },
   spasmVersion: '1.0.0',
-  eventId: '2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290'
-  content: 'To the SPASM!',
-  timestamp: 1708153412,
+  eventId: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
+  action: 'post',
+  title: 'Nostr Spasm genesis',
+  content: 'Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.',
+  timestamp: 1705462957,
   author: 'npub195ke7xdf3efncf6spe0s26322mdcl6frj0n6yy6akcadxqzgdapqjsm60y',
-  action: 'reply',
   originalEventObject: {
     kind: 1,
-    created_at: 1708153412,
-    tags: [ [Array], [Array], [Array], [Array] ],
-    content: 'To the SPASM!',
-    pubkey: '2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42',
-    id: '4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f',
-    sig: '2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290'
+    created_at: 1705462957,
+    tags:[
+      ["license","SPDX-License-Identifier: CC0-1.0"],
+      ["spasm_version","1.0.0"],
+      ["spasm_action","post"],
+      ["spasm_title","Nostr Spasm genesis"]
+    ],
+    content: "Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.",
+    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+    id: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+    sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
   },
-  originalEventString: '{"kind":1,"created_at":1708153412,"tags":[["license","SPDX-License-Identifier: CC0-1.0]"],["spasm_version","1.0.0"],[
-pasm_action","reply"],["spasm_target","0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a
-ff95ae572af25dd3e204a71b"]],"content":"To the SPASM!","pubkey":"2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42","id":"4ca9b330a
-d821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f","sig":"2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee
-af55450fa9fa6b15ac732877d732e98e2be10acb290"}',
-  parentEvent: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b',
-  signature: '2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290'
+  originalEventString: '{"kind":1,"created_at":1705462957,"tags":[["license","SPDX-License-Identifier: CC0-1.0"],["spasm_version","1.0.0"],["spasm_action","post"],["spasm_title","Nostr Spasm genesis"]],"content":"Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.","pubkey":"2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42","id":"db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651","sig":"db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"}',
+  signature: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
 }
 ```
 
