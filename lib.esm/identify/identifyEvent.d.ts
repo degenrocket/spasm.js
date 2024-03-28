@@ -1,4 +1,4 @@
-import { EventType, EventInfo, KnownPostOrEventInfo, UnknownPostOrEvent, UnknownEvent, PrivateKeyType } from "./../types/interfaces";
+import { EventType, EventInfo, KnownPostOrEventInfo, UnknownPostOrEvent, UnknownEvent, PrivateKeyType } from "./../types/interfaces.js";
 /**
   There are usually 3 types of objects passed to this function:
   - web3 post - an object is a post with a web3 event sealed inside

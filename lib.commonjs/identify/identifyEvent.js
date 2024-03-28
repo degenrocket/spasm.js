@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.identifyObject = exports.identifyEventInsidePost = exports.isPostWithNostrEvent = exports.isPostWithNostrSpasmEvent = exports.isPostWithNostrEventSignedOpened = exports.isPostWithNostrSpasmEventSignedOpened = exports.isPostWithDmpEventSignedClosed = exports.isPostWithDmpEventSignedOpened = exports.isPostWithDmpEvent = exports.isDmpEventSignedOpened = exports.isDmpEventSignedClosed = exports.isDmpEvent = exports.isNostrSpasmEventSignedOpened = exports.isNostrSpasmEvent = exports.isNostrEventSignedOpened = exports.isNostrEvent = exports.hasExtraSpasmFields = exports.identifyPrivateKey = exports.identifyLicenseInsideTags = exports.identifyLicense = exports.hasSignature = exports.identifyEvent = exports.isWeb3Post = exports.isWeb2Post = exports.identifyPostOrEvent = void 0;
-const utils_1 = require("./../utils");
+const utils_js_1 = require("./../utils/utils.js");
 // Post-or-Event
 // │
 // │   isWeb2Post()
@@ -142,7 +142,7 @@ const identifyPostOrEvent = (unknownPostOrEvent) => {
             license: false
         }
     };
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return info;
     // let unknownEventOrWeb2Post: UnknownPostOrEvent | undefined
     let unknownEventOrWeb2Post = {};
@@ -213,7 +213,7 @@ exports.identifyPostOrEvent = identifyPostOrEvent;
 const isWeb2Post = (unknownPostOrEvent) => {
     if (!unknownPostOrEvent)
         return false;
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (
     // signatures
@@ -238,7 +238,7 @@ exports.isWeb2Post = isWeb2Post;
 const isWeb3Post = (unknownPostOrEvent) => {
     if (!unknownPostOrEvent)
         return false;
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if ('signed_message' in unknownPostOrEvent &&
         typeof (unknownPostOrEvent.signed_message) === "string") {
@@ -259,7 +259,7 @@ const identifyEvent = (unknownPostOrEvent) => {
     };
     if (!unknownPostOrEvent)
         return eventInfo;
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return eventInfo;
     eventInfo.license = (0, exports.identifyLicense)(unknownPostOrEvent);
     // TODO: refactor
@@ -341,7 +341,7 @@ const identifyEvent = (unknownPostOrEvent) => {
 };
 exports.identifyEvent = identifyEvent;
 const hasSignature = (unknownPostOrEvent, signatureKey, signatureLength = 40) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     let keys = signatureKey
         ? [signatureKey] // signature key is provided
@@ -357,7 +357,7 @@ const hasSignature = (unknownPostOrEvent, signatureKey, signatureLength = 40) =>
 };
 exports.hasSignature = hasSignature;
 const identifyLicense = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     let license = false;
     // Option 1.
@@ -377,10 +377,10 @@ const identifyLicense = (unknownPostOrEvent) => {
     // If no license was found, then we should try to extract
     // an object (event) from a signed string if such a string
     // exists, and then check that object for a license.
-    const signedObject = (0, utils_1.extractSealedEvent)(unknownPostOrEvent);
+    const signedObject = (0, utils_js_1.extractSealedEvent)(unknownPostOrEvent);
     if (!signedObject)
         return false;
-    if (!(0, utils_1.isObjectWithValues)(signedObject))
+    if (!(0, utils_js_1.isObjectWithValues)(signedObject))
         return false;
     if ('license' in signedObject &&
         typeof (signedObject['license']) === 'string' &&
@@ -396,7 +396,7 @@ const identifyLicense = (unknownPostOrEvent) => {
 };
 exports.identifyLicense = identifyLicense;
 const identifyLicenseInsideTags = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     let license = false;
     // A license can be placed inside SPASM tags
@@ -417,7 +417,7 @@ const identifyLicenseInsideTags = (unknownPostOrEvent) => {
 };
 exports.identifyLicenseInsideTags = identifyLicenseInsideTags;
 const identifyPrivateKey = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     /**
      * If an object has 'sig' key, then it's most likely a Nostr event.
@@ -462,7 +462,7 @@ const identifyPrivateKey = (unknownPostOrEvent) => {
         if ('signed_message' in unknownPostOrEvent &&
             typeof (unknownPostOrEvent?.['signed_message']) === 'string') {
             const signedObject = JSON.parse(unknownPostOrEvent?.['signed_message']);
-            if (!(0, utils_1.isObjectWithValues)(signedObject))
+            if (!(0, utils_js_1.isObjectWithValues)(signedObject))
                 return false;
             if ('sig' in unknownPostOrEvent &&
                 typeof (unknownPostOrEvent['sig']) === 'string' &&
@@ -476,7 +476,7 @@ const identifyPrivateKey = (unknownPostOrEvent) => {
         if ('signedString' in unknownPostOrEvent &&
             typeof (unknownPostOrEvent?.['signedString']) === 'string') {
             const signedObject = JSON.parse(unknownPostOrEvent?.['signedString']);
-            if (!(0, utils_1.isObjectWithValues)(signedObject))
+            if (!(0, utils_js_1.isObjectWithValues)(signedObject))
                 return false;
             if ((0, exports.isDmpEvent)(signedObject))
                 return 'ethereum';
@@ -486,7 +486,7 @@ const identifyPrivateKey = (unknownPostOrEvent) => {
 };
 exports.identifyPrivateKey = identifyPrivateKey;
 const hasExtraSpasmFields = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if ('tags' in unknownPostOrEvent &&
         Array.isArray(unknownPostOrEvent.tags)) {
@@ -524,7 +524,7 @@ const hasExtraSpasmFields = (unknownPostOrEvent) => {
 };
 exports.hasExtraSpasmFields = hasExtraSpasmFields;
 const isNostrEvent = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     // Unsigned Nostr event can be without 'id'
     // if (!('id' in unknownPostOrEvent)) return false
@@ -570,7 +570,7 @@ const isNostrEvent = (unknownPostOrEvent) => {
 };
 exports.isNostrEvent = isNostrEvent;
 const isNostrEventSignedOpened = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!(0, exports.isNostrEvent)(unknownPostOrEvent))
         return false;
@@ -583,7 +583,7 @@ const isNostrEventSignedOpened = (unknownPostOrEvent) => {
 };
 exports.isNostrEventSignedOpened = isNostrEventSignedOpened;
 const isNostrSpasmEvent = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!(0, exports.isNostrEvent)(unknownPostOrEvent))
         return false;
@@ -593,7 +593,7 @@ const isNostrSpasmEvent = (unknownPostOrEvent) => {
 };
 exports.isNostrSpasmEvent = isNostrSpasmEvent;
 const isNostrSpasmEventSignedOpened = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!(0, exports.isNostrSpasmEvent)(unknownPostOrEvent))
         return false;
@@ -603,7 +603,7 @@ const isNostrSpasmEventSignedOpened = (unknownPostOrEvent) => {
 };
 exports.isNostrSpasmEventSignedOpened = isNostrSpasmEventSignedOpened;
 const isDmpEvent = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     // TODO: think what if unknownPostOrEvent is Post with version, action, license
     if (!('version' in unknownPostOrEvent))
@@ -628,7 +628,7 @@ const isDmpEvent = (unknownPostOrEvent) => {
 };
 exports.isDmpEvent = isDmpEvent;
 const isDmpEventSignedClosed = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!('signedString' in unknownPostOrEvent))
         return false;
@@ -645,7 +645,7 @@ const isDmpEventSignedClosed = (unknownPostOrEvent) => {
 };
 exports.isDmpEventSignedClosed = isDmpEventSignedClosed;
 const isDmpEventSignedOpened = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!exports.isDmpEventSignedClosed)
         return false;
@@ -711,7 +711,7 @@ const isPostWithNostrEvent = (unknownPostOrEvent) => {
 };
 exports.isPostWithNostrEvent = isPostWithNostrEvent;
 const identifyEventInsidePost = (unknownPostOrEvent) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     if (!('signed_message' in unknownPostOrEvent))
         return false;

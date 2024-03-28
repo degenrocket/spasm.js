@@ -11,12 +11,12 @@ import {
   Post,
   SpasmEvent,
   SpasmEventSigned,
-} from "./../types/interfaces";
+} from "./../types/interfaces.js";
 import {
   isObjectWithValues, extractVersion,
   toBeTimestamp, extractSealedEvent, getNostrSpasmVersion
-} from "./../utils";
-import { convertHexToBech32 } from "./../utils/index";
+} from "./../utils/utils.js";
+import { convertHexToBech32 } from "./../utils/index.js";
 import {
   identifyPostOrEvent,
   isDmpEvent,
@@ -26,7 +26,7 @@ import {
   isNostrEventSignedOpened,
   isNostrSpasmEvent,
   isNostrSpasmEventSignedOpened
-} from "./../identify/identifyEvent"
+} from "./../identify/identifyEvent.js"
 
 const latestSpasmVersion = "1.0.0"
 

@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertToSpasm = exports.addFieldsFromEnvelopePost = exports.standardizePostWithRssItem = exports.standardizePostWithNostrSpasmEventSignedOpened = exports.standardizePostWithNostrEventSignedOpened = exports.standardizePostWithDmpEventSignedClosed = exports.standardizeNostrSpasmEventSignedOpened = exports.standardizeNostrEventSignedOpened = exports.standardizeNostrSpasmEvent = exports.standardizeNostrEvent = exports.standardizeDmpEventSignedOpened = exports.standardizeDmpEventSignedClosed = exports.standardizeDmpEvent = exports.standardizePostOrEvent = void 0;
-const utils_1 = require("./../utils");
-const index_1 = require("./../utils/index");
-const identifyEvent_1 = require("./../identify/identifyEvent");
+const utils_js_1 = require("./../utils/utils.js");
+const index_js_1 = require("./../utils/index.js");
+const identifyEvent_js_1 = require("./../identify/identifyEvent.js");
 const latestSpasmVersion = "1.0.0";
 const standardizePostOrEvent = (unknownPostOrEvent, info) => {
-    if (!(0, utils_1.isObjectWithValues)(unknownPostOrEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return null;
     // Info about post/event might be provided.
     // If not, then we should identify an event.
     if (!info) {
-        info = (0, identifyEvent_1.identifyPostOrEvent)(unknownPostOrEvent);
+        info = (0, identifyEvent_js_1.identifyPostOrEvent)(unknownPostOrEvent);
     }
     if (!info || !info.webType)
         return null;
@@ -108,11 +108,11 @@ const standardizePostOrEvent = (unknownPostOrEvent, info) => {
 exports.standardizePostOrEvent = standardizePostOrEvent;
 // standardizeDmpEvent
 const standardizeDmpEvent = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isDmpEvent)(event))
+    if (!(0, identifyEvent_js_1.isDmpEvent)(event))
         return null;
-    const baseProtocolVersion = (0, utils_1.extractVersion)(event.version);
+    const baseProtocolVersion = (0, utils_js_1.extractVersion)(event.version);
     const spasmEvent = {
         meta: {
             baseProtocol: "dmp",
@@ -126,7 +126,7 @@ const standardizeDmpEvent = (event) => {
         action: event.action,
         title: event.title,
         content: event.text,
-        timestamp: (0, utils_1.toBeTimestamp)(event.time),
+        timestamp: (0, utils_js_1.toBeTimestamp)(event.time),
         originalEventObject: event,
         originalEventString: JSON.stringify(event),
     };
@@ -135,9 +135,9 @@ const standardizeDmpEvent = (event) => {
 exports.standardizeDmpEvent = standardizeDmpEvent;
 // standardizeDmpEventSignedClosed
 const standardizeDmpEventSignedClosed = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isDmpEventSignedClosed)(event))
+    if (!(0, identifyEvent_js_1.isDmpEventSignedClosed)(event))
         return null;
     if (!event.signedString || !event.signature || !event.signer ||
         typeof (event.signedString) !== "string" ||
@@ -165,9 +165,9 @@ const standardizeDmpEventSignedClosed = (event) => {
 exports.standardizeDmpEventSignedClosed = standardizeDmpEventSignedClosed;
 // standardizeDmpEventSignedOpened
 const standardizeDmpEventSignedOpened = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isDmpEventSignedOpened)(event))
+    if (!(0, identifyEvent_js_1.isDmpEventSignedOpened)(event))
         return null;
     if (!event.signedString || !event.signature || !event.signer ||
         typeof (event.signedString) !== "string" ||
@@ -189,9 +189,9 @@ const standardizeDmpEventSignedOpened = (event) => {
 exports.standardizeDmpEventSignedOpened = standardizeDmpEventSignedOpened;
 // standardizeNostrEvent
 const standardizeNostrEvent = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isNostrEvent)(event))
+    if (!(0, identifyEvent_js_1.isNostrEvent)(event))
         return null;
     const spasmEvent = {
         meta: {
@@ -203,7 +203,7 @@ const standardizeNostrEvent = (event) => {
         eventId: event.id,
         content: event.content,
         timestamp: event.created_at,
-        author: (0, index_1.convertHexToBech32)(event.pubkey)
+        author: (0, index_js_1.convertHexToBech32)(event.pubkey)
     };
     let referencedEvents = [];
     if (event.tags && Array.isArray(event.tags)) {
@@ -234,14 +234,14 @@ const standardizeNostrEvent = (event) => {
 exports.standardizeNostrEvent = standardizeNostrEvent;
 // standardizeNostrSpasmEvent
 const standardizeNostrSpasmEvent = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isNostrSpasmEvent)(event))
+    if (!(0, identifyEvent_js_1.isNostrSpasmEvent)(event))
         return null;
     const spasmEvent = (0, exports.standardizeNostrEvent)(event);
     if (!spasmEvent)
         return null;
-    let extraFieldsSpasmVersion = (0, utils_1.getNostrSpasmVersion)(event);
+    let extraFieldsSpasmVersion = (0, utils_js_1.getNostrSpasmVersion)(event);
     let spasmTarget = "";
     let spasmAction = "";
     let spasmTitle = "";
@@ -295,9 +295,9 @@ const standardizeNostrSpasmEvent = (event) => {
 exports.standardizeNostrSpasmEvent = standardizeNostrSpasmEvent;
 // standardizeNostrEventSignedOpened
 const standardizeNostrEventSignedOpened = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isNostrEventSignedOpened)(event))
+    if (!(0, identifyEvent_js_1.isNostrEventSignedOpened)(event))
         return null;
     const spasmEvent = (0, exports.standardizeNostrEvent)(event);
     if (!spasmEvent)
@@ -320,9 +320,9 @@ const standardizeNostrEventSignedOpened = (event) => {
 exports.standardizeNostrEventSignedOpened = standardizeNostrEventSignedOpened;
 // standardizeNostrSpasmEventSignedOpened
 const standardizeNostrSpasmEventSignedOpened = (event) => {
-    if (!(0, utils_1.isObjectWithValues)(event))
+    if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
-    if (!(0, identifyEvent_1.isNostrSpasmEventSignedOpened)(event))
+    if (!(0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(event))
         return null;
     const spasmEvent = (0, exports.standardizeNostrSpasmEvent)(event);
     if (!spasmEvent)
@@ -332,7 +332,7 @@ const standardizeNostrSpasmEventSignedOpened = (event) => {
         spasmEvent.meta.privateKeyType = "nostr";
     }
     // NostrSpasm versions prior to 2.0.0 assigned sig as event id
-    if (event.sig && (0, utils_1.getNostrSpasmVersion)(event) === "1.0.0") {
+    if (event.sig && (0, utils_js_1.getNostrSpasmVersion)(event) === "1.0.0") {
         spasmEvent.eventId = event.sig;
     }
     if (event.pubkey && !spasmEvent.author) {
@@ -346,7 +346,7 @@ const standardizeNostrSpasmEventSignedOpened = (event) => {
 exports.standardizeNostrSpasmEventSignedOpened = standardizeNostrSpasmEventSignedOpened;
 // standardizePostWithDmpEventSignedClosed
 const standardizePostWithDmpEventSignedClosed = (post) => {
-    if (!(0, utils_1.isObjectWithValues)(post))
+    if (!(0, utils_js_1.isObjectWithValues)(post))
         return null;
     if (!('signed_message' in post) ||
         typeof (post.signed_message) !== "string") {
@@ -369,33 +369,33 @@ const standardizePostWithDmpEventSignedClosed = (post) => {
 exports.standardizePostWithDmpEventSignedClosed = standardizePostWithDmpEventSignedClosed;
 // standardizePostWithNostrEventSignedOpened
 const standardizePostWithNostrEventSignedOpened = (post) => {
-    if (!(0, utils_1.isObjectWithValues)(post))
+    if (!(0, utils_js_1.isObjectWithValues)(post))
         return null;
     if (!('signed_message' in post) ||
         typeof (post.signed_message) !== "string") {
         return null;
     }
     // Extract the event
-    const event = (0, utils_1.extractSealedEvent)(post);
+    const event = (0, utils_js_1.extractSealedEvent)(post);
     return (0, exports.standardizeNostrEventSignedOpened)(event);
 };
 exports.standardizePostWithNostrEventSignedOpened = standardizePostWithNostrEventSignedOpened;
 // standardizePostWithNostrSpasmEventSignedOpened
 const standardizePostWithNostrSpasmEventSignedOpened = (post) => {
-    if (!(0, utils_1.isObjectWithValues)(post))
+    if (!(0, utils_js_1.isObjectWithValues)(post))
         return null;
     if (!('signed_message' in post) ||
         typeof (post.signed_message) !== "string") {
         return null;
     }
     // Extract the event
-    const event = (0, utils_1.extractSealedEvent)(post);
+    const event = (0, utils_js_1.extractSealedEvent)(post);
     return (0, exports.standardizeNostrSpasmEventSignedOpened)(event);
 };
 exports.standardizePostWithNostrSpasmEventSignedOpened = standardizePostWithNostrSpasmEventSignedOpened;
 // standardizePostWithRssItem
 const standardizePostWithRssItem = (post) => {
-    if (!(0, utils_1.isObjectWithValues)(post))
+    if (!(0, utils_js_1.isObjectWithValues)(post))
         return null;
     const spasmEvent = {
         meta: {
@@ -418,7 +418,7 @@ const standardizePostWithRssItem = (post) => {
         spasmEvent.source = post.source;
     }
     if (post.pubdate) {
-        spasmEvent.timestamp = (0, utils_1.toBeTimestamp)(post.pubdate);
+        spasmEvent.timestamp = (0, utils_js_1.toBeTimestamp)(post.pubdate);
     }
     if (post.category) {
         spasmEvent.category = post.category;
@@ -446,9 +446,9 @@ const addFieldsFromEnvelopePost = (post, spasmEvent) => {
         return {};
     if (!spasmEvent)
         return {};
-    if (!(0, utils_1.isObjectWithValues)(post))
+    if (!(0, utils_js_1.isObjectWithValues)(post))
         return {};
-    if (!(0, utils_1.isObjectWithValues)(spasmEvent))
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEvent))
         return {};
     if (post.id && !spasmEvent.dbId) {
         spasmEvent.dbId = post.id;
@@ -457,7 +457,7 @@ const addFieldsFromEnvelopePost = (post, spasmEvent) => {
         spasmEvent.source = post.source;
     }
     if (post.added_time && !spasmEvent.dbTimestamp) {
-        spasmEvent.dbTimestamp = (0, utils_1.toBeTimestamp)(post.added_time);
+        spasmEvent.dbTimestamp = (0, utils_js_1.toBeTimestamp)(post.added_time);
     }
     if (post.category && !spasmEvent.category) {
         spasmEvent.category = post.category;

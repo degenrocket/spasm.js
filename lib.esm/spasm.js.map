@@ -1,1 +1,1 @@
-{"version":3,"file":"spasm.js","sourceRoot":"","sources":["../src.ts/spasm.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,iBAAiB,CAAA;AAChD,OAAO,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAA;AACjD,cAAc,eAAe,CAAA"}
+{"version":3,"file":"spasm.js","sourceRoot":"","sources":["../src.ts/spasm.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,oBAAoB,CAAA;AACnD,OAAO,EAAE,cAAc,EAAE,MAAM,qBAAqB,CAAA;AACpD,cAAc,kBAAkB,CAAA"}

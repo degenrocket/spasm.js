@@ -1,6 +1,6 @@
-import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion } from "./../utils";
-import { convertHexToBech32 } from "./../utils/index";
-import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent";
+import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion } from "./../utils/utils.js";
+import { convertHexToBech32 } from "./../utils/index.js";
+import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 const latestSpasmVersion = "1.0.0";
 export const standardizePostOrEvent = (unknownPostOrEvent, info) => {
     if (!isObjectWithValues(unknownPostOrEvent))

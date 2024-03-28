@@ -1,1 +1,1 @@
-export { convertToSpasm } from "./convertToSpasm"
+export { convertToSpasm } from "./convertToSpasm.js"

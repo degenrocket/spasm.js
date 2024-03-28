@@ -1,1 +1,1 @@
-export type { SpasmEvent } from "./interfaces"
+export type { SpasmEvent } from "./interfaces.js"

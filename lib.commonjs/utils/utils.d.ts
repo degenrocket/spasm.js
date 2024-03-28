@@ -1,4 +1,4 @@
-import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion } from "./../types/interfaces";
+import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion } from "./../types/interfaces.js";
 export declare const hasValue: (el?: any) => boolean;
 export declare const isObjectWithValues: (val: any) => boolean;
 export declare const extractVersion: (versionString: string) => string;

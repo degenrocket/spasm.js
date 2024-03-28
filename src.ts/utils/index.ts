@@ -1,3 +1,3 @@
-export * from "./utils"
+export * from "./utils.js"
 
-export * from "./nostrUtils"
+export * from "./nostrUtils.js"

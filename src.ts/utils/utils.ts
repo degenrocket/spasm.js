@@ -1,7 +1,7 @@
 import {
   UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent,
   NostrSpasmEventSignedOpened, NostrSpasmVersion
-} from "./../types/interfaces"
+} from "./../types/interfaces.js"
 
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}

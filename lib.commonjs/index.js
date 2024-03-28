@@ -27,7 +27,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.spasm = void 0;
-const spasm = __importStar(require("./spasm"));
+const spasm = __importStar(require("./spasm.js"));
 exports.spasm = spasm;
-__exportStar(require("./spasm"), exports);
+__exportStar(require("./spasm.js"), exports);
 //# sourceMappingURL=index.js.map

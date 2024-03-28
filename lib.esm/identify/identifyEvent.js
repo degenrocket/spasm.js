@@ -1,4 +1,4 @@
-import { isObjectWithValues, extractSealedEvent } from "./../utils";
+import { isObjectWithValues, extractSealedEvent } from "./../utils/utils.js";
 // Post-or-Event
 // │
 // │   isWeb2Post()

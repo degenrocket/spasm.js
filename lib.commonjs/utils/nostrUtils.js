@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toBeNpub = exports.convertHexAddressesToNpub = exports.convertHexOrNpubAddressToNpub = exports.convertHexToBech32 = exports.convertNpubOrHexAddressesToHex = exports.convertNpubOrHexAddressToHex = exports.convertBech32ToHex = void 0;
 const bech32_1 = require("bech32");
-const utils_1 = require("./utils");
+const utils_js_1 = require("./utils.js");
 // Nostr
 // Npub to hex with 3 functions.
 // Npub to hex. Function 1.
@@ -63,7 +63,7 @@ exports.convertNpubOrHexAddressToHex = convertNpubOrHexAddressToHex;
 // Multiple addresses.
 const convertNpubOrHexAddressesToHex = (addressesNpubOrHex) => {
     const arrayOfAddressesHex = [];
-    if (!(0, utils_1.hasValue)(addressesNpubOrHex))
+    if (!(0, utils_js_1.hasValue)(addressesNpubOrHex))
         return arrayOfAddressesHex;
     // Passed value is one address (as a string)
     if (addressesNpubOrHex &&
@@ -142,7 +142,7 @@ exports.convertHexOrNpubAddressToNpub = convertHexOrNpubAddressToNpub;
 // Multiple addresses.
 const convertHexAddressesToNpub = (addressesNpubOrHex) => {
     const arrayOfAddressesNpub = [];
-    if (!(0, utils_1.hasValue)(addressesNpubOrHex))
+    if (!(0, utils_js_1.hasValue)(addressesNpubOrHex))
         return arrayOfAddressesNpub;
     // Passed value is one address (as a string)
     if (addressesNpubOrHex &&

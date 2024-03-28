@@ -3,10 +3,10 @@ import {
   UnknownPostOrEvent, UnknownEvent, DmpEvent,
   NostrEvent, NostrSpasmEvent, NostrSpasmTag,
   AnyTag, PrivateKeyType
-} from "./../types/interfaces";
+} from "./../types/interfaces.js";
 import {
   isObjectWithValues, extractSealedEvent
-} from "./../utils";
+} from "./../utils/utils.js";
 
 // Post-or-Event
 // │

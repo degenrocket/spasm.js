@@ -1,3 +1,3 @@
-export * from "./utils";
-export * from "./nostrUtils";
+export * from "./utils.js";
+export * from "./nostrUtils.js";
 //# sourceMappingURL=index.js.map

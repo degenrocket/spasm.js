@@ -1,4 +1,4 @@
-import { KnownPostOrEventInfo, UnknownPostOrEvent, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, Post, SpasmEvent, SpasmEventSigned } from "./../types/interfaces";
+import { KnownPostOrEventInfo, UnknownPostOrEvent, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, Post, SpasmEvent, SpasmEventSigned } from "./../types/interfaces.js";
 export declare const standardizePostOrEvent: (unknownPostOrEvent: UnknownPostOrEvent, info?: KnownPostOrEventInfo) => SpasmEvent | null;
 export declare const standardizeDmpEvent: (event: DmpEvent) => SpasmEvent | null;
 export declare const standardizeDmpEventSignedClosed: (event: DmpEventSignedClosed) => SpasmEventSigned | null;

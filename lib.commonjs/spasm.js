@@ -15,9 +15,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.identifyObject = exports.convertToSpasm = void 0;
-var index_1 = require("./convert/index");
-Object.defineProperty(exports, "convertToSpasm", { enumerable: true, get: function () { return index_1.convertToSpasm; } });
-var index_2 = require("./identify/index");
-Object.defineProperty(exports, "identifyObject", { enumerable: true, get: function () { return index_2.identifyObject; } });
-__exportStar(require("./utils/index"), exports);
+var index_js_1 = require("./convert/index.js");
+Object.defineProperty(exports, "convertToSpasm", { enumerable: true, get: function () { return index_js_1.convertToSpasm; } });
+var index_js_2 = require("./identify/index.js");
+Object.defineProperty(exports, "identifyObject", { enumerable: true, get: function () { return index_js_2.identifyObject; } });
+__exportStar(require("./utils/index.js"), exports);
 //# sourceMappingURL=spasm.js.map

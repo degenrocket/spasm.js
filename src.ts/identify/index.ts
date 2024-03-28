@@ -1,1 +1,1 @@
-export { identifyObject } from "./identifyEvent"
+export { identifyObject } from "./identifyEvent.js"

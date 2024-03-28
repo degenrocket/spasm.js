@@ -1,2 +1,2 @@
-export { identifyObject } from "./identifyEvent";
+export { identifyObject } from "./identifyEvent.js";
 //# sourceMappingURL=index.js.map

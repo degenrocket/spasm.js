@@ -1,5 +1,5 @@
 import { bech32 } from "bech32";
-import { hasValue } from "./utils";
+import { hasValue } from "./utils.js";
 // Nostr
 // Npub to hex with 3 functions.
 // Npub to hex. Function 1.
