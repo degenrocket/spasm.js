@@ -1,6 +1,7 @@
 import {
   UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent,
-  NostrSpasmEventSignedOpened, NostrSpasmVersion
+  NostrSpasmEventSignedOpened, NostrSpasmVersion,
+  LinkObject
 } from "./../types/interfaces.js"
 
 // Filter out undefined, null, 0, '', false, NaN, {}, []
@@ -142,4 +143,89 @@ export const getNostrSpasmVersion = (
     })
   }
   return nostrSpasmVersion
+}
+
+// Example usage
+// getSchemeFromUrl('https://example.com/news') // return 'https'
+// getSchemeFromUrl('http://example.com') // return 'http'
+// getSchemeFromUrl('ftp://example.com') // return 'ftp'
+// getSchemeFromUrl('mailto://...') // return 'mailto'
+// getSchemeFromUrl('ipfs://123abc') // return 'ipfs'
+export const getSchemeFromUrl = (url: any) => {
+  if (!url || typeof(url) !== "string") return ""
+  try {
+    const urlObject = new URL(url);
+    return urlObject.protocol.slice(0, -1); // Remove the trailing colon
+  } catch (error) {
+    console.log('Invalid URL:', url);
+    return "";
+  }
+}
+
+export const createLinkObjectFromUrl = (
+  url: any,
+  key?: any
+): LinkObject | null => {
+  if (!url || typeof(url) !== "string") return null
+
+  try {
+    const urlObject = new URL(url);
+
+    const linkObject: LinkObject = {
+      value: url,
+      // protocol: urlObject.protocol.slice(0, -1),
+      // host: urlObject.host,
+      // path: urlObject.pathname,
+      // search: urlObject.search,
+    }
+
+    if (urlObject.protocol) {
+      linkObject.protocol = urlObject.protocol.slice(0, -1)
+    }
+
+    if (urlObject.origin) {
+      linkObject.origin = urlObject.origin
+    }
+
+    if (urlObject.host) {
+      linkObject.host = urlObject.host
+    }
+
+    if (
+      urlObject.pathname &&
+      typeof(urlObject.pathname) === "string" // &&
+      // urlObject.pathname.length > 1
+    ) {
+      linkObject.pathname = urlObject.pathname
+    }
+
+    if (
+      urlObject.search &&
+      typeof(urlObject.search) === "string" // &&
+      // urlObject.search.length > 1
+    ) {
+      linkObject.search = urlObject.search
+    }
+
+    if (urlObject.port) {
+      linkObject.port = urlObject.port
+    }
+
+    if (urlObject.hash) {
+      linkObject.hash = urlObject.hash
+    }
+
+    if (
+      key &&
+      (typeof(key) === "string" || typeof(key) === "number")
+    ) {
+      linkObject.originalProtocolKey = key
+    }
+
+    return linkObject
+
+  } catch (error) {
+    console.log('Invalid URL:', url);
+    return null;
+  }
 }

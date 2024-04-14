@@ -351,3 +351,220 @@ export interface KnownPostOrEventInfo {
 export type PrivateKeyType = "ethereum" | "nostr"
 
 export type NostrSpasmVersion = "1.0.0" | "2.0.0"
+
+/*
+ * SCHEME
+ *
+event*
+├── dbKey                            // database primary key
+├── format // TODO protocol?         // "spasm"
+├── version                          // "2.0.0"
+├── id
+├── protocol // TODO original.protocol.name original.id
+│   ├── name                         // "spasm"
+│   └── version                      // "2.0.0"
+├── root #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+│   ├── depth
+│   └── event*
+├── parent #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+│   ├── depth
+│   └── event*
+├── action #!                        // post/reply/react/vote/etc!
+├── title #!
+├── content #!
+├── source
+├── timestamp #!
+├── dbTimestamp
+├── author // TODO
+├── authors[] #.
+│   ├── address #.
+│   └── usernames[] // TODO how to verify? zk proof?
+│       ├── value
+│       ├── protocol
+│       └── provider
+├── category #.
+├── links[] (see link below) #.
+├── keywords[] #.
+├── tags[] #.
+├── medias[] #.
+│   ├── hashes[] (see hash below) #.
+│   ├── links[] (see link below) #. // TODO links, hosts or both?
+│   └── type #.
+├── references[] #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+│   └── event*
+├── mentions[] #. // TODO same authors
+│   ├── address #.
+│   └── usernames[] #.
+│       ├── value #.
+│       ├── protocol #.
+│       └── provider #.
+├── originalEventObject
+├── originalEventString
+├── stats // TODO how to make more flexible to changes? eg vote
+│   ├── admin
+│   │   ├── total
+│   │   └── latestTimestamp
+│   ├── moderate
+│   │   ├── total
+│   │   └── latestTimestamp
+│   ├── edit
+│   │   ├── total
+│   │   └── latestTimestamp
+│   ├── share
+│   │   ├── total
+│   │   └── latestTimestamp
+│   ├── reply
+│   │   ├── total
+│   │   └── latestTimestamp
+│   ├── vote
+│   │   ├── total
+│   │   ├── option1
+│   │   ├── option2
+│   │   ├── (... all options)
+│   │   └── latestTimestamp
+│   └── react
+│       ├── total
+│       ├── upvote
+│       ├── downvote
+│       ├── rocket
+│       ├── (... all reactions)
+│       └── latestTimestamp
+├── sharedBy[]
+│   ├── id
+│   ├── hosts[] (see host below)
+│   └── event*
+├── extra
+├── meta #. // TODO review
+│   ├── spasm
+│   │   ├── id
+│   │   └── author
+│   ├── convertedFrom
+│   ├── originalProtocol #. // TODO original.id orig.protocol.name
+│   │   ├── name #.
+│   │   ├── id #.
+│   │   ├── author #.
+│   │   ├── version #.
+│   │   ├── hasExtraSpasmFields
+│   │   └── extraSpasmFieldsVersion
+│   ├── privateKey
+│   │   └── type
+│   ├── cryptography
+│   ├── previousEvent #.              // not parent event
+│   │   ├── id #.
+│   │   ├── hosts[] (see host below) #.
+│   │   └── event*
+│   ├── sequence #.                  // events sequence
+│   ├── pow #.                       // proof-of-work
+│   │   ├── nonce #.
+│   │   ├── difficulty #.
+│   │   └── words[] #.
+│   ├── license #.
+│   ├── language #.
+│   ├── extra
+│   └── hashes[] (see hash below) #. // TODO move main? delete?
+├── signature
+└── children[]
+    ├── id
+    ├── hosts[] (see host below)
+    ├── depth
+    └── event*
+
+// TODO add zkProof field?
+
+(deprecated)
+└── tree
+    ├── parents
+    │   ├── rootEvent
+    │   └── targetEvent
+    ├── children
+    │   ├── reactEvents[]
+    │   ├── replyEvents[]
+    │   ├── voteEvents[]
+    │   ├── shareEvents[]
+    │   ├── moderateEvents[]
+    │   └── adminEvents[]
+    └── stats
+        ├── rootDepth
+        ├── targetDepth
+        └── childrenDepth
+
+hash
+├── value
+├── name
+└── meta
+    ├── length
+    ├── type
+    ├── pieceLength
+    └── pieces[]
+
+TODO:
+host = link
+
+link
+├── value
+├── protocol
+├── origin
+├── host
+├── pathname
+├── search
+├── port
+├── hash
+└── originalProtocolKey
+
+main
+├── root #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+├── parent #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+├── action #!
+├── title #!
+├── content #!
+├── timestamp #!
+├── authors[] #.
+│   ├── address #.
+├── category #.
+├── links[] (see link below) #.
+├── keywords[] #.
+├── tags[] #.
+├── medias[] #.
+│   ├── hashes[] (see hash below) #.
+│   ├── links[] (see link below) #.
+│   └── type #.
+├── references[] #.
+│   ├── id #.
+│   ├── hosts[] (see host below) #.
+├── mentions[] #.
+│   ├── address #.
+│   └── usernames[] #.
+│       ├── value #.
+│       ├── protocol #.
+│       └── provider #.
+├── meta #.
+│   ├── originalProtocol #.
+│   │   ├── name #.
+│   │   ├── id #.
+│   │   ├── author #.
+│   │   ├── version #.
+│   ├── previousEvent #.              // not parent event
+│   │   ├── id #.
+│   │   ├── hosts[] (see host below) #.
+│   ├── sequence #.                  // events sequence
+│   ├── pow #.                       // proof-of-work
+│   │   ├── nonce #.
+│   │   ├── difficulty #.
+│   │   └── words[] #.
+│   ├── license #.
+│   ├── language #.
+
+
+*/
+
+
