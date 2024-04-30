@@ -1,6 +1,6 @@
 {
   "name": "spasm.js",
-  "version": "1.0.2",
+  "version": "2.0.0-alpha",
   "description": "Tools for developing Signer and Protocol Agnostic Social Media (SPASM) apps.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

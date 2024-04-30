@@ -34,7 +34,7 @@ export interface Post {
     latest_action_added_time?: string | null;
     children?: Post[];
 }
-export type Web3MessageAction = "post" | "react" | "reply";
+export type Web3MessageAction = "post" | "react" | "reply" | "share" | "shared" | "moderate" | "admin";
 export type Web3MessageLicense = "MIT" | "CC0" | "CC0-1.0" | "SPDX-License-Identifier: CC0-1.0" | "SPDX-License-Identifier: MIT";
 export interface Web3Message {
     version: string;
@@ -46,22 +46,26 @@ export interface Web3Message {
     license: Web3MessageLicense;
 }
 export type NostrSpasmTag = SpasmVersionTag | SpasmTargetTag | SpasmActionTag | SpasmCategoryTag | SpasmTitleTag | SpasmLicenseTag;
-export type SpasmVersionTag = ["spasm_version", string];
+export type SpasmVersionTag = ["spasm_version", string] | ["nostr_spasm_version", string];
 export type SpasmTargetTag = ["spasm_target", string];
 export type SpasmActionTag = ["spasm_action", Web3MessageAction];
 export type SpasmCategoryTag = ["spasm_category", FiltersCategory];
 export type SpasmTitleTag = ["spasm_title", string];
 export type SpasmLicenseTag = ["license", Web3MessageLicense];
 export type AnyTag = any[];
-export type UnknownEvent = DmpEvent | DmpEventSignedClosed | DmpEventSignedOpened | NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened | SpasmEvent;
+export type UnknownEvent = DmpEvent | DmpEventSignedClosed | DmpEventSignedOpened | NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened;
+export type AnyNostrEvent = NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened;
 export type UnknownPostOrEvent = Post | UnknownEvent;
+export type SpasmEventV0 = Post;
+export type UnknownEventV1 = UnknownEvent;
+export type UnknownEventV2 = UnknownEventV1 | SpasmEventV0 | SpasmEventV2 | SpasmEventBodyV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2 | SpasmEventDatabaseV2;
 export interface NostrEvent {
     id?: string;
     content: string;
     created_at: number;
     kind: number;
     pubkey: string;
-    tags?: AnyTag[];
+    tags: AnyTag[];
 }
 export interface NostrEventSignedOpened extends NostrEvent {
     id: string;
@@ -89,101 +93,56 @@ export interface DmpEventSignedClosed {
 export interface DmpEventSignedOpened extends DmpEventSignedClosed {
     signedObject: DmpEvent;
 }
-export type SpasmVersion = "1.0.0" | string;
+export type SpasmVersion = "1.0.0" | "2.0.0";
+export type DmpVersion = "0.0.1" | "0.1.0";
+export type NostrSpasmVersion = "1.0.0" | "2.0.0";
+export type ExtraSpasmFieldsVersion = NostrSpasmVersion;
 export type EventBaseProtocol = "dmp" | "nostr" | "spasm";
 export type EventBaseProtocolVersion = "dmp_v0.1.0" | string;
-export type ExtraSpasmFieldsVersion = "1.0.0" | string;
 export type EventPrivateKeyType = "ethereum" | "nostr";
 export type EventProtocolCryptography = "schnorr" | "ecdsa" | "secp256k1" | string;
 export type SpasmAction = Web3MessageAction;
-export interface HashesObject {
-    sha1?: string;
-    sha256?: string;
-    infohash?: string;
-    ipfs?: string;
+export type ExtraObject = {
+    [key: string | number | symbol]: any;
+};
+export interface HashFormat {
+    name?: string;
+    version?: string;
+    length?: number | string;
+    type?: string;
+    pieceLength?: number | string;
+    pieces?: string[];
 }
-export interface LinksObject {
-    http?: string;
-    guid?: string;
-    ipfs?: string;
-    torrent?: string;
+export interface LinkObject {
+    value: string;
+    protocol?: string;
+    origin?: string;
+    host?: string;
+    pathname?: string;
+    search?: string;
+    port?: string;
+    hash?: string;
+    originalProtocolKey?: string | number;
 }
 export type MimeType = "image/jpeg" | "image/png" | "image/gif" | "image/webp" | "image/svg+xml" | "audio/mpeg" | "audio/ogg" | "audio/wav" | "video/mp4" | "video/ogg" | "video/webm" | "text/plain" | "text/html" | "text/css" | "text/javascript" | "application/json" | "application/xml" | "application/pdf" | "application/octet-stream";
-export interface EventMedia {
-    hashes?: HashesObject;
-    links?: LinksObject;
+export interface SpasmEventMediaV2 {
+    ids?: SpasmEventIdV2[];
+    hashes?: SpasmEventHashV2[];
+    links?: SpasmEventLinkV2[];
     type?: MimeType;
 }
-export interface EventReactions {
-    upvote?: number | null;
-    downvote?: number | null;
-    bullish?: number | null;
-    bearish?: number | null;
-    important?: number | null;
-    scam?: number | null;
-    comments_count?: number | null;
-    latest_action_added_time?: string | null;
+export interface SpasmEventStatContentV2 {
+    value: SpasmEventReactionNameV2;
+    total: number | string;
 }
-export interface SpasmEventMeta {
-    baseProtocol?: EventBaseProtocol;
-    baseProtocolVersion?: EventBaseProtocolVersion;
-    hasExtraSpasmFields?: boolean;
-    extraSpasmFieldsVersion?: ExtraSpasmFieldsVersion;
-    convertedFrom?: EventType;
-    privateKeyType?: EventPrivateKeyType;
-    cryptography?: EventProtocolCryptography;
-    hashes?: HashesObject;
-    previousEvent?: string | number;
-    sequence?: number;
-    powNonce?: string;
-    license?: string;
-    language?: string;
+export interface SpasmEventStatV2 {
+    action: SpasmEventActionV2 | number;
+    total?: number | string;
+    latestTimestamp?: number;
+    latestDbTimestamp?: number;
+    contents?: SpasmEventStatContentV2[];
 }
-export interface SpasmEventMetaSigned extends SpasmEventMeta {
-    privateKeyType: EventPrivateKeyType;
-    cryptography?: EventProtocolCryptography;
-}
-export interface SpasmEvent {
-    meta?: SpasmEventMeta;
-    spasmVersion?: SpasmVersion;
-    spasmId?: string | number;
-    eventId?: string | number;
-    dbId?: number | string;
-    rootEvent?: string;
-    parentEvent?: string;
-    action?: string;
-    title?: string;
-    content?: string;
-    source?: string;
-    timestamp?: number;
-    dbTimestamp?: number | string;
-    author?: string;
-    category?: string;
-    links?: LinksObject;
-    keywords?: string[] | string;
-    tags?: any[][];
-    media?: EventMedia;
-    referencedEvents?: string[];
-    referencedAuthors?: string[];
-    extra?: any;
-    originalEventObject?: UnknownPostOrEvent;
-    originalEventString?: string;
-    reactions?: EventReactions;
-    comments?: any[];
-    signature?: string;
-}
-export interface SpasmEventSigned extends SpasmEvent {
-    meta: SpasmEventMetaSigned;
-    eventId: string | number;
-    author: string;
-    signature: string;
-}
-export interface SpasmEventSignedOpened extends SpasmEventSigned {
-    originalEventObject: DmpEvent | NostrSpasmEventSignedOpened;
-}
-export interface SpasmEventSignedClosed extends SpasmEventSigned {
-    originalEventString: string;
-}
+export type SpasmEventReactionNameV2 = "upvote" | "downvote" | "bullish" | "bearish" | "important" | "scam" | "toxic" | "sad" | "laugh" | "clown" | "love" | "facepalm" | "mushroom" | "moon" | "rocket";
 export interface StandardizedEvent {
     signedString?: string;
     signature?: string;
@@ -194,7 +153,7 @@ export interface StandardizedEvent {
     text?: string;
     signedDate?: string;
 }
-export interface SpasmSource {
+export interface SpasmEventSource {
     name?: string;
     uiUrl?: string;
     apiUrl?: string;
@@ -230,5 +189,405 @@ export interface KnownPostOrEventInfo {
     eventInfo: EventInfo | false;
 }
 export type PrivateKeyType = "ethereum" | "nostr";
-export type NostrSpasmVersion = "1.0.0" | "2.0.0";
+export interface SpasmEventBodyV2 {
+    type: "SpasmEventBodyV2";
+    /**
+     * Body & Signling have a protocol field, but not SpasmEventV2
+     * because each Spasm event can be signed with many protocols.
+     * Protocol is not hashed for Spasm ID for the same reason.
+     */
+    protocol?: SpasmEventBodyProtocolV2;
+    /**
+     * A root (an event without a parent) should not be included
+     * into a signed body because it can easily be manipulated
+     * by a malicious actor in an off-chain environment to hijack
+     * a conversation. Instead, a root should be found on a server
+     * similar to children if a database contains the whole event
+     * tree, and then the root should be added to an envelope with
+     * tree (SpasmEnvelopeWithTreeV2).
+     */
+    parent?: SpasmEventBodyParentV2;
+    action?: SpasmEventActionV2;
+    title?: string;
+    content?: string;
+    timestamp?: number;
+    authors?: SpasmEventBodyAuthorV2[];
+    categories?: SpasmEventCategoryV2[];
+    tips?: SpasmEventBodyTipsV2[];
+    hosts?: Pick<SpasmEventHostV2, 'value' | 'marker'>[];
+    links?: Pick<SpasmEventLinkV2, 'value' | 'marker'>[];
+    keywords?: string[];
+    tags?: any[][];
+    medias?: SpasmEventMediaV2[];
+    references?: SpasmEventBodyReferenceV2[];
+    mentions?: SpasmEventMentionV2[];
+    proofs?: SpasmEventProofV2[];
+    /**
+     * Some protocols have a sequence number and an ID (hash) of a
+     * previous event in order to increase censorship-resistance.
+     * These fields should be signed, but not hashed for Spasm ID,
+     * because a user should be able to sign an already signed
+     * event again with a protocol that will have different values
+     * for sequence and a previous event.
+     * TODO: think about the logic, whether add to Sibling, etc.
+     */
+    previousEvent?: SpasmEventBodyPreviousEventV2;
+    sequence?: number;
+    license?: SpasmEventLicenseV2;
+    language?: string;
+    extra?: Record<string | number, any>;
+    /**
+     * Depending on the implementation, proof-of-work will likely
+     * affect spasm ID (e.g., require 6 leading zeros), so only
+     * one POW can be signed to keep spasm ID the same.
+     * However, multiple pows[] can also be signed within one
+     * Body and then 'nonce' and 'words' from each POW will be
+     * used to check difficulty of spasmpow, not spasmid.
+     * In other words, there might be two levels of proof-of-work:
+     * - event-wide POW (spasmid01000000abc)
+     * - instance-specific POW (spasmpow010000defgh)
+     * Spasm ID (spasmid) is used to chain replies, reactions, etc.
+     * Spasm POW (spasmpow) is only used to check POW.
+     * Users should be able to submit already signed messages to
+     * new instances by signing new siblings with extra POW, so
+     * only the first POW (pows[0]) should be used for Spasm ID.
+     */
+    pows?: SpasmEventPowV2[];
+}
+/**
+ * The structure of the event for calculating Spasm ID should
+ * be similar to the structure of the Spasm body, but with a
+ * few differences:
+ * - No type, because it's not signed.
+ * - No protocol, because a Spasm event can be signed with
+ *   multiple protocols (Spasm, Dmp, Nostr). Instead, a protocol
+ *   can be found in each sibling, e.g. siblings[0].protocol.name
+ * - No categories, because a Spasm event can be signed again
+ *   with different categories and e.g. different POW values.
+ */
+export interface EventStructureForSpasmid01 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'categories' | 'sequence' | 'previousEvent'> {
+}
+export interface SpasmEventEnvelopeV2 {
+    type: "SpasmEventEnvelopeV2";
+    ids?: SpasmEventIdV2[];
+    siblings?: SpasmEventSiblingV2[];
+    db?: SpasmEventDbV2;
+    source?: SpasmEventSource;
+    stats?: SpasmEventStatV2[];
+    sharedBy?: EventSharedByV2;
+}
+export interface SpasmEventDbV2 {
+    key?: number;
+    addedTimestamp?: number;
+    updatedTimestamp?: number;
+    table?: string | number;
+}
+export interface EventSharedByV2 {
+    ids?: SpasmEventIdV2[];
+}
+export interface SpasmEventEnvelopeWithTreeV2 extends Omit<SpasmEventEnvelopeV2, 'type'> {
+    type: "SpasmEventEnvelopeWithTreeV2";
+    root?: SpasmEventEnvelopeWithTreeRootV2;
+    parent?: SpasmEventEnvelopeWithTreeParentV2;
+    references?: SpasmEventEnvelopeWithTreeReferenceV2[];
+    previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2;
+    children?: SpasmEventEnvelopeWithTreeChildV2[];
+}
+export type SpasmEventEnvelopeWithTreeChildEventV2 = SpasmEventV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
+export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>, Omit<SpasmEventEnvelopeWithTreeV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'> {
+    type: "SpasmEventV2";
+    /**
+     * Protocol, sequence, previousEvent shouldn't be a part
+     * of SpasmEvent. Instead, these fields can be found in
+     * Body and in Siblings.
+     */
+    authors?: SpasmEventAuthorV2[];
+    root?: SpasmEventRootV2;
+    parent?: SpasmEventParentV2;
+    hosts?: SpasmEventHostV2[];
+    links?: SpasmEventLinkV2[];
+    references?: SpasmEventReferenceV2[];
+    signatures?: SpasmEventSignatureV2[];
+}
+export interface SpasmEventDatabaseV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors'>, Omit<SpasmEventEnvelopeV2, 'type' | 'protocol'> {
+    type: "SpasmEventDatabaseV2";
+    authors?: SpasmEventAuthorV2;
+}
+export type SpasmEventAddressFormatNameV2 = "spasmer" | "ethereum-pubkey" | "nostr-hex" | "nostr-npub";
+export type SpasmEventIdFormatNameV2 = SpasmEventAddressFormatNameV2 | "spasmid" | "ethereum-sig" | "nostr-hex" | "nostr-note" | "nostr-nevent" | "nostr-sig" | "url" | "guid" | "string" | "number";
+export interface SpasmEventIdFormatV2 {
+    name: SpasmEventIdFormatNameV2;
+    version?: string | number;
+}
+export interface SpasmEventIdV2 {
+    value: string | number;
+    format?: SpasmEventIdFormatV2;
+    hosts?: SpasmEventHostV2[];
+}
+export interface SpasmEventHashV2 extends Omit<SpasmEventIdV2, 'format'> {
+    format?: HashFormat;
+}
+/**
+ * Each author can have multiple addresses
+ * (e.g., Ethereum, Nostr, Solana).
+ * Each co-author should be added as a separate author.
+ */
+export interface SpasmEventBodyAuthorV2 {
+    addresses?: SpasmEventBodyAddressV2[];
+    usernames?: SpasmEventAuthorUsername[];
+}
+export interface SpasmEventAuthorV2 {
+    addresses?: SpasmEventAddressV2[];
+    usernames?: SpasmEventAuthorUsername[];
+}
+export interface SpasmEventAddressFormatV2 {
+    name: SpasmEventAddressFormatNameV2;
+    version?: string | number;
+}
+export interface SpasmEventBodyAddressV2 {
+    value: string | number;
+    format?: SpasmEventAddressFormatV2;
+}
+/**
+ * Verified shows whether this address matches with at least
+ * one attached signature. Note that there might be multiple
+ * different signatures made by the same address.
+ * For example, if a user signs the same message using the same
+ * protocol and the same private key multiple times with
+ * different POW values to be accepted on different instances.
+ * - Verified is added to SpasmEvent for better Dev Experience.
+ * - Verified is added to SpasmEventDatabase for better queries.
+ * - Verified is NOT added to SpasmEnvelope because signatures
+ *   have to be verified after receiving envelopes by converting
+ *   them to SpasmEvent.
+ */
+export interface SpasmEventAddressV2 extends SpasmEventBodyAddressV2 {
+    verified?: boolean;
+}
+export interface SpasmEventAuthorUsername {
+    value?: string;
+    owner?: string;
+    protocol?: string;
+    proof?: string;
+    provider?: string;
+}
+export interface SpasmEventCategoryV2 {
+    name: string | number;
+    sub?: SpasmEventCategoryV2;
+}
+export interface SpasmEventHostV2 extends SpasmEventLinkV2 {
+}
+export interface SpasmEventLinkV2 {
+    value: string;
+    marker?: string;
+    protocol?: string;
+    origin?: string;
+    host?: string;
+    pathname?: string;
+    search?: string;
+    port?: string;
+    originalProtocolKey?: string | number;
+}
+export interface SpasmEventSignatureV2 {
+    value: string | number;
+    type?: SpasmEventSignatureTypeV2;
+    version?: string | number;
+    pubkey?: string | number;
+}
+export interface SpasmEventBodyProtocolV2 {
+    name: "spasm" | "dmp" | "nostr";
+    version?: string;
+}
+export type SiblingProtocolV2 = SpasmEventProtocolV2;
+export interface SpasmEventProtocolV2 extends SpasmEventBodyProtocolV2 {
+    hasExtraSpasmFields?: boolean;
+    extraSpasmFieldsVersion?: string | number;
+}
+export interface SpasmEventBodyReferenceV2 {
+    ids: SpasmEventIdV2[];
+    marker?: string | number;
+}
+export interface SpasmEventBodyRootV2 extends SpasmEventBodyReferenceV2 {
+}
+export interface SpasmEventBodyParentV2 extends SpasmEventBodyReferenceV2 {
+}
+export interface SpasmEventBodyPreviousEventV2 extends SpasmEventBodyReferenceV2 {
+}
+/**
+ * The depth of the event shouldn't be included in the signed
+ * body (SpasmEventBody) because we cannot prove it without the
+ * access to the full event tree and so it can be manipulated.
+ * The depth shows the distance from the original event and can
+ * only be calculated inside SpasmEventEnvelopeWithTree which
+ * has access to all the events in the event tree.
+ * There is no need to add the depth level to the reference,
+ * so the depth is only added to root, parent, previousEvent.
+ */
+export interface SpasmEventEnvelopeWithTreeReferenceV2 extends Partial<SpasmEventBodyReferenceV2> {
+    event?: SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
+}
+export interface SpasmEventEnvelopeWithTreeRootV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventEnvelopeWithTreeParentV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventEnvelopeWithTreeChildV2 {
+    ids?: SpasmEventIdV2[];
+    marker?: string | number;
+    event?: SpasmEventEnvelopeWithTreeChildEventV2;
+    depth?: number;
+}
+export interface SpasmEventReferenceV2 {
+    ids: SpasmEventIdV2[];
+    marker?: string | number;
+    event?: SpasmEventV2;
+}
+export interface SpasmEventRootV2 extends SpasmEventReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventParentV2 extends SpasmEventReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventPreviousEventV2 extends SpasmEventReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventBodyTipsV2 {
+    address?: string;
+    text?: string;
+    expiration?: {
+        timestamp?: number;
+    };
+    currency?: {
+        name?: string;
+        ticker?: string;
+    };
+    network?: {
+        name?: string | number;
+        id?: string | number;
+    };
+}
+export interface SpasmEventMentionV2 extends SpasmEventAuthorV2 {
+}
+export interface SpasmEventProofV2 {
+    value?: string | number;
+    links?: Pick<SpasmEventLinkV2, 'value'>[];
+    protocol?: {
+        name: string;
+        version?: string | number;
+    };
+}
+export type EventSignatureProtocol = "ethereum" | "nostr";
+export type SpasmEventActionV2 = "post" | "react" | "reply" | "share" | "shared" | "moderate" | "admin" | "edit" | "delete" | "vote" | "media" | "metadata" | "follow_list" | "direct_message";
+export type SpasmEventLicense = "MIT" | "CC0" | "CC0-1.0" | "SPDX-License-Identifier: CC0-1.0" | "SPDX-License-Identifier: MIT";
+export type SpasmEventLicenseV2 = SpasmEventLicense;
+export type SpasmEventSignatureTypeV2 = "ethereum" | "nostr";
+export type SpasmEventAddressTypeV2 = "ethereum" | "nostr-npub" | "nostr-hex";
+export interface SpasmEventPowV2 {
+    nonce?: string | number;
+    difficulty?: string | number;
+    words?: (string | number)[];
+    network?: {
+        name: string | number;
+        id: string | number;
+    };
+}
+export type SpasmEventSiblingV2 = SiblingSpasmV2 | SiblingSpasmSignedV2 | SiblingDmpV2 | SiblingDmpSignedV2 | SiblingNostrV2 | SiblingNostrSpasmV2 | SiblingNostrSignedV2 | SiblingNostrSpasmSignedV2 | SiblingWeb2V2;
+export interface SiblingWeb2V2 {
+    type: "SiblingWeb2V2";
+    protocol: {
+        name: "web2";
+    };
+    originalObject?: UnknownEventV2;
+    ids?: SpasmEventIdV2[];
+}
+export interface SiblingSpasmV2 {
+    type: "SiblingSpasmV2";
+    protocol: {
+        name: "spasm";
+        version?: SpasmVersion;
+    };
+    signedString?: string;
+    sequence?: number;
+    previousEvent?: SpasmEventBodyPreviousEventV2;
+    ids?: SpasmEventIdV2[];
+}
+export interface SiblingSpasmSignedV2 {
+    type: "SiblingSpasmSignedV2";
+    protocol: {
+        name: "spasm";
+        version?: SpasmVersion;
+    };
+    signedString?: string;
+    sequence?: number;
+    previousEvent?: SpasmEventBodyPreviousEventV2;
+    ids?: SpasmEventIdV2[];
+    signatures?: SpasmEventSignatureV2[];
+}
+export interface SiblingDmpV2 {
+    type: "SiblingDmpV2";
+    protocol: {
+        name: "dmp";
+        version?: DmpVersion;
+        hasExtraSpasmFields?: false;
+    };
+    signedString?: string;
+}
+export interface SiblingDmpSignedV2 {
+    type: "SiblingDmpSignedV2";
+    protocol: {
+        name: "dmp";
+        version?: DmpVersion;
+        hasExtraSpasmFields?: false;
+    };
+    signedString?: string;
+    ids?: SpasmEventIdV2[];
+    signatures?: SpasmEventSignatureV2[];
+}
+export interface SiblingNostrV2 {
+    type: "SiblingNostrV2";
+    protocol: {
+        name: "nostr";
+        version?: string;
+        hasExtraSpasmFields?: false;
+    };
+    originalObject?: AnyNostrEvent;
+    ids?: SpasmEventIdV2[];
+}
+export interface SiblingNostrSpasmV2 {
+    type: "SiblingNostrSpasmV2";
+    protocol: {
+        name: "nostr";
+        version?: string;
+        hasExtraSpasmFields?: true;
+        extraSpasmFieldsVersion?: NostrSpasmVersion;
+    };
+    originalObject?: AnyNostrEvent;
+    ids?: SpasmEventIdV2[];
+}
+export interface SiblingNostrSignedV2 {
+    type: "SiblingNostrSignedV2";
+    protocol: {
+        name: "nostr";
+        version?: string;
+    };
+    originalObject?: AnyNostrEvent;
+    ids?: SpasmEventIdV2[];
+    signatures?: SpasmEventSignatureV2[];
+}
+export interface SiblingNostrSpasmSignedV2 {
+    type: "SiblingNostrSpasmSignedV2";
+    protocol: {
+        name: "nostr";
+        version?: string;
+        hasExtraSpasmFields?: true;
+        extraSpasmFieldsVersion?: NostrSpasmVersion;
+    };
+    originalObject?: AnyNostrEvent;
+    ids?: SpasmEventIdV2[];
+    signatures?: SpasmEventSignatureV2[];
+}
 //# sourceMappingURL=interfaces.d.ts.map

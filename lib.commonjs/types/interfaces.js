@@ -13,4 +13,6 @@ class IgnoreWhitelistFor {
     }
 }
 exports.IgnoreWhitelistFor = IgnoreWhitelistFor;
+// Ideas:
+// - Short names? SE2 SE2Body SE2Envelope SE2EnvelopeWithTree
 //# sourceMappingURL=interfaces.js.map

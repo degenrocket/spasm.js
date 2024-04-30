@@ -1,34 +1,89 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToSpasm = exports.addFieldsFromEnvelopePost = exports.standardizePostWithRssItem = exports.standardizePostWithNostrSpasmEventSignedOpened = exports.standardizePostWithNostrEventSignedOpened = exports.standardizePostWithDmpEventSignedClosed = exports.standardizeNostrSpasmEventSignedOpened = exports.standardizeNostrEventSignedOpened = exports.standardizeNostrSpasmEvent = exports.standardizeNostrEvent = exports.standardizeDmpEventSignedOpened = exports.standardizeDmpEventSignedClosed = exports.standardizeDmpEvent = exports.standardizePostOrEvent = void 0;
+exports.addFieldsFromEnvelopeSpasmEventV0_V2 = exports.standardizeSpasmWithRssItemV0_V2 = exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = exports.standardizeSpasmDmpEventSignedClosedV0_V2 = exports.standardizeNostrSpasmEventSignedOpenedV2 = exports.standardizeNostrEventSignedOpenedV2 = exports.standardizeNostrSpasmEventV2 = exports.standardizeNostrEventV2 = exports.standardizeDmpEventSignedOpenedV2 = exports.standardizeDmpEventSignedClosedV2 = exports.standardizeDmpEventV2 = exports.standardizeEventV2 = exports.convertToSpasm = void 0;
+const nostrUtils_js_1 = require("./../utils/nostrUtils.js");
 const utils_js_1 = require("./../utils/utils.js");
-const index_js_1 = require("./../utils/index.js");
 const identifyEvent_js_1 = require("./../identify/identifyEvent.js");
-const latestSpasmVersion = "1.0.0";
-const standardizePostOrEvent = (unknownPostOrEvent, info) => {
-    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
+// const latestSpasmVersion = "2.0.0"
+// Spasm V2
+const convertToSpasm = (unknownEvent, version = "2.0.0") => {
+    if (version === "2.0.0") {
+        return (0, exports.standardizeEventV2)(unknownEvent, version);
+    }
+    return null;
+};
+exports.convertToSpasm = convertToSpasm;
+const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
+    if (!(0, utils_js_1.isObjectWithValues)(unknownEvent))
         return null;
+    let standardizedEvent = {
+        type: "SpasmEventV2"
+    };
+    // TODO convert Spasm events V2
+    // SpasmEventV2, SpasmBodyV2, SpasmEnvelopeV2,
+    // SpasmEnvelopeWithTreeV2, SpasmEventDatabaseV2
+    if ('type' in unknownEvent &&
+        typeof (unknownEvent.type) === "string") {
+        if (unknownEvent.type === "SpasmEventV2") {
+            // standardizedEvent =
+            //   standardizeSpasmEventV2(
+            //   unknownEvent
+            // )
+            return unknownEvent;
+        }
+        else if (unknownEvent.type === "SpasmEventBodyV2") {
+            // standardizedEvent =
+            //   standardizeSpasmEventBodyV2(
+            //   unknownEvent
+            // )
+        }
+        else if (unknownEvent.type === "SpasmEventEnvelopeV2") {
+            // standardizedEvent =
+            //   standardizeSpasmEventEnvelopeV2(
+            //   unknownEvent
+            // )
+        }
+        else if (unknownEvent.type === "SpasmEventEnvelopeWithTreeV2") {
+            // standardizedEvent =
+            //   standardizeSpasmEventEnvelopeWithTreeV2(
+            //   unknownEvent
+            // )
+        }
+        else if (unknownEvent.type === "SpasmEventDatabaseV2") {
+            // standardizedEvent =
+            //   standardizeSpasmEventV2(
+            //   unknownEvent
+            // )
+        }
+    }
+    // If unknown event is not any of V2,
+    // then proceed with SpasmEventV0 (Post)
+    // and UnknownEventV1 like DpmEvent, NostrSpasmEvent, etc.
+    unknownEvent = unknownEvent;
     // Info about post/event might be provided.
     // If not, then we should identify an event.
     if (!info) {
-        info = (0, identifyEvent_js_1.identifyPostOrEvent)(unknownPostOrEvent);
+        info = (0, identifyEvent_js_1.identifyPostOrEvent)(unknownEvent);
     }
     if (!info || !info.webType)
         return null;
-    let standardizedEvent = {};
     // DmpEvent
     // DMP event without signature
     if (info.eventInfo &&
         info.eventInfo.type === "DmpEvent" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeDmpEvent)(unknownPostOrEvent);
+        if (version === "2.0.0") {
+            standardizedEvent = (0, exports.standardizeDmpEventV2)(unknownEvent);
+        }
     }
     // DmpEventSignedClosed
     // DMP event with signature
     if (info.eventInfo &&
         info.eventInfo.type === "DmpEventSignedClosed" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeDmpEventSignedClosed)(unknownPostOrEvent);
+        if (version === "2.0.0") {
+            standardizedEvent = (0, exports.standardizeDmpEventSignedClosedV2)(unknownEvent);
+        }
     }
     // DmpEventSignedOpened
     // DMP event with signature after the signed string
@@ -36,105 +91,134 @@ const standardizePostOrEvent = (unknownPostOrEvent, info) => {
     if (info.eventInfo &&
         info.eventInfo.type === "DmpEventSignedOpened" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeDmpEventSignedOpened)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeDmpEventSignedOpenedV2)(unknownEvent);
     }
     // NostrEvent
     // Nostr event without signature
     if (info.eventInfo &&
         info.eventInfo.type === "NostrEvent" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeNostrEvent)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeNostrEventV2)(unknownEvent);
     }
     // NostrSpasmEvent
     // Nostr event without signature, with extra Spasm fields
     if (info.eventInfo &&
         info.eventInfo.type === "NostrSpasmEvent" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeNostrSpasmEvent)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeNostrSpasmEventV2)(unknownEvent);
     }
     // NostrEventSignedOpened
     // Nostr event with signature, without extra Spasm fields
     if (info.eventInfo &&
         info.eventInfo.type === "NostrEventSignedOpened" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeNostrEventSignedOpened)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeNostrEventSignedOpenedV2)(unknownEvent);
     }
     // NostrSpasmEventSignedOpened
     // Nostr event with signature and extra Spasm fields
     if (info.eventInfo &&
         info.eventInfo.type === "NostrSpasmEventSignedOpened" &&
         info.eventIsSealed === false) {
-        standardizedEvent = (0, exports.standardizeNostrSpasmEventSignedOpened)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeNostrSpasmEventSignedOpenedV2)(unknownEvent);
     }
-    // Post with sealed DMP event with signature
+    // SpasmEventV0 with sealed DMP event with signature
     // (received e.g. via SPASM module)
     if (info.eventInfo &&
         info.eventInfo.type === "DmpEventSignedClosed" &&
         info.eventIsSealed === true) {
-        standardizedEvent = (0, exports.standardizePostWithDmpEventSignedClosed)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeSpasmDmpEventSignedClosedV0_V2)(unknownEvent);
     }
-    // Post with sealed Nostr event with signature
+    // SpasmEventV0 with sealed Nostr event with signature
     // (received e.g. via SPASM module)
     if (info.eventInfo &&
         info.eventInfo.type === "NostrEventSignedOpened" &&
         info.eventIsSealed === true) {
-        standardizedEvent = (0, exports.standardizePostWithNostrEventSignedOpened)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeSpasmNostrEventSignedOpenedV0_V2)(unknownEvent);
     }
-    // Post with sealed Nostr Spasm event with signature
+    // SpasmEventV0 with sealed Nostr Spasm event with signature
     // (received e.g. via SPASM module)
     if (info.eventInfo &&
         info.eventInfo.type === "NostrSpasmEventSignedOpened" &&
         info.eventIsSealed === true) {
-        standardizedEvent = (0, exports.standardizePostWithNostrSpasmEventSignedOpened)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2)(unknownEvent);
     }
-    // Post with RSS item without signature
+    // SpasmEventV0 with RSS item without signature
     // (received e.g. via RSS module)
     if (!info.eventInfo &&
         info.webType === "web2" &&
         info.eventIsSealed === false &&
         info.eventIsSealedUnderKeyName === false) {
-        standardizedEvent = (0, exports.standardizePostWithRssItem)(unknownPostOrEvent);
+        standardizedEvent = (0, exports.standardizeSpasmWithRssItemV0_V2)(unknownEvent);
         if (standardizedEvent) {
-            standardizedEvent = (0, exports.addFieldsFromEnvelopePost)(unknownPostOrEvent, standardizedEvent);
+            standardizedEvent = (0, exports.addFieldsFromEnvelopeSpasmEventV0_V2)(unknownEvent, standardizedEvent);
         }
     }
     if (info.eventInfo &&
         info.eventIsSealed === true &&
         standardizedEvent) {
-        standardizedEvent = (0, exports.addFieldsFromEnvelopePost)(unknownPostOrEvent, standardizedEvent);
+        standardizedEvent = (0, exports.addFieldsFromEnvelopeSpasmEventV0_V2)(unknownEvent, standardizedEvent);
     }
     return standardizedEvent;
 };
-exports.standardizePostOrEvent = standardizePostOrEvent;
-// standardizeDmpEvent
-const standardizeDmpEvent = (event) => {
+exports.standardizeEventV2 = standardizeEventV2;
+const standardizeDmpEventV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isDmpEvent)(event))
         return null;
-    const baseProtocolVersion = (0, utils_js_1.extractVersion)(event.version);
-    const spasmEvent = {
-        meta: {
-            baseProtocol: "dmp",
-            baseProtocolVersion: baseProtocolVersion,
-            hasExtraSpasmFields: false,
-            convertedFrom: "DmpEvent",
-            license: event.license,
-        },
-        spasmVersion: latestSpasmVersion,
-        parentEvent: event.target,
-        action: event.action,
-        title: event.title,
-        content: event.text,
-        timestamp: (0, utils_js_1.toBeTimestamp)(event.time),
-        originalEventObject: event,
-        originalEventString: JSON.stringify(event),
+    const protocolVersion = (0, utils_js_1.extractVersion)(event.version);
+    const spasmEventV2 = {
+        type: "SpasmEventV2",
+        // action: event.action,
+        // title: event.title,
+        // content: event.text,
+        // timestamp: toBeTimestamp(event.time),
+        // license: event.license,
+        siblings: [
+            {
+                type: "SiblingDmpV2",
+                protocol: {
+                    name: "dmp",
+                    version: protocolVersion
+                },
+                signedString: JSON.stringify(event),
+            }
+        ]
     };
-    return spasmEvent;
+    if (event.action) {
+        spasmEventV2.action = event.action;
+    }
+    if (event.title) {
+        spasmEventV2.title = event.title;
+    }
+    if (event.text) {
+        spasmEventV2.content = event.text;
+    }
+    if (event.license) {
+        spasmEventV2.license = event.license;
+    }
+    if (event.time) {
+        spasmEventV2.timestamp = (0, utils_js_1.toBeTimestamp)(event.time);
+    }
+    if (event.target) {
+        spasmEventV2.parent = {
+            ids: [
+                {
+                    value: event.target,
+                    // Create a new format field only if a
+                    // format can be determined from a string.
+                    ...((0, utils_js_1.getFormatFromId)(event.target)
+                        ? { format: (0, utils_js_1.getFormatFromId)(event.target) }
+                        : {})
+                }
+            ]
+        };
+    }
+    return spasmEventV2;
 };
-exports.standardizeDmpEvent = standardizeDmpEvent;
-// standardizeDmpEventSignedClosed
-const standardizeDmpEventSignedClosed = (event) => {
+exports.standardizeDmpEventV2 = standardizeDmpEventV2;
+// standardizeDmpEventSignedClosedV2
+const standardizeDmpEventSignedClosedV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isDmpEventSignedClosed)(event))
@@ -145,26 +229,81 @@ const standardizeDmpEventSignedClosed = (event) => {
         typeof (event.signer) !== "string")
         return null;
     const dmpEvent = JSON.parse(event.signedString);
-    const dmpEventConvertedToSpasm = (0, exports.standardizeDmpEvent)(dmpEvent);
-    if (!dmpEventConvertedToSpasm)
+    const dmpEventConvertedToSpasmV2 = (0, exports.standardizeDmpEventV2)(dmpEvent);
+    if (!dmpEventConvertedToSpasmV2)
         return null;
-    const dmpEventSignedClosedConvertedToSpasm = {
-        ...dmpEventConvertedToSpasm,
-        meta: {
-            ...dmpEventConvertedToSpasm.meta,
-            privateKeyType: "ethereum",
-        },
-        eventId: event.signature,
-        author: event.signer,
-        signature: event.signature,
+    const dmpEventSignedClosedConvertedToSpasmV2 = {
+        ...dmpEventConvertedToSpasmV2,
+        authors: [
+            {
+                addresses: [
+                    {
+                        value: event.signer,
+                        // Create a new format field only if a
+                        // format can be determined from a string.
+                        ...((0, utils_js_1.getFormatFromAddress)(event.signer)
+                            ? { format: (0, utils_js_1.getFormatFromAddress)(event.signer) }
+                            : {})
+                        // TODO add a function to verify signatures 
+                        // verified: true
+                    }
+                ]
+            }
+        ],
+        ids: [
+            {
+                value: event.signature,
+                // Create a new format field only if a
+                // format can be determined from a string.
+                ...((0, utils_js_1.getFormatFromId)(event.signature)
+                    ? {
+                        format: (0, utils_js_1.getFormatFromId)(event.signature),
+                    }
+                    : {})
+            },
+        ],
+        signatures: [
+            {
+                value: event.signature,
+                type: "ethereum",
+                pubkey: event.signer
+            }
+        ]
     };
-    dmpEventSignedClosedConvertedToSpasm
-        .meta.convertedFrom = "DmpEventSignedClosed";
-    return dmpEventSignedClosedConvertedToSpasm;
+    const spasmEventV2 = dmpEventSignedClosedConvertedToSpasmV2;
+    if (spasmEventV2) {
+        // Create siblings if it's null or undefined
+        spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??=
+            { type: "SiblingDmpSignedV2" };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].type = "SiblingDmpSignedV2";
+        spasmEventV2.siblings[0].signatures = [
+            {
+                value: event.signature,
+                type: "ethereum",
+                pubkey: event.signer
+            }
+        ];
+        spasmEventV2.siblings[0].ids = [
+            {
+                value: event.signature,
+                // Create a new format field only if a
+                // format can be determined from a string.
+                ...((0, utils_js_1.getFormatFromId)(event.signature)
+                    ? {
+                        format: (0, utils_js_1.getFormatFromId)(event.signature),
+                    }
+                    : {})
+            }
+        ];
+    }
+    return spasmEventV2;
 };
-exports.standardizeDmpEventSignedClosed = standardizeDmpEventSignedClosed;
-// standardizeDmpEventSignedOpened
-const standardizeDmpEventSignedOpened = (event) => {
+exports.standardizeDmpEventSignedClosedV2 = standardizeDmpEventSignedClosedV2;
+// standardizeDmpEventSignedOpenedV2
+const standardizeDmpEventSignedOpenedV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isDmpEventSignedOpened)(event))
@@ -179,73 +318,149 @@ const standardizeDmpEventSignedOpened = (event) => {
         signature: event.signature,
         signer: event.signer
     };
-    const DmpEventSignedOpenedConvertedToSpasm = (0, exports.standardizeDmpEventSignedClosed)(dmpEventSignedClosed);
-    if (!DmpEventSignedOpenedConvertedToSpasm)
+    const DmpEventSignedOpenedConvertedToSpasmV2 = (0, exports.standardizeDmpEventSignedClosedV2)(dmpEventSignedClosed);
+    if (!DmpEventSignedOpenedConvertedToSpasmV2)
         return null;
-    DmpEventSignedOpenedConvertedToSpasm
-        .meta.convertedFrom = "DmpEventSignedOpened";
-    return DmpEventSignedOpenedConvertedToSpasm;
+    return DmpEventSignedOpenedConvertedToSpasmV2;
 };
-exports.standardizeDmpEventSignedOpened = standardizeDmpEventSignedOpened;
-// standardizeNostrEvent
-const standardizeNostrEvent = (event) => {
+exports.standardizeDmpEventSignedOpenedV2 = standardizeDmpEventSignedOpenedV2;
+const standardizeNostrEventV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isNostrEvent)(event))
         return null;
-    const spasmEvent = {
-        meta: {
-            baseProtocol: "nostr",
-            hasExtraSpasmFields: false,
-            convertedFrom: "NostrEvent",
-        },
-        spasmVersion: latestSpasmVersion,
-        eventId: event.id,
+    const spasmEventV2 = {
+        type: "SpasmEventV2",
+        // action
         content: event.content,
         timestamp: event.created_at,
-        author: (0, index_js_1.convertHexToBech32)(event.pubkey)
+        authors: [
+            {
+                addresses: [
+                    {
+                        value: (0, nostrUtils_js_1.toBeHex)(event.pubkey),
+                        format: {
+                            name: "nostr-hex"
+                        }
+                    }
+                ]
+            }
+        ],
+        siblings: [
+            {
+                type: "SiblingNostrV2",
+                originalObject: event,
+                protocol: {
+                    name: "nostr",
+                    // hasExtraSpasmFields: false
+                }
+            }
+        ]
     };
+    if (event.id && typeof (event.id) === "string") {
+        spasmEventV2.ids = [
+            {
+                value: (0, nostrUtils_js_1.toBeHex)(event.id),
+                format: {
+                    name: "nostr-hex"
+                }
+            }
+        ],
+            // Create siblings if it's null or undefined
+            spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??= {
+            type: "SiblingNostrV2",
+            protocol: {
+                name: "nostr",
+            }
+        };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].ids = [
+            {
+                value: (0, nostrUtils_js_1.toBeHex)(event.id),
+                format: {
+                    name: "nostr-hex"
+                }
+            }
+        ];
+    }
     let referencedEvents = [];
     if (event.tags && Array.isArray(event.tags)) {
         event.tags.forEach(function (tag) {
-            if (Array.isArray(tag) && tag[0] === "e") {
-                referencedEvents.push(tag[1]);
+            // ["e", <event-id>, <relay-url>, <marker>]
+            if (Array.isArray(tag) && tag[0] === "e" &&
+                tag[1] && typeof (tag[1]) === 'string') {
+                // <event-id>
+                const referencedEvent = {
+                    ids: [
+                        {
+                            value: tag[1],
+                            // Create a new format field only if a
+                            // format can be determined from a string.
+                            ...((0, utils_js_1.getFormatFromId)(tag[1])
+                                ? { format: (0, utils_js_1.getFormatFromId)(tag[1]) }
+                                : {})
+                        }
+                    ]
+                };
+                // <relay-url>
+                if (tag[2] && typeof (tag[2]) === "string") {
+                    referencedEvent.ids[0].hosts = [
+                        { value: tag[2] }
+                    ];
+                }
+                // <marker>
+                if (tag[3] && typeof (tag[3]) === 'string') {
+                    referencedEvent.marker = tag[3];
+                    if (tag[3] === 'reply') {
+                        spasmEventV2.action = 'reply';
+                    }
+                }
+                referencedEvents.push(referencedEvent);
             }
         });
     }
     if (referencedEvents && referencedEvents[0]) {
-        spasmEvent.referencedEvents = referencedEvents;
+        // The first reference is always assigned as a parent
+        // while all other references are assigned as references.
+        spasmEventV2.parent = referencedEvents[0];
+        const restOfReferencedEvents = referencedEvents.slice(1);
+        if (restOfReferencedEvents &&
+            (0, utils_js_1.hasValue)(restOfReferencedEvents) &&
+            restOfReferencedEvents[0]) {
+            // TODO write tests for multiple references
+            spasmEventV2.references ??= [];
+            spasmEventV2.references = restOfReferencedEvents;
+        }
     }
-    // TODO: write tests
-    if (!spasmEvent.action && event.kind === 1) {
+    if (!spasmEventV2.action && event.kind === 1) {
         // Kind 1 event without referenced events is usually "post"
-        if (!event.tags || !spasmEvent.referencedEvents) {
-            spasmEvent.action = "post";
+        if (!event.tags || !(0, utils_js_1.hasValue)(spasmEventV2.parent)) {
+            spasmEventV2.action = "post";
             // It's usually a reply if any other event is referenced
         }
-        else if (spasmEvent.referencedEvents) {
-            spasmEvent.action = "reply";
+        else if ((0, utils_js_1.hasValue)(spasmEventV2.parent)) {
+            spasmEventV2.action = "reply";
         }
     }
-    spasmEvent.originalEventObject = event;
-    spasmEvent.originalEventString = JSON.stringify(event);
-    return spasmEvent;
+    return spasmEventV2;
 };
-exports.standardizeNostrEvent = standardizeNostrEvent;
-// standardizeNostrSpasmEvent
-const standardizeNostrSpasmEvent = (event) => {
+exports.standardizeNostrEventV2 = standardizeNostrEventV2;
+// standardizeNostrSpasmEventV2
+const standardizeNostrSpasmEventV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isNostrSpasmEvent)(event))
         return null;
-    const spasmEvent = (0, exports.standardizeNostrEvent)(event);
-    if (!spasmEvent)
+    const spasmEventV2 = (0, exports.standardizeNostrEventV2)(event);
+    if (!spasmEventV2)
         return null;
     let extraFieldsSpasmVersion = (0, utils_js_1.getNostrSpasmVersion)(event);
     let spasmTarget = "";
-    let spasmAction = "";
-    let spasmTitle = "";
-    let license = "";
+    let spasmAction = null;
+    let spasmTitle = null;
+    let license = null;
     if (event.tags &&
         Array.isArray(event.tags)) {
         event.tags.forEach(function (tag) {
@@ -266,240 +481,419 @@ const standardizeNostrSpasmEvent = (event) => {
             }
         });
     }
-    // meta
-    if (spasmEvent.meta) {
-        spasmEvent.meta.convertedFrom = "NostrSpasmEvent";
-        if (spasmTarget || spasmAction ||
-            spasmTitle || extraFieldsSpasmVersion) {
-            spasmEvent.meta.hasExtraSpasmFields = true;
-        }
-        if (extraFieldsSpasmVersion) {
-            spasmEvent.meta
-                .extraSpasmFieldsVersion = extraFieldsSpasmVersion;
-        }
-        if (license) {
-            spasmEvent.meta.license = license;
-        }
-    }
-    if (spasmTarget) {
-        spasmEvent.parentEvent = spasmTarget;
+    if (license) {
+        spasmEventV2.license = license;
     }
     if (spasmAction) {
-        spasmEvent.action = spasmAction;
+        spasmEventV2.action = spasmAction;
     }
     if (spasmTitle) {
-        spasmEvent.title = spasmTitle;
+        spasmEventV2.title = spasmTitle;
     }
-    return spasmEvent;
+    if (spasmTarget && typeof (spasmTarget) === "string") {
+        // Create parent if it's null or undefined
+        spasmEventV2.parent ??= { ids: [] };
+        const parentId = {
+            value: spasmTarget,
+            format: (0, utils_js_1.getFormatFromId)(spasmTarget)
+        };
+        spasmEventV2.parent.ids.push(parentId);
+    }
+    if (spasmTarget || spasmAction ||
+        spasmTitle || extraFieldsSpasmVersion) {
+        // Create siblings if it's null or undefined
+        spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??=
+            { type: "SiblingNostrSpasmV2" };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].type = "SiblingNostrSpasmV2";
+        spasmEventV2.siblings[0].protocol.hasExtraSpasmFields = true;
+        if (extraFieldsSpasmVersion) {
+            spasmEventV2.siblings[0]
+                .protocol.extraSpasmFieldsVersion = extraFieldsSpasmVersion;
+        }
+    }
+    return spasmEventV2;
 };
-exports.standardizeNostrSpasmEvent = standardizeNostrSpasmEvent;
-// standardizeNostrEventSignedOpened
-const standardizeNostrEventSignedOpened = (event) => {
+exports.standardizeNostrSpasmEventV2 = standardizeNostrSpasmEventV2;
+// standardizeNostrEventSignedOpenedV2
+const standardizeNostrEventSignedOpenedV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isNostrEventSignedOpened)(event))
         return null;
-    const spasmEvent = (0, exports.standardizeNostrEvent)(event);
-    if (!spasmEvent)
+    const spasmEventV2 = (0, exports.standardizeNostrEventV2)(event);
+    if (!spasmEventV2)
         return null;
-    if (spasmEvent.meta) {
-        spasmEvent.meta.convertedFrom = "NostrEventSignedOpened";
-        spasmEvent.meta.privateKeyType = "nostr";
+    if (event.sig && typeof (event.sig) &&
+        event.pubkey && typeof (event.pubkey) === "string") {
+        // Create signatures if it's null or undefined
+        spasmEventV2.signatures ??= [];
+        spasmEventV2.signatures.push({
+            value: event.sig,
+            type: "nostr",
+            pubkey: event.pubkey
+        });
+        // Create parent if it's null or undefined
+        spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??=
+            { type: "SiblingNostrSignedV2" };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].type = "SiblingNostrSignedV2";
+        spasmEventV2.siblings[0].signatures ??= [];
+        spasmEventV2.siblings[0].signatures.push({
+            value: event.sig,
+            type: "nostr",
+            pubkey: event.pubkey,
+        });
     }
-    if (event.id && !spasmEvent.eventId) {
-        spasmEvent.eventId = event.id;
-    }
-    if (event.pubkey && !spasmEvent.author) {
-        spasmEvent.author = event.pubkey;
-    }
-    if (event.sig && !spasmEvent.signature) {
-        spasmEvent.signature = event.sig;
-    }
-    return spasmEvent;
+    return spasmEventV2;
 };
-exports.standardizeNostrEventSignedOpened = standardizeNostrEventSignedOpened;
-// standardizeNostrSpasmEventSignedOpened
-const standardizeNostrSpasmEventSignedOpened = (event) => {
+exports.standardizeNostrEventSignedOpenedV2 = standardizeNostrEventSignedOpenedV2;
+// standardizeNostrSpasmEventSignedOpenedV2
+const standardizeNostrSpasmEventSignedOpenedV2 = (event) => {
     if (!(0, utils_js_1.isObjectWithValues)(event))
         return null;
     if (!(0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(event))
         return null;
-    const spasmEvent = (0, exports.standardizeNostrSpasmEvent)(event);
-    if (!spasmEvent)
+    const spasmEventV2 = (0, exports.standardizeNostrSpasmEventV2)(event);
+    if (!spasmEventV2)
         return null;
-    if (spasmEvent.meta) {
-        spasmEvent.meta.convertedFrom = "NostrSpasmEventSignedOpened";
-        spasmEvent.meta.privateKeyType = "nostr";
+    if (event.sig && typeof (event.sig) &&
+        event.pubkey && typeof (event.pubkey) === "string") {
+        // Create signatures if it's null or undefined
+        spasmEventV2.signatures ??= [];
+        spasmEventV2.signatures.push({
+            value: event.sig,
+            type: "nostr",
+            pubkey: event.pubkey
+        });
+        // Create siblings if it's null or undefined
+        spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??= {
+            type: "SiblingNostrSpasmSignedV2",
+            protocol: { name: "nostr" }
+        };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].type = "SiblingNostrSpasmSignedV2";
+        spasmEventV2.siblings[0].signatures ??= [];
+        spasmEventV2.siblings[0].signatures.push({
+            value: event.sig,
+            type: "nostr",
+            pubkey: event.pubkey,
+        });
     }
     // NostrSpasm versions prior to 2.0.0 assigned sig as event id
-    if (event.sig && (0, utils_js_1.getNostrSpasmVersion)(event) === "1.0.0") {
-        spasmEvent.eventId = event.sig;
+    if (event.sig && typeof (event.sig) === "string" &&
+        (0, utils_js_1.getNostrSpasmVersion)(event) === "1.0.0") {
+        // Create ids if it's null or undefined
+        spasmEventV2.ids ??= [];
+        spasmEventV2.ids.push({
+            value: event.sig,
+            format: {
+                name: "nostr-sig"
+            }
+        });
+        // Create siblings if it's null or undefined
+        spasmEventV2.siblings ??= [];
+        spasmEventV2.siblings[0] ??= {
+            type: "SiblingNostrSpasmSignedV2",
+            protocol: { name: "nostr" }
+        };
+        spasmEventV2.siblings[0] =
+            spasmEventV2.siblings[0];
+        spasmEventV2.siblings[0].type = "SiblingNostrSpasmSignedV2";
+        spasmEventV2.siblings[0].ids ??= [];
+        spasmEventV2.siblings[0].ids.push({
+            value: event.sig,
+            format: {
+                name: "nostr-sig"
+            }
+        });
     }
-    if (event.pubkey && !spasmEvent.author) {
-        spasmEvent.author = event.pubkey;
-    }
-    if (event.sig && !spasmEvent.signature) {
-        spasmEvent.signature = event.sig;
-    }
-    return spasmEvent;
+    return spasmEventV2;
 };
-exports.standardizeNostrSpasmEventSignedOpened = standardizeNostrSpasmEventSignedOpened;
-// standardizePostWithDmpEventSignedClosed
-const standardizePostWithDmpEventSignedClosed = (post) => {
-    if (!(0, utils_js_1.isObjectWithValues)(post))
+exports.standardizeNostrSpasmEventSignedOpenedV2 = standardizeNostrSpasmEventSignedOpenedV2;
+// standardizeSpasmDmpEventSignedClosedV0_V2
+const standardizeSpasmDmpEventSignedClosedV0_V2 = (spasmEventV0) => {
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV0))
         return null;
-    if (!('signed_message' in post) ||
-        typeof (post.signed_message) !== "string") {
+    if (!('signed_message' in spasmEventV0) ||
+        typeof (spasmEventV0.signed_message) !== "string") {
         return null;
     }
     const dmpEvent = {
-        signedString: post.signed_message,
+        signedString: spasmEventV0.signed_message,
         signature: "",
         signer: ""
     };
-    if (post.signature && typeof (post.signature) === "string") {
-        dmpEvent.signature = post.signature;
+    if (spasmEventV0.signature &&
+        typeof (spasmEventV0.signature) === "string") {
+        dmpEvent.signature = spasmEventV0.signature;
     }
-    if (post.signer && typeof (post.signer) === "string") {
-        dmpEvent.signer = post.signer;
+    if (spasmEventV0.signer &&
+        typeof (spasmEventV0.signer) === "string") {
+        dmpEvent.signer = spasmEventV0.signer;
     }
-    const spasmEvent = (0, exports.standardizeDmpEventSignedClosed)(dmpEvent);
-    return spasmEvent;
+    const spasmEventV2 = (0, exports.standardizeDmpEventSignedClosedV2)(dmpEvent);
+    return spasmEventV2;
 };
-exports.standardizePostWithDmpEventSignedClosed = standardizePostWithDmpEventSignedClosed;
-// standardizePostWithNostrEventSignedOpened
-const standardizePostWithNostrEventSignedOpened = (post) => {
-    if (!(0, utils_js_1.isObjectWithValues)(post))
+exports.standardizeSpasmDmpEventSignedClosedV0_V2 = standardizeSpasmDmpEventSignedClosedV0_V2;
+// standardizeSpasmNostrEventSignedOpenedV0_V2
+const standardizeSpasmNostrEventSignedOpenedV0_V2 = (spasmEventV0) => {
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV0))
         return null;
-    if (!('signed_message' in post) ||
-        typeof (post.signed_message) !== "string") {
+    if (!('signed_message' in spasmEventV0) ||
+        typeof (spasmEventV0.signed_message) !== "string") {
         return null;
     }
     // Extract the event
-    const event = (0, utils_js_1.extractSealedEvent)(post);
-    return (0, exports.standardizeNostrEventSignedOpened)(event);
+    const event = (0, utils_js_1.extractSealedEvent)(spasmEventV0);
+    return (0, exports.standardizeNostrEventSignedOpenedV2)(event);
 };
-exports.standardizePostWithNostrEventSignedOpened = standardizePostWithNostrEventSignedOpened;
-// standardizePostWithNostrSpasmEventSignedOpened
-const standardizePostWithNostrSpasmEventSignedOpened = (post) => {
-    if (!(0, utils_js_1.isObjectWithValues)(post))
+exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = standardizeSpasmNostrEventSignedOpenedV0_V2;
+// standardizeSpasmNostrSpasmEventSignedOpenedV0_V2
+const standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = (spasmEventV0) => {
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV0))
         return null;
-    if (!('signed_message' in post) ||
-        typeof (post.signed_message) !== "string") {
+    if (!('signed_message' in spasmEventV0) ||
+        typeof (spasmEventV0.signed_message) !== "string") {
         return null;
     }
     // Extract the event
-    const event = (0, utils_js_1.extractSealedEvent)(post);
-    return (0, exports.standardizeNostrSpasmEventSignedOpened)(event);
+    const event = (0, utils_js_1.extractSealedEvent)(spasmEventV0);
+    return (0, exports.standardizeNostrSpasmEventSignedOpenedV2)(event);
 };
-exports.standardizePostWithNostrSpasmEventSignedOpened = standardizePostWithNostrSpasmEventSignedOpened;
-// standardizePostWithRssItem
-const standardizePostWithRssItem = (post) => {
-    if (!(0, utils_js_1.isObjectWithValues)(post))
+exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = standardizeSpasmNostrSpasmEventSignedOpenedV0_V2;
+// standardizeSpasmWithRssItemV0_V2
+const standardizeSpasmWithRssItemV0_V2 = (spasmEventV0) => {
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV0))
         return null;
-    const spasmEvent = {
-        meta: {
-            hasExtraSpasmFields: false,
-            convertedFrom: "unknown",
-        },
-        spasmVersion: "1.0.0",
+    const spasmEventV2 = {
+        type: "SpasmEventV2",
         action: "post",
     };
-    if (post.id) {
-        spasmEvent.dbId = post.id;
+    if (spasmEventV0.title) {
+        spasmEventV2.title = spasmEventV0.title;
     }
-    if (post.title) {
-        spasmEvent.title = post.title;
+    if (spasmEventV0.pubdate) {
+        spasmEventV2.timestamp = (0, utils_js_1.toBeTimestamp)(spasmEventV0.pubdate);
     }
-    if (post.description) {
-        spasmEvent.content = post.description;
+    if (spasmEventV0.description) {
+        spasmEventV2.content = spasmEventV0.description;
     }
-    if (post.source) {
-        spasmEvent.source = post.source;
-    }
-    if (post.pubdate) {
-        spasmEvent.timestamp = (0, utils_js_1.toBeTimestamp)(post.pubdate);
-    }
-    if (post.category) {
-        spasmEvent.category = post.category;
-    }
-    if (post.url) {
-        // Create links if it's null or undefined
-        spasmEvent.links ??= {};
-        spasmEvent.links.http = post.url;
-        spasmEvent.eventId = post.url;
-    }
-    if (post.guid) {
-        // Create links if it's null or undefined
-        spasmEvent.links ??= {};
-        spasmEvent.links.guid = post.guid;
-        // eventId should be url, but if no url, then guid
-        if (!spasmEvent.eventId) {
-            post.guid;
+    if (spasmEventV0.tags) {
+        if (Array.isArray(spasmEventV0.tags)) {
+            // Create ids if it's null or undefined
+            spasmEventV2.keywords ??= [];
+            spasmEventV2.keywords =
+                spasmEventV2.keywords?.concat(spasmEventV0.tags);
         }
     }
-    return spasmEvent;
+    if (spasmEventV0.tickers) {
+        if (typeof (spasmEventV0.tickers) === "string") {
+            // Create ids if it's null or undefined
+            spasmEventV2.keywords ??= [];
+            spasmEventV2.keywords.push(spasmEventV0.tickers);
+        }
+        else if (Array.isArray(spasmEventV0.tickers)) {
+            spasmEventV2.keywords =
+                spasmEventV2.keywords?.concat(spasmEventV0.tickers);
+        }
+    }
+    let siblingIds = [];
+    if (spasmEventV0.url &&
+        typeof (spasmEventV0.url) === "string") {
+        // Create ids if it's null or undefined
+        spasmEventV2.ids ??= [];
+        spasmEventV2.ids.push({
+            value: spasmEventV0.url,
+            format: {
+                name: "url"
+            }
+        });
+        siblingIds.push({
+            value: spasmEventV0.url,
+            format: {
+                name: "url"
+            }
+        });
+        // Create links if it's null or undefined
+        spasmEventV2.links ??= [];
+        const linkObject = (0, utils_js_1.createLinkObjectFromUrl)(spasmEventV0.url);
+        if (linkObject) {
+            linkObject.originalProtocolKey = "url";
+            spasmEventV2.links.push(linkObject);
+        }
+    }
+    if (spasmEventV0.guid) {
+        // Create ids if it's null or undefined
+        spasmEventV2.ids ??= [];
+        spasmEventV2.ids.push({
+            value: spasmEventV0.guid,
+            format: {
+                name: "guid"
+            }
+        });
+        siblingIds.push({
+            value: spasmEventV0.guid,
+            format: {
+                name: "guid"
+            }
+        });
+        if (typeof (spasmEventV0.guid) === "string") {
+            // Create links if it's null or undefined
+            spasmEventV2.links ??= [];
+            const linkObject = (0, utils_js_1.createLinkObjectFromUrl)(spasmEventV0.guid);
+            if (linkObject) {
+                linkObject.originalProtocolKey = "guid";
+                spasmEventV2.links.push(linkObject);
+            }
+        }
+    }
+    if (spasmEventV0.author) {
+        // Create ids if it's null or undefined
+        spasmEventV2.authors ??= [];
+        spasmEventV2.authors.push({
+            usernames: [
+                {
+                    value: spasmEventV0.author
+                }
+            ]
+        });
+    }
+    // siblings
+    // Create siblings if it's null or undefined
+    spasmEventV2.siblings ??= [];
+    spasmEventV2.siblings[0] ??= {
+        type: "SiblingWeb2V2",
+        protocol: { name: "web2" }
+    };
+    spasmEventV2.siblings[0] =
+        spasmEventV2.siblings[0];
+    spasmEventV2.siblings[0].type = "SiblingWeb2V2";
+    spasmEventV2.siblings[0].protocol = { name: "web2" };
+    // Add IDs (e.g., URL and guid) to siblings
+    // spasmEventV2.siblings[0].ids ??= [];
+    spasmEventV2.siblings[0].ids = siblingIds;
+    // Destruct spasmEventV0 to exclude children
+    // to avoid infinite recursion loop.
+    const { children, ...originalObjectWithoutChildren } = spasmEventV0;
+    spasmEventV2.siblings[0].originalObject =
+        originalObjectWithoutChildren;
+    return spasmEventV2;
 };
-exports.standardizePostWithRssItem = standardizePostWithRssItem;
-const addFieldsFromEnvelopePost = (post, spasmEvent) => {
-    if (!post)
-        return {};
-    if (!spasmEvent)
-        return {};
-    if (!(0, utils_js_1.isObjectWithValues)(post))
-        return {};
-    if (!(0, utils_js_1.isObjectWithValues)(spasmEvent))
-        return {};
-    if (post.id && !spasmEvent.dbId) {
-        spasmEvent.dbId = post.id;
+exports.standardizeSpasmWithRssItemV0_V2 = standardizeSpasmWithRssItemV0_V2;
+// addFieldsFromEnvelopeSpasmEventV0_V2
+const addFieldsFromEnvelopeSpasmEventV0_V2 = (spasmEventV0, spasmEventV2) => {
+    if (!spasmEventV0)
+        return spasmEventV2;
+    if (!spasmEventV2)
+        return spasmEventV2;
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV0))
+        return spasmEventV2;
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV2))
+        return spasmEventV2;
+    // db.key
+    if (spasmEventV0.id) {
+        if (typeof (spasmEventV0.id) === "number") {
+            // Create db if it's null or undefined
+            spasmEventV2.db ??= {};
+            spasmEventV2.db.key = spasmEventV0.id;
+        }
+        else if (typeof (spasmEventV0.id) === "string" &&
+            Number(spasmEventV0.id)) {
+            // Create db if it's null or undefined
+            spasmEventV2.db ??= {};
+            spasmEventV2.db.key = Number(spasmEventV0.id);
+        }
     }
-    if (post.source && !spasmEvent.source) {
-        spasmEvent.source = post.source;
+    // db.addedTimestamp
+    if (spasmEventV0.added_time) {
+        if (typeof (spasmEventV0.added_time) === "number") {
+            // Create db if it's null or undefined
+            spasmEventV2.db ??= {};
+            spasmEventV2.db.addedTimestamp =
+                (0, utils_js_1.toBeTimestamp)(spasmEventV0.added_time);
+        }
+        else if (typeof (spasmEventV0.added_time) === "string") {
+            // Create db if it's null or undefined
+            spasmEventV2.db ??= {};
+            spasmEventV2.db.addedTimestamp =
+                (0, utils_js_1.toBeTimestamp)(spasmEventV0.added_time);
+        }
     }
-    if (post.added_time && !spasmEvent.dbTimestamp) {
-        spasmEvent.dbTimestamp = (0, utils_js_1.toBeTimestamp)(post.added_time);
+    if (spasmEventV0.source && !spasmEventV2.source) {
+        spasmEventV2.source = {
+            name: spasmEventV0.source
+        };
     }
-    if (post.category && !spasmEvent.category) {
-        spasmEvent.category = post.category;
+    if (spasmEventV0.category && !spasmEventV2.categories) {
+        // Create categories if it's null or undefined
+        spasmEventV2.categories ??= [];
+        spasmEventV2.categories.push({
+            name: spasmEventV0.category
+        });
     }
     // Reactions (e.g., upvote, downvote, etc.)
     const addReactions = (reaction) => {
         if (
-        // null is a valid value
-        post[reaction] === null ||
-            (
-            // 0 is a valid number
-            post[reaction] !== undefined &&
-                typeof (post[reaction]) === "number")) {
+        // 0 is a valid number
+        // spasmEventV0[reaction] !== undefined &&
+        typeof (spasmEventV0[reaction]) === "number") {
             // Create reactions if it's null or undefined
-            spasmEvent.reactions ??= {};
-            spasmEvent.reactions[reaction] = post[reaction];
+            spasmEventV2.stats ??= [];
+            spasmEventV2.stats[0] ??= { action: "react" };
+            spasmEventV2.stats[0].contents ??= [];
+            spasmEventV2.stats[0].contents.push({
+                value: reaction,
+                total: spasmEventV0[reaction]
+            });
         }
     };
     const reactions = [
         "upvote", "downvote",
         "bullish", "bearish",
         "important", "scam",
-        "comments_count", "laugh",
+        "laugh",
         "toxic", "clown", "moon",
         "rocket"
     ];
     reactions.forEach(reaction => {
         addReactions(reaction);
     });
-    // Comments
-    if (post.children &&
-        Array.isArray(post.children) &&
-        post.children.length > 0) {
-        // Create comments if it's null or undefined
-        spasmEvent.comments ??= [];
-        spasmEvent.comments.push(...post.children);
+    // "comments_count",
+    if (
+    // 0 is a valid number
+    // spasmEventV0["comments_count"] !== undefined &&
+    typeof (spasmEventV0["comments_count"]) === "number") {
+        // Create reactions if it's null or undefined
+        spasmEventV2.stats ??= [];
+        spasmEventV2.stats.push({
+            action: "reply",
+            total: spasmEventV0["comments_count"]
+        });
     }
-    return spasmEvent;
+    // Comments
+    if (spasmEventV0.children &&
+        Array.isArray(spasmEventV0.children) &&
+        spasmEventV0.children.length > 0) {
+        const childrenAsSpasmAndNullV2 = spasmEventV0.children.map(child => (0, exports.convertToSpasm)(child));
+        childrenAsSpasmAndNullV2.forEach((event) => {
+            if (event !== null) {
+                // Create children if it's null or undefined
+                spasmEventV2.children ??= [];
+                spasmEventV2.children.push({
+                    ids: event.ids,
+                    event: event
+                });
+            }
+        });
+    }
+    return spasmEventV2;
 };
-exports.addFieldsFromEnvelopePost = addFieldsFromEnvelopePost;
-const convertToSpasm = (unknownPostOrEvent) => {
-    return (0, exports.standardizePostOrEvent)(unknownPostOrEvent);
-};
-exports.convertToSpasm = convertToSpasm;
+exports.addFieldsFromEnvelopeSpasmEventV0_V2 = addFieldsFromEnvelopeSpasmEventV0_V2;
 //# sourceMappingURL=convertToSpasm.js.map

@@ -4,18 +4,34 @@ import {
   convertHexAddressesToNpub,
   convertNpubOrHexAddressToHex,
   convertHexOrNpubAddressToNpub,
-  convertNpubOrHexAddressesToHex
+  convertNpubOrHexAddressesToHex,
+  toBeHex,
+  toBeHexes,
+  toBeNpub,
+  toBeNpubs,
+  toBeNote,
+  toBeNotes,
+  // toBeNevent
 } from './../utils/index';
 
-const validNpubAddress1 = "npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjqspcmr0z"
-const validNpubAddress2 = "npub14slk4lshtylkrqg9z0dvng09gn58h88frvnax7uga3v0h25szj4qzjt5d6"
-const validHexAddress1 = "b3a706bcceb39f193da553ce76255dd6ba5b097001c8ef85ff1b92e994894c81"
-const validHexAddress2 = "ac3f6afe17593f61810513dac9a1e544e87b9ce91b27d37b88ec58fbaa9014aa"
-const invalidNpubAddress1 = "npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjqspcmr1z"
-const invalidNpubAddress2 = "npub14slk4lshtylkrqg9z0dvng09gn58h88frvnax7uga3v0h25szj4qzjt5d7"
-// const invalidHexAddress1 = "b3a706bcceb39f193da553ce76255dd6ba5b097001c8ef85ff1b92e994894c82"
-// const invalidHexAddress2 = "ac3f6afe17593f61810513dac9a1e544e87b9ce91b27d37b88ec58fbaa9015aa"
+import {
+  validNpubAddress1, validNpubAddress2,
+  validHexAddress1, validHexAddress2,
+  invalidNpubAddress1, invalidNpubAddress2,
+  validId1Note, validId1Nevent, validId1Hex, invalidId1Note,
+  validId2Note, validId2Nevent, validId2Hex, invalidId2Note,
+} from "./_events-data"
 
+beforeEach(() => {
+  // Spy on console.log and console.error
+  // jest.spyOn(console, 'log').mockImplementation(() => {});
+  // jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  // Restore original console.log and console.error after each test
+  // jest.restoreAllMocks();
+});
 describe('convertNpubOrHexAddressToHex function', () => {
   it(
     "should return a valid hex address when a valid npub is passed",
@@ -51,11 +67,14 @@ describe('convertNpubOrHexAddressToHex function', () => {
   it(
     "should return '' when an invalid npub with valid length is passed",
     () => {
+    // Hiding console errors for invalid addresses during tests
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressToHex(invalidNpubAddress1)
     ).toBe(
     ''
     );
+    jest.restoreAllMocks();
   });
 
   it(
@@ -123,21 +142,25 @@ describe('convertNpubOrHexAddressesToHex function', () => {
   it(
     "should return an array with a valid hex if an array of valid and invalid hex is passed",
     () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressesToHex([validHexAddress1, invalidNpubAddress1])
     ).toStrictEqual(
       [validHexAddress1]
     );
+    jest.restoreAllMocks();
   });
 
   it(
     "should return an empty array if an array with two invalid hex is passed",
     () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressesToHex([invalidNpubAddress1, invalidNpubAddress2])
     ).toStrictEqual(
       []
     );
+    jest.restoreAllMocks();
   });
 });
 
@@ -150,6 +173,11 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     ).toBe(
     validNpubAddress1
     );
+    expect(
+      toBeNpub(validHexAddress1)
+    ).toBe(
+    validNpubAddress1
+    );
   });
 
   it(
@@ -157,6 +185,11 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub(validNpubAddress1)
+    ).toBe(
+    validNpubAddress1
+    );
+    expect(
+      toBeNpub(validNpubAddress1)
     ).toBe(
     validNpubAddress1
     );
@@ -225,12 +258,17 @@ describe('convertHexOrNpubAddressToNpub function', () => {
   });
 });
 
-describe('convertHexAddressesToNpub function', () => {
+describe('convertHexAddressesToNpub & toBeNpubs function', () => {
   it(
     "should return an array with one valid npub if one valid hex is passed",
     () => {
     expect(
       convertHexAddressesToNpub(validHexAddress1)
+    ).toStrictEqual(
+      [validNpubAddress1]
+    );
+    expect(
+      toBeNpubs(validHexAddress1)
     ).toStrictEqual(
       [validNpubAddress1]
     );
@@ -244,6 +282,11 @@ describe('convertHexAddressesToNpub function', () => {
     ).toStrictEqual(
       [validNpubAddress1]
     );
+    expect(
+      toBeNpubs(validNpubAddress1)
+    ).toStrictEqual(
+      [validNpubAddress1]
+    );
   });
 
   it(
@@ -254,6 +297,11 @@ describe('convertHexAddressesToNpub function', () => {
     ).toStrictEqual(
       [validNpubAddress1, validNpubAddress2]
     );
+    expect(
+      toBeNpubs([validHexAddress1, validHexAddress2])
+    ).toStrictEqual(
+      [validNpubAddress1, validNpubAddress2]
+    );
   });
 
   it(
@@ -261,6 +309,11 @@ describe('convertHexAddressesToNpub function', () => {
     () => {
     expect(
       convertHexAddressesToNpub([validNpubAddress1, validNpubAddress2])
+    ).toStrictEqual(
+      [validNpubAddress1, validNpubAddress2]
+    );
+    expect(
+      toBeNpubs([validNpubAddress1, validNpubAddress2])
     ).toStrictEqual(
       [validNpubAddress1, validNpubAddress2]
     );
@@ -284,6 +337,11 @@ describe('convertHexAddressesToNpub function', () => {
     ).toStrictEqual(
       [validNpubAddress1]
     );
+    expect(
+      toBeNpubs([validHexAddress1, validHexAddress2 + "12345"])
+    ).toStrictEqual(
+      [validNpubAddress1]
+    );
   });
 
   // it(
@@ -304,5 +362,85 @@ describe('convertHexAddressesToNpub function', () => {
     ).toStrictEqual(
       []
     );
+    expect(
+      toBeNpubs([validHexAddress1 + "abc", validHexAddress2 + "12345"])
+    ).toStrictEqual(
+      []
+    );
+  });
+});
+
+describe('toBeNote function', () => {
+  it(
+    "should return a valid id-note if one valid id-hex is passed",
+    () => {
+    expect(toBeNote(validId1Hex)).toStrictEqual(validId1Note);
+    expect(toBeNote(validId2Hex)).toStrictEqual(validId2Note);
+    expect(toBeNote(validId1Note)).toStrictEqual(validId1Note);
+    expect(toBeNote(validId2Note)).toStrictEqual(validId2Note);
+    expect(toBeNote(validId1Nevent)).toStrictEqual(validId1Note);
+    expect(toBeNote(validId2Nevent)).toStrictEqual(validId2Note);
+  });
+});
+
+describe('toBeNotes function', () => {
+  it(
+    "should return an array of valid notes if valid hexesand nevents and notes are passed",
+    () => {
+    expect(
+      toBeNotes(
+        [
+          // Npubs will be removed
+          validNpubAddress1, validNpubAddress2, "123xyz",
+          validId1Hex, validId1Note, validId1Nevent,
+          validId2Hex, validId2Note, validId2Nevent
+        ]
+      )
+    ).toStrictEqual(
+        [
+          validId1Note, validId1Note, validId1Note,
+          validId2Note, validId2Note, validId2Note
+        ]
+    );
+  });
+});
+describe('toBeHex function', () => {
+  it(
+    "should return a valid id-hex if one valid id-note is passed",
+    () => {
+    expect(toBeHex(validId1Note)).toStrictEqual(validId1Hex);
+    expect(toBeHex(validId2Note)).toStrictEqual(validId2Hex);
+  });
+  it(
+    "should return a valid id-hex if one valid id-nevent is passed",
+    () => {
+    expect(toBeHex(validId1Nevent)).toStrictEqual(validId1Hex);
+    expect(toBeHex(validId2Nevent)).toStrictEqual(validId2Hex);
+  });
+});
+
+describe('toBeHexes function', () => {
+  it(
+    "should return an array of valid hexes if valid notes and npubs and nevents are passed",
+    () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    expect(
+      toBeHexes(
+        [
+          validNpubAddress1, validNpubAddress2,
+          validId1Hex, validId1Note, validId1Nevent,
+          validId2Hex, validId2Note, validId2Nevent,
+          // Invalid ids will be removed
+          invalidId1Note, invalidId2Note
+        ]
+      )
+    ).toStrictEqual(
+        [
+          validHexAddress1, validHexAddress2,
+          validId1Hex, validId1Hex, validId1Hex,
+          validId2Hex, validId2Hex, validId2Hex
+        ]
+    );
+    jest.restoreAllMocks();
   });
 });

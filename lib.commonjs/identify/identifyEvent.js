@@ -127,7 +127,10 @@ const utils_js_1 = require("./../utils/utils.js");
   You can check definitions to better understand the difference
   between a Post and an Event.
 */
-const identifyPostOrEvent = (unknownPostOrEvent) => {
+const identifyPostOrEvent = (unknownPostOrEvent
+// TODO change to UnknownEventV2 to handle SpasmV2
+// unknownPostOrEvent: UnknownEventV2
+) => {
     const info = {
         webType: false,
         eventIsSealed: false,
@@ -561,8 +564,9 @@ const isNostrEvent = (unknownPostOrEvent) => {
     if (typeof (unknownPostOrEvent.pubkey) !== "string")
         return false;
     // tags
-    // TODO: check if tags is a mandatory field
-    // if (!('tags' in unknownPostOrEvent)) return false
+    // tags is a mandatory field
+    if (!('tags' in unknownPostOrEvent))
+        return false;
     // sig
     // Unsigned Nostr event can be without 'sig'
     // if (!('sig' in unknownPostOrEvent)) return false
@@ -605,7 +609,6 @@ exports.isNostrSpasmEventSignedOpened = isNostrSpasmEventSignedOpened;
 const isDmpEvent = (unknownPostOrEvent) => {
     if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
-    // TODO: think what if unknownPostOrEvent is Post with version, action, license
     if (!('version' in unknownPostOrEvent))
         return false;
     if (!('action' in unknownPostOrEvent))

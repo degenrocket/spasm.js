@@ -24,13 +24,13 @@ export type UnknownEvent =
 ```
 
 After converting an unknown event to the Spasm event, you can now easily access common properties across most public messaging formats such as:
-- `spasmEvent.eventId`
+- `spasmEvent.id`
 - `spasmEvent.author`
 - `spasmEvent.action`
 - `spasmEvent.content`
 - `spasmEvent.timestamp`
 - `spasmEvent.signature`
-- `spasmEvent.parentEvent`
+- `spasmEvent.target`
 
 The original event will be stored under:
 - `spasmEvent.originalEventObject`
@@ -40,6 +40,180 @@ The event metadata can be found under:
 - `spasmEvent.meta`
 
 See the full list of properties of `SpasmEvent` at `./src.ts/types/interfaces.ts`.
+
+Here is a schema of the SpasmEventV2 interface:
+
+```
+event*
+│
+│
+│   (Body)
+├── type
+├── protocol (only in Body, but not in Event)
+│   ├── name                         // spasm, dmp, nostr
+│   └── version                      // 2.0.0, 0.1.0, 1
+├── root #. (EnvelopeWithTree, Event, but not in Body)
+│   ├── ids[] #.
+│   ├── marker #.
+│   ├── depth                        // (expanded)
+│   └── event*                       // (expanded)
+├── parent #.
+│   ├── ids[] #.
+│   ├── marker #.
+│   ├── depth                        // (expanded)
+│   └── event*                       // (expanded)
+├── action #!                        // post/reply/react/vote/etc!
+├── title #!
+├── content #!
+├── timestamp #!
+├── authors[] #.
+│   ├── address #.
+│   └── usernames[]                  // eg web2 posts (RSS items)
+│       ├── value
+│       ├── protocol
+│       ├── proof
+│       └── provider
+├── categories[] #.
+│   ├── name #.
+│   └── sub (recursive category) #.
+├── tips[] #.
+│   ├── address #.
+│   ├── text #.
+│   ├── expiration #.
+│   │   └── timestamp #.
+│   ├── currency #.
+│   │   ├── name #.
+│   │   └── ticker #.
+│   └── network #.
+│       ├── name #.
+│       └── id #.
+├── hosts[] (see hosts below) #.     // can be added to children
+├── links[] (see link below) #.
+├── keywords[] #.
+├── tags[] #.
+├── medias[] #.
+│   ├── hashes[] (see hash below) #.
+│   ├── links[] (see link below) #.
+│   └── type #.
+├── references[] #.
+│   ├── ids[] #.
+│   ├── marker #.
+│   └── event*                       // (expanded)
+├── mentions[] #.
+│   ├── address #.
+│   └── usernames[] #.
+│       ├── value #.
+│       ├── protocol #.
+│       ├── proof #.
+│       └── provider #.
+├── proofs[] #.
+│   ├── value #.
+│   ├── links[] #.
+│   └── protocol #.
+│       ├── name #.
+│       └── version #.
+├── previousEvent (Body & Sibling, not in SpasmEvent)
+│   ├── ids[] #.
+│   ├── marker #.
+│   ├── depth                        // (expanded)
+│   └── event*                       // (expanded)
+├── sequence (Body & Sibling, not in SpasmEvent)
+├── license #.
+├── language #.
+├── extra
+├── pow                // proof-of-work (not included in spasmid)
+│   ├── nonce
+│   ├── difficulty
+│   ├── words[]
+│   └── network
+│       ├── name
+│       └── id
+│
+│   (Envelope)
+├── type
+├── ids[]
+├── signatures
+│   ├── value
+│   ├── type                             // ethereum, nostr
+│   ├── version
+│   └── pubkey
+│
+├── siblings
+│   ├── type
+│   ├── signedString
+│   ├── originalObject
+│   ├── signatures[]
+│   │   ├── value
+│   │   ├── type
+│   │   ├── version
+│   │   └── pubkey
+│   ├── sequence
+│   ├── previousEvent
+│   │   └── event
+│   └── protocol
+│       ├── name                         // dmp, spasm, nostr
+│       ├── version                      // 0.1.0, 2.0.0, 1
+│       ├── hasExtraSpasmFields          // (expanded)
+│       └── extraSpasmFieldsVersion      // (expanded)
+│
+├── db                               // database
+│   ├── key                          // database primary key
+│   ├── addedTimestamp
+│   ├── updatedTimestamp
+│   └── table
+│
+├── source
+│   ├── name
+│   ├── uiUrl
+│   ├── apiUrl
+│   ├── query
+│   └── showSource
+├── stats[]
+│   ├── action
+│   ├── total
+│   ├── latestTimestamp
+│   ├── latestDbTimestamp
+│   └── ...(upvote, downvote, option1, option2, etc.)
+├── sharedBy[]
+│   └── ids[]
+│
+│   (Envelope with tree)
+├── type
+├── root
+│   └── event
+├── parent
+│   └── event
+├── references[]
+│   └── event
+└── children[]
+    └── SpasmEvent | Envelope | EnvelopeWithTree
+
+id
+├── value #.
+├── format #.
+│   ├── name
+│   └── version
+└── hosts[]
+
+hash
+├── value
+├── name
+├── length
+├── type
+├── pieceLength
+└── pieces[]
+
+link
+├── value
+├── protocol
+├── origin
+├── host
+├── pathname
+├── search
+├── port
+└── originalProtocolKey
+
+```
 
 ### Features
 
@@ -171,7 +345,7 @@ const spasmEvent: SpasmEvent = {
     privateKeyType: 'ethereum'
   },
   spasmVersion: '1.0.0',
-  parentEvent: '',
+  target: '',
   action: 'post',
   title: 'genesis',
   content: 'not your keys, not your words',
@@ -185,13 +359,10 @@ const spasmEvent: SpasmEvent = {
     text: 'not your keys, not your words',
     license: 'MIT'
   },
-  originalEventString: '{"version":"dmp_v0.0.1","time":"2022-01-01T22:04:46.178Z","action":"post","target":"","title":"genesis","text":"not y
-  our keys, not your words","license":"MIT"}',
-  eventId: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a
-  71b',
+  originalEventString: '{"version":"dmp_v0.0.1","time":"2022-01-01T22:04:46.178Z","action":"post","target":"","title":"genesis","text":"not your keys, not your words","license":"MIT"}',
+  id: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b',
   author: '0xf8553015220a857eda377a1e903c9e5afb3ac2fa',
-  signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e20
-  4a71b'
+  signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b'
 }
 ```
 
@@ -241,6 +412,7 @@ Here is how the event looks like after converting to Spasm:
 const spasmEvent: SpasmEvent = {
   meta: {
     baseProtocol: 'nostr',
+    baseProtocolId: 'db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651',
     hasExtraSpasmFields: true,
     extraSpasmFieldsVersion: '1.0.0',
     convertedFrom: 'NostrSpasmEventSignedOpened',
@@ -248,7 +420,7 @@ const spasmEvent: SpasmEvent = {
     license: 'SPDX-License-Identifier: CC0-1.0]',
   },
   spasmVersion: '1.0.0',
-  eventId: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
+  id: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
   action: 'post',
   title: 'Nostr Spasm genesis',
   content: 'Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.',
@@ -320,7 +492,7 @@ const spasmEvent: SpasmEvent = {
     convertedFrom: "unknown",
   },
   spasmVersion: "1.0.0",
-  eventId: "https://thedefiant.io/starknet-unveils-token-launch-plans",
+  id: "https://thedefiant.io/starknet-unveils-token-launch-plans",
   dbId: 7188,
   action: "post",
   title: "Starknet Unveils Token Launch Plans ",

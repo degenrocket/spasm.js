@@ -208,9 +208,14 @@ describe("identifyLicense() function tests", () => {
 });
 
 // TODO:
-// isDmpEvent
-// isDmpEventSignedClosed
-// isDmpEventSignedOpened
+// SpasmEventV2,
+// SpasmEventBodyV2,
+// SpasmEventEnvelopeV2,
+// SpasmEventEnvelopeWithTreeV2,
+// SpasmEventDatabaseV2,
+// isDmpEvent (deprecated in favor of SpasmEventBodyV2)
+// isDmpEventSignedClosed (deprecated in favor of SpasmEventEnvelopeV2)
+// isDmpEventSignedOpened (deprecated in favor of SpasmEventEnvelopeV2)
 
 // isNostrEvent()
 // isNostrEventSignedOpened()
@@ -551,11 +556,6 @@ describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
     }
     expect(identifyPostOrEvent(input)).toEqual(output);
   });
-
-  // TODO:
-  // test("should identify a Post with NostrEvent", () => {
-  // test("should identify a Post with NostrSpasmEvent", () => {
-  // test("should identify a Post with NostrSpasmEventSignedClosed", () => {
 });
 
 // identifyPostOrEvent() for Posts with RSS item
@@ -572,7 +572,6 @@ describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
   });
 });
 
-// TODO: template
 // describe("another function tests", () => {
 //   test("should identify DMP event", () => {
 //     const input = {

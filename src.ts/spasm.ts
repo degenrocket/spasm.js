@@ -3,4 +3,4 @@ export { identifyObject } from "./identify/index.js"
 export * from "./utils/index.js"
 
 // TYPES
-export type { SpasmEvent } from "./types/index.js"
+export type { SpasmEventV2 } from "./types/index.js"

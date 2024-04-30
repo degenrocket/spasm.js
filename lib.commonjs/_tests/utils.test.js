@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./../utils/index");
 const _events_data_1 = require("./_events-data");
+const _events_data_2 = require("./_events-data");
 // isObjectWithValues()
 describe("isObjectWithValues() function tests", () => {
     test("should return false if object is empty", () => {
@@ -47,6 +48,75 @@ describe("isObjectWithValues() function tests", () => {
     test("should return false if event is a string", () => {
         const input = JSON.stringify(_events_data_1.validNostrEventSignedOpened);
         expect((0, index_1.isObjectWithValues)(input)).toBe(false);
+    });
+});
+// getFormatFromId
+describe("getFormatFromId() function tests", () => {
+    test("should return proper format", () => {
+        // const input = {};
+        expect((0, index_1.getFormatFromId)(_events_data_2.validId1Hex)).toStrictEqual({
+            name: "nostr-hex"
+        });
+        expect((0, index_1.getFormatFromId)(_events_data_2.validId1Note)).toStrictEqual({
+            name: "nostr-note"
+        });
+        expect((0, index_1.getFormatFromId)(_events_data_2.validId1Nevent)).toStrictEqual({
+            name: "nostr-nevent"
+        });
+        expect((0, index_1.getFormatFromId)(_events_data_2.validId0Spasmid01)).toStrictEqual({
+            name: "spasmid",
+            version: "01"
+        });
+    });
+});
+// getFormatFromAddress
+describe("getFormatFromAddress() function tests", () => {
+    test("should return proper format", () => {
+        // getFormatFromAddress
+        expect((0, index_1.getFormatFromAddress)(_events_data_2.validNpubAddress1)).toStrictEqual({
+            name: "nostr-npub"
+        });
+        expect((0, index_1.getFormatFromAddress)(_events_data_2.validEthereumAddress1)).toStrictEqual({
+            name: "ethereum-pubkey"
+        });
+    });
+});
+// getFormatFromValue
+describe("getFormatFromValue() function tests", () => {
+    test("should return proper format", () => {
+        expect((0, index_1.getFormatFromValue)(_events_data_2.validEthereumAddress1)).toStrictEqual({
+            name: "ethereum-pubkey"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.invalidEthereumAddress1)).toStrictEqual({
+            name: "string"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.validEthereumSignature1)).toStrictEqual({
+            name: "ethereum-sig"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.invalidEthereumSignature1)).toStrictEqual({
+            name: "string"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.validId1Hex)).toStrictEqual({
+            name: "nostr-hex"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.validId1Note)).toStrictEqual({
+            name: "nostr-note"
+        });
+        expect((0, index_1.getFormatFromValue)(_events_data_2.validId1Nevent)).toStrictEqual({
+            name: "nostr-nevent"
+        });
+        expect((0, index_1.getFormatFromValue)("https://degenrocket.space")).toStrictEqual({
+            name: "url"
+        });
+        expect((0, index_1.getFormatFromValue)("degenrocket.space")).toStrictEqual({
+            name: "string"
+        });
+        expect((0, index_1.getFormatFromValue)("hello world")).toStrictEqual({
+            name: "string"
+        });
+        expect((0, index_1.getFormatFromValue)(123)).toStrictEqual({
+            name: "number"
+        });
     });
 });
 //# sourceMappingURL=utils.test.js.map

@@ -3,37 +3,33 @@ import {
   validDmpEvent,
   validDmpEventSignedClosed,
   validDmpEventSignedOpened,
-  validPostWithDmpEventSignedClosed,
+  validSpasmDmpEventSignedClosedV0,
 
-  // DMP converted to Spasm
-  validDmpEventConvertedToSpasm,
-  validDmpEventSignedClosedConvertedToSpasm,
-  validDmpEventSignedOpenedConvertedToSpasm,
-  validPostWithDmpEventSignedClosedConvertedToSpasm,
+  // DMP converted to SpasmEventV2
+  validDmpEventConvertedToSpasmEventV2,
+  validDmpEventSignedClosedConvertedToSpasmV2,
+  validDmpEventSignedOpenedConvertedToSpasmV2,
+  validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2,
 
   // Nostr
   validNostrEvent,
   validNostrSpasmEvent,
   validNostrEventSignedOpened,
   validNostrSpasmEventSignedOpened,
-  validPostWithNostrEventSignedOpened,
-  validPostWithNostrSpasmEventSignedOpened,
+  validSpasmNostrEventSignedOpenedV0,
+  validSpasmNostrSpasmEventSignedOpenedV0,
 
-  // Nostr converted to Spasm
-  validNostrEventConvertedToSpasmV1_0_0,
-  validNostrSpasmEventConvertedToSpasmV1_0_0,
-  validNostrEventSignedOpenedConvertedToSpasmV1_0_0,
-  validNostrSpasmEventSignedOpenedConvertedToSpasmV1_0_0,
-  validPostWithNostrEventSignedOpenedConvertedToSpasmV1_0_0,
-  validPostWithNostrSpasmEventSignedOpenedConvertedToSpasmV1_0_0,
+  // Nostr converted to Spasm V2
+  validNostrEventConvertedToSpasmV2,
+  validNostrSpasmEventConvertedToSpasmV2,
+  validNostrEventSignedOpenedConvertedToSpasmV2,
+  validNostrSpasmEventSignedOpenedConvertedToSpasmV2,
+  validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2,
+  validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2,
 
-  // Replies
-  validNostrReplyToDmpEvent,
-  validNostrReplyToDmpEventConvertedToSpasmV1_0_0,
-
-  // RSS items
-  validPostWithRssItem,
-  validPostWithRssItemConvertedToSpasmV1_0_0
+  // RSS items V2
+  validSpasmEventRssItemV0,
+  validSpasmEventRssItemV0ConvertedToSpasmV2
 } from "./_events-data"
 import { convertToSpasm } from "./../convert/convertToSpasm"
 
@@ -45,93 +41,98 @@ describe("convertToSpasm tests", () => {
 
 // convertToSpasm() for DMP events
 describe("convertToSpasm() tests for DMP events", () => {
-  // DmpEvent
-  test("should convert DmpEvent to Spasm", () => {
+  // DmpEvent to V2
+  test("should convert validDmpEvent to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validDmpEvent));
-    const output = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasm));
+    const output = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // DmpEventSignedClosed
-  test("should convert DmpEventSignedClosed to Spasm", () => {
+  // DmpEventSignedClosed to V2
+  test("should convert validDmpEventSignedClosed to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validDmpEventSignedClosed));
-    const output = JSON.parse(JSON.stringify(validDmpEventSignedClosedConvertedToSpasm));
+    const output = JSON.parse(JSON.stringify(validDmpEventSignedClosedConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // DmpEventSignedOpened
-  test("should convert DmpEventSignedOpened to Spasm", () => {
+  // DmpEventSignedOpened to V2
+  test("should convert validDmpEventSignedOpened to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validDmpEventSignedOpened));
-    const output = JSON.parse(JSON.stringify(validDmpEventSignedOpenedConvertedToSpasm));
+    const output = JSON.parse(JSON.stringify(validDmpEventSignedOpenedConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // PostWithDmpEventSignedClosed
-  test("should convert PostWithDmpEventSignedClosed to Spasm", () => {
-    const input = JSON.parse(JSON.stringify(validPostWithDmpEventSignedClosed));
-    const output = JSON.parse(JSON.stringify(validPostWithDmpEventSignedClosedConvertedToSpasm));
+  // SpasmDmpEventSignedClosedV0 to V2
+  // validPostWithDmpEventSignedClosed - old name
+  // validSpasmDmpEventSignedClosedV0 - new name
+  test("should convert validSpasmDmpEventSignedClosedV0 to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmDmpEventSignedClosedV0));
+    const output = JSON.parse(JSON.stringify(validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 });
 
 // convertToSpasm() for Nostr events
 describe("convertToSpasm() tests for Nostr events", () => {
-  // NostrEvent
-  test("should convert NostrEvent to Spasm", () => {
+  // NostrEvent to V2
+  test("should convert validNostrEvent to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validNostrEvent));
-    const output = JSON.parse(JSON.stringify(validNostrEventConvertedToSpasmV1_0_0));
+    const output = JSON.parse(JSON.stringify(validNostrEventConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // NostrSpasmEvent
-  test("should convert NostrSpasmEvent to Spasm", () => {
+  // NostrSpasmEvent to V2
+  test("should convert validNostrSpasmEvent to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validNostrSpasmEvent));
-    const output = JSON.parse(JSON.stringify(validNostrSpasmEventConvertedToSpasmV1_0_0));
+    const output = JSON.parse(JSON.stringify(validNostrSpasmEventConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // NostrEventSignedOpened
-  test("should convert NostrEventSignedOpened to Spasm", () => {
+  // NostrEventSignedOpened to V2
+  test("should convert validNostrEventSignedOpened to Spasm", () => {
     const input = JSON.parse(JSON.stringify(validNostrEventSignedOpened));
-    const output = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV1_0_0));
+    const output = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // NostrSpasmEventSignedOpened
-  test("should convert NostrSpasmEventSignedOpened to Spasm", () => {
+  // NostrSpasmEventSignedOpened to V2
+  test("should convert validNostrSpasmEventSignedOpened to Spasm", () => {
     const input = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpened));
-    const output = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV1_0_0));
+    const output = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // PostWithNostrEventSignedOpened,
-  test("should convert PostWithNostrEventSignedOpened to Spasm", () => {
-    const input = JSON.parse(JSON.stringify(validPostWithNostrEventSignedOpened));
-    const output = JSON.parse(JSON.stringify(validPostWithNostrEventSignedOpenedConvertedToSpasmV1_0_0));
+  // PostWithNostrEventSignedOpened - old name
+  // SpasmNostrEventSignedOpenedV0 - new name
+  test("should convert validSpasmNostrEventSignedOpenedV0 to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmNostrEventSignedOpenedV0));
+    const output = JSON.parse(JSON.stringify(validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // PostWithNostrSpasmEventSignedOpened,
-  test("should convert PostWithNostrSpasmEventSignedOpened to Spasm", () => {
-    const input = JSON.parse(JSON.stringify(validPostWithNostrSpasmEventSignedOpened));
-    const output = JSON.parse(JSON.stringify(validPostWithNostrSpasmEventSignedOpenedConvertedToSpasmV1_0_0));
+  // PostWithNostrSpasmEventSignedOpened - old name
+  // SpasmNostrSpasmEventSignedOpenedV0 - new name
+  test("should convert SpasmNostrSpasmEventSignedOpenedV0 to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmNostrSpasmEventSignedOpenedV0));
+    const output = JSON.parse(JSON.stringify(validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 
-  // validNostrReplyToDmpEvent,
-  test("should convert NostrReplyToDmpEvent to Spasm", () => {
-    const input = JSON.parse(JSON.stringify(validNostrReplyToDmpEvent));
-    const output = JSON.parse(JSON.stringify(validNostrReplyToDmpEventConvertedToSpasmV1_0_0));
-    expect(convertToSpasm(input)).toEqual(output);
-  });
+  // validNostrReplyToDmpEvent
+  // validNostrReplyToDmpEvent ("To the SPASM!") is tested as a
+  // child (reply) of a validPostWithDmpEventSignedClosed inside
+  // of SpasmDmpEventSignedClosedV0ConvertedToSpasmV2.
 });
 
 // convertToSpasm() for RSS items
+// validPostWithRssItem - old name
+// validSpasmEventRssItemV0 - new name
+// validSpasmEventRssItemV0ConvertedToSpasmV2
 describe("convertToSpasm() tests for RSS items", () => {
   // RssItem
-  test("should convert NostrEvent to Spasm", () => {
-    const input = JSON.parse(JSON.stringify(validPostWithRssItem));
-    const output = JSON.parse(JSON.stringify(validPostWithRssItemConvertedToSpasmV1_0_0));
+  test("should convert validSpasmEventRssItemV0 to Spasm", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 });

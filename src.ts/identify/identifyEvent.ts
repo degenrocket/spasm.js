@@ -2,7 +2,9 @@ import {
   EventType, EventInfo, KnownPostOrEventInfo,
   UnknownPostOrEvent, UnknownEvent, DmpEvent,
   NostrEvent, NostrSpasmEvent, NostrSpasmTag,
-  AnyTag, PrivateKeyType
+  AnyTag, PrivateKeyType,
+  // V2
+  // UnknownEventV2
 } from "./../types/interfaces.js";
 import {
   isObjectWithValues, extractSealedEvent
@@ -139,6 +141,8 @@ import {
 */
 export const identifyPostOrEvent = (
   unknownPostOrEvent: UnknownPostOrEvent
+  // TODO change to UnknownEventV2 to handle SpasmV2
+  // unknownPostOrEvent: UnknownEventV2
 ): KnownPostOrEventInfo => {
 
   const info: KnownPostOrEventInfo = {
@@ -643,8 +647,8 @@ export const isNostrEvent = (
   if (typeof(unknownPostOrEvent.pubkey) !== "string") return false
 
   // tags
-  // TODO: check if tags is a mandatory field
-  // if (!('tags' in unknownPostOrEvent)) return false
+  // tags is a mandatory field
+  if (!('tags' in unknownPostOrEvent)) return false
 
   // sig
   // Unsigned Nostr event can be without 'sig'
@@ -696,7 +700,6 @@ export const isDmpEvent = (
 ): boolean => {
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 
-  // TODO: think what if unknownPostOrEvent is Post with version, action, license
   if (!('version' in unknownPostOrEvent)) return false
   if (!('action' in unknownPostOrEvent)) return false
   if (!('license' in unknownPostOrEvent)) return false

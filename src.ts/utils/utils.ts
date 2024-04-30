@@ -1,7 +1,9 @@
 import {
   UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent,
   NostrSpasmEventSignedOpened, NostrSpasmVersion,
-  LinkObject
+  LinkObject,
+  SpasmEventIdFormatV2,
+  SpasmEventAddressFormatV2
 } from "./../types/interfaces.js"
 
 // Filter out undefined, null, 0, '', false, NaN, {}, []
@@ -114,10 +116,17 @@ export const toBeTimestamp = (time: any): number | undefined => {
  const date = new Date(time);
  const timestamp = date.getTime();
 
- // Check if the timestamp is NaN, indicating an invalid date
- if (Number.isNaN(timestamp)) {
+  // Check if the timestamp is NaN, indicating an invalid date
+  if (Number.isNaN(timestamp)) {
     return undefined;
- }
+  }
+
+  // Optional
+  // Standardize the timestamp to 10 characters (seconds)
+  // by rounding down the timestamp to the nearest second.
+  // if (timestamp.toString().length > 10) {
+  //   timestamp = Math.floor(timestamp / 1000) * 1000;
+  // }
 
  return timestamp;
 };
@@ -151,14 +160,27 @@ export const getNostrSpasmVersion = (
 // getSchemeFromUrl('ftp://example.com') // return 'ftp'
 // getSchemeFromUrl('mailto://...') // return 'mailto'
 // getSchemeFromUrl('ipfs://123abc') // return 'ipfs'
-export const getSchemeFromUrl = (url: any) => {
-  if (!url || typeof(url) !== "string") return ""
-  try {
-    const urlObject = new URL(url);
-    return urlObject.protocol.slice(0, -1); // Remove the trailing colon
-  } catch (error) {
-    console.log('Invalid URL:', url);
-    return "";
+// export const getSchemeFromUrl = (url: any) => {
+//   if (!url || typeof(url) !== "string") return ""
+//   try {
+//     const urlObject = new URL(url);
+//     return urlObject.protocol.slice(0, -1); // Remove the trailing colon
+//   } catch (error) {
+//     console.log('Invalid URL:', url);
+//     return "";
+//   }
+// }
+
+export const isValidUrl = (value?: any): boolean => {
+  if (!value) return false
+  try { 
+      // new URL() constructor is less vulnerable to ReDoS attacks
+      // because it's a built-it JS function that doesn't use regex
+      new URL(value); 
+      return true; 
+  }
+  catch(e) { 
+      return false; 
   }
 }
 
@@ -228,4 +250,101 @@ export const createLinkObjectFromUrl = (
     console.log('Invalid URL:', url);
     return null;
   }
+}
+
+export const getFormatFromValue = (
+  value?: string | number
+): SpasmEventIdFormatV2 | undefined => {
+  let format: SpasmEventIdFormatV2 | undefined =
+    undefined
+
+  if (!value) return format
+  if (typeof(value) !== "string" && typeof(value) !== "number") {
+    return format
+  }
+
+  if (typeof(value) === "number") {
+    return format = { name: "number" }
+  }
+
+  if (value && typeof(value) === "string") {
+
+    // Spasm ID
+    if (value.length === 64 + 9 && value.startsWith("spasmid")) {
+      const version = value.slice(7,9)
+      format = { name: "spasmid", version: version }
+      return format
+    }
+
+    // Dmp ID (signature)
+    if (value.length === 132 && value.startsWith("0x")) {
+      format = { name: "ethereum-sig" }
+      return format
+    }
+
+    // Nostr ID
+    if (value.length === 63 && value.startsWith("note")) {
+      format = { name: "nostr-note" }
+      return format
+    }
+
+    if (value.length === 68 && value.startsWith("nevent")) {
+      format = { name: "nostr-nevent" }
+      return format
+    }
+
+    // Spasm signer
+    // if (address.length === 64 + 9 && address.startsWith("spasmer")) {
+    //   const version = address.slice(7,9)
+    //   format = { name: "spasmer", version: version }
+    //   return format
+    // }
+
+    // Ethereum signer
+    if (value.length === 42 && value.startsWith("0x")) {
+      format = { name: "ethereum-pubkey" }
+      return format
+    }
+
+    // Nostr signer
+    if (value.length === 63 && value.startsWith("npub")) {
+      format = { name: "nostr-npub" }
+      return format
+    }
+
+    // url
+    if (isValidUrl(value)) {
+      format = { name: "url" }
+      return format
+    }
+
+    if (
+      value.length === 64 &&
+      !value.startsWith("note") &&
+      !value.startsWith("nevent") &&
+      !value.startsWith("npub")
+    ) {
+      format = { name: "nostr-hex" }
+      return format
+    }
+
+  }
+
+  if (typeof(value) === "string") {
+    return format = { name: "string" }
+  }
+
+  return format
+}
+
+export const getFormatFromId = (
+  id: string | number
+): SpasmEventIdFormatV2 => {
+  return getFormatFromValue(id) as SpasmEventIdFormatV2
+}
+
+export const getFormatFromAddress = (
+  address: string | number
+): SpasmEventAddressFormatV2 => {
+  return getFormatFromValue(address) as SpasmEventAddressFormatV2
 }
