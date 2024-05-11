@@ -3,7 +3,8 @@ import {
   NostrSpasmEventSignedOpened, NostrSpasmVersion,
   LinkObject,
   SpasmEventIdFormatV2,
-  SpasmEventAddressFormatV2
+  SpasmEventAddressFormatV2,
+  SpasmEventSignatureFormatV2
 } from "./../types/interfaces.js"
 
 // Filter out undefined, null, 0, '', false, NaN, {}, []
@@ -254,7 +255,7 @@ export const createLinkObjectFromUrl = (
 
 export const getFormatFromValue = (
   value?: string | number
-): SpasmEventIdFormatV2 | undefined => {
+): SpasmEventIdFormatV2 | SpasmEventSignatureFormatV2 | undefined => {
   let format: SpasmEventIdFormatV2 | undefined =
     undefined
 
@@ -347,4 +348,10 @@ export const getFormatFromAddress = (
   address: string | number
 ): SpasmEventAddressFormatV2 => {
   return getFormatFromValue(address) as SpasmEventAddressFormatV2
+}
+
+export const getFormatFromSignature = (
+  address: string | number
+): SpasmEventSignatureFormatV2 => {
+  return getFormatFromValue(address) as SpasmEventSignatureFormatV2
 }

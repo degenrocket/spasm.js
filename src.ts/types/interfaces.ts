@@ -384,7 +384,7 @@ export interface SpasmEventBodyV2 {
    * a conversation. Instead, a root should be found on a server
    * similar to children if a database contains the whole event
    * tree, and then the root should be added to an envelope with
-   * tree (SpasmEnvelopeWithTreeV2).
+   * tree (SpasmEventEnvelopeWithTreeV2).
    */
   // root?: SpasmEventBodyRootV2
   parent?: SpasmEventBodyParentV2
@@ -489,7 +489,7 @@ export interface SpasmEventEnvelopeWithTreeV2 extends
   root?: SpasmEventEnvelopeWithTreeRootV2
   parent?: SpasmEventEnvelopeWithTreeParentV2
   references?: SpasmEventEnvelopeWithTreeReferenceV2[]
-  previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2
+  // previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2
   children?: SpasmEventEnvelopeWithTreeChildV2[]
 }
 
@@ -523,10 +523,14 @@ export interface SpasmEventV2 extends
 }
 
 export interface SpasmEventDatabaseV2 extends
-  Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors'>,
+  Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'previousEvent' | 'sequence'>,
   Omit<SpasmEventEnvelopeV2, 'type' | 'protocol'> {
     type: "SpasmEventDatabaseV2"
-    authors?: SpasmEventAuthorV2
+   /**
+    * Omitting authors from Body to add a 'verified'
+    * field to authors in Spasm Event and Database.
+    */
+    authors?: SpasmEventAuthorV2[]
   }
 
 // root.ids
@@ -552,20 +556,28 @@ export type SpasmEventAddressFormatNameV2 =
   | "spasmer" | "ethereum-pubkey"
   | "nostr-hex" | "nostr-npub"
 
+export type SpasmEventSignatureFormatNameV2 =
+  | "ethereum-sig" // e.g. used as event IDs in Dmp
+  | "nostr-sig"
+
 export type SpasmEventIdFormatNameV2 =
   // ID (e.g. parent) can be anything, including pubkeys
   // E.g., a user can submit a comment to another profile.
   | SpasmEventAddressFormatNameV2
   | "spasmid"
-  | "ethereum-sig" // e.g. used as event IDs in Dmp
   | "nostr-hex" | "nostr-note" | "nostr-nevent"
   // NostrSpasm events prior to 2.0.0 used signatures
   // as event IDs similar to Dmp's approach
-  | "nostr-sig"
+  | SpasmEventSignatureFormatNameV2
   // web2 (e.g. RSS items)
   | "url" | "guid"
   // ID can be any string or number
   | "string" | "number"
+
+export interface SpasmEventSignatureFormatV2 {
+  name: SpasmEventSignatureFormatNameV2
+  version?: string| number
+}
 
 export interface SpasmEventIdFormatV2 {
   name: SpasmEventIdFormatNameV2
@@ -657,9 +669,10 @@ export interface SpasmEventLinkV2 {
 
 export interface SpasmEventSignatureV2 {
   value: string | number
-  type?: SpasmEventSignatureTypeV2 // "ethereum", "nostr"
-  version?: string | number // "secp256k1" for Ethereum
+  // type?: SpasmEventSignatureTypeV2 // "ethereum", "nostr"
+  // version?: string | number // "secp256k1" for Ethereum
   pubkey?: string | number
+  format?: SpasmEventSignatureFormatV2
 }
 
 export interface SpasmEventBodyProtocolV2 {
@@ -714,10 +727,10 @@ export interface SpasmEventEnvelopeWithTreeParentV2 extends
     depth?: number
 }
 
-export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends
-  SpasmEventEnvelopeWithTreeReferenceV2 {
-    depth?: number
-}
+// export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends
+//   SpasmEventEnvelopeWithTreeReferenceV2 {
+//     depth?: number
+// }
 
 export interface SpasmEventEnvelopeWithTreeChildV2 {
   ids?: SpasmEventIdV2[]
@@ -767,7 +780,7 @@ export interface SpasmEventBodyTipsV2 {
   }
 }
 
-export interface SpasmEventMentionV2 extends SpasmEventAuthorV2 {}
+export interface SpasmEventMentionV2 extends SpasmEventBodyAuthorV2 {}
 
 export interface SpasmEventProofV2 {
   value?: string | number
@@ -786,7 +799,7 @@ export type SpasmEventLicense = "MIT" | "CC0" | "CC0-1.0" | "SPDX-License-Identi
 
 export type SpasmEventLicenseV2 = SpasmEventLicense
 
-export type SpasmEventSignatureTypeV2 = "ethereum" | "nostr"
+// export type SpasmEventSignatureTypeV2 = "ethereum" | "nostr"
 
 export type SpasmEventAddressTypeV2 =
   "ethereum" | "nostr-npub" | "nostr-hex"

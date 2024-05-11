@@ -194,9 +194,8 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
       addresses: [
         {
           value: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
-          format: {
-            name: "ethereum-pubkey",
-          }
+          format: { name: "ethereum-pubkey", }
+          // TODO
           // verified: true
         }
       ]
@@ -206,9 +205,7 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
   ids: [
     {
       value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-      format: {
-        name: "ethereum-sig",
-      }
+      format: { name: "ethereum-sig", }
     },
     // {
     //   value: "spasmid01xyz",
@@ -221,8 +218,8 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
   signatures: [
     {
       value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-      type: "ethereum",
-      pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa"
+      pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
+      format: { name: "ethereum-sig" }
     }
   ],
   siblings: [
@@ -236,9 +233,7 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
       ids: [
         {
           value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-          format: {
-            name: "ethereum-sig",
-          }
+          format: { name: "ethereum-sig" }
         },
         // {
         //   value: "spasmid01xyz",
@@ -251,10 +246,10 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
       signatures: [
         {
           value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-          type: "ethereum",
-          pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa"
+          pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
+          format: { name: "ethereum-sig" }
         }
-      ],
+      ]
     }
   ]
 }
@@ -393,8 +388,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
         signatures: [
           {
             value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-            type: "nostr",
-            pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42"
+            pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+            format: { name: "nostr-sig" }
           }
         ],
         siblings: [
@@ -430,8 +425,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
             signatures: [
               {
                 value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                type: "nostr",
-                pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42"
+                pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+                format: { name: "nostr-sig" }
               }
             ],
           }
@@ -541,8 +536,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
         signatures: [
           {
             value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-            type: "ethereum",
-            pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80"
+            pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+            format: { name: "ethereum-sig" }
           }
         ],
         siblings: [
@@ -571,8 +566,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
             signatures: [
               {
                 value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                type: "ethereum",
-                pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80"
+                pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+                format: { name: "ethereum-sig" }
               }
             ]
           }
@@ -846,8 +841,8 @@ export const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
   signatures: [
     {
       value: "908a15e46fb4d8675bab026fc230a0e3542bfade63da02d542fb78b2a8513fcd0092619a2c8c1221e581946e0191f2af505dfdf8657a414dbca329186f009262",
-      type: "nostr",
-      pubkey: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93"
+      pubkey: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93",
+      format: { name: "nostr-sig" }
     }
   ],
   siblings: [
@@ -868,8 +863,8 @@ export const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
       signatures: [
         {
           value: "908a15e46fb4d8675bab026fc230a0e3542bfade63da02d542fb78b2a8513fcd0092619a2c8c1221e581946e0191f2af505dfdf8657a414dbca329186f009262",
-          type: "nostr",
-          pubkey: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93"
+          pubkey: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93",
+          format: { name: "nostr-sig" }
         }
       ]
     }
@@ -887,9 +882,7 @@ export const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = 
       addresses: [
         {
           value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-          format: {
-            name: "nostr-hex"
-          }
+          format: { name: "nostr-hex" }
         }
       ]
     }
@@ -898,22 +891,18 @@ export const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = 
   ids: [
     {
       value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
-      format: {
-        name: "nostr-hex"
-      }
+      format: { name: "nostr-hex" }
     },
     {
       value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
-      format: {
-        name: "nostr-sig"
-      }
+      format: { name: "nostr-sig" }
     }
   ],
   signatures: [
     {
       value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
-      type: "nostr",
-      pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42"
+      pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+      format: { name: "nostr-sig" }
     }
   ],
   siblings: [
@@ -928,22 +917,18 @@ export const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = 
       ids: [
         {
           value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
-          format: {
-            name: "nostr-hex"
-          }
+          format: { name: "nostr-hex" }
         },
         {
           value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
-          format: {
-            name: "nostr-sig"
-          }
+          format: { name: "nostr-sig" }
         }
       ],
       signatures: [
         {
           value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
-          type: "nostr",
-          pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42"
+          pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+          format: { name: "nostr-sig" }
         }
       ]
     }
@@ -1070,15 +1055,11 @@ export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
   ids: [
     {
       value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
-      format: {
-        name: "url"
-      }
+      format: { name: "url" }
     },
     {
       value: "https://forum.degenrocket.space/?l=terraforming",
-      format: {
-        name: "guid"
-      }
+      format: { name: "guid" }
     }
   ],
   db: {
@@ -1090,18 +1071,10 @@ export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
   timestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
   authors: [
     {
-      usernames: [
-        {
-          value: "stablepony",
-        }
-      ]
+      usernames: [ { value: "stablepony" } ]
     }
   ],
-  categories: [
-    {
-      name: "defi"
-    }
-  ],
+  categories: [ { name: "defi" } ],
   links: [
     {
       value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
@@ -1129,9 +1102,7 @@ export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
   siblings: [
     {
       type: "SiblingWeb2V2",
-      protocol: {
-        name: "web2"
-      },
+      protocol: { name: "web2" },
       originalObject: {
         id: 18081,
         guid: "https://forum.degenrocket.space/?l=terraforming",
@@ -1156,15 +1127,11 @@ export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
       ids: [
         {
           value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
-          format: {
-            name: "url"
-          }
+          format: { name: "url" }
         },
         {
           value: "https://forum.degenrocket.space/?l=terraforming",
-          format: {
-            name: "guid"
-          }
+          format: { name: "guid" }
         }
       ]
     }

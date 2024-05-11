@@ -39,7 +39,7 @@ import {
 import {
   isObjectWithValues, extractVersion,
   toBeTimestamp, extractSealedEvent, getNostrSpasmVersion,
-  createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress
+  createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature
 } from "./../utils/utils.js";
 import {
   identifyPostOrEvent,
@@ -405,8 +405,16 @@ export const standardizeDmpEventSignedClosedV2 = (
     signatures: [
       {
         value: event.signature,
-        type: "ethereum",
-        pubkey: event.signer
+        pubkey: event.signer,
+        // Create a new format field only if a
+        // format can be determined from a string.
+        ...(
+          getFormatFromSignature(event.signature)
+            ? {
+              format: getFormatFromSignature(event.signature),
+            }
+            : {}
+        )
       }
     ]
   }
@@ -425,8 +433,16 @@ export const standardizeDmpEventSignedClosedV2 = (
     spasmEventV2.siblings[0].signatures = [
       {
         value: event.signature,
-        type: "ethereum",
-        pubkey: event.signer
+        pubkey: event.signer,
+        // Create a new format field only if a
+        // format can be determined from a string.
+        ...(
+          getFormatFromSignature(event.signature)
+            ? {
+              format: getFormatFromSignature(event.signature),
+            }
+            : {}
+        )
       }
     ]
     spasmEventV2.siblings[0].ids = [
@@ -724,8 +740,8 @@ export const standardizeNostrEventSignedOpenedV2 = (
     spasmEventV2.signatures ??= [];
     spasmEventV2.signatures.push({
       value: event.sig,
-      type: "nostr",
-      pubkey: event.pubkey
+      pubkey: event.pubkey,
+      format: { name: "nostr-sig" }
     })
 
     // Create parent if it's null or undefined
@@ -739,8 +755,8 @@ export const standardizeNostrEventSignedOpenedV2 = (
     spasmEventV2.siblings[0].signatures ??= [];
     spasmEventV2.siblings[0].signatures.push({
       value: event.sig,
-      type: "nostr",
       pubkey: event.pubkey,
+      format: { name: "nostr-sig" }
     })
   }
 
@@ -768,8 +784,8 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (
     spasmEventV2.signatures ??= [];
     spasmEventV2.signatures.push({
       value: event.sig,
-      type: "nostr",
-      pubkey: event.pubkey
+      pubkey: event.pubkey,
+      format: { name: "nostr-sig" }
     })
 
     // Create siblings if it's null or undefined
@@ -785,8 +801,8 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (
     spasmEventV2.siblings[0].signatures ??= [];
     spasmEventV2.siblings[0].signatures.push({
       value: event.sig,
-      type: "nostr",
       pubkey: event.pubkey,
+      format: { name: "nostr-sig" }
     })
   }
 
