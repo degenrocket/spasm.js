@@ -3,149 +3,164 @@ See the full list of properties of `SpasmEvent` at `./src.ts/types/interfaces.ts
 Here is a schema of the SpasmEventV2 interface:
 
 ```
+#01  = EventStructureForSpasmid01
+SE   = SpasmEvent
+Body = SpasmEventBody
+Env  = SpasmEventEnvelope
+Tree = SpasmEventEnvelopeWithTree
+DB   = SpasmEventDatabase
+
 event*
 │
+├── type                             --- SE Body Env Tree DB
+├── protocol             (+ sibling) --- -- Body --- ---- --
+│   ├── name                         --- -- Body --- ---- --
+│   └── version                      --- -- Body --- ---- --
+├── root                             --- SE ---- --- Tree DB
+│   ├── ids[]                        --- SE ---- --- Tree DB
+│   ├── marker                       --- SE ---- --- Tree DB  
+│   ├── depth                        --- SE ---- --- Tree --
+│   └── event*                       --- SE ---- --- Tree --
+├── parent                           #01 SE Body --- Tree DB
+│   ├── ids[]                        #01 SE Body --- Tree DB
+│   ├── marker                       #01 SE Body --- Tree DB
+│   ├── depth                        --- SE ---- --- Tree --
+│   └── event*                       --- SE ---- --- Tree --
+├── action                           #01 SE Body --- ---- DB
+├── title                            #01 SE Body --- ---- DB
+├── content                          #01 SE Body --- ---- DB
+├── timestamp                        #01 SE Body --- ---- DB
+├── authors[]                        #01 SE Body --- ---- DB
+│   ├── addresses[]                  #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   ├── format                   #01 SE Body --- ---- DB
+│   │   │   ├── name                 #01 SE Body --- ---- DB
+│   │   │   └── version              #01 SE Body --- ---- DB
+│   │   └── verified                 --- SE ---- --- ---- DB
+│   └── usernames[] (eg RSS posts)   #01 SE Body --- ---- DB
+│       ├── value                    #01 SE Body --- ---- DB
+│       ├── protocol                 #01 SE Body --- ---- DB
+│       ├── proof                    #01 SE Body --- ---- DB
+│       └── provider                 #01 SE Body --- ---- DB
+├── categories[]                     #01 SE Body --- ---- DB
+│   ├── name                         #01 SE Body --- ---- DB
+│   └── sub (recursive category)     #01 SE Body --- ---- DB
+├── tips[]                           #01 SE Body --- ---- DB
+│   ├── address                      #01 SE Body --- ---- DB
+│   ├── text                         #01 SE Body --- ---- DB
+│   ├── expiration                   #01 SE Body --- ---- DB
+│   │   └── timestamp                #01 SE Body --- ---- DB
+│   ├── currency                     #01 SE Body --- ---- DB
+│   │   ├── name                     #01 SE Body --- ---- DB
+│   │   └── ticker                   #01 SE Body --- ---- DB
+│   └── network                      #01 SE Body --- ---- DB
+│       ├── name                     #01 SE Body --- ---- DB
+│       └── id                       #01 SE Body --- ---- DB
+├── hosts[] (see hosts below)        #01 SE Body --- ---- DB
+├── links[] (see link below)         #01 SE Body --- ---- DB
+├── keywords[]                       #01 SE Body --- ---- DB
+├── tags[]                           #01 SE Body --- ---- DB
+├── medias[]                         #01 SE Body --- ---- DB
+│   ├── hashes[] (see hash below)    #01 SE Body --- ---- DB
+│   ├── links[] (see link below)     #01 SE Body --- ---- DB
+│   └── type                         #01 SE Body --- ---- DB
+├── references[]                     #01 SE Body --- Tree DB
+│   ├── ids[]                        #01 SE Body --- Tree DB
+│   ├── marker                       #01 SE Body --- Tree DB
+│   └── event*                       --- SE ---- --- Tree --
+├── mentions[]                       #01 SE Body --- ---- DB
+│   ├── addresses[]                  #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   └── format                   #01 SE Body --- ---- DB
+│   │       ├── name                 #01 SE Body --- ---- DB
+│   │       └── version              #01 SE Body --- ---- DB
+│   └── usernames[]                  #01 SE Body --- ---- DB
+│       ├── value                    #01 SE Body --- ---- DB
+│       ├── protocol                 #01 SE Body --- ---- DB
+│       ├── proof                    #01 SE Body --- ---- DB
+│       └── provider                 #01 SE Body --- ---- DB
+├── proofs[]                         #01 SE Body --- ---- DB
+│   ├── value                        #01 SE Body --- ---- DB
+│   ├── links[]                      #01 SE Body --- ---- DB
+│   └── protocol                     #01 SE Body --- ---- DB
+│       ├── name                     #01 SE Body --- ---- DB
+│       └── version                  #01 SE Body --- ---- DB
+├── previousEvent        (+ sibling) --- -- Body --- ---- --
+│   ├── ids[]                        --- -- Body --- ---- --
+│   ├── marker                       --- -- Body --- ---- --
+│   ├── depth                        --- -- Body --- ---- --
+│   └── event*                       --- -- ---- --- ---- --
+├── sequence             (+ sibling) --- -- Body --- ---- --
+├── license                          #01 SE Body --- ---- DB
+├── language                         #01 SE Body --- ---- DB
+├── extra                            #01 SE Body --- ---- DB
+├── pow                              --- SE Body --- ---- DB
+│   ├── nonce                        --- SE Body --- ---- DB
+│   ├── difficulty                   --- SE Body --- ---- DB
+│   ├── words[]                      --- SE Body --- ---- DB
+│   └── network                      --- SE Body --- ---- DB
+│       ├── name                     --- SE Body --- ---- DB
+│       └── id                       --- SE Body --- ---- DB
 │
-│   (Body)
-├── type
-├── protocol (only in Body, but not in Event)
-│   ├── name                         // spasm, dmp, nostr
-│   └── version                      // 2.0.0, 0.1.0, 1
-├── root #. (EnvelopeWithTree, Event, but not in Body)
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── parent #.
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── action #!                        // post/reply/react/vote/etc!
-├── title #!
-├── content #!
-├── timestamp #!
-├── authors[] #.
-│   ├── address #.
-│   └── usernames[]                  // eg web2 posts (RSS items)
-│       ├── value
-│       ├── protocol
-│       ├── proof
-│       └── provider
-├── categories[] #.
-│   ├── name #.
-│   └── sub (recursive category) #.
-├── tips[] #.
-│   ├── address #.
-│   ├── text #.
-│   ├── expiration #.
-│   │   └── timestamp #.
-│   ├── currency #.
-│   │   ├── name #.
-│   │   └── ticker #.
-│   └── network #.
-│       ├── name #.
-│       └── id #.
-├── hosts[] (see hosts below) #.     // can be added to children
-├── links[] (see link below) #.
-├── keywords[] #.
-├── tags[] #.
-├── medias[] #.
-│   ├── hashes[] (see hash below) #.
-│   ├── links[] (see link below) #.
-│   └── type #.
-├── references[] #.
-│   ├── ids[] #.
-│   ├── marker #.
-│   └── event*                       // (expanded)
-├── mentions[] #.
-│   ├── address #.
-│   └── usernames[] #.
-│       ├── value #.
-│       ├── protocol #.
-│       ├── proof #.
-│       └── provider #.
-├── proofs[] #.
-│   ├── value #.
-│   ├── links[] #.
-│   └── protocol #.
-│       ├── name #.
-│       └── version #.
-├── previousEvent (Body & Sibling, not in SpasmEvent)
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── sequence (Body & Sibling, not in SpasmEvent)
-├── license #.
-├── language #.
-├── extra
-├── pow                // proof-of-work (not included in spasmid)
-│   ├── nonce
-│   ├── difficulty
-│   ├── words[]
-│   └── network
-│       ├── name
-│       └── id
+├── ids[]                            --- SE ---- Env Tree DB
+├── signatures[]                     --- SE ---- Env Tree DB
+│   ├── value                        --- SE ---- Env Tree DB
+│   ├── pubkey                       --- SE ---- Env Tree DB
+│   └── format                       --- SE ---- Env Tree DB
+│       ├── name                     --- SE ---- Env Tree DB
+│       └── version                  --- SE ---- Env Tree DB
 │
-│   (Envelope)
-├── type
-├── ids[]
-├── signatures
-│   ├── value
-│   ├── type                             // ethereum, nostr
-│   ├── version
-│   └── pubkey
+├── siblings[]                       --- SE ---- Env Tree DB
+│   ├── type                         --- SE ---- Env Tree DB
+│   ├── signedString                 --- SE ---- Env Tree DB
+│   ├── originalObject               --- SE ---- Env Tree DB
+│   ├── signatures[]                 --- SE ---- Env Tree DB
+│   │   ├── value                    --- SE ---- Env Tree DB
+│   │   ├── pubkey                   --- SE ---- Env Tree DB
+│   │   └── format                   --- SE ---- Env Tree DB
+│   │       ├── name                 --- SE ---- Env Tree DB
+│   │       └── version              --- SE ---- Env Tree DB
+│   ├── sequence                     --- SE ---- Env Tree DB
+│   ├── previousEvent                --- SE ---- Env Tree DB
+│   │   ├── ids[]                    --- SE ---- Env Tree DB
+│   │   ├── marker                   --- SE ---- Env Tree DB
+│   │   ├── depth                    --- SE ---- Env Tree DB
+│   │   └── event*                   --- SE ---- --- Tree DB
+│   └── protocol                     --- SE ---- Env Tree DB
+│       ├── name                     --- SE ---- Env Tree DB
+│       ├── version                  --- SE ---- Env Tree DB
+│       ├── hasExtraSpasmFields      --- SE ---- Env Tree DB
+│       └── extraSpasmFieldsVersion  --- SE ---- Env Tree DB
 │
-├── siblings
-│   ├── type
-│   ├── signedString
-│   ├── originalObject
-│   ├── signatures[]
-│   │   ├── value
-│   │   ├── type
-│   │   ├── version
-│   │   └── pubkey
-│   ├── sequence
-│   ├── previousEvent
-│   │   └── event
-│   └── protocol
-│       ├── name                         // dmp, spasm, nostr
-│       ├── version                      // 0.1.0, 2.0.0, 1
-│       ├── hasExtraSpasmFields          // (expanded)
-│       └── extraSpasmFieldsVersion      // (expanded)
-│
-├── db                               // database
-│   ├── key                          // database primary key
-│   ├── addedTimestamp
-│   ├── updatedTimestamp
-│   └── table
-│
-├── source
-│   ├── name
-│   ├── uiUrl
-│   ├── apiUrl
-│   ├── query
-│   └── showSource
-├── stats[]
-│   ├── action
-│   ├── total
-│   ├── latestTimestamp
-│   ├── latestDbTimestamp
-│   └── ...(upvote, downvote, option1, option2, etc.)
-├── sharedBy[]
-│   └── ids[]
+├── db                               --- SE ---- Env Tree DB
+│   ├── key                          --- SE ---- Env Tree DB
+│   ├── addedTimestamp               --- SE ---- Env Tree DB
+│   ├── updatedTimestamp             --- SE ---- Env Tree DB
+│   └── table                        --- SE ---- Env Tree DB
+├── source                           --- SE ---- Env Tree DB
+│   ├── name                         --- SE ---- Env Tree DB
+│   ├── uiUrl                        --- SE ---- Env Tree DB
+│   ├── apiUrl                       --- SE ---- Env Tree DB
+│   ├── query                        --- SE ---- Env Tree DB
+│   └── showSource                   --- SE ---- Env Tree DB
+├── stats[]                          --- SE ---- Env Tree DB
+│   ├── action                       --- SE ---- Env Tree DB
+│   ├── total                        --- SE ---- Env Tree DB
+│   ├── latestTimestamp              --- SE ---- Env Tree DB
+│   ├── latestDbTimestamp            --- SE ---- Env Tree DB
+│   └── ...(upvote, downvote, etc.)  --- SE ---- Env Tree DB
+├── sharedBy[]                       --- SE ---- Env Tree DB
+│   └── ids[]                        --- SE ---- Env Tree DB
 │
 │   (Envelope with tree)
-├── type
-├── root
-│   └── event
-├── parent
-│   └── event
-├── references[]
-│   └── event
-└── children[]
-    └── SpasmEvent | Envelope | EnvelopeWithTree
+├── root                             --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+├── parent                           --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+├── references[]                     --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+└── children[]                       --- SE ---- Env Tree --
+    └── SE | Env | Tree              --- SE ---- Env Tree --
 
 id
 ├── value #.
