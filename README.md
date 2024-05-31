@@ -12,7 +12,7 @@ For instance, instead of maintaining three distinct versions of the frontend (UI
 TypeScript interfaces of JSON objects of messaging formats that can be standardized with this library can be found at `./src.ts/types/interfaces.ts`.
 
 ```typescript
-export type UnknownEvent =
+export type UnknownEventV2 =
   DmpEvent |
   DmpEventSignedClosed |
   DmpEventSignedOpened |
@@ -20,173 +20,197 @@ export type UnknownEvent =
   NostrEventSignedOpened |
   NostrSpasmEvent |
   NostrSpasmEventSignedOpened |
-  SpasmEvent
+  SpasmEventV0 |
+  SpasmEventV2 |
+  SpasmEventBodyV2 |
+  SpasmEventEnvelopeV2 |
+  SpasmEventEnvelopeWithTreeV2 |
+  SpasmEventDatabaseV2
 ```
 
 After converting an unknown event to the Spasm event, you can now easily access common properties across most public messaging formats such as:
-- `spasmEvent.id`
-- `spasmEvent.author`
 - `spasmEvent.action`
 - `spasmEvent.content`
 - `spasmEvent.timestamp`
-- `spasmEvent.signature`
-- `spasmEvent.target`
+- `spasmEvent.parent.ids`
+- `spasmEvent.parent.ids[0].value`
+- `spasmEvent.ids`
+- `spasmEvent.ids[0].value`
+- `spasmEvent.ids[0].format.name`
+- `spasmEvent.authors`
+- `spasmEvent.authors[0].addresses[0].value`
+- `spasmEvent.authors[0].addresses[0].format.name`
+- `spasmEvent.signatures`
+- `spasmEvent.signatures[0].value`
+- `spasmEvent.signatures[0].pubkey`
+- `spasmEvent.signatures[0].format.name`
 
-The original event will be stored under:
-- `spasmEvent.originalEventObject`
-- `spasmEvent.originalEventString`
+The Spasm event can be signed with different protocols (e.g., Spasm, Dmp, Nostr), so the original signed events are stored at:
+- `spasmEvent.siblings`
 
-The event metadata can be found under:
-- `spasmEvent.meta`
-
-See the full list of properties of `SpasmEvent` at `./src.ts/types/interfaces.ts`.
+See the full list of properties of `SpasmEventV2` at `./src.ts/types/interfaces.ts`.
 
 Here is a schema of the SpasmEventV2 interface:
 
 ```
+#01  = EventStructureForSpasmid01
+SE   = SpasmEvent
+Body = SpasmEventBody
+Env  = SpasmEventEnvelope
+Tree = SpasmEventEnvelopeWithTree
+DB   = SpasmEventDatabase
+
 event*
 │
+├── type                             --- SE Body Env Tree DB
+├── protocol             (+ sibling) --- -- Body --- ---- --
+│   ├── name                         --- -- Body --- ---- --
+│   └── version                      --- -- Body --- ---- --
+├── root                             --- SE ---- --- Tree DB
+│   ├── ids[]                        --- SE ---- --- Tree DB
+│   ├── marker                       --- SE ---- --- Tree DB  
+│   ├── depth                        --- SE ---- --- Tree --
+│   └── event*                       --- SE ---- --- Tree --
+├── parent                           #01 SE Body --- Tree DB
+│   ├── ids[]                        #01 SE Body --- Tree DB
+│   ├── marker                       #01 SE Body --- Tree DB
+│   ├── depth                        --- SE ---- --- Tree --
+│   └── event*                       --- SE ---- --- Tree --
+├── action                           #01 SE Body --- ---- DB
+├── title                            #01 SE Body --- ---- DB
+├── content                          #01 SE Body --- ---- DB
+├── timestamp                        #01 SE Body --- ---- DB
+├── authors[]                        #01 SE Body --- ---- DB
+│   ├── addresses[]                  #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   ├── format                   #01 SE Body --- ---- DB
+│   │   │   ├── name                 #01 SE Body --- ---- DB
+│   │   │   └── version              #01 SE Body --- ---- DB
+│   │   └── verified                 --- SE ---- --- ---- DB
+│   └── usernames[] (eg RSS posts)   #01 SE Body --- ---- DB
+│       ├── value                    #01 SE Body --- ---- DB
+│       ├── protocol                 #01 SE Body --- ---- DB
+│       ├── proof                    #01 SE Body --- ---- DB
+│       └── provider                 #01 SE Body --- ---- DB
+├── categories[]                     #01 SE Body --- ---- DB
+│   ├── name                         #01 SE Body --- ---- DB
+│   └── sub (recursive category)     #01 SE Body --- ---- DB
+├── tips[]                           #01 SE Body --- ---- DB
+│   ├── address                      #01 SE Body --- ---- DB
+│   ├── text                         #01 SE Body --- ---- DB
+│   ├── expiration                   #01 SE Body --- ---- DB
+│   │   └── timestamp                #01 SE Body --- ---- DB
+│   ├── currency                     #01 SE Body --- ---- DB
+│   │   ├── name                     #01 SE Body --- ---- DB
+│   │   └── ticker                   #01 SE Body --- ---- DB
+│   └── network                      #01 SE Body --- ---- DB
+│       ├── name                     #01 SE Body --- ---- DB
+│       └── id                       #01 SE Body --- ---- DB
+├── hosts[] (see hosts below)        #01 SE Body --- ---- DB
+├── links[] (see link below)         #01 SE Body --- ---- DB
+├── keywords[]                       #01 SE Body --- ---- DB
+├── tags[]                           #01 SE Body --- ---- DB
+├── medias[]                         #01 SE Body --- ---- DB
+│   ├── hashes[] (see hash below)    #01 SE Body --- ---- DB
+│   ├── links[] (see link below)     #01 SE Body --- ---- DB
+│   └── type                         #01 SE Body --- ---- DB
+├── references[]                     #01 SE Body --- Tree DB
+│   ├── ids[]                        #01 SE Body --- Tree DB
+│   ├── marker                       #01 SE Body --- Tree DB
+│   └── event*                       --- SE ---- --- Tree --
+├── mentions[]                       #01 SE Body --- ---- DB
+│   ├── addresses[]                  #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   └── format                   #01 SE Body --- ---- DB
+│   │       ├── name                 #01 SE Body --- ---- DB
+│   │       └── version              #01 SE Body --- ---- DB
+│   └── usernames[]                  #01 SE Body --- ---- DB
+│       ├── value                    #01 SE Body --- ---- DB
+│       ├── protocol                 #01 SE Body --- ---- DB
+│       ├── proof                    #01 SE Body --- ---- DB
+│       └── provider                 #01 SE Body --- ---- DB
+├── proofs[]                         #01 SE Body --- ---- DB
+│   ├── value                        #01 SE Body --- ---- DB
+│   ├── links[]                      #01 SE Body --- ---- DB
+│   └── protocol                     #01 SE Body --- ---- DB
+│       ├── name                     #01 SE Body --- ---- DB
+│       └── version                  #01 SE Body --- ---- DB
+├── previousEvent        (+ sibling) --- -- Body --- ---- --
+│   ├── ids[]                        --- -- Body --- ---- --
+│   ├── marker                       --- -- Body --- ---- --
+│   ├── depth                        --- -- Body --- ---- --
+│   └── event*                       --- -- ---- --- ---- --
+├── sequence             (+ sibling) --- -- Body --- ---- --
+├── license                          #01 SE Body --- ---- DB
+├── language                         #01 SE Body --- ---- DB
+├── extra                            #01 SE Body --- ---- DB
+├── pow                              --- SE Body --- ---- DB
+│   ├── nonce                        --- SE Body --- ---- DB
+│   ├── difficulty                   --- SE Body --- ---- DB
+│   ├── words[]                      --- SE Body --- ---- DB
+│   └── network                      --- SE Body --- ---- DB
+│       ├── name                     --- SE Body --- ---- DB
+│       └── id                       --- SE Body --- ---- DB
 │
-│   (Body)
-├── type
-├── protocol (only in Body, but not in Event)
-│   ├── name                         // spasm, dmp, nostr
-│   └── version                      // 2.0.0, 0.1.0, 1
-├── root #. (EnvelopeWithTree, Event, but not in Body)
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── parent #.
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── action #!                        // post/reply/react/vote/etc!
-├── title #!
-├── content #!
-├── timestamp #!
-├── authors[] #.
-│   ├── address #.
-│   └── usernames[]                  // eg web2 posts (RSS items)
-│       ├── value
-│       ├── protocol
-│       ├── proof
-│       └── provider
-├── categories[] #.
-│   ├── name #.
-│   └── sub (recursive category) #.
-├── tips[] #.
-│   ├── address #.
-│   ├── text #.
-│   ├── expiration #.
-│   │   └── timestamp #.
-│   ├── currency #.
-│   │   ├── name #.
-│   │   └── ticker #.
-│   └── network #.
-│       ├── name #.
-│       └── id #.
-├── hosts[] (see hosts below) #.     // can be added to children
-├── links[] (see link below) #.
-├── keywords[] #.
-├── tags[] #.
-├── medias[] #.
-│   ├── hashes[] (see hash below) #.
-│   ├── links[] (see link below) #.
-│   └── type #.
-├── references[] #.
-│   ├── ids[] #.
-│   ├── marker #.
-│   └── event*                       // (expanded)
-├── mentions[] #.
-│   ├── address #.
-│   └── usernames[] #.
-│       ├── value #.
-│       ├── protocol #.
-│       ├── proof #.
-│       └── provider #.
-├── proofs[] #.
-│   ├── value #.
-│   ├── links[] #.
-│   └── protocol #.
-│       ├── name #.
-│       └── version #.
-├── previousEvent (Body & Sibling, not in SpasmEvent)
-│   ├── ids[] #.
-│   ├── marker #.
-│   ├── depth                        // (expanded)
-│   └── event*                       // (expanded)
-├── sequence (Body & Sibling, not in SpasmEvent)
-├── license #.
-├── language #.
-├── extra
-├── pow                // proof-of-work (not included in spasmid)
-│   ├── nonce
-│   ├── difficulty
-│   ├── words[]
-│   └── network
-│       ├── name
-│       └── id
+├── ids[]                            --- SE ---- Env Tree DB
+├── signatures[]                     --- SE ---- Env Tree DB
+│   ├── value                        --- SE ---- Env Tree DB
+│   ├── pubkey                       --- SE ---- Env Tree DB
+│   └── format                       --- SE ---- Env Tree DB
+│       ├── name                     --- SE ---- Env Tree DB
+│       └── version                  --- SE ---- Env Tree DB
 │
-│   (Envelope)
-├── type
-├── ids[]
-├── signatures
-│   ├── value
-│   ├── type                             // ethereum, nostr
-│   ├── version
-│   └── pubkey
+├── siblings[]                       --- SE ---- Env Tree DB
+│   ├── type                         --- SE ---- Env Tree DB
+│   ├── signedString                 --- SE ---- Env Tree DB
+│   ├── originalObject               --- SE ---- Env Tree DB
+│   ├── signatures[]                 --- SE ---- Env Tree DB
+│   │   ├── value                    --- SE ---- Env Tree DB
+│   │   ├── pubkey                   --- SE ---- Env Tree DB
+│   │   └── format                   --- SE ---- Env Tree DB
+│   │       ├── name                 --- SE ---- Env Tree DB
+│   │       └── version              --- SE ---- Env Tree DB
+│   ├── sequence                     --- SE ---- Env Tree DB
+│   ├── previousEvent                --- SE ---- Env Tree DB
+│   │   ├── ids[]                    --- SE ---- Env Tree DB
+│   │   ├── marker                   --- SE ---- Env Tree DB
+│   │   ├── depth                    --- SE ---- Env Tree DB
+│   │   └── event*                   --- SE ---- --- Tree DB
+│   └── protocol                     --- SE ---- Env Tree DB
+│       ├── name                     --- SE ---- Env Tree DB
+│       ├── version                  --- SE ---- Env Tree DB
+│       ├── hasExtraSpasmFields      --- SE ---- Env Tree DB
+│       └── extraSpasmFieldsVersion  --- SE ---- Env Tree DB
 │
-├── siblings
-│   ├── type
-│   ├── signedString
-│   ├── originalObject
-│   ├── signatures[]
-│   │   ├── value
-│   │   ├── type
-│   │   ├── version
-│   │   └── pubkey
-│   ├── sequence
-│   ├── previousEvent
-│   │   └── event
-│   └── protocol
-│       ├── name                         // dmp, spasm, nostr
-│       ├── version                      // 0.1.0, 2.0.0, 1
-│       ├── hasExtraSpasmFields          // (expanded)
-│       └── extraSpasmFieldsVersion      // (expanded)
-│
-├── db                               // database
-│   ├── key                          // database primary key
-│   ├── addedTimestamp
-│   ├── updatedTimestamp
-│   └── table
-│
-├── source
-│   ├── name
-│   ├── uiUrl
-│   ├── apiUrl
-│   ├── query
-│   └── showSource
-├── stats[]
-│   ├── action
-│   ├── total
-│   ├── latestTimestamp
-│   ├── latestDbTimestamp
-│   └── ...(upvote, downvote, option1, option2, etc.)
-├── sharedBy[]
-│   └── ids[]
+├── db                               --- SE ---- Env Tree DB
+│   ├── key                          --- SE ---- Env Tree DB
+│   ├── addedTimestamp               --- SE ---- Env Tree DB
+│   ├── updatedTimestamp             --- SE ---- Env Tree DB
+│   └── table                        --- SE ---- Env Tree DB
+├── source                           --- SE ---- Env Tree DB
+│   ├── name                         --- SE ---- Env Tree DB
+│   ├── uiUrl                        --- SE ---- Env Tree DB
+│   ├── apiUrl                       --- SE ---- Env Tree DB
+│   ├── query                        --- SE ---- Env Tree DB
+│   └── showSource                   --- SE ---- Env Tree DB
+├── stats[]                          --- SE ---- Env Tree DB
+│   ├── action                       --- SE ---- Env Tree DB
+│   ├── total                        --- SE ---- Env Tree DB
+│   ├── latestTimestamp              --- SE ---- Env Tree DB
+│   ├── latestDbTimestamp            --- SE ---- Env Tree DB
+│   └── ...(upvote, downvote, etc.)  --- SE ---- Env Tree DB
+├── sharedBy[]                       --- SE ---- Env Tree DB
+│   └── ids[]                        --- SE ---- Env Tree DB
 │
 │   (Envelope with tree)
-├── type
-├── root
-│   └── event
-├── parent
-│   └── event
-├── references[]
-│   └── event
-└── children[]
-    └── SpasmEvent | Envelope | EnvelopeWithTree
+├── root                             --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+├── parent                           --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+├── references[]                     --- SE ---- Env Tree --
+│   └── event                        --- SE ---- Env Tree --
+└── children[]                       --- SE ---- Env Tree --
+    └── SE | Env | Tree              --- SE ---- Env Tree --
 
 id
 ├── value #.
@@ -332,37 +356,62 @@ const output = {
 }
 ```
 
-Here is how the event looks like after converting to Spasm:
+Here is how the event looks like after converting to Spasm V2:
 
 ```typescript
-const spasmEvent: SpasmEvent = {
-  meta: {
-    baseProtocol: 'dmp',
-    baseProtocolVersion: '0.0.1',
-    hasExtraSpasmFields: false,
-    convertedFrom: 'DmpEventSignedClosed',
-    license: 'MIT',
-    privateKeyType: 'ethereum'
-  },
-  spasmVersion: '1.0.0',
-  target: '',
-  action: 'post',
-  title: 'genesis',
-  content: 'not your keys, not your words',
+const spasmEvent: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  action: "post",
+  title: "genesis",
+  content: "not your keys, not your words",
   timestamp: 1641074686178,
-  originalEventObject: {
-    version: 'dmp_v0.0.1',
-    time: '2022-01-01T22:04:46.178Z',
-    action: 'post',
-    target: '',
-    title: 'genesis',
-    text: 'not your keys, not your words',
-    license: 'MIT'
-  },
-  originalEventString: '{"version":"dmp_v0.0.1","time":"2022-01-01T22:04:46.178Z","action":"post","target":"","title":"genesis","text":"not your keys, not your words","license":"MIT"}',
-  id: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b',
-  author: '0xf8553015220a857eda377a1e903c9e5afb3ac2fa',
-  signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b'
+  authors: [
+    {
+      addresses: [
+        {
+          value: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
+          format: { name: "ethereum-pubkey", }
+        }
+      ]
+    }
+  ],
+  license: "MIT",
+  ids: [
+    {
+      value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+      format: { name: "ethereum-sig", }
+    },
+  ],
+  signatures: [
+    {
+      value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+      pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
+      format: { name: "ethereum-sig" }
+    }
+  ],
+  siblings: [
+    {
+      type: "SiblingDmpSignedV2",
+      protocol: {
+        name: "dmp",
+        version: "0.0.1"
+      },
+      signedString: JSON.stringify(validDmpEvent),
+      ids: [
+        {
+          value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+          format: { name: "ethereum-sig" }
+        },
+      ],
+      signatures: [
+        {
+          value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+          pubkey: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
+          format: { name: "ethereum-sig" }
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -406,68 +455,98 @@ const output = {
 }
 ```
 
-Here is how the event looks like after converting to Spasm:
+Here is how the event looks like after converting to Spasm V2:
 
 ```typescript
-const spasmEvent: SpasmEvent = {
-  meta: {
-    baseProtocol: 'nostr',
-    baseProtocolId: 'db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651',
-    hasExtraSpasmFields: true,
-    extraSpasmFieldsVersion: '1.0.0',
-    convertedFrom: 'NostrSpasmEventSignedOpened',
-    privateKeyType: 'nostr'
-    license: 'SPDX-License-Identifier: CC0-1.0]',
-  },
-  spasmVersion: '1.0.0',
-  id: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
-  action: 'post',
-  title: 'Nostr Spasm genesis',
-  content: 'Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.',
+const spasmEvent: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  action: "post",
+  title: "Nostr Spasm genesis",
+  content: "Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.",
   timestamp: 1705462957,
-  author: 'npub195ke7xdf3efncf6spe0s26322mdcl6frj0n6yy6akcadxqzgdapqjsm60y',
-  originalEventObject: {
-    kind: 1,
-    created_at: 1705462957,
-    tags:[
-      ["license","SPDX-License-Identifier: CC0-1.0"],
-      ["spasm_version","1.0.0"],
-      ["spasm_action","post"],
-      ["spasm_title","Nostr Spasm genesis"]
-    ],
-    content: "Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.",
-    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-    id: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
-    sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
-  },
-  originalEventString: '{"kind":1,"created_at":1705462957,"tags":[["license","SPDX-License-Identifier: CC0-1.0"],["spasm_version","1.0.0"],["spasm_action","post"],["spasm_title","Nostr Spasm genesis"]],"content":"Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls.","pubkey":"2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42","id":"db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651","sig":"db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"}',
-  signature: 'db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1'
+  authors: [
+    {
+      addresses: [
+        {
+          value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+          format: { name: "nostr-hex" }
+        }
+      ]
+    }
+  ],
+  license: "SPDX-License-Identifier: CC0-1.0",
+  ids: [
+    {
+      value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+      format: { name: "nostr-hex" }
+    },
+    {
+      value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+      format: { name: "nostr-sig" }
+    }
+  ],
+  signatures: [
+    {
+      value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+      pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+      format: { name: "nostr-sig" }
+    }
+  ],
+  siblings: [
+    {
+      type: "SiblingNostrSpasmSignedV2",
+      originalObject: validNostrSpasmEventSignedOpened,
+      protocol: {
+        name: "nostr",
+        hasExtraSpasmFields: true,
+        extraSpasmFieldsVersion: "1.0.0"
+      },
+      ids: [
+        {
+          value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+          format: { name: "nostr-hex" }
+        },
+        {
+          value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+          format: { name: "nostr-sig" }
+        }
+      ],
+      signatures: [
+        {
+          value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+          pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+          format: { name: "nostr-sig" }
+        }
+      ]
+    }
+  ]
 }
 ```
 
 ### Convert RssItem to Spasm
 
-Here is a post with an RSS item:
+Here is a Spasm event v0 with an RSS item:
 
 ```typescript
-const event: Post = {
-  id: 7188,
-  guid: "https://thedefiant.io/starknet-unveils-token-launch-plans",
-  source: "thedefiant.io",
-  tickers: "",
-  title: "Starknet Unveils Token Launch Plans ",
-  url: "https://thedefiant.io/starknet-unveils-token-launch-plans",
-  description: "Ethereum Layer 2 network Starknet has allocated 900M STRK tokens to an airdrop rewarding past and present users’ contributions....",
-  pubdate: "2023-12-08T18:56:29.000Z",
+const event: SpasmEventV0 = {
+  id: 18081,
+  guid: "https://forum.degenrocket.space/?l=terraforming",
+  source: "degenrocket.space",
+  author: "stablepony",
+  tickers: "cookies",
+  title: "To the Moon!",
+  url: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+  description: "Tornado is coming back! Roger that! Starting the engine...",
+  pubdate: "2024-03-12T20:24:04.240Z",
   category: "defi",
-  tags: null,
+  tags: ["dark", "forest"],
   upvote: 3,
   downvote: null,
   bullish: 2,
   bearish: 0,
-  important: null,
+  important: 6,
   scam: 1,
-  comments_count: 3,
+  comments_count: 0,
   latest_action_added_time: null
 }
 ```
@@ -483,36 +562,126 @@ const output = {
 }
 ```
 
-Here is how the event looks like after converting to Spasm:
+Here is how the event looks like after converting to Spasm V2:
 
 ```typescript
 const spasmEvent: SpasmEvent = {
-  meta: {
-    hasExtraSpasmFields: false,
-    convertedFrom: "unknown",
+  type: "SpasmEventV2",
+  ids: [
+    {
+      value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+      format: { name: "url" }
+    },
+    {
+      value: "https://forum.degenrocket.space/?l=terraforming",
+      format: { name: "guid" }
+    }
+  ],
+  db: {
+    key: 18081
   },
-  spasmVersion: "1.0.0",
-  id: "https://thedefiant.io/starknet-unveils-token-launch-plans",
-  dbId: 7188,
   action: "post",
-  title: "Starknet Unveils Token Launch Plans ",
-  content: "Ethereum Layer 2 network Starknet has allocated 900M STRK tokens to an airdrop rewarding past and present users’ contributions....",
-  source: "thedefiant.io",
-  timestamp: 1702061789000,
-  category: "defi",
-  links: {
-    http: "https://thedefiant.io/starknet-unveils-token-launch-plans",
-    guid: "https://thedefiant.io/starknet-unveils-token-launch-plans"
+  title: "To the Moon!",
+  content: "Tornado is coming back! Roger that! Starting the engine...",
+  timestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+  authors: [
+    {
+      usernames: [ { value: "stablepony" } ]
+    }
+  ],
+  categories: [ { name: "defi" } ],
+  links: [
+    {
+      value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+      protocol: "https",
+      origin: "https://forum.degenrocket.space",
+      host: "forum.degenrocket.space",
+      pathname: "/",
+      search: "?b=21&t=fog&c=samourai&h=hijack",
+      originalProtocolKey: "url"
+    },
+    {
+      value: "https://forum.degenrocket.space/?l=terraforming",
+      protocol: "https",
+      origin: "https://forum.degenrocket.space",
+      host: "forum.degenrocket.space",
+      pathname: "/",
+      search: "?l=terraforming",
+      originalProtocolKey: "guid"
+    }
+  ],
+  keywords: [ "dark", "forest", "cookies" ],
+  source: {
+    name: "degenrocket.space"
   },
-  reactions: {
-    upvote: 3,
-    downvote: null,
-    bullish: 2,
-    bearish: 0,
-    important: null,
-    scam: 1,
-    comments_count: 3
-  }
+  siblings: [
+    {
+      type: "SiblingWeb2V2",
+      protocol: { name: "web2" },
+      originalObject: {
+        id: 18081,
+        guid: "https://forum.degenrocket.space/?l=terraforming",
+        source: "degenrocket.space",
+        author: "stablepony",
+        tickers: "cookies",
+        title: "To the Moon!",
+        url: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+        description: "Tornado is coming back! Roger that! Starting the engine...",
+        pubdate: "2024-03-12T20:24:04.240Z",
+        category: "defi",
+        tags: ["dark", "forest"],
+        upvote: 3,
+        downvote: null,
+        bullish: 2,
+        bearish: 0,
+        important: 6,
+        scam: 1,
+        comments_count: 0,
+        latest_action_added_time: null
+      },
+      ids: [
+        {
+          value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+          format: { name: "url" }
+        },
+        {
+          value: "https://forum.degenrocket.space/?l=terraforming",
+          format: { name: "guid" }
+        }
+      ]
+    }
+  ],
+  stats: [
+    {
+      action: "react",
+      contents: [
+        {
+          value: "upvote",
+          total: 3
+        },
+        {
+          value: "bullish",
+          total: 2
+        },
+        {
+          value: "bearish",
+          total: 0
+        },
+        {
+          value: "important",
+          total: 6
+        },
+        {
+          value: "scam",
+          total: 1
+        },
+      ]
+    },
+    {
+      action: "reply",
+      total: 0
+    }
+  ]
 }
 ```
 
