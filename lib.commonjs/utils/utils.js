@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
+exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
 // Examples:
@@ -282,4 +282,8 @@ const getFormatFromAddress = (address) => {
     return (0, exports.getFormatFromValue)(address);
 };
 exports.getFormatFromAddress = getFormatFromAddress;
+const getFormatFromSignature = (address) => {
+    return (0, exports.getFormatFromValue)(address);
+};
+exports.getFormatFromSignature = getFormatFromSignature;
 //# sourceMappingURL=utils.js.map

@@ -268,4 +268,7 @@ export const getFormatFromId = (id) => {
 export const getFormatFromAddress = (address) => {
     return getFormatFromValue(address);
 };
+export const getFormatFromSignature = (address) => {
+    return getFormatFromValue(address);
+};
 //# sourceMappingURL=utils.js.map

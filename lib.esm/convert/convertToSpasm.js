@@ -2,7 +2,7 @@ import {
 // toBeNpub,
 // toBeNote,
 toBeHex } from "./../utils/nostrUtils.js";
-import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress } from "./../utils/utils.js";
+import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
@@ -262,8 +262,14 @@ export const standardizeDmpEventSignedClosedV2 = (event) => {
         signatures: [
             {
                 value: event.signature,
-                type: "ethereum",
-                pubkey: event.signer
+                pubkey: event.signer,
+                // Create a new format field only if a
+                // format can be determined from a string.
+                ...(getFormatFromSignature(event.signature)
+                    ? {
+                        format: getFormatFromSignature(event.signature),
+                    }
+                    : {})
             }
         ]
     };
@@ -279,8 +285,14 @@ export const standardizeDmpEventSignedClosedV2 = (event) => {
         spasmEventV2.siblings[0].signatures = [
             {
                 value: event.signature,
-                type: "ethereum",
-                pubkey: event.signer
+                pubkey: event.signer,
+                // Create a new format field only if a
+                // format can be determined from a string.
+                ...(getFormatFromSignature(event.signature)
+                    ? {
+                        format: getFormatFromSignature(event.signature),
+                    }
+                    : {})
             }
         ];
         spasmEventV2.siblings[0].ids = [
@@ -525,8 +537,8 @@ export const standardizeNostrEventSignedOpenedV2 = (event) => {
         spasmEventV2.signatures ??= [];
         spasmEventV2.signatures.push({
             value: event.sig,
-            type: "nostr",
-            pubkey: event.pubkey
+            pubkey: event.pubkey,
+            format: { name: "nostr-sig" }
         });
         // Create parent if it's null or undefined
         spasmEventV2.siblings ??= [];
@@ -538,8 +550,8 @@ export const standardizeNostrEventSignedOpenedV2 = (event) => {
         spasmEventV2.siblings[0].signatures ??= [];
         spasmEventV2.siblings[0].signatures.push({
             value: event.sig,
-            type: "nostr",
             pubkey: event.pubkey,
+            format: { name: "nostr-sig" }
         });
     }
     return spasmEventV2;
@@ -559,8 +571,8 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (event) => {
         spasmEventV2.signatures ??= [];
         spasmEventV2.signatures.push({
             value: event.sig,
-            type: "nostr",
-            pubkey: event.pubkey
+            pubkey: event.pubkey,
+            format: { name: "nostr-sig" }
         });
         // Create siblings if it's null or undefined
         spasmEventV2.siblings ??= [];
@@ -574,8 +586,8 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (event) => {
         spasmEventV2.siblings[0].signatures ??= [];
         spasmEventV2.siblings[0].signatures.push({
             value: event.sig,
-            type: "nostr",
             pubkey: event.pubkey,
+            format: { name: "nostr-sig" }
         });
     }
     // NostrSpasm versions prior to 2.0.0 assigned sig as event id
