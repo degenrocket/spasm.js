@@ -37,7 +37,7 @@ import {
 
   // EventForSpasmid01
   SpasmEventV2ToTestSpasmid01,
-  SpasmEventV2ConvertedToSpasmid01,
+  // SpasmEventV2ConvertedToSpasmid01,
   SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys
 } from "./_events-data"
 

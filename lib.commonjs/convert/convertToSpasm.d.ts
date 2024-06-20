@@ -1,5 +1,6 @@
 import { KnownPostOrEventInfo, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, UnknownEventV2, SpasmEventV2, SpasmEventV0 } from "./../types/interfaces.js";
-export declare const convertToSpasm: (unknownEvent: UnknownEventV2, version?: string) => SpasmEventV2 | null;
+export declare const convertToSpasm: (unknownEvent: UnknownEventV2, version?: string, spasmIdVersions?: string[]) => SpasmEventV2 | null;
+export declare const assignSpasmId: (spasmEventV2: SpasmEventV2, spasmIdVersions?: string[]) => SpasmEventV2 | null;
 export declare const standardizeEventV2: (unknownEvent: UnknownEventV2, version?: string, info?: KnownPostOrEventInfo) => SpasmEventV2 | null;
 export declare const standardizeDmpEventV2: (event: DmpEvent) => SpasmEventV2 | null;
 export declare const standardizeDmpEventSignedClosedV2: (event: DmpEventSignedClosed) => SpasmEventV2 | null;

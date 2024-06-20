@@ -1,4 +1,4 @@
-import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2 } from "./../types/interfaces.js";
+import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2 } from "./../types/interfaces.js";
 export declare const hasValue: (el?: any) => boolean;
 export declare const isObjectWithValues: (val: any) => boolean;
 export declare const extractVersion: (versionString: string) => string;
@@ -11,4 +11,20 @@ export declare const getFormatFromValue: (value?: string | number) => SpasmEvent
 export declare const getFormatFromId: (id: string | number) => SpasmEventIdFormatV2;
 export declare const getFormatFromAddress: (address: string | number) => SpasmEventAddressFormatV2;
 export declare const getFormatFromSignature: (address: string | number) => SpasmEventSignatureFormatV2;
+export declare const getHashOfString: (string: string, algorithm?: string) => string;
+export declare const keepTheseKeysInObject: (obj: Record<string, any>, keys: string[]) => Partial<Record<string, any>>;
+export declare const keepTheseKeysInObjectsInArray: (array: Record<string, any>[], keys: string[]) => Partial<Record<string, any>[]>;
+export declare const sortArrayOfStringsAndNumbers: (array: any[]) => any[];
+export declare const sortArrayOfObjects: (objects: any[], sortBy?: string | string[]) => any[];
+export declare const sortAuthorsForSpasmEventV2: (authors: SpasmEventAuthorV2[]) => SpasmEventAuthorV2[];
+export declare const sortAuthorsForSpasmid01: (authors: SpasmEventAuthorV2[]) => SpasmEventAuthorV2[];
+export declare const sortArrayOfObjectsByKeyValue: (objects: SpasmEventAuthorV2[] | SpasmEventMediaV2[], key: string) => any[];
+export declare const sortHostsForSpasmEventV2: (hosts: SpasmEventBodyHostV2[]) => SpasmEventBodyHostV2[];
+export declare const sortHostsForSpasmid01: (hosts: SpasmEventBodyHostV2[]) => SpasmEventBodyHostV2[];
+export declare const sortLinksForSpasmEventV2: (hosts: SpasmEventBodyHostV2[]) => SpasmEventBodyHostV2[];
+export declare const sortLinksForSpasmid01: (hosts: SpasmEventBodyHostV2[]) => SpasmEventBodyHostV2[];
+export declare const sortMediasForSpasmid01: (medias: any) => SpasmEventMediaV2[];
+export declare const sortReferencesForSpasmid01: (references: SpasmEventBodyReferenceV2[]) => SpasmEventBodyReferenceV2[];
+export declare const sortParentForSpasmid01: (parent: SpasmEventBodyParentV2) => SpasmEventBodyParentV2;
+export declare const sortTagsForSpasmid01: (tags: any[][]) => any[][];
 //# sourceMappingURL=utils.d.ts.map

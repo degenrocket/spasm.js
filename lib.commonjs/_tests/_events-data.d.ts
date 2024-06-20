@@ -1,4 +1,4 @@
-import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0 } from "./../types/interfaces";
+import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0, EventForSpasmid01 } from "./../types/interfaces";
 export declare const validEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2fa";
 export declare const invalidEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2f";
 export declare const validEthereumSignature1 = "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b";
@@ -90,6 +90,11 @@ export declare const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEv
 export declare const validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2: SpasmEventV2;
 export declare const validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2: SpasmEventV2;
 export declare const validPostWithRssItem: Post;
+export declare const validPostWithRssItemReverseTags: Post;
 export declare const validSpasmEventRssItemV0: SpasmEventV0;
 export declare const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2;
+export declare const validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2: SpasmEventV2;
+export declare const SpasmEventV2ToTestSpasmid01: SpasmEventV2;
+export declare const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2;
+export declare const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01;
 //# sourceMappingURL=_events-data.d.ts.map

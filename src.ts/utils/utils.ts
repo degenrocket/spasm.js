@@ -14,7 +14,7 @@ import {
   SpasmEventLinkV2,
   SpasmEventBodyReferenceV2,
   SpasmEventAddressV2,
-  SpasmEventUsernameV2,
+  // SpasmEventUsernameV2,
   SpasmEventBodyParentV2
 } from "./../types/interfaces.js"
 

@@ -7,7 +7,8 @@ import {
 } from "./_events-data"
 
 import {
-  convertSpasmEventV2ToEventForSpasmid01, convertToEventForSpasmid
+  // convertSpasmEventV2ToEventForSpasmid01,
+  convertToEventForSpasmid
 } from "./../convert/convertToEventForSpasmid"
 
 // template

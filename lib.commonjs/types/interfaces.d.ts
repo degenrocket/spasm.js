@@ -214,8 +214,8 @@ export interface SpasmEventBodyV2 {
     authors?: SpasmEventBodyAuthorV2[];
     categories?: SpasmEventCategoryV2[];
     tips?: SpasmEventBodyTipsV2[];
-    hosts?: Pick<SpasmEventHostV2, 'value' | 'marker'>[];
-    links?: Pick<SpasmEventLinkV2, 'value' | 'marker'>[];
+    hosts?: SpasmEventBodyLinkV2[];
+    links?: SpasmEventBodyLinkV2[];
     keywords?: string[];
     tags?: any[][];
     medias?: SpasmEventMediaV2[];
@@ -244,13 +244,14 @@ export interface SpasmEventBodyV2 {
      * Body and then 'nonce' and 'words' from each POW will be
      * used to check difficulty of spasmpow, not spasmid.
      * In other words, there might be two levels of proof-of-work:
-     * - event-wide POW (spasmid01000000abc)
-     * - instance-specific POW (spasmpow010000defgh)
+     * - event-wide POW (spasmid01000000abc, spasmid02000000xyz)
+     * - instance-specific POW (spasmpow01degen, spasmpow02rebel)
      * Spasm ID (spasmid) is used to chain replies, reactions, etc.
      * Spasm POW (spasmpow) is only used to check POW.
      * Users should be able to submit already signed messages to
      * new instances by signing new siblings with extra POW, so
-     * only the first POW (pows[0]) should be used for Spasm ID.
+     * only POWs with "spasmid" markers should be used to
+     * calculate Spasm IDs.
      */
     pows?: SpasmEventPowV2[];
 }
@@ -265,7 +266,12 @@ export interface SpasmEventBodyV2 {
  * - No categories, because a Spasm event can be signed again
  *   with different categories and e.g. different POW values.
  */
-export interface EventStructureForSpasmid01 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'categories' | 'sequence' | 'previousEvent'> {
+export interface EventForSpasmid01 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'categories' | 'sequence' | 'previousEvent'> {
+    /**
+     * Authors should not have a 'verified' key
+     * for calculating the Spasm ID.
+     */
+    authors?: SpasmEventBodyAuthorV2[];
 }
 export interface SpasmEventEnvelopeV2 {
     type: "SpasmEventEnvelopeV2";
@@ -342,11 +348,11 @@ export interface SpasmEventHashV2 extends Omit<SpasmEventIdV2, 'format'> {
  */
 export interface SpasmEventBodyAuthorV2 {
     addresses?: SpasmEventBodyAddressV2[];
-    usernames?: SpasmEventAuthorUsername[];
+    usernames?: SpasmEventUsernameV2[];
 }
 export interface SpasmEventAuthorV2 {
     addresses?: SpasmEventAddressV2[];
-    usernames?: SpasmEventAuthorUsername[];
+    usernames?: SpasmEventUsernameV2[];
 }
 export interface SpasmEventAddressFormatV2 {
     name: SpasmEventAddressFormatNameV2;
@@ -379,9 +385,15 @@ export interface SpasmEventAuthorUsername {
     proof?: string;
     provider?: string;
 }
+export interface SpasmEventUsernameV2 extends SpasmEventAuthorUsername {
+}
 export interface SpasmEventCategoryV2 {
     name: string | number;
     sub?: SpasmEventCategoryV2;
+}
+export interface SpasmEventBodyHostV2 extends SpasmEventBodyLinkV2 {
+}
+export interface SpasmEventBodyLinkV2 extends Pick<SpasmEventLinkV2, 'value' | 'marker'> {
 }
 export interface SpasmEventHostV2 extends SpasmEventLinkV2 {
 }
@@ -402,7 +414,7 @@ export interface SpasmEventSignatureV2 {
     format?: SpasmEventSignatureFormatV2;
 }
 export interface SpasmEventBodyProtocolV2 {
-    name: "spasm" | "dmp" | "nostr";
+    name: "spasm" | "dmp" | "nostr" | "web2";
     version?: string;
 }
 export type SiblingProtocolV2 = SpasmEventProtocolV2;
@@ -478,7 +490,7 @@ export interface SpasmEventMentionV2 extends SpasmEventBodyAuthorV2 {
 }
 export interface SpasmEventProofV2 {
     value?: string | number;
-    links?: Pick<SpasmEventLinkV2, 'value'>[];
+    links?: Pick<SpasmEventLinkV2, 'value' | 'marker'>[];
     protocol?: {
         name: string;
         version?: string | number;
@@ -490,8 +502,9 @@ export type SpasmEventLicense = "MIT" | "CC0" | "CC0-1.0" | "SPDX-License-Identi
 export type SpasmEventLicenseV2 = SpasmEventLicense;
 export type SpasmEventAddressTypeV2 = "ethereum" | "nostr-npub" | "nostr-hex";
 export interface SpasmEventPowV2 {
+    marker?: string | number;
     nonce?: string | number;
-    difficulty?: string | number;
+    difficulty?: number;
     words?: (string | number)[];
     network?: {
         name: string | number;

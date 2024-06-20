@@ -1,18 +1,44 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addFieldsFromEnvelopeSpasmEventV0_V2 = exports.standardizeSpasmWithRssItemV0_V2 = exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = exports.standardizeSpasmDmpEventSignedClosedV0_V2 = exports.standardizeNostrSpasmEventSignedOpenedV2 = exports.standardizeNostrEventSignedOpenedV2 = exports.standardizeNostrSpasmEventV2 = exports.standardizeNostrEventV2 = exports.standardizeDmpEventSignedOpenedV2 = exports.standardizeDmpEventSignedClosedV2 = exports.standardizeDmpEventV2 = exports.standardizeEventV2 = exports.convertToSpasm = void 0;
+exports.addFieldsFromEnvelopeSpasmEventV0_V2 = exports.standardizeSpasmWithRssItemV0_V2 = exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = exports.standardizeSpasmDmpEventSignedClosedV0_V2 = exports.standardizeNostrSpasmEventSignedOpenedV2 = exports.standardizeNostrEventSignedOpenedV2 = exports.standardizeNostrSpasmEventV2 = exports.standardizeNostrEventV2 = exports.standardizeDmpEventSignedOpenedV2 = exports.standardizeDmpEventSignedClosedV2 = exports.standardizeDmpEventV2 = exports.standardizeEventV2 = exports.assignSpasmId = exports.convertToSpasm = void 0;
 const nostrUtils_js_1 = require("./../utils/nostrUtils.js");
 const utils_js_1 = require("./../utils/utils.js");
 const identifyEvent_js_1 = require("./../identify/identifyEvent.js");
+const getSpasmId_1 = require("./../id/getSpasmId");
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
-const convertToSpasm = (unknownEvent, version = "2.0.0") => {
+const convertToSpasm = (unknownEvent, version = "2.0.0", spasmIdVersions = ["01"]) => {
     if (version === "2.0.0") {
-        return (0, exports.standardizeEventV2)(unknownEvent, version);
+        const standardizedEventV2 = (0, exports.standardizeEventV2)(unknownEvent, version);
+        if (standardizedEventV2) {
+            const spasmEventV2 = (0, exports.assignSpasmId)(standardizedEventV2, spasmIdVersions);
+            return spasmEventV2;
+        }
     }
     return null;
 };
 exports.convertToSpasm = convertToSpasm;
+const assignSpasmId = (spasmEventV2, spasmIdVersions = ["01"]) => {
+    if (!(0, utils_js_1.isObjectWithValues)(spasmEventV2))
+        return null;
+    spasmIdVersions.forEach(spasmIdVersion => {
+        const spasmId = (0, getSpasmId_1.getSpasmId)(spasmEventV2, spasmIdVersion);
+        if (spasmId && typeof (spasmId) === "string") {
+            // Create ids if it's null or undefined
+            spasmEventV2.ids ??= [];
+            // Prepend the new Spasm ID to an array of other IDs
+            spasmEventV2.ids.unshift({
+                value: spasmId,
+                format: {
+                    name: "spasmid",
+                    version: "01"
+                }
+            });
+        }
+    });
+    return spasmEventV2;
+};
+exports.assignSpasmId = assignSpasmId;
 const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
     if (!(0, utils_js_1.isObjectWithValues)(unknownEvent))
         return null;

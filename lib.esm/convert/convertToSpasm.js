@@ -4,13 +4,38 @@ import {
 toBeHex } from "./../utils/nostrUtils.js";
 import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
+import { getSpasmId } from "./../id/getSpasmId";
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
-export const convertToSpasm = (unknownEvent, version = "2.0.0") => {
+export const convertToSpasm = (unknownEvent, version = "2.0.0", spasmIdVersions = ["01"]) => {
     if (version === "2.0.0") {
-        return standardizeEventV2(unknownEvent, version);
+        const standardizedEventV2 = standardizeEventV2(unknownEvent, version);
+        if (standardizedEventV2) {
+            const spasmEventV2 = assignSpasmId(standardizedEventV2, spasmIdVersions);
+            return spasmEventV2;
+        }
     }
     return null;
+};
+export const assignSpasmId = (spasmEventV2, spasmIdVersions = ["01"]) => {
+    if (!isObjectWithValues(spasmEventV2))
+        return null;
+    spasmIdVersions.forEach(spasmIdVersion => {
+        const spasmId = getSpasmId(spasmEventV2, spasmIdVersion);
+        if (spasmId && typeof (spasmId) === "string") {
+            // Create ids if it's null or undefined
+            spasmEventV2.ids ??= [];
+            // Prepend the new Spasm ID to an array of other IDs
+            spasmEventV2.ids.unshift({
+                value: spasmId,
+                format: {
+                    name: "spasmid",
+                    version: "01"
+                }
+            });
+        }
+    });
+    return spasmEventV2;
 };
 export const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
     if (!isObjectWithValues(unknownEvent))

@@ -1,6 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
+exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
+/*
+ * Using sha256 from 'js-sha256' npm package, because
+ * built-in 'crypto' module works only in a server-side
+ * Node.js environment, not on the client-side (browser).
+ */
+const js_sha256_1 = require("js-sha256");
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
 // Examples:
@@ -84,12 +90,17 @@ const extractSealedEvent = (unknownPostOrEvent) => {
     if (!(0, exports.isObjectWithValues)(unknownPostOrEvent))
         return false;
     let signedObject = false;
-    if ('signed_message' in unknownPostOrEvent &&
+    if (unknownPostOrEvent &&
+        typeof (unknownPostOrEvent) === "object" &&
+        'signed_message' in unknownPostOrEvent &&
         unknownPostOrEvent['signed_message'] &&
         typeof (unknownPostOrEvent['signed_message'] === "string")) {
         signedObject = JSON.parse(unknownPostOrEvent['signed_message']);
     }
-    else if ('signedString' in unknownPostOrEvent &&
+    else if (unknownPostOrEvent &&
+        typeof (unknownPostOrEvent) === "object" &&
+        'signedString' in unknownPostOrEvent &&
+        unknownPostOrEvent['signedString'] &&
         typeof (unknownPostOrEvent['signedString'] === "string")) {
         signedObject = JSON.parse(unknownPostOrEvent['signedString']);
     }
@@ -286,4 +297,416 @@ const getFormatFromSignature = (address) => {
     return (0, exports.getFormatFromValue)(address);
 };
 exports.getFormatFromSignature = getFormatFromSignature;
+const getHashOfString = (string, algorithm = "sha256") => {
+    if (typeof (string) !== "string")
+        return "";
+    if (algorithm === "sha256") {
+        return (0, js_sha256_1.sha256)(string);
+    }
+    return "";
+};
+exports.getHashOfString = getHashOfString;
+// Keep only specified keys in an object.
+const keepTheseKeysInObject = (obj, keys) => {
+    return keys.reduce((acc, key) => {
+        if (obj.hasOwnProperty(key)) {
+            acc[key] = obj[key];
+        }
+        return acc;
+    }, {});
+};
+exports.keepTheseKeysInObject = keepTheseKeysInObject;
+// Keep only specified keys in each object of an array.
+const keepTheseKeysInObjectsInArray = (array, keys) => {
+    return array.map(obj => (0, exports.keepTheseKeysInObject)(obj, keys));
+};
+exports.keepTheseKeysInObjectsInArray = keepTheseKeysInObjectsInArray;
+// This function only sorts string and number values.
+const sortArrayOfStringsAndNumbers = (array) => {
+    // Separate values into valid and invalid categories.
+    const { validValues, invalidValues } = array.reduce((acc, value) => {
+        if (typeof value === 'string' ||
+            typeof value === 'number') {
+            acc.validValues.push(value);
+        }
+        else {
+            acc.invalidValues.push(value);
+        }
+        return acc;
+    }, { validValues: [], invalidValues: [] });
+    // Sort the valid values
+    const sortedValidValues = validValues.sort((a, b) => String(a).localeCompare(String(b)));
+    // Combine sorted valid values with invalid values
+    const result = [...sortedValidValues, ...invalidValues];
+    return result;
+};
+exports.sortArrayOfStringsAndNumbers = sortArrayOfStringsAndNumbers;
+const sortArrayOfObjects = (objects, sortBy = ["id"]) => {
+    if (!objects ||
+        !Array.isArray(objects) ||
+        !objects[0]) {
+        return [];
+    }
+    // Ensure sortBy is always treated as an array
+    const sortedBy = Array.isArray(sortBy) ? sortBy : [sortBy];
+    // Separate objects into valid and invalid categories based
+    // on the existence of the specified property(ies)
+    const { validObjects, invalidValues } = objects.reduce((acc, item) => {
+        let isValid = false;
+        // Only one prop should exist in item in order
+        // to make it a valid item.
+        sortedBy.forEach((key) => {
+            if (typeof (item) === 'object' && item &&
+                key in item && item[key] &&
+                (typeof (item[key]) === "string" ||
+                    typeof (item[key]) === "number")) {
+                isValid = true;
+            }
+        });
+        if (isValid) {
+            acc.validObjects.push(item);
+        }
+        else {
+            acc.invalidValues.push(item);
+        }
+        return acc;
+    }, { validObjects: [], invalidValues: [] });
+    // Sort the valid objects by the specified property(ies)
+    const sortedValidObjects = validObjects.sort((a, b) => {
+        for (const key of sortedBy) {
+            const aValue = typeof a[key] === 'string' ? a[key] : String(a[key]);
+            const bValue = typeof b[key] === 'string' ? b[key] : String(b[key]);
+            const compareResult = aValue.localeCompare(bValue);
+            if (compareResult !== 0) {
+                return compareResult;
+            }
+        }
+        return 0; // Equal
+    });
+    const sortedInvalidValues = (0, exports.sortArrayOfStringsAndNumbers)(invalidValues);
+    // Combine sorted valid objects with invalid objects
+    const result = [...sortedValidObjects, ...sortedInvalidValues];
+    return result;
+};
+exports.sortArrayOfObjects = sortArrayOfObjects;
+const sortAuthorsForSpasmEventV2 = (authors) => {
+    // Clean and sort addresses
+    authors.forEach(author => {
+        if (author && typeof (author) === "object" &&
+            'addresses' in author && author.addresses &&
+            Array.isArray(author.addresses) &&
+            author.addresses[0]) {
+            // Clean addresses to keep only  'value' and 'format' keys
+            // and remove a 'verified' key.
+            author.addresses = (0, exports.keepTheseKeysInObjectsInArray)(author.addresses, ["value", "format"]);
+            // Sort addresses
+            author.addresses = (0, exports.sortArrayOfObjects)(author.addresses, "value");
+        }
+    });
+    // Clean and sort usernames
+    authors.forEach(author => {
+        if (author && typeof (author) === "object" &&
+            'usernames' in author && author.usernames &&
+            Array.isArray(author.usernames) &&
+            author.usernames[0]) {
+            // There is no need to clean usernames because all fields
+            // should be calculated for the Spasm ID 01.
+            // Sort usernames
+            author.usernames = (0, exports.sortArrayOfObjects)(author.usernames, "value");
+        }
+    });
+    let authorsWithAddress = [];
+    // Authors without address are used temporary until we split
+    // them further depending on whether they have usernames.
+    let authorsWithoutAddress = [];
+    let authorsWithoutAddressWithUsername = [];
+    let authorsWithoutAddressWithoutUsername = [];
+    authors.forEach(author => {
+        if (author && typeof (author) === "object" &&
+            'addresses' in author && author.addresses &&
+            Array.isArray(author.addresses) && author.addresses[0] &&
+            author.addresses[0].value &&
+            (typeof (author.addresses[0].value) === "string" ||
+                typeof (author.addresses[0].value) === "number")) {
+            authorsWithAddress.push(author);
+        }
+        else {
+            authorsWithoutAddress.push(author);
+        }
+    });
+    authorsWithoutAddress.forEach(author => {
+        if (author && typeof (author) === "object" &&
+            'usernames' in author && author.usernames &&
+            Array.isArray(author.usernames) && author.usernames[0] &&
+            author.usernames[0].value &&
+            (typeof (author.usernames[0].value) === "string" ||
+                typeof (author.usernames[0].value) === "number")) {
+            authorsWithoutAddressWithUsername.push(author);
+        }
+        else {
+            authorsWithoutAddressWithoutUsername.push(author);
+        }
+    });
+    // Sort all 3 arrays
+    const sortedAuthorsWithAddress = (0, exports.sortArrayOfObjectsByKeyValue)(authorsWithAddress, "addresses");
+    const sortedAuthorsWithoutAddressWithUsername = (0, exports.sortArrayOfObjectsByKeyValue)(authorsWithoutAddressWithUsername, "usernames");
+    const sortedAuthorsWithoutAddressWithoutUsername = (0, exports.sortArrayOfObjects)(authorsWithoutAddressWithoutUsername, ["id"]);
+    const result = [
+        ...sortedAuthorsWithAddress,
+        ...sortedAuthorsWithoutAddressWithUsername,
+        ...sortedAuthorsWithoutAddressWithoutUsername
+    ];
+    return result;
+};
+exports.sortAuthorsForSpasmEventV2 = sortAuthorsForSpasmEventV2;
+exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2;
+const sortArrayOfObjectsByKeyValue = (objects, key) => {
+    const sortedObjects = objects.sort((a, b) => {
+        let aValue = "";
+        let bValue = "";
+        if (a[key] && a[key][0] &&
+            a[key][0].value) {
+            if (typeof (a[key][0].value) === 'string') {
+                aValue = a[key][0].value;
+            }
+            else if (typeof (a[key][0].value) === 'number') {
+                aValue = String(a[key][0].value);
+            }
+        }
+        if (b[key] && b[key][0] &&
+            b[key][0].value) {
+            if (typeof (b[key][0].value) === 'string') {
+                bValue = b[key][0].value;
+            }
+            else if (typeof (b[key][0].value) === 'number') {
+                bValue = String(b[key][0].value);
+            }
+        }
+        const compareResult = aValue.localeCompare(bValue);
+        if (compareResult !== 0) {
+            return compareResult;
+        }
+        return 0; // Equal
+    });
+    return sortedObjects;
+};
+exports.sortArrayOfObjectsByKeyValue = sortArrayOfObjectsByKeyValue;
+const sortHostsForSpasmEventV2 = (hosts) => {
+    if (!hosts ||
+        !Array.isArray(hosts) ||
+        !hosts[0]) {
+        return hosts;
+    }
+    const sortedHosts = (0, exports.sortArrayOfObjects)(hosts, "value");
+    return sortedHosts;
+};
+exports.sortHostsForSpasmEventV2 = sortHostsForSpasmEventV2;
+exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2;
+exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmEventV2;
+exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2;
+const sortMediasForSpasmid01 = (medias) => {
+    if (!medias || !Array.isArray(medias))
+        return [];
+    // Clean and sort IDs
+    medias.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'ids' in media && media.ids &&
+            Array.isArray(media.ids) &&
+            media.ids[0]) {
+            // Clean ids to keep only  'value' key
+            media.ids = (0, exports.keepTheseKeysInObjectsInArray)(media.ids, ["value"]);
+            // Sort ids
+            media.ids = (0, exports.sortArrayOfObjects)(media.ids, "value");
+        }
+    });
+    // Clean and sort hashes
+    medias.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'hashes' in media && media.hashes &&
+            Array.isArray(media.hashes) &&
+            media.hashes[0]) {
+            // Clean hashes to keep only  'value' key
+            media.hashes = (0, exports.keepTheseKeysInObjectsInArray)(media.hashes, ["value"]);
+            // Sort hashes
+            media.hashes = (0, exports.sortArrayOfObjects)(media.hashes, "value");
+        }
+    });
+    // Clean and sort links
+    medias.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'links' in media && media.links &&
+            Array.isArray(media.links) &&
+            media.links[0]) {
+            // Clean links to keep only  'value' key
+            media.links = (0, exports.keepTheseKeysInObjectsInArray)(media.links, ["value"]);
+            // Sort links
+            media.links = (0, exports.sortArrayOfObjects)(media.links, "value");
+        }
+    });
+    // mediasWithIds might also have hashes and links
+    let mediasWithIds = [];
+    let mediasWithoutIds = [];
+    // mediasWithHashes might also have links, but no ids
+    let mediasWithHashes = [];
+    let mediasWithoutIdsHashes = [];
+    // mediasWithLinks only has links, but no ids and hashes
+    let mediasWithLinks = [];
+    let mediasWithoutIdsHashesLinks = [];
+    // Sort medias by ids
+    medias.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'ids' in media && media.ids &&
+            Array.isArray(media.ids) && media.ids[0] &&
+            media.ids[0].value &&
+            (typeof (media.ids[0].value) === "string" ||
+                typeof (media.ids[0].value) === "number")) {
+            mediasWithIds.push(media);
+        }
+        else {
+            mediasWithoutIds.push(media);
+        }
+    });
+    // Sort medias by hashes
+    mediasWithoutIds.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'hashes' in media && media.hashes &&
+            Array.isArray(media.hashes) && media.hashes[0] &&
+            media.hashes[0].value &&
+            (typeof (media.hashes[0].value) === "string" ||
+                typeof (media.hashes[0].value) === "number")) {
+            mediasWithHashes.push(media);
+        }
+        else {
+            mediasWithoutIdsHashes.push(media);
+        }
+    });
+    // Sort medias by links
+    mediasWithoutIdsHashes.forEach(media => {
+        if (media && typeof (media) === "object" &&
+            'links' in media && media.links &&
+            Array.isArray(media.links) && media.links[0] &&
+            media.links[0].value &&
+            (typeof (media.links[0].value) === "string" ||
+                typeof (media.links[0].value) === "number")) {
+            mediasWithLinks.push(media);
+        }
+        else {
+            mediasWithoutIdsHashesLinks.push(media);
+        }
+    });
+    const mediasOther = mediasWithoutIdsHashesLinks;
+    // Sort all 3 arrays
+    const sortedMediasWithIds = (0, exports.sortArrayOfObjectsByKeyValue)(mediasWithIds, "ids");
+    const sortedMediasWithHashes = (0, exports.sortArrayOfObjectsByKeyValue)(mediasWithHashes, "hashes");
+    const sortedMediasWithLinks = (0, exports.sortArrayOfObjectsByKeyValue)(mediasWithLinks, "links");
+    const sortedMediasOther = (0, exports.sortArrayOfObjects)(mediasOther, ["id"]);
+    const result = [
+        ...sortedMediasWithIds,
+        ...sortedMediasWithHashes,
+        ...sortedMediasWithLinks,
+        ...sortedMediasOther
+    ];
+    return result;
+};
+exports.sortMediasForSpasmid01 = sortMediasForSpasmid01;
+// Deprecated sortMediasForSpasmEventV2 because we only keep
+// a 'value' key to calculate Spasm ID 01.
+// export const sortMediasForSpasmid01 = sortMediasforSpasmEventV2
+const sortReferencesForSpasmid01 = (references) => {
+    if (!references || !Array.isArray(references))
+        return [];
+    // Clean and sort IDs
+    references.forEach(reference => {
+        if (reference && typeof (reference) === "object" &&
+            'ids' in reference && reference.ids &&
+            Array.isArray(reference.ids) &&
+            reference.ids[0]) {
+            // Clean ids to keep only  'value' key
+            reference.ids = (0, exports.keepTheseKeysInObjectsInArray)(reference.ids, ["value"]);
+            // Sort ids
+            reference.ids = (0, exports.sortArrayOfObjects)(reference.ids, "value");
+        }
+    });
+    // Sort references based on IDs
+    const sortedReferences = (0, exports.sortArrayOfObjectsByKeyValue)(references, "ids");
+    return sortedReferences;
+};
+exports.sortReferencesForSpasmid01 = sortReferencesForSpasmid01;
+const sortParentForSpasmid01 = (parent) => {
+    if (!parent || typeof (parent) !== "object")
+        return parent;
+    // Clean and sort IDs
+    if (parent && typeof (parent) === "object" &&
+        'ids' in parent && parent.ids &&
+        Array.isArray(parent.ids) &&
+        parent.ids[0]) {
+        // Clean ids to keep only 'value' key
+        parent.ids = (0, exports.keepTheseKeysInObjectsInArray)(parent.ids, ["value"]);
+        // Sort ids
+        parent.ids = (0, exports.sortArrayOfObjects)(parent.ids, "value");
+    }
+    return parent;
+};
+exports.sortParentForSpasmid01 = sortParentForSpasmid01;
+const sortTagsForSpasmid01 = (tags) => {
+    if (!tags || !Array.isArray(tags))
+        return [[]];
+    /**
+     * Tags are an array of arrays (e.g., Nostr tags).
+     * Each tag is an array with any number of elements.
+     * Some tags will have the same one-letter first element,
+     * so sorting by the first element is not a good approach.
+     * Instead, the current sorting logic for spasmid01 is
+     * to find the length of the longest tag array (e.g., 10),
+     * and start sorting tags by the 10th element, then
+     * by the 9th element, and continue until sorting is
+     * done by the first element.
+     *
+     * Each tag is an array of values. However, values inside
+     * each tag should not be sorted as it can affect the
+     * intention of the event. For example, the order of an
+     * element in a Nostr tag array has a meaning.
+     */
+    const sortTagsByElementNumber = (elementNumber = 0) => {
+        tags = tags.sort((a, b) => {
+            const key = elementNumber;
+            let aValue = "";
+            let bValue = "";
+            if (a[key]) {
+                if (typeof (a[key]) === 'string') {
+                    aValue = a[key];
+                }
+                else if (typeof (a[key]) === 'number') {
+                    aValue = String(a[key]);
+                }
+            }
+            if (b[key]) {
+                if (typeof (b[key]) === 'string') {
+                    bValue = b[key];
+                }
+                else if (typeof (b[key]) === 'number') {
+                    bValue = String(b[key]);
+                }
+            }
+            const compareResult = aValue.localeCompare(bValue);
+            if (compareResult !== 0) {
+                return compareResult;
+            }
+            return 0; // Equal
+        });
+    };
+    let longestTagArrayLength = 1;
+    // Find the longest array (tag) to be used for sorting.
+    tags.forEach(tag => {
+        if (tag && Array.isArray(tag) &&
+            tag.length > longestTagArrayLength) {
+            longestTagArrayLength = tag.length;
+        }
+    });
+    for (let i = longestTagArrayLength; i >= 0; i--) {
+        sortTagsByElementNumber(i);
+    }
+    return tags;
+};
+exports.sortTagsForSpasmid01 = sortTagsForSpasmid01;
 //# sourceMappingURL=utils.js.map
