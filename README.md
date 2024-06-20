@@ -53,7 +53,7 @@ See the full list of properties of `SpasmEventV2` at `./src.ts/types/interfaces.
 Here is a schema of the SpasmEventV2 interface:
 
 ```
-#01  = EventStructureForSpasmid01
+#01  = EventForSpasmid01
 SE   = SpasmEvent
 Body = SpasmEventBody
 Env  = SpasmEventEnvelope
@@ -144,7 +144,7 @@ event*
 ├── license                          #01 SE Body --- ---- DB
 ├── language                         #01 SE Body --- ---- DB
 ├── extra                            #01 SE Body --- ---- DB
-├── pow                              --- SE Body --- ---- DB
+├── pows            (only 1 in body) --- SE Body --- ---- DB
 │   ├── nonce                        --- SE Body --- ---- DB
 │   ├── difficulty                   --- SE Body --- ---- DB
 │   ├── words[]                      --- SE Body --- ---- DB

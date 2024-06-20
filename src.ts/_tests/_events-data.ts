@@ -5,6 +5,7 @@ import {
   // V2
   SpasmEventV2,
   SpasmEventV0,
+  EventForSpasmid01,
   // SpasmEventBodyV2,
   // SpasmEventEnvelopeV2,
   // SpasmEventEnvelopeWithTreeV2,
@@ -167,6 +168,15 @@ export const validSpasmDmpEventSignedClosedV0 = validPostWithDmpEventSignedClose
 export const validDmpEventConvertedToSpasmEventV2: SpasmEventV2 = {
   type: "SpasmEventV2",
   action: "post",
+  ids: [
+    {
+      value: "spasmid0103086d8c9881aa566b755d0b50fc0c80ab4362224860ee21859e658f64cca4c3",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    }
+  ],
   title: "genesis",
   content: "not your keys, not your words",
   timestamp: 1641074686178,
@@ -204,16 +214,16 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
   license: "MIT",
   ids: [
     {
+      value: "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
+    {
       value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
       format: { name: "ethereum-sig", }
-    },
-    // {
-    //   value: "spasmid01xyz",
-    //   format: {
-    //     name: "spasmid",
-    //     version: "01"
-    //   }
-    // }
+    }
   ],
   signatures: [
     {
@@ -312,6 +322,13 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
     {
       ids: [
         {
+          value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+          format: {
+            name: "spasmid",
+            version: "01"
+          }
+        },
+        {
           value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
           format: {
             name: "nostr-hex",
@@ -323,13 +340,6 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
             name: "nostr-sig",
           }
         }
-        // {
-        //   value: "spasmid01xyz",
-        //   format: {
-        //     name: "spasmid",
-        //     version: "01"
-        //   }
-        // }
       ],
       event: {
         type: "SpasmEventV2",
@@ -365,6 +375,13 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
         ],
         license: "SPDX-License-Identifier: CC0-1.0",
         ids: [
+          {
+            value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+            format: {
+              name: "spasmid",
+              version: "01"
+            }
+          },
           {
             value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
             format: {
@@ -472,18 +489,18 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
     {
       ids: [
         {
+          value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+          format: {
+            name: "spasmid",
+            version: "01"
+          }
+        },
+        {
           value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
           format: {
             name: "ethereum-sig",
           }
         },
-        // {
-        //   value: "spasmid01xyz",
-        //   format: {
-        //     name: "spasmid",
-        //     version: "01"
-        //   }
-        // }
       ],
       event: {
         type: "SpasmEventV2",
@@ -519,6 +536,13 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
         ],
         license: "SPDX-License-Identifier: CC0-1.0",
         ids: [
+          {
+            value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+            format: {
+              name: "spasmid",
+              version: "01"
+            }
+          },
           {
             value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
             format: {
@@ -704,7 +728,7 @@ export const validNostrEventConvertedToSpasmV2: SpasmEventV2 = {
   type: "SpasmEventV2",
   parent: {
     ids: [
-      {
+            {
         value: "3da979448d9ba263864c4d6f14984c423a3838364ec255f03c7904b1ae77f206",
         format: {
           name: "nostr-hex"
@@ -728,6 +752,13 @@ export const validNostrEventConvertedToSpasmV2: SpasmEventV2 = {
     }
   ],
   ids: [
+    {
+      value: "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
     {
       value: "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65",
       format: {
@@ -775,6 +806,13 @@ export const validNostrSpasmEventConvertedToSpasmV2: SpasmEventV2 = {
   ],
   license: "SPDX-License-Identifier: CC0-1.0",
   ids: [
+    {
+      value: "spasmid014c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
     {
       value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
       format: {
@@ -831,6 +869,13 @@ export const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
     }
   ],
   ids: [
+    {
+      value: "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
     {
       value: "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65",
       format: {
@@ -889,6 +934,13 @@ export const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = 
   ],
   license: "SPDX-License-Identifier: CC0-1.0",
   ids: [
+    {
+      value: "spasmid014c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
     {
       value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
       format: { name: "nostr-hex" }
@@ -1047,12 +1099,41 @@ export const validPostWithRssItem: Post = {
   latest_action_added_time: null
 }
 
+export const validPostWithRssItemReverseTags: Post = {
+  id: 18081,
+  guid: "https://forum.degenrocket.space/?l=terraforming",
+  source: "degenrocket.space",
+  author: "stablepony",
+  tickers: "cookies",
+  title: "To the Moon!",
+  url: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+  description: "Tornado is coming back! Roger that! Starting the engine...",
+  pubdate: "2024-03-12T20:24:04.240Z",
+  category: "defi",
+  tags: ["forest", "dark"],
+  upvote: 3,
+  downvote: null,
+  bullish: 2,
+  bearish: 0,
+  important: 6,
+  scam: 1,
+  comments_count: 0,
+  latest_action_added_time: null
+}
+
 export const validSpasmEventRssItemV0: SpasmEventV0 =
   validPostWithRssItem
 
 export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
   type: "SpasmEventV2",
   ids: [
+    {
+      value: "spasmid018c2de31b99295885fbc4d86ecbeaa51c006a79abe5e728493b24bd186fb752eb",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    },
     {
       value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
       format: { name: "url" }
@@ -1170,5 +1251,1139 @@ export const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2 = {
       action: "reply",
       total: 0
     }
+  ]
+}
+
+export const validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2: SpasmEventV2 = {
+  ...validSpasmEventRssItemV0ConvertedToSpasmV2,
+  keywords: ["forest", "dark", "cookies"]
+}
+
+export const SpasmEventV2ToTestSpasmid01: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  root: {
+    depth: 3,
+    marker: "root-marker1",
+    ids: [
+      { value: "root-idz" },
+      { value: "root-id3" },
+      { value: "root-id3a" }
+    ],
+    event: {
+      type: "SpasmEventV2",
+      action: "post",
+      title: "root-event-title",
+      content: "root-event-text"
+    }
+  },
+  parent: {
+    depth: 1,
+    marker: "parent-marker1",
+    ids: [
+      { value: "parent-idx" },
+      { value: "parent-id1" },
+      { value: "parent-id1a" }
+    ],
+    event: {
+      type: "SpasmEventV2",
+      action: "reply",
+      title: "parent-event-title",
+      content: "parent-event-text"
+    }
+  },
+  ids: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      format: { name: "url" },
+      hosts: [
+        {
+          value: "ids-host-1",
+          marker: "ids-host-marker-1"
+        },
+        {
+          value: "ids-host-1a",
+          marker: "ids-host-marker-1a"
+        }
+      ]
+    },
+    {
+      value: "spasmid01abc",
+      format: { name: "spasmid" },
+      hosts: [ { value: "ids-host-1" } ]
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      format: { name: "guid" }
+    },
+  ],
+  db: {
+    key: 20240430,
+    addedTimestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+    updatedTimestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+    table: "spasm_events"
+  },
+  timestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+  title: "Test title",
+  action: "reply",
+  content: "Test content\nnew line\\ndoule escape character\\\ntriple escape character and 'single quotes'",
+  authors: [
+    // Author 2
+    {
+      addresses: [
+        {
+          format: { name: "ethereum-pubkey" },
+          verified: true,
+          value: "address3a",
+        }
+      ]
+    },
+    // Author 1
+    {
+      addresses: [
+        {
+          verified: false,
+          value: "address1b",
+          format: { name: "ethereum-pubkey" }
+        },
+        {
+          value: "address1a",
+          verified: true,
+          format: { name: "ethereum-pubkey" }
+        }
+      ],
+      usernames: [
+        {
+          owner: "owner1b",
+          protocol: "protocol1b",
+          proof: "proof1b",
+          provider: "provider1b",
+          value: "username1b",
+        },
+        {
+          owner: "owner1a",
+          value: "username1a",
+          protocol: "protocol1a",
+          proof: "proof1a",
+          provider: "provider1a"
+        }
+      ]
+    },
+    // Author 3
+    {
+      usernames: [
+        {
+          value: "username2a",
+          owner: "owner2a",
+          protocol: "protocol2a",
+          proof: "proof2a",
+          provider: "provider2a"
+        },
+        { value: "username2b" }
+      ]
+    }
+  ],
+  categories: [
+    { name: 0 },
+    { name: 1 },
+    { name: "category-1", sub: { name: "sub1" } }
+  ],
+  tips: [
+    {
+      text: "tips-text-88",
+      expiration: { timestamp: 1641074686179 } ,
+      address: "tips-address-88",
+      currency: { name: "Monero", ticker: "XMR" },
+      network: { name: "testnet", id: "2" }
+    },
+    {
+      address: "tips-address-84",
+      currency: { name: "Monero", ticker: "XMR" },
+      text: "tips-text-84",
+      network: { name: "mainnet", id: "1" },
+      expiration: { timestamp: 1641074686178 }
+    },
+  ],
+  hosts: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      search: "?i=url1",
+      marker: "hosts-marker-url1",
+      origin: "https://forum.degenrocket.space",
+      pathname: "/",
+      protocol: "https",
+      host: "forum.degenrocket.space",
+      originalProtocolKey: "url"
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "hosts-marker-guid1",
+      protocol: "https",
+      origin: "https://forum.degenrocket.space",
+      host: "forum.degenrocket.space",
+      pathname: "/",
+      search: "?i=guid1",
+      originalProtocolKey: "guid"
+    }
+  ],
+  links: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      marker: "links-marker-url1",
+      protocol: "https",
+      origin: "https://forum.degenrocket.space",
+      host: "forum.degenrocket.space",
+      pathname: "/",
+      search: "?i=url1",
+      originalProtocolKey: "url"
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "links-marker-guid1",
+      protocol: "https",
+      origin: "https://forum.degenrocket.space",
+      host: "forum.degenrocket.space",
+      pathname: "/",
+      search: "?i=guid1",
+      originalProtocolKey: "guid"
+    }
+  ],
+  keywords: [ "keyword2", "keyword3", "keyword1" ],
+  tags: [
+    ["tag2-0","tag2-1"],
+    ["tag3-0","tag3-1", "tag3-2"],
+    [1, 2, "3", "four", [5], { value: "six" }, null, undefined],
+    ["tag5-0","tag5-1", "tag5-2", "tag5-3"],
+    ["tag4-0","tag4-1", "tag4-2"],
+    ["tag1-0","tag1-1"]
+  ],
+  medias: [
+    // media 2
+    {
+      ids: [
+        { value: "mediaid2" },
+        { value: "mediaid5" },
+        { value: "mediaid4" }
+      ],
+      hashes: [
+        { value: "hash7" },
+        { value: "hash8" }
+      ]
+    },
+    // media 1
+    {
+      ids: [
+        { value: "mediaid3" },
+        { value: "mediaid1" }
+      ]
+    },
+    // media 3
+    {
+      hashes: [
+        { value: "hash4" },
+        { value: "hash3" }
+      ],
+      links: [
+        { value: "link4" },
+        { value: "link2" }
+      ]
+    },
+  ],
+  references: [
+      // reference 2
+      {
+        ids: [
+          { value: "ref-id4" },
+          { value: "ref-id2" }
+        ],
+        marker: "ref-marker2" },
+      // reference 1
+      {
+        ids: [
+          { value: "ref-id3" },
+          { value: "ref-id1" }
+        ],
+        marker: "ref-marker1"
+      },
+  ],
+  mentions: [
+    // Mention 3
+    {
+      usernames: [
+        {
+          value: "mention-username2a",
+          owner: "mention-owner2a",
+          protocol: "mention-protocol2a",
+          proof: "mention-proof2a",
+          provider: "mention-provider2a"
+        },
+        { value: "mention-username2b" }
+      ]
+    },
+    // Mention 1
+    {
+      addresses: [
+        {
+          value: "mention-address1a",
+          format: { name: "ethereum-pubkey" },
+        },
+        {
+          value: "mention-address1b",
+          format: { name: "ethereum-pubkey" },
+        },
+      ],
+      usernames: [
+        {
+          value: "mention-username1a",
+          owner: "mention-owner1a",
+          protocol: "mention-protocol1a",
+          proof: "mention-proof1a",
+          provider: "mention-provider1a"
+        },
+        {
+          value: "mention-username1b",
+          owner: "mention-owner1b",
+          protocol: "mention-protocol1b",
+          proof: "mention-proof1b",
+          provider: "mention-provider1b"
+        },
+      ]
+    },
+    // Mention 2
+    {
+      addresses: [
+        {
+          value: "mention-address3a",
+          format: { name: "ethereum-pubkey" },
+        }
+      ]
+    }
+  ],
+  proofs: [
+    {
+      value: "proof-value2",
+      links: [
+        { value: "proof-value2-link1" },
+        { value: "proof-value2-link2" }
+      ]
+    },
+    {
+      value: "proof-value1",
+      links: [
+        { value: "proof-value1-link2", marker: "proof-marker1" },
+        { value: "proof-value1-link1" },
+        { value: "proof-value1-link1a" },
+      ],
+      protocol: {
+        name: "proof-protocol-name1",
+        version: "proof-protocol-version1"
+      }
+    },
+  ],
+  license: "SPDX-License-Identifier: CC0-1.0",
+  language: "en",
+  // TODO add complex logic for sorting 'extra'.
+  // - if a key is an array, sort it 
+  //   - if an element inside the array is an array, sort it
+  // - if a key is an object, go inside to check for arrays
+  extra: {
+    string: "hello",
+    object: { value: "123" },
+    number: 1,
+    null: null,
+    array: [ 1, 2, 3 ],
+    undefined: undefined
+  },
+  pows: [
+    {
+      marker: "spasmpow01",
+      nonce: "hello",
+      difficulty: 1,
+      words: ["degen", "rebel"]
+    },
+    {
+      marker: "spasmid02",
+      nonce: 20240430,
+      difficulty: 5,
+      words: ["one", "two", "three", "four", "five"],
+    },
+    {
+      marker: "spasmid01",
+      nonce: 18081,
+      difficulty: 4,
+      words: ["one", "two", "three", "four"],
+      network: {
+        name: "pow-network-name",
+        id: "03"
+      }
+    },
+    {
+      marker: "spasmid01",
+      nonce: 8,
+      difficulty: 2,
+      words: ["one", "two"],
+    }
+  ],
+  source: {
+    name: "degenrocket.space",
+    uiUrl: "https://degenrocket.space/news/",
+    apiUrl: "https://degenrocket.space/api/",
+    query: "posts?webType=web3&category=any&platform=false&source=false&activity=all&keyword=false&ticker=false&limitWeb2=0&limitWeb3=50",
+    showSource: true
+  },
+  siblings: [
+    {
+      type: "SiblingWeb2V2",
+      protocol: { name: "web2" },
+      originalObject: {
+        type: "SpasmEventBodyV2"
+      },
+      ids: [
+        {
+          value: "https://forum.degenrocket.space/?i=url1",
+          format: { name: "url" },
+          hosts: [
+            {
+              value: "ids-host-1",
+              marker: "ids-host-marker-1"
+            },
+            {
+              value: "ids-host-1a",
+              marker: "ids-host-marker-1a"
+            }
+          ]
+        },
+        {
+          value: "spasmid01abc",
+          format: { name: "spasmid" },
+          hosts: [ { value: "ids-host-1" } ]
+        },
+        {
+          value: "https://forum.degenrocket.space/?i=guid1",
+          format: { name: "guid" }
+        }
+      ],
+    }
+  ],
+  stats: [
+    {
+      action: "react",
+      contents: [
+        {
+          value: "upvote",
+          total: 3
+        }
+      ]
+    },
+    {
+      action: "reply",
+      total: 0
+    }
+  ],
+  sharedBy: {
+    ids: [
+      {
+        value: "sharedBy-ids-1"
+      },
+      {
+        value: "sharedBy-ids-2"
+      }
+    ]
+  }
+}
+
+export const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  root: {
+    depth: 5, // changed
+    marker: "root-marker1",
+    ids: [
+      { value: "root-id3" },
+      { value: "root-idz" },
+      { value: "root-id3a" }
+    ],
+    event: {
+      type: "SpasmEventV2",
+      action: "post",
+      title: "root-event-title-new", // changed
+      content: "root-event-text-new" // changed
+    }
+  },
+  parent: {
+    depth: 4, // changed
+    marker: "parent-marker1",
+    ids: [
+      { value: "parent-id1" },
+      { value: "parent-idx" },
+      { value: "parent-id1a" }
+    ],
+    event: {
+      type: "SpasmEventV2",
+      action: "edit", // changed
+      title: "parent-event-title-new", // changed
+      content: "parent-event-text-new" // changed
+    }
+  },
+  ids: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1-new", // changed
+      format: { name: "nostr-hex" }, // changed
+      hosts: [
+        {
+          value: "ids-host-1-new", // changed
+          marker: "ids-host-marker-1-new" // changed
+        },
+        {
+          value: "ids-host-1a-new", // changed
+          marker: "ids-host-marker-1a-new" // changed
+        }
+      ]
+    },
+    {
+      value: "spasmid01abc-new", // changed
+      format: { name: "ethereum-sig" }, // changed
+      hosts: [ { value: "ids-host-1-new" } ] // changed
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1-new", // changed
+      format: { name: "spasmid" } // changed
+    }
+  ],
+  db: {
+    key: 20240431, // changed
+    addedTimestamp: toBeTimestamp("2024-03-12T20:24:04.241Z"), // changed
+    updatedTimestamp: toBeTimestamp("2024-03-12T20:24:04.241Z"), // changed
+    table: "spasm_events-new" // changed
+  },
+  timestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+  title: "Test title",
+  action: "reply",
+  content: "Test content\nnew line\\ndoule escape character\\\ntriple escape character and 'single quotes'",
+  authors: [
+    // Author 2
+    {
+      addresses: [
+        {
+          format: { name: "ethereum-pubkey" },
+          verified: false, // changed
+          value: "address3a",
+        }
+      ]
+    },
+    // Author 1
+    {
+      addresses: [
+        {
+          verified: true, // changed
+          value: "address1b",
+          format: { name: "ethereum-pubkey" }
+        },
+        {
+          value: "address1a",
+          verified: false, // changed
+          format: { name: "ethereum-pubkey" }
+        }
+      ],
+      usernames: [
+        {
+          owner: "owner1b",
+          protocol: "protocol1b",
+          proof: "proof1b",
+          provider: "provider1b",
+          value: "username1b",
+        },
+        {
+          owner: "owner1a",
+          value: "username1a",
+          protocol: "protocol1a",
+          proof: "proof1a",
+          provider: "provider1a"
+        }
+      ]
+    },
+    // Author 3
+    {
+      usernames: [
+        {
+          value: "username2a",
+          owner: "owner2a",
+          protocol: "protocol2a",
+          proof: "proof2a",
+          provider: "provider2a"
+        },
+        { value: "username2b" }
+      ]
+    }
+  ],
+  categories: [
+    { name: 5 }, // changed
+    { name: 6 }, // changed
+    { name: "category-3", sub: { name: "sub4" } } // changed
+  ],
+  // TODO should tips be included in spasmid?
+  // e.g., user might want to update tips on his posts, so
+  // then tips should NOT be included.
+  // However, what if a malicious actor gets access to user's
+  // private key and updates all posts with his tips addresses?
+  tips: [
+    {
+      text: "tips-text-88",
+      expiration: { timestamp: 1641074686179 } ,
+      address: "tips-address-88",
+      currency: { name: "Monero", ticker: "XMR" },
+      network: { name: "testnet", id: "2" }
+    },
+    {
+      address: "tips-address-84",
+      currency: { name: "Monero", ticker: "XMR" },
+      text: "tips-text-84",
+      network: { name: "mainnet", id: "1" },
+      expiration: { timestamp: 1641074686178 }
+    },
+  ],
+  hosts: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      search: "?i=url1-new", // changed
+      marker: "hosts-marker-url1",
+      origin: "https://forum.degenrocket.space-new", // changed
+      pathname: "/-new", // changed
+      protocol: "https-new", // changed
+      host: "forum.degenrocket.space-new", // changed
+      originalProtocolKey: "url-new" // changed
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "hosts-marker-guid1",
+      protocol: "https-new", // changed
+      origin: "https://forum.degenrocket.space-new", // changed
+      host: "forum.degenrocket.space-new", // changed
+      pathname: "/-new", // changed
+      search: "?i=guid1-new", // changed
+      originalProtocolKey: "guid-new" // changed
+    }
+  ],
+  links: [
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      marker: "links-marker-url1",
+      protocol: "https-new", // changed
+      origin: "https://forum.degenrocket.space-new", // changed
+      host: "forum.degenrocket.space-new", // changed
+      pathname: "/-new", // changed
+      search: "?i=url1-new", // changed
+      originalProtocolKey: "url-new" // changed
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "links-marker-guid1",
+      protocol: "https-new", // changed
+      origin: "https://forum.degenrocket.space-new", // changed
+      host: "forum.degenrocket.space-new", // changed
+      pathname: "/-new", // changed
+      search: "?i=guid1-new", // changed
+      originalProtocolKey: "guid-new" // changed
+    }
+  ],
+  keywords: [ "keyword2", "keyword3", "keyword1" ],
+  tags: [
+    ["tag2-0","tag2-1"],
+    ["tag3-0","tag3-1", "tag3-2"],
+    [1, 2, "3", "four", [5], { value: "six" }, null, undefined],
+    ["tag5-0","tag5-1", "tag5-2", "tag5-3"],
+    ["tag4-0","tag4-1", "tag4-2"],
+    ["tag1-0","tag1-1"]
+  ],
+  medias: [
+    // media 2
+    {
+      ids: [
+        { value: "mediaid2" },
+        { value: "mediaid5" },
+        { value: "mediaid4" }
+      ],
+      hashes: [
+        { value: "hash7" },
+        { value: "hash8" }
+      ]
+    },
+    // media 1
+    {
+      ids: [
+        { value: "mediaid3" },
+        { value: "mediaid1" }
+      ]
+    },
+    // media 3
+    {
+      hashes: [
+        { value: "hash4" },
+        { value: "hash3" }
+      ],
+      links: [
+        { value: "link4" },
+        { value: "link2" }
+      ]
+    },
+  ],
+  references: [
+      // reference 2
+      {
+        ids: [
+          { value: "ref-id4" },
+          { value: "ref-id2" }
+        ],
+        marker: "ref-marker2" },
+      // reference 1
+      {
+        ids: [
+          { value: "ref-id3" },
+          { value: "ref-id1" }
+        ],
+        marker: "ref-marker1"
+      },
+  ],
+  mentions: [
+    // Mention 3
+    {
+      usernames: [
+        {
+          value: "mention-username2a",
+          owner: "mention-owner2a",
+          protocol: "mention-protocol2a",
+          proof: "mention-proof2a",
+          provider: "mention-provider2a"
+        },
+        { value: "mention-username2b" }
+      ]
+    },
+    // Mention 1
+    {
+      addresses: [
+        {
+          value: "mention-address1a",
+          format: { name: "ethereum-pubkey" },
+        },
+        {
+          value: "mention-address1b",
+          format: { name: "ethereum-pubkey" },
+        },
+      ],
+      usernames: [
+        {
+          value: "mention-username1a",
+          owner: "mention-owner1a",
+          protocol: "mention-protocol1a",
+          proof: "mention-proof1a",
+          provider: "mention-provider1a"
+        },
+        {
+          value: "mention-username1b",
+          owner: "mention-owner1b",
+          protocol: "mention-protocol1b",
+          proof: "mention-proof1b",
+          provider: "mention-provider1b"
+        },
+      ]
+    },
+    // Mention 2
+    {
+      addresses: [
+        {
+          value: "mention-address3a",
+          format: { name: "ethereum-pubkey" },
+        }
+      ]
+    }
+  ],
+  proofs: [
+    {
+      value: "proof-value2",
+      links: [
+        { value: "proof-value2-link1" },
+        { value: "proof-value2-link2" }
+      ]
+    },
+    {
+      value: "proof-value1",
+      links: [
+        { value: "proof-value1-link2", marker: "proof-marker1" },
+        { value: "proof-value1-link1" },
+        { value: "proof-value1-link1a" },
+      ],
+      protocol: {
+        name: "proof-protocol-name1",
+        version: "proof-protocol-version1"
+      }
+    },
+  ],
+  license: "SPDX-License-Identifier: CC0-1.0",
+  language: "en",
+  // TODO add complex logic for sorting 'extra'.
+  // - if a key value is an array, sort it 
+  //   - if an element inside the array is an array, sort it
+  // - if a key value is an object, go inside to check for arrays
+  extra: {
+    string: "hello",
+    object: { value: "123" },
+    number: 1,
+    null: null,
+    array: [ 1, 2, 3 ],
+    undefined: undefined
+  },
+  pows: [
+    {
+      marker: "spasmpow01",
+      nonce: "hello",
+      difficulty: 1,
+      words: ["degen", "rebel"]
+    },
+    {
+      marker: "spasmid02",
+      nonce: 20240430,
+      difficulty: 5,
+      words: ["one", "two", "three", "four", "five"],
+    },
+    {
+      marker: "spasmid01",
+      nonce: 18081,
+      difficulty: 4,
+      words: ["one", "two", "three", "four"],
+      network: {
+        name: "pow-network-name",
+        id: "03"
+      }
+    },
+    {
+      marker: "spasmid01",
+      nonce: 8,
+      difficulty: 2,
+      words: ["one", "two"],
+    }
+  ],
+  source: {
+    name: "degenrocket.space-new", // changed
+    uiUrl: "https://degenrocket.space/news/-new", // changed
+    apiUrl: "https://degenrocket.space/api/-new", // changed
+    query: "posts?webType=web3&category=any&platform=false&source=false&activity=all&keyword=false&ticker=false&limitWeb2=0&limitWeb3=50-new", // changed
+    showSource: false // changed
+  },
+  siblings: [
+    {
+      type: "SiblingWeb2V2",
+      protocol: { name: "web2" },
+      originalObject: {
+        type: "SpasmEventBodyV2"
+      },
+      ids: [
+        {
+          value: "https://forum.degenrocket.space/?i=url1-new", // changed
+          format: { name: "nostr-hex" }, // changed
+          hosts: [
+            {
+              value: "ids-host-1-new", // changed
+              marker: "ids-host-marker-1-new" // changed
+            },
+            {
+              value: "ids-host-1a-new", // changed
+              marker: "ids-host-marker-1a-new" // changed
+            }
+          ]
+        },
+        {
+          value: "spasmid01abc-new", // changed
+          format: { name: "ethereum-sig" }, // changed
+          hosts: [ { value: "ids-host-1-new" } ] // changed
+        },
+        {
+          value: "https://forum.degenrocket.space/?i=guid1-new", // changed
+          format: { name: "spasmid" } // changed
+        }
+      ]
+    }
+  ],
+  stats: [
+    {
+      action: "edit", // changed
+      contents: [
+        {
+          value: "important", // changed
+          total: 5 // changed
+        }
+      ]
+    },
+    {
+      action: "moderate", // changed
+      total: 9 // changed
+    }
+  ],
+  sharedBy: {
+    ids: [
+      {
+        value: "sharedBy-ids-1-new" // changed
+      },
+      {
+        value: "sharedBy-ids-2-new" // changed
+      }
+    ]
+  }
+}
+
+export const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01 = {
+  parent: {
+    ids: [
+      { value: "parent-id1" },
+      { value: "parent-id1a" },
+      { value: "parent-idx" }
+    ],
+    marker: "parent-marker1",
+  },
+  action: "reply",
+  title: "Test title",
+  content: "Test content\nnew line\\ndoule escape character\\\ntriple escape character and 'single quotes'",
+  timestamp: toBeTimestamp("2024-03-12T20:24:04.240Z"),
+  authors: [
+    // Author 1
+    {
+      addresses: [
+        {
+          value: "address1a",
+          format: { name: "ethereum-pubkey" },
+        },
+        {
+          value: "address1b",
+          format: { name: "ethereum-pubkey" },
+        },
+      ],
+      usernames: [
+        {
+          value: "username1a",
+          owner: "owner1a",
+          protocol: "protocol1a",
+          proof: "proof1a",
+          provider: "provider1a"
+        },
+        {
+          value: "username1b",
+          owner: "owner1b",
+          protocol: "protocol1b",
+          proof: "proof1b",
+          provider: "provider1b"
+        },
+      ]
+    },
+    // Author 2
+    {
+      addresses: [
+        {
+          value: "address3a",
+          format: { name: "ethereum-pubkey" },
+        }
+      ]
+    },
+    // Author 3
+    {
+      usernames: [
+        {
+          value: "username2a",
+          owner: "owner2a",
+          protocol: "protocol2a",
+          proof: "proof2a",
+          provider: "provider2a"
+        },
+        { value: "username2b" }
+      ]
+    },
+  ],
+  tips: [
+    {
+      address: "tips-address-84",
+      text: "tips-text-84",
+      expiration: { timestamp: 1641074686178 } ,
+      currency: { name: "Monero", ticker: "XMR" },
+      network: { name: "mainnet", id: "1" }
+    },
+    {
+      address: "tips-address-88",
+      text: "tips-text-88",
+      expiration: { timestamp: 1641074686179 } ,
+      currency: { name: "Monero", ticker: "XMR" },
+      network: { name: "testnet", id: "2" }
+    }
+  ],
+  hosts: [
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "hosts-marker-guid1",
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      marker: "hosts-marker-url1",
+    },
+  ],
+  links: [
+    {
+      value: "https://forum.degenrocket.space/?i=guid1",
+      marker: "links-marker-guid1",
+    },
+    {
+      value: "https://forum.degenrocket.space/?i=url1",
+      marker: "links-marker-url1",
+    },
+  ],
+  keywords: [ "keyword1", "keyword2", "keyword3" ],
+  tags: [
+    [1, 2, "3", "four", [5], { value: "six" }, null, undefined],
+    ["tag1-0","tag1-1"],
+    ["tag2-0","tag2-1"],
+    ["tag3-0","tag3-1", "tag3-2"],
+    ["tag4-0","tag4-1", "tag4-2"],
+    ["tag5-0","tag5-1", "tag5-2", "tag5-3"],
+  ],
+  medias: [
+    // media 1
+    {
+      ids: [
+        { value: "mediaid1" },
+        { value: "mediaid3" }
+      ]
+    },
+    // media 2
+    {
+      ids: [
+        { value: "mediaid2" },
+        { value: "mediaid4" },
+        { value: "mediaid5" }
+      ],
+      hashes: [
+        { value: "hash7" },
+        { value: "hash8" }
+      ]
+    },
+    // media 3
+    {
+      links: [
+        { value: "link2" },
+        { value: "link4" }
+      ],
+      hashes: [
+        { value: "hash3" },
+        { value: "hash4" }
+      ],
+    },
+  ],
+  references: [
+      // reference 1
+      {
+        ids: [
+          { value: "ref-id1" },
+          { value: "ref-id3" }
+        ],
+        marker: "ref-marker1"
+      },
+      // reference 2
+      {
+        ids: [
+          { value: "ref-id2" },
+          { value: "ref-id4" }
+        ],
+        marker: "ref-marker2"
+      },
+  ],
+  mentions: [
+    // Mention 1
+    {
+      addresses: [
+        {
+          value: "mention-address1a",
+          format: { name: "ethereum-pubkey" },
+        },
+        {
+          value: "mention-address1b",
+          format: { name: "ethereum-pubkey" },
+        },
+      ],
+      usernames: [
+        {
+          value: "mention-username1a",
+          owner: "mention-owner1a",
+          protocol: "mention-protocol1a",
+          proof: "mention-proof1a",
+          provider: "mention-provider1a"
+        },
+        {
+          value: "mention-username1b",
+          owner: "mention-owner1b",
+          protocol: "mention-protocol1b",
+          proof: "mention-proof1b",
+          provider: "mention-provider1b"
+        },
+      ]
+    },
+    // Mention 2
+    {
+      addresses: [
+        {
+          value: "mention-address3a",
+          format: { name: "ethereum-pubkey" },
+        }
+      ]
+    },
+    // Mention 3
+    {
+      usernames: [
+        {
+          value: "mention-username2a",
+          owner: "mention-owner2a",
+          protocol: "mention-protocol2a",
+          proof: "mention-proof2a",
+          provider: "mention-provider2a"
+        },
+        { value: "mention-username2b" }
+      ]
+    },
+  ],
+  proofs: [
+    {
+      value: "proof-value1",
+      links: [
+        { value: "proof-value1-link1" },
+        { value: "proof-value1-link1a" },
+        { value: "proof-value1-link2", marker: "proof-marker1" }
+      ],
+      protocol: {
+        name: "proof-protocol-name1",
+        version: "proof-protocol-version1"
+      }
+    },
+    {
+      value: "proof-value2",
+      links: [
+        { value: "proof-value2-link1" },
+        { value: "proof-value2-link2" }
+      ]
+    }
+  ],
+  license: "SPDX-License-Identifier: CC0-1.0",
+  language: "en",
+  extra: {
+    number: 1,
+    string: "hello",
+    array: [ 1, 2, 3 ],
+    object: { value: "123" },
+    null: null,
+    undefined: undefined
+  },
+  pows: [
+    {
+      marker: "spasmid01",
+      nonce: 18081,
+      difficulty: 4,
+      // Sorted alphabetically
+      words: ["four", "one", "three", "two"],
+      network: {
+        name: "pow-network-name",
+        id: "03"
+      }
+    },
   ]
 }

@@ -3,7 +3,7 @@ See the full list of properties of `SpasmEvent` at `./src.ts/types/interfaces.ts
 Here is a schema of the SpasmEventV2 interface:
 
 ```
-#01  = EventStructureForSpasmid01
+#01  = EventForSpasmid01
 SE   = SpasmEvent
 Body = SpasmEventBody
 Env  = SpasmEventEnvelope
@@ -94,7 +94,8 @@ event*
 ├── license                          #01 SE Body --- ---- DB
 ├── language                         #01 SE Body --- ---- DB
 ├── extra                            #01 SE Body --- ---- DB
-├── pow                              --- SE Body --- ---- DB
+├── pows            (only 1 in body) --- SE Body --- ---- DB
+│   ├── marker                       --- SE Body --- ---- DB
 │   ├── nonce                        --- SE Body --- ---- DB
 │   ├── difficulty                   --- SE Body --- ---- DB
 │   ├── words[]                      --- SE Body --- ---- DB
@@ -320,7 +321,7 @@ event.sharedBy.ids
 ```
 EventBodyForSpasmid01
 - all standardized signed key-value pairs to calculate spasmid01
-  - similar to SpasmEventBodyV2, but without type, protocol, pow
+  - similar to SpasmEventBodyV2, but without type, protocol, pows
 
 SpasmEventBodyV2
 - all standardized signed key-value pairs

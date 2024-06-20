@@ -395,23 +395,23 @@ export interface SpasmEventBodyV2 {
   authors?: SpasmEventBodyAuthorV2[]
   categories?: SpasmEventCategoryV2[]
   tips?: SpasmEventBodyTipsV2[]
-  hosts?: Pick<SpasmEventHostV2, 'value' | 'marker'>[]
-  links?: Pick<SpasmEventLinkV2, 'value' | 'marker'>[]
+  hosts?: SpasmEventBodyLinkV2[]
+  links?: SpasmEventBodyLinkV2[]
   keywords?: string[]
   tags?: any[][]
   medias?: SpasmEventMediaV2[]
   references?: SpasmEventBodyReferenceV2[]
   mentions?: SpasmEventMentionV2[]
   proofs?: SpasmEventProofV2[]
-  /**
-   * Some protocols have a sequence number and an ID (hash) of a
-   * previous event in order to increase censorship-resistance.
-   * These fields should be signed, but not hashed for Spasm ID,
-   * because a user should be able to sign an already signed
-   * event again with a protocol that will have different values
-   * for sequence and a previous event.
-   * TODO: think about the logic, whether add to Sibling, etc.
-   */
+ /**
+  * Some protocols have a sequence number and an ID (hash) of a
+  * previous event in order to increase censorship-resistance.
+  * These fields should be signed, but not hashed for Spasm ID,
+  * because a user should be able to sign an already signed
+  * event again with a protocol that will have different values
+  * for sequence and a previous event.
+  * TODO: think about the logic, whether add to Sibling, etc.
+  */
   previousEvent?: SpasmEventBodyPreviousEventV2
   sequence?: number
   license?: SpasmEventLicenseV2
@@ -425,13 +425,14 @@ export interface SpasmEventBodyV2 {
   * Body and then 'nonce' and 'words' from each POW will be
   * used to check difficulty of spasmpow, not spasmid.
   * In other words, there might be two levels of proof-of-work:
-  * - event-wide POW (spasmid01000000abc)
-  * - instance-specific POW (spasmpow010000defgh)
+  * - event-wide POW (spasmid01000000abc, spasmid02000000xyz)
+  * - instance-specific POW (spasmpow01degen, spasmpow02rebel)
   * Spasm ID (spasmid) is used to chain replies, reactions, etc.
   * Spasm POW (spasmpow) is only used to check POW.
   * Users should be able to submit already signed messages to
   * new instances by signing new siblings with extra POW, so
-  * only the first POW (pows[0]) should be used for Spasm ID.
+  * only POWs with "spasmid" markers should be used to 
+  * calculate Spasm IDs.
   */
   pows?: SpasmEventPowV2[]
 }
@@ -450,13 +451,20 @@ export interface SpasmEventBodyV2 {
 // TODO Nostr content might include #[1], #[2] to reference
 // some content in tags. This should be converted to actual
 // text before hashing.
-export interface EventStructureForSpasmid01 extends
+export interface EventForSpasmid01 extends
   Omit<SpasmEventBodyV2,
   | 'type'
   | 'protocol'
+  | 'authors'
   | 'categories'
   | 'sequence' | 'previousEvent'
-  > {}
+  > {
+   /**
+    * Authors should not have a 'verified' key
+    * for calculating the Spasm ID.
+    */
+    authors?: SpasmEventBodyAuthorV2[]
+  }
 
 export interface SpasmEventEnvelopeV2 {
   type: "SpasmEventEnvelopeV2"
@@ -584,6 +592,10 @@ export interface SpasmEventIdFormatV2 {
   version?: string| number
 }
 
+// TODO add 'marker' to each ID?
+// e.g. some referenced nostr events might have a marker
+// thus, there might a marker for the referenced event,
+// and for each ID (e.g., Spasm ID and Nostr ID)
 export interface SpasmEventIdV2 {
   value: string | number
   format?: SpasmEventIdFormatV2
@@ -602,12 +614,12 @@ export interface SpasmEventHashV2 extends
  */
 export interface SpasmEventBodyAuthorV2 {
   addresses?: SpasmEventBodyAddressV2[]
-  usernames?: SpasmEventAuthorUsername[]
+  usernames?: SpasmEventUsernameV2[]
 }
 
 export interface SpasmEventAuthorV2 {
   addresses?: SpasmEventAddressV2[]
-  usernames?: SpasmEventAuthorUsername[]
+  usernames?: SpasmEventUsernameV2[]
 }
 
 export interface SpasmEventAddressFormatV2 {
@@ -648,12 +660,18 @@ export interface SpasmEventAuthorUsername {
   provider?: string
 }
 
+export interface SpasmEventUsernameV2 extends SpasmEventAuthorUsername {}
+
 export interface SpasmEventCategoryV2 {
   name: string | number
   sub?: SpasmEventCategoryV2
 }
 
-export interface SpasmEventHostV2 extends SpasmEventLinkV2{}
+export interface SpasmEventBodyHostV2 extends SpasmEventBodyLinkV2 {}
+
+export interface SpasmEventBodyLinkV2 extends Pick<SpasmEventLinkV2, 'value' | 'marker'> {}
+
+export interface SpasmEventHostV2 extends SpasmEventLinkV2 {}
 
 export interface SpasmEventLinkV2 {
   value: string // eg "https://forum.example.com/posts/123?p=abc"
@@ -676,7 +694,7 @@ export interface SpasmEventSignatureV2 {
 }
 
 export interface SpasmEventBodyProtocolV2 {
-  name: "spasm" | "dmp" | "nostr"
+  name: "spasm" | "dmp" | "nostr" | "web2"
   version?: string
 }
 
@@ -784,7 +802,7 @@ export interface SpasmEventMentionV2 extends SpasmEventBodyAuthorV2 {}
 
 export interface SpasmEventProofV2 {
   value?: string | number
-  links?: Pick<SpasmEventLinkV2, 'value'>[]
+  links?: Pick<SpasmEventLinkV2, 'value' | 'marker'>[]
   protocol?: {
     name: string
     version?: string | number
@@ -805,14 +823,14 @@ export type SpasmEventAddressTypeV2 =
   "ethereum" | "nostr-npub" | "nostr-hex"
 
 export interface SpasmEventPowV2 {
+  marker?: string | number
   nonce?: string | number
-  difficulty?: string | number
+  difficulty?: number
   words?: (string | number)[]
   network?: {
     name: string | number
     id: string | number
   }
-
 }
 
 export type SpasmEventSiblingV2 =

@@ -51,18 +51,56 @@ import {
   isNostrSpasmEvent,
   isNostrSpasmEventSignedOpened
 } from "./../identify/identifyEvent.js"
+import { getSpasmId } from "./../id/getSpasmId";
 
 // const latestSpasmVersion = "2.0.0"
 
 // Spasm V2
 export const convertToSpasm = (
   unknownEvent: UnknownEventV2,
-  version = "2.0.0"
+  version = "2.0.0",
+  spasmIdVersions = ["01"]
 ): SpasmEventV2 | null => {
   if (version === "2.0.0") {
-    return standardizeEventV2(unknownEvent, version)
+    const standardizedEventV2 = 
+      standardizeEventV2(unknownEvent, version)
+
+    if (standardizedEventV2) {
+      const spasmEventV2: SpasmEventV2 | null =
+        assignSpasmId(standardizedEventV2, spasmIdVersions)
+
+      return spasmEventV2
+    }
   }
   return null
+}
+
+export const assignSpasmId = (
+  spasmEventV2: SpasmEventV2,
+  spasmIdVersions = ["01"]
+): SpasmEventV2 | null => {
+
+  if (!isObjectWithValues(spasmEventV2)) return null
+
+  spasmIdVersions.forEach(spasmIdVersion => {
+    const spasmId = getSpasmId(spasmEventV2, spasmIdVersion)
+    if (spasmId && typeof(spasmId) === "string") {
+      // Create ids if it's null or undefined
+      spasmEventV2.ids ??= [];
+      // Prepend the new Spasm ID to an array of other IDs
+      spasmEventV2.ids.unshift(
+        {
+          value: spasmId,
+          format: {
+            name: "spasmid",
+            version: "01"
+          } 
+        }
+      )
+    }
+  })
+
+  return spasmEventV2
 }
 
 
