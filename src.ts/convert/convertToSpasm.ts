@@ -29,7 +29,8 @@ import {
   SpasmEventV0,
   SpasmEventReactionNameV2,
   SiblingNostrV2,
-  SiblingWeb2V2
+  SiblingWeb2V2,
+  SpasmEventMentionV2
 } from "./../types/interfaces.js";
 import {
   // toBeNpub,
@@ -39,7 +40,9 @@ import {
 import {
   isObjectWithValues, extractVersion,
   toBeTimestamp, extractSealedEvent, getNostrSpasmVersion,
-  createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature
+  createLinkObjectFromUrl, hasValue,
+  getFormatFromId, getFormatFromAddress, getFormatFromSignature,
+  markSpasmEventAddressAsVerified
 } from "./../utils/utils.js";
 import {
   identifyPostOrEvent,
@@ -52,6 +55,13 @@ import {
   isNostrSpasmEventSignedOpened
 } from "./../identify/identifyEvent.js"
 import { getSpasmId } from "./../id/getSpasmId";
+// import {
+//   // finalizeEvent,
+//   verifyEvent
+// // } from 'nostr-tools/pure'
+// } from 'nostr-tools'
+
+import * as nostrTools from 'nostr-tools'
 
 // const latestSpasmVersion = "2.0.0"
 
@@ -599,9 +609,11 @@ export const standardizeNostrEventV2 = (
   }
 
   let referencedEvents: SpasmEventReferenceV2[] = []
+  let mentionedAuthors: SpasmEventMentionV2[] = []
 
   if (event.tags && Array.isArray(event.tags)) {
     event.tags.forEach(function (tag) {
+      // References
       // ["e", <event-id>, <relay-url>, <marker>]
       if (
         Array.isArray(tag) && tag[0] === "e" &&
@@ -609,18 +621,18 @@ export const standardizeNostrEventV2 = (
       ) {
         // <event-id>
         const referencedEvent: SpasmEventReferenceV2 = {
-            ids: [
-              {
-                value: tag[1],
-                // Create a new format field only if a
-                // format can be determined from a string.
-                ...(
-                  getFormatFromId(tag[1])
-                    ? {format: getFormatFromId(tag[1])}
-                    : {}
-                )
-              }
-            ]
+          ids: [
+            {
+              value: toBeHex(tag[1]),
+              // Create a new format field only if a
+              // format can be determined from a string.
+              ...(
+                getFormatFromId(tag[1])
+                  ? {format: getFormatFromId(tag[1])}
+                  : {}
+              )
+            }
+          ]
         }
 
         // <relay-url>
@@ -641,7 +653,55 @@ export const standardizeNostrEventV2 = (
 
         referencedEvents.push(referencedEvent)
       }
+
+      // Mentions
+      // ["p", <event-id>, <relay-url>, <marker>]
+      if (
+        Array.isArray(tag) && tag[0] === "p" &&
+        tag[1] && typeof(tag[1]) === 'string'
+      ) {
+        // <pubkey>
+        const mentionedAuthor: SpasmEventMentionV2 = {
+          addresses: [
+            {
+              value: toBeHex(tag[1]),
+              // Create a new format field only if a
+              // format can be determined from a string.
+              ...(
+                getFormatFromAddress(tag[1])
+                  ? {format: getFormatFromAddress(tag[1])}
+                  : {}
+              )
+            }
+          ]
+        }
+
+        // <relay-url>
+        if (tag[2] && typeof (tag[2]) === "string") {
+          // Create addresses if it's null or undefined
+          mentionedAuthor.addresses ??= []
+          mentionedAuthor.addresses[0].hosts = [
+            { value: tag[2] }
+          ]
+        }
+        
+        // <marker>
+        if (tag[3] && typeof(tag[3]) === 'string') {
+          mentionedAuthor.marker = tag[3]
+        }
+
+        mentionedAuthors.push(mentionedAuthor)
+      }
     });
+  }
+
+  if (
+    mentionedAuthors &&
+    mentionedAuthors[0] &&
+    hasValue(mentionedAuthors)
+  ) {
+      // spasmEventV2.mentions ??= [];
+      spasmEventV2.mentions = mentionedAuthors
   }
 
   if (referencedEvents && referencedEvents[0]) {
@@ -657,7 +717,7 @@ export const standardizeNostrEventV2 = (
       restOfReferencedEvents[0]
     ) {
       // TODO write tests for multiple references
-      spasmEventV2.references ??= [];
+      // spasmEventV2.references ??= [];
       spasmEventV2.references = restOfReferencedEvents
     }
   }
@@ -770,6 +830,18 @@ export const standardizeNostrEventSignedOpenedV2 = (
 
   if (!spasmEventV2) return null
 
+  /**
+   * nostr-tools v2 creates a `[Symbol("verified")]: true` on
+   * the Nostr object during verification process, which messes
+   * up tests, so the deep copy of the object is verified using
+   * JSON stringify/parse to make sure that the original Nostr
+   * event stays untouched.
+   */
+  const eventCopy = JSON.parse(JSON.stringify(event))
+  const isNostrSignatureValid = nostrTools.verifyEvent(eventCopy)
+
+  if (!isNostrSignatureValid) return null
+
   if (
     event.sig && typeof(event.sig) &&
     event.pubkey && typeof(event.pubkey) === "string"
@@ -796,6 +868,9 @@ export const standardizeNostrEventSignedOpenedV2 = (
       pubkey: event.pubkey,
       format: { name: "nostr-sig" }
     })
+
+    // Add 'verified' flag to the address that was verified
+    markSpasmEventAddressAsVerified(spasmEventV2, event.pubkey)
   }
 
   return spasmEventV2
@@ -813,6 +888,18 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (
   const spasmEventV2: SpasmEventV2 | null = standardizeNostrSpasmEventV2(event)
 
   if (!spasmEventV2) return null
+
+  /**
+   * nostr-tools v2 creates a `[Symbol("verified")]: true` on
+   * the Nostr object during verification process, which messes
+   * up tests, so the deep copy of the object is verified using
+   * JSON stringify/parse to make sure that the original Nostr
+   * event stays untouched.
+   */
+  const eventCopy = JSON.parse(JSON.stringify(event))
+  const isNostrSignatureValid = nostrTools.verifyEvent(eventCopy)
+
+  if (!isNostrSignatureValid) return null
 
   if (
     event.sig && typeof(event.sig) &&
@@ -842,6 +929,9 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (
       pubkey: event.pubkey,
       format: { name: "nostr-sig" }
     })
+
+    // Add 'verified' flag to the address that was verified
+    markSpasmEventAddressAsVerified(spasmEventV2, event.pubkey)
   }
 
   // NostrSpasm versions prior to 2.0.0 assigned sig as event id

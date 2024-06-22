@@ -73,10 +73,12 @@ describe("hasSignature() function tests", () => {
     expect(hasSignature(input)).toBe(false);
   });
 
-  test("should return false if signature key length is less than 40", () => {
-    const input = { signature: '0xbd934a01dc3bd9bb183bda807d35e61accf73' };
-    expect(hasSignature(input)).toBe(false);
-  });
+  // Signature verification is done in another function during
+  // conversion to SpasmEvent, so disabling this test.
+  // test("should return false if signature key length is less than 40", () => {
+  //   const input = { signature: '0xbd934a01dc3bd9bb183bda807d35e61accf73' };
+  //   expect(hasSignature(input)).toBe(false);
+  // });
 
   test("should return true if signature key exists and its length is greater than 40", () => {
     const input = { signature: 'a'.repeat(50) };
@@ -93,10 +95,12 @@ describe("hasSignature() function tests", () => {
     expect(hasSignature(input)).toBe(false);
   });
 
-  test("should return false if sig key length is less than 40", () => {
-    const input = { sig: '0xbd934a01dc3bd9bb183bda807d35e61accf73', id: '' };
-    expect(hasSignature(input)).toBe(false);
-  });
+  // Signature verification is done in another function during
+  // conversion to SpasmEvent, so disabling this test.
+  // test("should return false if sig key length is less than 40", () => {
+  //   const input = { sig: '0xbd934a01dc3bd9bb183bda807d35e61accf73', id: '' };
+  //   expect(hasSignature(input)).toBe(false);
+  // });
 
   test("should return true if sig key exists and its length is greater than 40", () => {
     const input = { sig: 'a'.repeat(50), id: '' };

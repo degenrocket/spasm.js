@@ -95,11 +95,52 @@ describe("convertToSpasm() tests for Nostr events", () => {
     expect(convertToSpasm(input)).toEqual(output);
   });
 
+  // NostrEventSignedOpened to V2
+  test("should return null if validNostrEventSignedOpened has wrong signature", () => {
+    const inputValid = {
+      ...JSON.parse(JSON.stringify(validNostrEventSignedOpened)),
+      sig: "908a15e46fb4d8675bab026fc230a0e3542bfade63da02d542fb78b2a8513fcd0092619a2c8c1221e581946e0191f2af505dfdf8657a414dbca329186f009262"
+    };
+    const inputInvalid1 = {
+      ...JSON.parse(JSON.stringify(validNostrEventSignedOpened)),
+      sig: "908a15e46fb4d8675bab026fc230a0e3542bfade63da02d542fb78b2a8513fcd0092619a2c8c1221e581946e0191f2af505dfdf8657a414dbca329186f009263"
+    };
+    const inputInvalid2 = {
+      ...JSON.parse(JSON.stringify(validNostrEventSignedOpened)),
+      sig: "nostr-sig-123"
+    };
+    const outputValid = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
+    const output = null;
+    expect(convertToSpasm(inputValid)).toEqual(outputValid);
+    expect(convertToSpasm(inputInvalid1)).toEqual(null);
+    expect(convertToSpasm(inputInvalid2)).toEqual(null);
+  });
+
   // NostrSpasmEventSignedOpened to V2
   test("should convert validNostrSpasmEventSignedOpened to Spasm", () => {
     const input = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpened));
     const output = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
+  });
+
+  // NostrSpasmEventSignedOpened to V2
+  test("should return null if validNostrSpasmEventSignedOpened has wrong signature", () => {
+    const inputValid = {
+      ...JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpened)),
+      sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+    };
+    const inputInvalid1 = {
+      ...JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpened)),
+      sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f2"
+    };
+    const inputInvalid2 = {
+      ...JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpened)),
+      sig: "nostr-spasm-sig-123"
+    };
+    const outputValid = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
+    expect(convertToSpasm(inputValid)).toEqual(outputValid);
+    expect(convertToSpasm(inputInvalid1)).toEqual(null);
+    expect(convertToSpasm(inputInvalid2)).toEqual(null);
   });
 
   // PostWithNostrEventSignedOpened - old name

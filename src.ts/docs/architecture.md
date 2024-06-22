@@ -36,12 +36,14 @@ event*
 │   │   ├── format                   #01 SE Body --- ---- DB
 │   │   │   ├── name                 #01 SE Body --- ---- DB
 │   │   │   └── version              #01 SE Body --- ---- DB
+│   │   ├── hosts[]                  --- SE Body --- ---- DB
 │   │   └── verified                 --- SE ---- --- ---- DB
-│   └── usernames[] (eg RSS posts)   #01 SE Body --- ---- DB
-│       ├── value                    #01 SE Body --- ---- DB
-│       ├── protocol                 #01 SE Body --- ---- DB
-│       ├── proof                    #01 SE Body --- ---- DB
-│       └── provider                 #01 SE Body --- ---- DB
+│   ├── usernames[] (eg RSS posts)   #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   ├── protocol                 #01 SE Body --- ---- DB
+│   │   ├── proof                    #01 SE Body --- ---- DB
+│   │   └── provider                 #01 SE Body --- ---- DB
+│   └── marker                       #01 SE Body --- ---- DB
 ├── categories[]                     #01 SE Body --- ---- DB
 │   ├── name                         #01 SE Body --- ---- DB
 │   └── sub (recursive category)     #01 SE Body --- ---- DB
@@ -71,14 +73,16 @@ event*
 ├── mentions[]                       #01 SE Body --- ---- DB
 │   ├── addresses[]                  #01 SE Body --- ---- DB
 │   │   ├── value                    #01 SE Body --- ---- DB
-│   │   └── format                   #01 SE Body --- ---- DB
-│   │       ├── name                 #01 SE Body --- ---- DB
-│   │       └── version              #01 SE Body --- ---- DB
-│   └── usernames[]                  #01 SE Body --- ---- DB
-│       ├── value                    #01 SE Body --- ---- DB
-│       ├── protocol                 #01 SE Body --- ---- DB
-│       ├── proof                    #01 SE Body --- ---- DB
-│       └── provider                 #01 SE Body --- ---- DB
+│   │   ├── format                   #01 SE Body --- ---- DB
+│   │   │   ├── name                 #01 SE Body --- ---- DB
+│   │   │   └── version              #01 SE Body --- ---- DB
+│   │   └── hosts[]                  --- SE Body --- ---- DB
+│   ├── usernames[]                  #01 SE Body --- ---- DB
+│   │   ├── value                    #01 SE Body --- ---- DB
+│   │   ├── protocol                 #01 SE Body --- ---- DB
+│   │   ├── proof                    #01 SE Body --- ---- DB
+│   │   └── provider                 #01 SE Body --- ---- DB
+│   └── marker                       #01 SE Body --- ---- DB
 ├── proofs[]                         #01 SE Body --- ---- DB
 │   ├── value                        #01 SE Body --- ---- DB
 │   ├── links[]                      #01 SE Body --- ---- DB

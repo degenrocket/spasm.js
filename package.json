@@ -43,7 +43,8 @@
   "dependencies": {
     "@types/node": "^20.11.20",
     "bech32": "^2.0.0",
-    "js-sha256": "^0.11.0"
+    "js-sha256": "^0.11.0",
+    "nostr-tools": "^2.7.0"
   },
   "exports": {
     ".": {

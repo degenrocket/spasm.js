@@ -533,7 +533,7 @@ export const sortAuthorsForSpasmEventV2 = (
       author.addresses[0]
     ) {
       // Clean addresses to keep only  'value' and 'format' keys
-      // and remove a 'verified' key.
+      // and remove 'verified' and 'hosts' keys.
       author.addresses = keepTheseKeysInObjectsInArray(
         author.addresses, ["value", "format"]
       ) as SpasmEventAddressV2[]
@@ -998,3 +998,24 @@ export const sortTagsForSpasmid01 = (
 
   return tags
 }
+
+export const markSpasmEventAddressAsVerified = (
+  spasmEvent: SpasmEventV2,
+  verifiedAddress: string | number,
+  version: string = "2.0.0"
+): void => {
+  if (version === "2.0.0") {
+    if (spasmEvent.authors) {
+      spasmEvent.authors.forEach(author => {
+        if (author.addresses) {
+          author.addresses.forEach(address => {
+            if (address.value === verifiedAddress) {
+              address.verified = true;
+            }
+          });
+        }
+      });
+    }
+  }
+}
+

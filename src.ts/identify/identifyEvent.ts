@@ -390,7 +390,11 @@ type SignatureKey = 'signature' | 'sig'
 export const hasSignature = (
   unknownPostOrEvent: UnknownPostOrEvent,
   signatureKey?: SignatureKey,
-  signatureLength: number = 40
+  // signatureLength: number = 40
+  // Signature verification is done in another function
+  // during conversion to SpasmEvent, so disabling check
+  // for signature length.
+  signatureLength: number = 0
 ): boolean => {
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 

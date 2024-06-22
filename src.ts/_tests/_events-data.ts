@@ -34,6 +34,7 @@ export const invalidNpubAddress2 = "npub14slk4lshtylkrqg9z0dvng09gn58h88frvnax7u
 // const invalidHexAddress1 = "b3a706bcceb39f193da553ce76255dd6ba5b097001c8ef85ff1b92e994894c82"
 // const invalidHexAddress2 = "ac3f6afe17593f61810513dac9a1e544e87b9ce91b27d37b88ec58fbaa9015aa"
 
+// 4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65
 export const validId1Note = "note1gdmvvhf0yv40h6dcs234h2j0dl5xvlzwdpr5nt6kt7vpsvlddfjs6sl8mv"
 export const validId1Nevent = "nevent1qqsyxakxt5hjx2hmaxug9g6m4f8kl6rx038xs36f4at9lxqcx0kk5egkrc3ry"
 export const validId1Hex = "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65"
@@ -367,8 +368,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
                 value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
                 format: {
                   name: "nostr-hex",
-                }
-                // verified: true
+                },
+                verified: true
               }
             ]
           }
@@ -751,9 +752,21 @@ export const validNostrEventConvertedToSpasmV2: SpasmEventV2 = {
       ]
     }
   ],
+  mentions: [
+    {
+      addresses: [
+        {
+          value: "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce",
+          format: {
+            name: "nostr-hex"
+          }
+        }
+      ]
+    }
+  ],
   ids: [
     {
-      value: "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42",
+      value: "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807",
       format: {
         name: "spasmid",
         version: "01"
@@ -772,7 +785,6 @@ export const validNostrEventConvertedToSpasmV2: SpasmEventV2 = {
       originalObject: validNostrEvent,
       protocol: {
         name: "nostr",
-        // hasExtraSpasmFields: false
       },
       ids: [
         {
@@ -863,6 +875,19 @@ export const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
           value: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93",
           format: {
             name: "nostr-hex"
+          },
+          verified: true
+        }
+      ]
+    }
+  ],
+  mentions: [
+    {
+      addresses: [
+        {
+          value: "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce",
+          format: {
+            name: "nostr-hex"
           }
         }
       ]
@@ -870,7 +895,7 @@ export const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
   ],
   ids: [
     {
-      value: "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42",
+      value: "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807",
       format: {
         name: "spasmid",
         version: "01"
@@ -927,7 +952,8 @@ export const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2 = 
       addresses: [
         {
           value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-          format: { name: "nostr-hex" }
+          format: { name: "nostr-hex" },
+          verified: true
         }
       ]
     }
@@ -1366,7 +1392,8 @@ export const SpasmEventV2ToTestSpasmid01: SpasmEventV2 = {
           proof: "proof1a",
           provider: "provider1a"
         }
-      ]
+      ],
+      marker: "author1-marker"
     },
     // Author 3
     {
@@ -1546,7 +1573,8 @@ export const SpasmEventV2ToTestSpasmid01: SpasmEventV2 = {
           proof: "mention-proof1b",
           provider: "mention-provider1b"
         },
-      ]
+      ],
+      marker: "mention1-marker"
     },
     // Mention 2
     {
@@ -1798,7 +1826,8 @@ export const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2 =
           proof: "proof1a",
           provider: "provider1a"
         }
-      ]
+      ],
+      marker: "author1-marker"
     },
     // Author 3
     {
@@ -1983,7 +2012,8 @@ export const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2 =
           proof: "mention-proof1b",
           provider: "mention-provider1b"
         },
-      ]
+      ],
+      marker: "mention1-marker"
     },
     // Mention 2
     {
@@ -2169,7 +2199,8 @@ export const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01 = {
           proof: "proof1b",
           provider: "provider1b"
         },
-      ]
+      ],
+      marker: "author1-marker"
     },
     // Author 2
     {
@@ -2317,7 +2348,8 @@ export const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01 = {
           proof: "mention-proof1b",
           provider: "mention-provider1b"
         },
-      ]
+      ],
+      marker: "mention1-marker"
     },
     // Mention 2
     {
