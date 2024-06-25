@@ -42,7 +42,8 @@ import {
   toBeTimestamp, extractSealedEvent, getNostrSpasmVersion,
   createLinkObjectFromUrl, hasValue,
   getFormatFromId, getFormatFromAddress, getFormatFromSignature,
-  markSpasmEventAddressAsVerified
+  markSpasmEventAddressAsVerified,
+  verifyEthereumSignature
 } from "./../utils/utils.js";
 import {
   identifyPostOrEvent,
@@ -410,6 +411,12 @@ export const standardizeDmpEventSignedClosedV2 = (
     typeof(event.signer) !== "string"
   ) return null
 
+  const isEthereumSignatureValid = verifyEthereumSignature(
+    event.signedString, event.signature, event.signer
+  )
+
+  if (!isEthereumSignatureValid) return null
+
   const dmpEvent: DmpEvent = JSON.parse(event.signedString)
 
   const dmpEventConvertedToSpasmV2: SpasmEventV2 | null = standardizeDmpEventV2(dmpEvent)
@@ -469,6 +476,9 @@ export const standardizeDmpEventSignedClosedV2 = (
 
   const spasmEventV2: SpasmEventV2 =
     dmpEventSignedClosedConvertedToSpasmV2
+
+  // Add 'verified' flag to the address that was verified
+  markSpasmEventAddressAsVerified(spasmEventV2, event.signer)
 
   if (spasmEventV2) {
     // Create siblings if it's null or undefined

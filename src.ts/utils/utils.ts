@@ -24,6 +24,7 @@ import {
  * Node.js environment, not on the client-side (browser).
  */
 import { sha256 } from 'js-sha256'
+import { ethers} from "ethers";
 
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
@@ -1019,3 +1020,25 @@ export const markSpasmEventAddressAsVerified = (
   }
 }
 
+
+export const verifyEthereumSignature = (
+  messageString: string,
+  signature: string,
+  signerAddress: string
+): boolean => {
+  try {
+    if (signature && typeof (signature) === 'string') {
+      const recoveredAddress = ethers.verifyMessage(
+        messageString, signature
+      )
+
+      return recoveredAddress.toLowerCase() ===
+        signerAddress.toLowerCase()
+    }
+
+    return false
+
+  } catch (error) {
+    return false
+  }
+}

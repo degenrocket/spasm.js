@@ -205,9 +205,8 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
       addresses: [
         {
           value: "0xf8553015220a857eda377a1e903c9e5afb3ac2fa",
-          format: { name: "ethereum-pubkey", }
-          // TODO
-          // verified: true
+          format: { name: "ethereum-pubkey" },
+          verified: true
         }
       ]
     }
@@ -527,10 +526,8 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
             addresses: [
               {
                 value: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                format: {
-                  name: "ethereum-pubkey",
-                }
-                // verified: true
+                format: { name: "ethereum-pubkey" },
+                verified: true
               }
             ]
           }
@@ -550,13 +547,6 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
               name: "ethereum-sig",
             }
           },
-          // {
-          //   value: "spasmid01xyz",
-          //   format: {
-          //     name: "spasmid",
-          //     version: "01"
-          //   }
-          // }
         ],
         signatures: [
           {
@@ -579,14 +569,7 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 =
                 format: {
                   name: "ethereum-sig",
                 }
-              },
-              // {
-              //   value: "spasmid01xyz",
-              //   format: {
-              //     name: "spasmid",
-              //     version: "01"
-              //   }
-              // }
+              }
             ],
             signatures: [
               {
