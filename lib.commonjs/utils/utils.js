@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
+exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
 /*
  * Using sha256 from 'js-sha256' npm package, because
  * built-in 'crypto' module works only in a server-side
  * Node.js environment, not on the client-side (browser).
  */
 const js_sha256_1 = require("js-sha256");
+const ethers_1 = require("ethers");
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
 // Examples:
@@ -397,7 +398,7 @@ const sortAuthorsForSpasmEventV2 = (authors) => {
             Array.isArray(author.addresses) &&
             author.addresses[0]) {
             // Clean addresses to keep only  'value' and 'format' keys
-            // and remove a 'verified' key.
+            // and remove 'verified' and 'hosts' keys.
             author.addresses = (0, exports.keepTheseKeysInObjectsInArray)(author.addresses, ["value", "format"]);
             // Sort addresses
             author.addresses = (0, exports.sortArrayOfObjects)(author.addresses, "value");
@@ -709,4 +710,34 @@ const sortTagsForSpasmid01 = (tags) => {
     return tags;
 };
 exports.sortTagsForSpasmid01 = sortTagsForSpasmid01;
+const markSpasmEventAddressAsVerified = (spasmEvent, verifiedAddress, version = "2.0.0") => {
+    if (version === "2.0.0") {
+        if (spasmEvent.authors) {
+            spasmEvent.authors.forEach(author => {
+                if (author.addresses) {
+                    author.addresses.forEach(address => {
+                        if (address.value === verifiedAddress) {
+                            address.verified = true;
+                        }
+                    });
+                }
+            });
+        }
+    }
+};
+exports.markSpasmEventAddressAsVerified = markSpasmEventAddressAsVerified;
+const verifyEthereumSignature = (messageString, signature, signerAddress) => {
+    try {
+        if (signature && typeof (signature) === 'string') {
+            const recoveredAddress = ethers_1.ethers.verifyMessage(messageString, signature);
+            return recoveredAddress.toLowerCase() ===
+                signerAddress.toLowerCase();
+        }
+        return false;
+    }
+    catch (error) {
+        return false;
+    }
+};
+exports.verifyEthereumSignature = verifyEthereumSignature;
 //# sourceMappingURL=utils.js.map

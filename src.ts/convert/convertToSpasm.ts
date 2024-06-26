@@ -56,13 +56,7 @@ import {
   isNostrSpasmEventSignedOpened
 } from "./../identify/identifyEvent.js"
 import { getSpasmId } from "./../id/getSpasmId";
-// import {
-//   // finalizeEvent,
-//   verifyEvent
-// // } from 'nostr-tools/pure'
-// } from 'nostr-tools'
-
-import * as nostrTools from 'nostr-tools'
+import { verifyEvent as verifyNostrEvent } from 'nostr-tools'
 
 // const latestSpasmVersion = "2.0.0"
 
@@ -848,7 +842,7 @@ export const standardizeNostrEventSignedOpenedV2 = (
    * event stays untouched.
    */
   const eventCopy = JSON.parse(JSON.stringify(event))
-  const isNostrSignatureValid = nostrTools.verifyEvent(eventCopy)
+  const isNostrSignatureValid = verifyNostrEvent(eventCopy)
 
   if (!isNostrSignatureValid) return null
 
@@ -907,7 +901,7 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (
    * event stays untouched.
    */
   const eventCopy = JSON.parse(JSON.stringify(event))
-  const isNostrSignatureValid = nostrTools.verifyEvent(eventCopy)
+  const isNostrSignatureValid =  verifyNostrEvent(eventCopy)
 
   if (!isNostrSignatureValid) return null
 

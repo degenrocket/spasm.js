@@ -49,9 +49,11 @@ export const convertSpasmEventV2ToEventForSpasmid01 = (spasmEvent) => {
     }
     if (spasmEvent.authors) {
         /**
-         * A 'verified' key shouldn't be used for the Spasm ID.
+         * The 'hosts' key is not used for the Spasm ID, because
+         * a user might submit an already signed event to a new
+         * instance with different hosts.
          */
-        const cleanAuthors = keepTheseKeysInObjectsInArray(spasmEvent.authors, ["addresses", "usernames"]);
+        const cleanAuthors = keepTheseKeysInObjectsInArray(spasmEvent.authors, ["addresses", "usernames", "marker"]);
         const sortedAuthors = sortAuthorsForSpasmid01(cleanAuthors);
         eventForSpasmid.authors = sortedAuthors;
     }
@@ -86,9 +88,11 @@ export const convertSpasmEventV2ToEventForSpasmid01 = (spasmEvent) => {
     }
     if (spasmEvent.mentions) {
         /**
-         * A 'verified' key shouldn't be used for the Spasm ID.
+         * The 'hosts' key is not used for the Spasm ID, because
+         * a user might submit an already signed event to a new
+         * instance with different hosts.
          */
-        const cleanMentions = keepTheseKeysInObjectsInArray(spasmEvent.mentions, ["addresses", "usernames"]);
+        const cleanMentions = keepTheseKeysInObjectsInArray(spasmEvent.mentions, ["addresses", "usernames", "marker"]);
         // Mentions is the same as authors in V2
         const sortedMentions = sortAuthorsForSpasmid01(cleanMentions);
         eventForSpasmid.mentions = sortedMentions;

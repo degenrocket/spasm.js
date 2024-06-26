@@ -176,7 +176,7 @@ describe("convertToSpasm() tests for Nostr events", () => {
       sig: "nostr-sig-123"
     };
     const outputValid = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
-    const output = null;
+    // const output = null;
     expect(convertToSpasm(inputValid)).toEqual(outputValid);
     expect(convertToSpasm(inputInvalid1)).toEqual(null);
     expect(convertToSpasm(inputInvalid2)).toEqual(null);

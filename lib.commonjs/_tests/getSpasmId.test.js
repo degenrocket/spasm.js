@@ -40,19 +40,12 @@ describe("getSpasmId() tests for DMP events", () => {
 describe("getSpasmId() tests for Nostr events", () => {
     test("should get Spasm ID of validNostrEventConvertedToSpasmV2", () => {
         const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventConvertedToSpasmV2));
-        const output = "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42";
+        const output = "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807";
         expect((0, getSpasmId_1.getSpasmId)(input)).toEqual(output);
     });
-    test("should get Spasm ID of validNostrEventSignedOpenedConvertedToSpasmV2", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpenedConvertedToSpasmV2));
-        const output = "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42";
-        expect((0, getSpasmId_1.getSpasmId)(input)).toEqual(output);
-    });
-    test("should get Spasm ID of validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2));
-        const output = "spasmid01e7cc009e6a85d2549c1a68328dec844ddd9266d4a91d7d5ed612b7a3fe2aca42";
-        expect((0, getSpasmId_1.getSpasmId)(input)).toEqual(output);
-    });
+    // validNostrEventConvertedToSpasmV2
+    // validNostrEventSignedOpenedConvertedToSpasmV2
+    // validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2
     test("Spasm IDs of signed and unsigned Nostr events should be equal", () => {
         const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventConvertedToSpasmV2));
         const output = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpenedConvertedToSpasmV2));
@@ -114,7 +107,7 @@ describe("getSpasmId() tests for unsigned test events", () => {
     test("should get Spasm ID of SpasmEventV2ToTestSpasmid01", () => {
         const input = _events_data_1.SpasmEventV2ToTestSpasmid01;
         // const output = SpasmEventV2ConvertedToSpasmid01
-        const output = "spasmid012ebcbaad3c225ae78f26f43e9adefe4f20ebf82097b357740498ae082c39f0da";
+        const output = "spasmid0180e1ffb761636a38863d4a309ab42d7392e7daa9da7abfcfe4a745246a4f317a";
         expect((0, getSpasmId_1.getSpasmId)(input)).toStrictEqual(output);
     });
     test("Spasm ID of SpasmEventV2ToTestSpasmid01", () => {
@@ -229,6 +222,13 @@ describe("getSpasmId() tests for unsigned test events", () => {
         const output = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
         // Changed:
         output.authors[1].usernames[0].provider = "changed author username provider";
+        expect((0, getSpasmId_1.getSpasmId)(input)).not.toEqual((0, getSpasmId_1.getSpasmId)(output));
+    });
+    test("Changed author marker should produce a different Spasm ID", () => {
+        const input = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
+        const output = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
+        // Changed:
+        output.authors[1].marker = "changed author marker";
         expect((0, getSpasmId_1.getSpasmId)(input)).not.toEqual((0, getSpasmId_1.getSpasmId)(output));
     });
     // TODO write tests for tips if it'll be used for Spasm ID 01.
@@ -349,6 +349,13 @@ describe("getSpasmId() tests for unsigned test events", () => {
         const output = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
         // Changed:
         output.mentions[1].usernames[0].provider = "changed mention username provider";
+        expect((0, getSpasmId_1.getSpasmId)(input)).not.toEqual((0, getSpasmId_1.getSpasmId)(output));
+    });
+    test("Changed mention marker should produce a different Spasm ID", () => {
+        const input = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
+        const output = JSON.parse(JSON.stringify(_events_data_1.SpasmEventV2ToTestSpasmid01));
+        // Changed:
+        output.mentions[1].marker = "changed mention marker";
         expect((0, getSpasmId_1.getSpasmId)(input)).not.toEqual((0, getSpasmId_1.getSpasmId)(output));
     });
     test("Changed proof value should produce a different Spasm ID", () => {

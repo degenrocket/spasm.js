@@ -1,4 +1,4 @@
-import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2 } from "./../types/interfaces.js";
+import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2 } from "./../types/interfaces.js";
 export declare const hasValue: (el?: any) => boolean;
 export declare const isObjectWithValues: (val: any) => boolean;
 export declare const extractVersion: (versionString: string) => string;
@@ -27,4 +27,6 @@ export declare const sortMediasForSpasmid01: (medias: any) => SpasmEventMediaV2[
 export declare const sortReferencesForSpasmid01: (references: SpasmEventBodyReferenceV2[]) => SpasmEventBodyReferenceV2[];
 export declare const sortParentForSpasmid01: (parent: SpasmEventBodyParentV2) => SpasmEventBodyParentV2;
 export declare const sortTagsForSpasmid01: (tags: any[][]) => any[][];
+export declare const markSpasmEventAddressAsVerified: (spasmEvent: SpasmEventV2, verifiedAddress: string | number, version?: string) => void;
+export declare const verifyEthereumSignature: (messageString: string, signature: string, signerAddress: string) => boolean;
 //# sourceMappingURL=utils.d.ts.map

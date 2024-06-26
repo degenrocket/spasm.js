@@ -343,7 +343,12 @@ const identifyEvent = (unknownPostOrEvent) => {
     return eventInfo;
 };
 exports.identifyEvent = identifyEvent;
-const hasSignature = (unknownPostOrEvent, signatureKey, signatureLength = 40) => {
+const hasSignature = (unknownPostOrEvent, signatureKey, 
+// signatureLength: number = 40
+// Signature verification is done in another function
+// during conversion to SpasmEvent, so disabling check
+// for signature length.
+signatureLength = 0) => {
     if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
         return false;
     let keys = signatureKey

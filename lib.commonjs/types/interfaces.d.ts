@@ -349,8 +349,9 @@ export interface SpasmEventHashV2 extends Omit<SpasmEventIdV2, 'format'> {
 export interface SpasmEventBodyAuthorV2 {
     addresses?: SpasmEventBodyAddressV2[];
     usernames?: SpasmEventUsernameV2[];
+    marker?: string | number;
 }
-export interface SpasmEventAuthorV2 {
+export interface SpasmEventAuthorV2 extends SpasmEventBodyAuthorV2 {
     addresses?: SpasmEventAddressV2[];
     usernames?: SpasmEventUsernameV2[];
 }
@@ -361,6 +362,7 @@ export interface SpasmEventAddressFormatV2 {
 export interface SpasmEventBodyAddressV2 {
     value: string | number;
     format?: SpasmEventAddressFormatV2;
+    hosts?: SpasmEventHostV2[];
 }
 /**
  * Verified shows whether this address matches with at least

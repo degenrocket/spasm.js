@@ -4,6 +4,7 @@
  * Node.js environment, not on the client-side (browser).
  */
 import { sha256 } from 'js-sha256';
+import { ethers } from "ethers";
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
 // Examples:
@@ -377,7 +378,7 @@ export const sortAuthorsForSpasmEventV2 = (authors) => {
             Array.isArray(author.addresses) &&
             author.addresses[0]) {
             // Clean addresses to keep only  'value' and 'format' keys
-            // and remove a 'verified' key.
+            // and remove 'verified' and 'hosts' keys.
             author.addresses = keepTheseKeysInObjectsInArray(author.addresses, ["value", "format"]);
             // Sort addresses
             author.addresses = sortArrayOfObjects(author.addresses, "value");
@@ -681,5 +682,33 @@ export const sortTagsForSpasmid01 = (tags) => {
         sortTagsByElementNumber(i);
     }
     return tags;
+};
+export const markSpasmEventAddressAsVerified = (spasmEvent, verifiedAddress, version = "2.0.0") => {
+    if (version === "2.0.0") {
+        if (spasmEvent.authors) {
+            spasmEvent.authors.forEach(author => {
+                if (author.addresses) {
+                    author.addresses.forEach(address => {
+                        if (address.value === verifiedAddress) {
+                            address.verified = true;
+                        }
+                    });
+                }
+            });
+        }
+    }
+};
+export const verifyEthereumSignature = (messageString, signature, signerAddress) => {
+    try {
+        if (signature && typeof (signature) === 'string') {
+            const recoveredAddress = ethers.verifyMessage(messageString, signature);
+            return recoveredAddress.toLowerCase() ===
+                signerAddress.toLowerCase();
+        }
+        return false;
+    }
+    catch (error) {
+        return false;
+    }
 };
 //# sourceMappingURL=utils.js.map

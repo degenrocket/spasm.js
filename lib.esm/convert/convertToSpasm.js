@@ -2,9 +2,10 @@ import {
 // toBeNpub,
 // toBeNote,
 toBeHex } from "./../utils/nostrUtils.js";
-import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature } from "./../utils/utils.js";
+import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 import { getSpasmId } from "./../id/getSpasmId";
+import { verifyEvent as verifyNostrEvent } from 'nostr-tools';
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
 export const convertToSpasm = (unknownEvent, version = "2.0.0", spasmIdVersions = ["01"]) => {
@@ -250,6 +251,9 @@ export const standardizeDmpEventSignedClosedV2 = (event) => {
         typeof (event.signature) !== "string" ||
         typeof (event.signer) !== "string")
         return null;
+    const isEthereumSignatureValid = verifyEthereumSignature(event.signedString, event.signature, event.signer);
+    if (!isEthereumSignatureValid)
+        return null;
     const dmpEvent = JSON.parse(event.signedString);
     const dmpEventConvertedToSpasmV2 = standardizeDmpEventV2(dmpEvent);
     if (!dmpEventConvertedToSpasmV2)
@@ -299,6 +303,8 @@ export const standardizeDmpEventSignedClosedV2 = (event) => {
         ]
     };
     const spasmEventV2 = dmpEventSignedClosedConvertedToSpasmV2;
+    // Add 'verified' flag to the address that was verified
+    markSpasmEventAddressAsVerified(spasmEventV2, event.signer);
     if (spasmEventV2) {
         // Create siblings if it's null or undefined
         spasmEventV2.siblings ??= [];
@@ -418,8 +424,10 @@ export const standardizeNostrEventV2 = (event) => {
         ];
     }
     let referencedEvents = [];
+    let mentionedAuthors = [];
     if (event.tags && Array.isArray(event.tags)) {
         event.tags.forEach(function (tag) {
+            // References
             // ["e", <event-id>, <relay-url>, <marker>]
             if (Array.isArray(tag) && tag[0] === "e" &&
                 tag[1] && typeof (tag[1]) === 'string') {
@@ -427,7 +435,7 @@ export const standardizeNostrEventV2 = (event) => {
                 const referencedEvent = {
                     ids: [
                         {
-                            value: tag[1],
+                            value: toBeHex(tag[1]),
                             // Create a new format field only if a
                             // format can be determined from a string.
                             ...(getFormatFromId(tag[1])
@@ -451,7 +459,44 @@ export const standardizeNostrEventV2 = (event) => {
                 }
                 referencedEvents.push(referencedEvent);
             }
+            // Mentions
+            // ["p", <event-id>, <relay-url>, <marker>]
+            if (Array.isArray(tag) && tag[0] === "p" &&
+                tag[1] && typeof (tag[1]) === 'string') {
+                // <pubkey>
+                const mentionedAuthor = {
+                    addresses: [
+                        {
+                            value: toBeHex(tag[1]),
+                            // Create a new format field only if a
+                            // format can be determined from a string.
+                            ...(getFormatFromAddress(tag[1])
+                                ? { format: getFormatFromAddress(tag[1]) }
+                                : {})
+                        }
+                    ]
+                };
+                // <relay-url>
+                if (tag[2] && typeof (tag[2]) === "string") {
+                    // Create addresses if it's null or undefined
+                    mentionedAuthor.addresses ??= [];
+                    mentionedAuthor.addresses[0].hosts = [
+                        { value: tag[2] }
+                    ];
+                }
+                // <marker>
+                if (tag[3] && typeof (tag[3]) === 'string') {
+                    mentionedAuthor.marker = tag[3];
+                }
+                mentionedAuthors.push(mentionedAuthor);
+            }
         });
+    }
+    if (mentionedAuthors &&
+        mentionedAuthors[0] &&
+        hasValue(mentionedAuthors)) {
+        // spasmEventV2.mentions ??= [];
+        spasmEventV2.mentions = mentionedAuthors;
     }
     if (referencedEvents && referencedEvents[0]) {
         // The first reference is always assigned as a parent
@@ -462,7 +507,7 @@ export const standardizeNostrEventV2 = (event) => {
             hasValue(restOfReferencedEvents) &&
             restOfReferencedEvents[0]) {
             // TODO write tests for multiple references
-            spasmEventV2.references ??= [];
+            // spasmEventV2.references ??= [];
             spasmEventV2.references = restOfReferencedEvents;
         }
     }
@@ -556,6 +601,17 @@ export const standardizeNostrEventSignedOpenedV2 = (event) => {
     const spasmEventV2 = standardizeNostrEventV2(event);
     if (!spasmEventV2)
         return null;
+    /**
+     * nostr-tools v2 creates a `[Symbol("verified")]: true` on
+     * the Nostr object during verification process, which messes
+     * up tests, so the deep copy of the object is verified using
+     * JSON stringify/parse to make sure that the original Nostr
+     * event stays untouched.
+     */
+    const eventCopy = JSON.parse(JSON.stringify(event));
+    const isNostrSignatureValid = verifyNostrEvent(eventCopy);
+    if (!isNostrSignatureValid)
+        return null;
     if (event.sig && typeof (event.sig) &&
         event.pubkey && typeof (event.pubkey) === "string") {
         // Create signatures if it's null or undefined
@@ -578,6 +634,8 @@ export const standardizeNostrEventSignedOpenedV2 = (event) => {
             pubkey: event.pubkey,
             format: { name: "nostr-sig" }
         });
+        // Add 'verified' flag to the address that was verified
+        markSpasmEventAddressAsVerified(spasmEventV2, event.pubkey);
     }
     return spasmEventV2;
 };
@@ -589,6 +647,17 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (event) => {
         return null;
     const spasmEventV2 = standardizeNostrSpasmEventV2(event);
     if (!spasmEventV2)
+        return null;
+    /**
+     * nostr-tools v2 creates a `[Symbol("verified")]: true` on
+     * the Nostr object during verification process, which messes
+     * up tests, so the deep copy of the object is verified using
+     * JSON stringify/parse to make sure that the original Nostr
+     * event stays untouched.
+     */
+    const eventCopy = JSON.parse(JSON.stringify(event));
+    const isNostrSignatureValid = verifyNostrEvent(eventCopy);
+    if (!isNostrSignatureValid)
         return null;
     if (event.sig && typeof (event.sig) &&
         event.pubkey && typeof (event.pubkey) === "string") {
@@ -614,6 +683,8 @@ export const standardizeNostrSpasmEventSignedOpenedV2 = (event) => {
             pubkey: event.pubkey,
             format: { name: "nostr-sig" }
         });
+        // Add 'verified' flag to the address that was verified
+        markSpasmEventAddressAsVerified(spasmEventV2, event.pubkey);
     }
     // NostrSpasm versions prior to 2.0.0 assigned sig as event id
     if (event.sig && typeof (event.sig) === "string" &&
