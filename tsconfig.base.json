@@ -4,10 +4,12 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es2020",
-      "es5"
-    ],
+    // Temporary disabling specific libs,
+    // otherwise tsc cannot build nostr-tools
+    // "lib": [
+    //   "es2020",
+    //   "es5"
+    // ],
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
