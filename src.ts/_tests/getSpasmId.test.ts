@@ -42,8 +42,8 @@ import {
 } from "./_events-data"
 
 import { convertToSpasm } from "./../convert/convertToSpasm"
-import { getSpasmId } from "./../id/getSpasmId"
-import {SpasmEventV2} from "../types/interfaces";
+import { getSpasmId } from "./../convert/getSpasmId"
+import { SpasmEventV2 } from "../types/interfaces";
 
 describe("getSpasmId tests", () => {
   test("should return true if true", () => {

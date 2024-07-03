@@ -532,13 +532,14 @@ export interface SpasmEventV2 extends
 
 export interface SpasmEventDatabaseV2 extends
   Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'previousEvent' | 'sequence'>,
-  Omit<SpasmEventEnvelopeV2, 'type' | 'protocol'> {
+  Omit<SpasmEventEnvelopeV2, 'type' | 'db'> {
     type: "SpasmEventDatabaseV2"
    /**
     * Omitting authors from Body to add a 'verified'
     * field to authors in Spasm Event and Database.
     */
     authors?: SpasmEventAuthorV2[]
+    signatures?: SpasmEventSignatureV2[]
   }
 
 // root.ids

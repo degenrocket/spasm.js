@@ -11,6 +11,7 @@ import {
   // V2
   UnknownEventV2,
   SpasmEventV2,
+  // TODO
   // SpasmEventBodyV2,
   // SpasmEventEnvelopeV2,
   // SpasmEventEnvelopeWithTreeV2,
@@ -55,8 +56,8 @@ import {
   isNostrSpasmEvent,
   isNostrSpasmEventSignedOpened
 } from "./../identify/identifyEvent.js"
-import { getSpasmId } from "./../id/getSpasmId";
-import { verifyEvent as verifyNostrEvent } from 'nostr-tools'
+import { getSpasmId } from "./getSpasmId.js"
+import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2'
 
 // const latestSpasmVersion = "2.0.0"
 
@@ -1352,3 +1353,6 @@ export const addFieldsFromEnvelopeSpasmEventV0_V2 = (
   return spasmEventV2
 }
 
+export const convertToSpasmStatus = (): void => {
+  console.log("spasm.js convertToSpasm status: success")
+}

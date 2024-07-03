@@ -1,4 +1,4 @@
-Signer and Protocol Agnostic Social Media (SPASM)
+Signer and Protocol Agnostic Social Media (Spasm)
 =================================================
 
 ## Overview
@@ -8,6 +8,8 @@ The future of social media is agnostic to signing keys, messaging formats, trans
 This library simplifies the process by encapsulating the complexities of various messaging formats into a single, standardized JSON object. By abstracting the underlying differences between these formats, it provides a unified interface for developers to work with, ensuring consistency and reducing the need for custom handling of each format.
 
 For instance, instead of maintaining three distinct versions of the frontend (UI) and three separate database tables for three different messaging formats, developers can leverage this library to standardize all messages into a single format. This approach simplifies the architecture by consolidating the database tables into one and requiring only a single version of the UI, with minor adjustments as needed.
+
+This library also introduces an innovative concept of signing the same message with multiple protocols and different private keys, while still sharing the same Spasm event ID, allowing not only the distribution of the message across different networks, but also chaining of all the replies back to the original message. 
 
 TypeScript interfaces of JSON objects of messaging formats that can be standardized with this library can be found at `./src.ts/types/interfaces.ts`.
 
@@ -38,6 +40,7 @@ After converting an unknown event to the Spasm event, you can now easily access 
 - `spasmEvent.ids[0].value`
 - `spasmEvent.ids[0].format.name`
 - `spasmEvent.authors`
+- `spasmEvent.authors[0].addresses`
 - `spasmEvent.authors[0].addresses[0].value`
 - `spasmEvent.authors[0].addresses[0].format.name`
 - `spasmEvent.signatures`
@@ -236,7 +239,6 @@ link
 ├── search
 ├── port
 └── originalProtocolKey
-
 ```
 
 ### Features

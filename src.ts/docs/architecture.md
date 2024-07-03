@@ -16,9 +16,9 @@ event*
 ├── protocol             (+ sibling) --- -- Body --- ---- --
 │   ├── name                         --- -- Body --- ---- --
 │   └── version                      --- -- Body --- ---- --
-├── root                             --- SE ---- --- Tree DB
-│   ├── ids[]                        --- SE ---- --- Tree DB
-│   ├── marker                       --- SE ---- --- Tree DB  
+├── root                             --- SE ---- --- Tree --
+│   ├── ids[]                        --- SE ---- --- Tree --
+│   ├── marker                       --- SE ---- --- Tree --  
 │   ├── depth                        --- SE ---- --- Tree --
 │   └── event*                       --- SE ---- --- Tree --
 ├── parent                           #01 SE Body --- Tree DB
@@ -137,11 +137,11 @@ event*
 │       ├── hasExtraSpasmFields      --- SE ---- Env Tree DB
 │       └── extraSpasmFieldsVersion  --- SE ---- Env Tree DB
 │
-├── db                               --- SE ---- Env Tree DB
-│   ├── key                          --- SE ---- Env Tree DB
-│   ├── addedTimestamp               --- SE ---- Env Tree DB
-│   ├── updatedTimestamp             --- SE ---- Env Tree DB
-│   └── table                        --- SE ---- Env Tree DB
+├── db*                              --- SE ---- Env Tree DB
+│   ├── key*                         --- SE ---- Env Tree DB
+│   ├── addedTimestamp*              --- SE ---- Env Tree DB
+│   ├── updatedTimestamp*            --- SE ---- Env Tree DB
+│   └── table*                       --- SE ---- Env Tree DB
 ├── source                           --- SE ---- Env Tree DB
 │   ├── name                         --- SE ---- Env Tree DB
 │   ├── uiUrl                        --- SE ---- Env Tree DB
