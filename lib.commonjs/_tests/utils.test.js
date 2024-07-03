@@ -134,6 +134,11 @@ describe("getHashOfString() function tests", () => {
         // const input = {};
         expect((0, index_1.getHashOfString)("")).toBe("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
         expect((0, index_1.getHashOfString)("hello world")).toBe("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+        expect((0, index_1.getHashOfString)("1234567890-=!@#$%^&*()_+")).toBe("37af4cc38359f092b705241b286aaabf42aa6054fcb70016e971d63f9470793b");
+        expect((0, index_1.getHashOfString)('<br>line<div class="main">Main text</div>')).toBe("ca5588d79172608051a13af3f6692e656179ab0e1a4e6153ef5eb969687c4330");
+        expect((0, index_1.getHashOfString)("<br>line<div class='main'>Main text</div>")).toBe("6f7c80389ac8d9e6a5ce20539c569fcf7ab20b056f4b41cacfab391200472ec4");
+        // Japanese
+        expect((0, index_1.getHashOfString)("ハローワールド")).toBe("9b58f66ce16f8efa41f9ea5fcc767ae639bb1ee83849efc1400da3832c6bff90");
     });
 });
 // keepTheseKeysOnly

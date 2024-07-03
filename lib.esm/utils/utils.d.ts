@@ -29,4 +29,5 @@ export declare const sortParentForSpasmid01: (parent: SpasmEventBodyParentV2) =>
 export declare const sortTagsForSpasmid01: (tags: any[][]) => any[][];
 export declare const markSpasmEventAddressAsVerified: (spasmEvent: SpasmEventV2, verifiedAddress: string | number, version?: string) => void;
 export declare const verifyEthereumSignature: (messageString: string, signature: string, signerAddress: string) => boolean;
+export declare const utilsStatus: () => void;
 //# sourceMappingURL=utils.d.ts.map

@@ -4,8 +4,8 @@ import {
 toBeHex } from "./../utils/nostrUtils.js";
 import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
-import { getSpasmId } from "./../id/getSpasmId";
-import { verifyEvent as verifyNostrEvent } from 'nostr-tools';
+import { getSpasmId } from "./getSpasmId.js";
+import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2';
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
 export const convertToSpasm = (unknownEvent, version = "2.0.0", spasmIdVersions = ["01"]) => {
@@ -989,5 +989,8 @@ export const addFieldsFromEnvelopeSpasmEventV0_V2 = (spasmEventV0, spasmEventV2)
         });
     }
     return spasmEventV2;
+};
+export const convertToSpasmStatus = () => {
+    console.log("spasm.js convertToSpasm status: success");
 };
 //# sourceMappingURL=convertToSpasm.js.map

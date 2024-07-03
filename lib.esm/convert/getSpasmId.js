@@ -1,13 +1,5 @@
-import { isObjectWithValues, getHashOfString,
-// sortArrayOfStringsAndNumbers,
-// sortArrayOfObjects,
-// sortAuthorsForSpasmid01,
-// keepTheseKeysInObjectsInArray
- } from "./../utils/utils.js";
+import { isObjectWithValues, getHashOfString, } from "./../utils/utils.js";
 import { convertToEventForSpasmid } from "./../convert/convertToEventForSpasmid.js";
-// import {
-//   sortEventForSpasmid
-// } from "./../sort/sortEventForSpasmid.js";
 export const getSpasmId = (spasmEvent, idVersion = "01") => {
     if (idVersion === "01") {
         return getSpasmId01(spasmEvent);

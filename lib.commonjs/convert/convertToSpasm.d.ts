@@ -14,4 +14,5 @@ export declare const standardizeSpasmNostrEventSignedOpenedV0_V2: (spasmEventV0:
 export declare const standardizeSpasmNostrSpasmEventSignedOpenedV0_V2: (spasmEventV0: SpasmEventV0) => SpasmEventV2 | null;
 export declare const standardizeSpasmWithRssItemV0_V2: (spasmEventV0: SpasmEventV0) => SpasmEventV2 | null;
 export declare const addFieldsFromEnvelopeSpasmEventV0_V2: (spasmEventV0: SpasmEventV0, spasmEventV2: SpasmEventV2) => SpasmEventV2;
+export declare const convertToSpasmStatus: () => void;
 //# sourceMappingURL=convertToSpasm.d.ts.map

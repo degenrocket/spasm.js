@@ -314,13 +314,14 @@ export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol'
     references?: SpasmEventReferenceV2[];
     signatures?: SpasmEventSignatureV2[];
 }
-export interface SpasmEventDatabaseV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'previousEvent' | 'sequence'>, Omit<SpasmEventEnvelopeV2, 'type' | 'protocol'> {
+export interface SpasmEventDatabaseV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'previousEvent' | 'sequence'>, Omit<SpasmEventEnvelopeV2, 'type' | 'db'> {
     type: "SpasmEventDatabaseV2";
     /**
      * Omitting authors from Body to add a 'verified'
      * field to authors in Spasm Event and Database.
      */
     authors?: SpasmEventAuthorV2[];
+    signatures?: SpasmEventSignatureV2[];
 }
 export type SpasmEventAddressFormatNameV2 = "spasmer" | "ethereum-pubkey" | "nostr-hex" | "nostr-npub";
 export type SpasmEventSignatureFormatNameV2 = "ethereum-sig" | "nostr-sig";

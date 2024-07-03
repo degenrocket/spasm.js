@@ -212,14 +212,7 @@ export const validDmpEventSignedClosedConvertedToSpasmV2 = {
                 {
                     value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
                     format: { name: "ethereum-sig" }
-                },
-                // {
-                //   value: "spasmid01xyz",
-                //   format: {
-                //     name: "spasmid",
-                //     version: "01"
-                //   }
-                // }
+                }
             ],
             signatures: [
                 {

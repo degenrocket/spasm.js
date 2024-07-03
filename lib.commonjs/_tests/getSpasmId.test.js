@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _events_data_1 = require("./_events-data");
 const convertToSpasm_1 = require("./../convert/convertToSpasm");
-const getSpasmId_1 = require("./../id/getSpasmId");
+const getSpasmId_1 = require("./../convert/getSpasmId");
 describe("getSpasmId tests", () => {
     test("should return true if true", () => {
         expect(true).toBe(true);

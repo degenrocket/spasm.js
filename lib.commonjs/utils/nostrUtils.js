@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toBeNotes = exports.toBeNote = exports.toBeNpubs = exports.toBeNpub = exports.toBeHexes = exports.toBeHex = exports.convertHexOrNpubAddressesToNpub = exports.convertHexNoteNeventIdsToNote = exports.convertHexNoteNeventIdToNote = exports.convertHexAddressesToNpub = exports.convertHexOrNpubAddressToNpub = exports.convertHexToBech32 = exports.convertNpubOrHexAddressesToHex = exports.convertNpubOrHexAddressToHex = exports.convertBech32ToHex = void 0;
-const bech32_1 = require("bech32");
+const bech32_v2_1 = require("bech32-v2");
 const utils_js_1 = require("./utils.js");
 // Nostr
 // Npub,note to hex.
@@ -16,9 +16,9 @@ const convertBech32ToHex = (bech32Key) => {
     }
     try {
         // Decode the bech32 string to get the words array
-        const decoded = bech32_1.bech32.decode(bech32Key);
+        const decoded = bech32_v2_1.bech32.decode(bech32Key);
         // Convert the words array to bytes
-        const bytes = bech32_1.bech32.fromWords(decoded.words);
+        const bytes = bech32_v2_1.bech32.fromWords(decoded.words);
         // Convert the bytes to a hex string
         let hexKey = '';
         if (!bytes || !Array.isArray(bytes))
@@ -121,9 +121,9 @@ prefix = "npub") => {
         for (let i = 0; i < hexKey.length; i += 2) {
             bytes[i / 2] = parseInt(hexKey.substr(i, 2), 16);
         }
-        const words = bech32_1.bech32.toWords(bytes);
+        const words = bech32_v2_1.bech32.toWords(bytes);
         prefix = prefix ?? 'npub';
-        const bech32Key = bech32_1.bech32.encode(prefix, words);
+        const bech32Key = bech32_v2_1.bech32.encode(prefix, words);
         return bech32Key;
     }
     catch (error) {
