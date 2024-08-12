@@ -12,7 +12,7 @@ import {
   toBeNote,
   toBeNotes,
   // toBeNevent
-} from './../utils/index';
+} from './../utils/index.js';
 
 import {
   validNpubAddress1, validNpubAddress2,
@@ -20,7 +20,7 @@ import {
   invalidNpubAddress1, invalidNpubAddress2,
   validId1Note, validId1Nevent, validId1Hex, invalidId1Note,
   validId2Note, validId2Nevent, validId2Hex, invalidId2Note,
-} from "./_events-data"
+} from "./_events-data.js"
 
 beforeEach(() => {
   // Spy on console.log and console.error
@@ -67,13 +67,14 @@ describe('convertNpubOrHexAddressToHex function', () => {
   it(
     "should return '' when an invalid npub with valid length is passed",
     () => {
-    // Hiding console errors for invalid addresses during tests
+    // Hide console errors for invalid addresses during tests
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressToHex(invalidNpubAddress1)
     ).toBe(
     ''
     );
+    // Restore console errors
     jest.restoreAllMocks();
   });
 

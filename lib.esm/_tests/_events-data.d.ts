@@ -1,4 +1,4 @@
-import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0, EventForSpasmid01 } from "./../types/interfaces";
+import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0, EventForSpasmid01 } from "./../types/interfaces.js";
 export declare const validEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2fa";
 export declare const invalidEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2f";
 export declare const validEthereumSignature1 = "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b";
@@ -97,4 +97,186 @@ export declare const validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2: Spas
 export declare const SpasmEventV2ToTestSpasmid01: SpasmEventV2;
 export declare const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2;
 export declare const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01;
+export declare const validPostWithRssItemSpecialChars: {
+    id: number;
+    guid: string;
+    source: string;
+    category: string;
+    tickers: string;
+    tags: any;
+    title: string;
+    url: string;
+    description: string;
+    pubdate: string;
+    upvote: any;
+    downvote: any;
+    bullish: any;
+    bearish: any;
+    important: any;
+    scam: any;
+    comments_count: any;
+    latest_action_added_time: any;
+};
+export declare const validPostWithRssItemSpecialCharsConvertedToSpasmEventV2: {
+    action: string;
+    categories: {
+        name: string;
+    }[];
+    content: string;
+    db: {
+        key: number;
+    };
+    ids: ({
+        format: {
+            name: string;
+            version: string;
+        };
+        value: string;
+    } | {
+        format: {
+            name: string;
+            version?: undefined;
+        };
+        value: string;
+    })[];
+    keywords: string[];
+    links: {
+        host: string;
+        origin: string;
+        originalProtocolKey: string;
+        pathname: string;
+        protocol: string;
+        value: string;
+    }[];
+    siblings: {
+        ids: {
+            format: {
+                name: string;
+            };
+            value: string;
+        }[];
+        originalObject: {
+            bearish: any;
+            bullish: any;
+            category: string;
+            comments_count: any;
+            description: string;
+            downvote: any;
+            guid: string;
+            id: number;
+            important: any;
+            latest_action_added_time: any;
+            pubdate: string;
+            scam: any;
+            source: string;
+            tags: any;
+            tickers: string;
+            title: string;
+            upvote: any;
+            url: string;
+        };
+        protocol: {
+            name: string;
+        };
+        type: string;
+    }[];
+    source: {
+        name: string;
+    };
+    timestamp: number;
+    title: string;
+    type: string;
+};
+export declare const validPostWithRssItemTitleHasSpecialChars: {
+    id: number;
+    guid: string;
+    source: string;
+    category: string;
+    tickers: string;
+    tags: any;
+    title: string;
+    url: string;
+    description: string;
+    pubdate: string;
+    upvote: any;
+    downvote: any;
+    bullish: any;
+    bearish: any;
+    important: any;
+    scam: any;
+    comments_count: any;
+    latest_action_added_time: any;
+};
+export declare const validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2: {
+    type: string;
+    action: string;
+    title: string;
+    timestamp: number;
+    content: string;
+    ids: ({
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    } | {
+        value: string;
+        format: {
+            name: string;
+            version?: undefined;
+        };
+    })[];
+    links: {
+        value: string;
+        protocol: string;
+        origin: string;
+        host: string;
+        pathname: string;
+        originalProtocolKey: string;
+    }[];
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+        };
+        ids: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+        originalObject: {
+            id: number;
+            guid: string;
+            source: string;
+            category: string;
+            tickers: string;
+            tags: any;
+            title: string;
+            url: string;
+            description: string;
+            pubdate: string;
+            upvote: any;
+            downvote: any;
+            bullish: any;
+            bearish: any;
+            important: any;
+            scam: any;
+            comments_count: any;
+            latest_action_added_time: any;
+        };
+    }[];
+    db: {
+        key: number;
+    };
+    source: {
+        name: string;
+    };
+    categories: {
+        name: string;
+    }[];
+};
+export declare const validNostrSpasmEventSpasmV0WithInvalidHtmlTags: SpasmEventV0;
+export declare const validRssItemWithEmoji: SpasmEventV0;
+export declare const validRssItemWithEmojiConvertedToSpasmEvent2: SpasmEventV2;
 //# sourceMappingURL=_events-data.d.ts.map

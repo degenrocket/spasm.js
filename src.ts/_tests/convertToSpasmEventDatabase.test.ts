@@ -10,10 +10,10 @@ import {
   validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2,
   validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2,
   validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2
-} from "./_events-data";
+} from "./_events-data.js";
 
-import { convertToSpasmEventDatabase } from "./../convert/convertToSpasmEventDatabase"
-import { SpasmEventV2 } from "../types/interfaces";
+import { convertToSpasmEventDatabase } from "./../convert/convertToSpasmEventDatabase.js"
+import { SpasmEventV2 } from "../types/interfaces.js";
 
 // DmpEvent
 describe("convertToSpasmEventDatabase() tests", () => {

@@ -1,3 +1,5 @@
+import { sanitizeStringWithDompurify } from "./../utils/utils.js"
+
 export type FiltersCategory = "defi" | "nft" | "privacy" | "any" | null;
 export type PostId = string | number | null | undefined
 export type PostUrl = string |  null | undefined
@@ -170,6 +172,7 @@ export interface DmpEventSignedOpened extends DmpEventSignedClosed {
 }
 
 export type SpasmVersion = "1.0.0" | "2.0.0"
+export type SpasmIdVersion = "01" | "02" | "03"
 export type DmpVersion = "0.0.1" | "0.1.0"
 export type NostrSpasmVersion = "1.0.0" | "2.0.0"
 export type ExtraSpasmFieldsVersion = NostrSpasmVersion
@@ -368,6 +371,17 @@ export type PrivateKeyType = "ethereum" | "nostr"
 
 ////////////////
 // Spasm V2
+
+export type SpasmEventType =
+  | SpasmEventTypeV2
+  | SpasmEventTypeV0
+
+export type SpasmEventTypeV2 =
+  | "SpasmEventV2"
+  | "SpasmEventBodyV2" | "SpasmEventDatabaseV2"
+  | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTree"
+
+export type SpasmEventTypeV0 = "SpasmEventV0"
 
 export interface SpasmEventBodyV2 {
   type: "SpasmEventBodyV2"
@@ -590,7 +604,7 @@ export interface SpasmEventSignatureFormatV2 {
 
 export interface SpasmEventIdFormatV2 {
   name: SpasmEventIdFormatNameV2
-  version?: string| number
+  version?: string | number
 }
 
 // TODO add 'marker' to each ID?
@@ -952,6 +966,85 @@ export interface SiblingNostrSpasmSignedV2 {
   ids?: SpasmEventIdV2[]
   signatures?: SpasmEventSignatureV2[]
 }
+
+export type CustomFunctionType = (...args: any[]) => any;
+
+export class ConvertToSpasmConfig {
+  to: {
+    spasm: {
+      version: SpasmVersion,
+      type: "SpasmEventV2",
+      id: {
+        versions: SpasmIdVersion[]
+      }
+    }
+  }
+  from: {
+    spasm: { enableEventVerification: boolean },
+    dmp: { enableEventVerification: boolean },
+    nostr: { enableEventVerification: boolean }
+  }
+  signature: {
+    ethereum: { enableVerification: boolean },
+    nostr: { enableVerification: boolean }
+  }
+  xss: {
+    enableSanitization: boolean
+    sanitizationConfig: SanitizationConfig
+  }
+  constructor() {
+    this.to = {
+      spasm: {
+        version: "2.0.0",
+        type: "SpasmEventV2",
+        id: {
+          versions: ["01"]
+        }
+      }
+    }
+    this.from = {
+      spasm: { enableEventVerification: true },
+      dmp: { enableEventVerification: true },
+      nostr: { enableEventVerification: true }
+    }
+    this.signature = {
+      ethereum: { enableVerification: true },
+      nostr: { enableVerification: true }
+    }
+    this.xss = {
+      enableSanitization: true,
+      sanitizationConfig: new SanitizationConfig()
+    }
+    this.xss.sanitizationConfig = new SanitizationConfig()
+  }
+}
+
+export class SanitizationConfig {
+  customFunction: CustomFunctionType
+  valueType: string
+  maxDepth: number
+  constructor() {
+    this.customFunction = sanitizeStringWithDompurify
+    this.valueType = "string",
+    this.maxDepth = 100
+  }
+}
+
+type MakeOptional<T> = {
+  [P in keyof T]?: T[P] extends object ? MakeOptional<T[P]> : T[P];
+};
+
+export type CustomConvertToSpasmConfig =
+  MakeOptional<ConvertToSpasmConfig>
+
+export type CustomSanitizationConfig =
+  MakeOptional<SanitizationConfig>
+
+// export type PartialConvertToSpasmConfig =
+//   Partial<Omit<ConvertToSpasmConfig, 'sanitizationConfig'>> &
+//   { sanitizationConfig?: Partial<SanitizationConfig> };
+//
+// export type PartialSanitizationConfig = Partial<SanitizationConfig>;
 
 // Ideas:
 // - Short names? SE2 SE2Body SE2Envelope SE2EnvelopeWithTree

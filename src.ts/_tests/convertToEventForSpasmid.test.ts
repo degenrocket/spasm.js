@@ -4,12 +4,12 @@ import {
   validDmpEventSignedClosedConvertedToSpasmV2,
   SpasmEventV2ToTestSpasmid01,
   SpasmEventV2ConvertedToSpasmid01
-} from "./_events-data"
+} from "./_events-data.js"
 
 import {
   // convertSpasmEventV2ToEventForSpasmid01,
   convertToEventForSpasmid
-} from "./../convert/convertToEventForSpasmid"
+} from "./../convert/convertToEventForSpasmid.js"
 
 // template
 describe("convertToEventForSpasmid() template tests", () => {

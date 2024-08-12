@@ -14,7 +14,10 @@ const convertToEventForSpasmid = (unknownEvent, idVersion = "01") => {
         spasmEventV2 = unknownEvent;
     }
     else {
-        spasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)(unknownEvent, "2.0.0");
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)(unknownEvent, customConfig);
     }
     if (!spasmEventV2)
         return null;

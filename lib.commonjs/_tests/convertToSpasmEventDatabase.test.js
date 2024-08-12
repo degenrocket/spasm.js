@@ -1,22 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _events_data_1 = require("./_events-data");
-const convertToSpasmEventDatabase_1 = require("./../convert/convertToSpasmEventDatabase");
+const _events_data_js_1 = require("./_events-data.js");
+const convertToSpasmEventDatabase_js_1 = require("./../convert/convertToSpasmEventDatabase.js");
 // DmpEvent
 describe("convertToSpasmEventDatabase() tests", () => {
     test("should convert validDmpEventSignedClosedConvertedToSpasmV2 to SpasmEventDatabaseV2", () => {
         // Dmp
-        const inputDmp0 = JSON.parse(JSON.stringify(_events_data_1.validDmpEventConvertedToSpasmEventV2));
-        const inputDmp1 = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedClosedConvertedToSpasmV2));
-        const inputDmp2 = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedOpenedConvertedToSpasmV2));
-        const inputDmp3 = JSON.parse(JSON.stringify(_events_data_1.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2));
+        const inputDmp0 = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
+        const inputDmp1 = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2));
+        const inputDmp2 = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
+        const inputDmp3 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2));
         // Nostr
-        const inputNostr0 = JSON.parse(JSON.stringify(_events_data_1.validNostrEventConvertedToSpasmV2));
-        const inputNostr1 = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpenedConvertedToSpasmV2));
-        const inputNostr2 = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventConvertedToSpasmV2));
-        const inputNostr3 = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
-        const inputNostr4 = JSON.parse(JSON.stringify(_events_data_1.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2));
-        const inputNostr5 = JSON.parse(JSON.stringify(_events_data_1.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2));
+        const inputNostr0 = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventConvertedToSpasmV2));
+        const inputNostr1 = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
+        const inputNostr2 = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2));
+        const inputNostr3 = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
+        const inputNostr4 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2));
+        const inputNostr5 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2));
         // Valid
         const outputValid = (input) => {
             // Remove db, stats, and children fields from the event
@@ -231,34 +231,34 @@ describe("convertToSpasmEventDatabase() tests", () => {
             }));
         };
         const testAll = (input) => {
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).toStrictEqual(outputValid(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidType(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidParent(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAction(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTitle(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidContent(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTimestamp(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAuthors(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAuthorsVerified(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidCategories(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTips(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidHosts(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLinks(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidKeywords(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTags(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidMedias(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidReferences(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidMentions(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidProofs(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLicense(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLanguage(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidExtra(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidPows(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidIds(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSignatures(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSiblings(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSource(input));
-            expect((0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSharedBy(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).toStrictEqual(outputValid(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidType(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidParent(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAction(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTitle(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidContent(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTimestamp(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAuthors(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidAuthorsVerified(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidCategories(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTips(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidHosts(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLinks(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidKeywords(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidTags(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidMedias(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidReferences(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidMentions(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidProofs(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLicense(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidLanguage(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidExtra(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidPows(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidIds(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSignatures(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSiblings(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSource(input));
+            expect((0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(input)).not.toEqual(outputInvalidSharedBy(input));
         };
         testAll(inputDmp0);
         testAll(inputDmp1);

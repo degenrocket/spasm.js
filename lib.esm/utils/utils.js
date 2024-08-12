@@ -5,6 +5,9 @@
  */
 import { sha256 } from "js-sha256-v0";
 import { ethers } from "ethers-v6";
+import * as DOMPurify from "isomorphic-dompurify-v2";
+import { SanitizationConfig } from "./../types/interfaces.js";
+import { convertToSpasm } from "./../convert/convertToSpasm.js";
 // Filter out undefined, null, 0, '', false, NaN, {}, []
 // Keep {a: null}, {b: undefined}
 // Examples:
@@ -205,7 +208,7 @@ export const createLinkObjectFromUrl = (url, key) => {
         return linkObject;
     }
     catch (error) {
-        console.log('Invalid URL:', url);
+        // console.log('Invalid URL:', url);
         return null;
     }
 };
@@ -714,101 +717,517 @@ export const verifyEthereumSignature = (messageString, signature, signerAddress)
 export const utilsStatus = () => {
     console.log("spasm.js utils status: success");
 };
-// var sha256pure = function sha256(ascii) {
-//     function rightRotate(value, amount) {
-//         return (value>>>amount) | (value<<(32 - amount));
-//     };
-//
-//     var mathPow = Math.pow;
-//     var maxWord = mathPow(2, 32);
-//     var lengthProperty = 'length'
-//     var i, j; // Used as a counter across the whole file
-//     var result = ''
-//
-//     var words = [];
-//     var asciiBitLength = ascii[lengthProperty]*8;
-//
-//     /[> caching results is optional - remove/add slash from front of this line to toggle
-//     // Initial hash value: first 32 bits of the fractional parts of the square roots of the first 8 primes
-//     // (we actually calculate the first 64, but extra values are just ignored)
-//     var hash = sha256.h = sha256.h || [];
-//     // Round constants: first 32 bits of the fractional parts of the cube roots of the first 64 primes
-//     var k = sha256.k = sha256.k || [];
-//     var primeCounter = k[lengthProperty];
-//     [>/
-//     var hash = [], k = [];
-//     var primeCounter = 0;
-//     /[>/
-//
-//     var isComposite = {};
-//     for (var candidate = 2; primeCounter < 64; candidate++) {
-//         if (!isComposite[candidate]) {
-//             for (i = 0; i < 313; i += candidate) {
-//                 isComposite[i] = candidate;
-//             }
-//             hash[primeCounter] = (mathPow(candidate, .5)*maxWord)|0;
-//             k[primeCounter++] = (mathPow(candidate, 1/3)*maxWord)|0;
-//         }
-//     }
-//
-//     ascii += '\x80' // Append Ƈ' bit (plus zero padding)
-//     while (ascii[lengthProperty]%64 - 56) ascii += '\x00' // More zero padding
-//     for (i = 0; i < ascii[lengthProperty]; i++) {
-//         j = ascii.charCodeAt(i);
-//         if (j>>8) return; // ASCII check: only accept characters in range 0-255
-//         words[i>>2] |= j << ((3 - i)%4)*8;
-//     }
-//     words[words[lengthProperty]] = ((asciiBitLength/maxWord)|0);
-//     words[words[lengthProperty]] = (asciiBitLength)
-//
-//     // process each chunk
-//     for (j = 0; j < words[lengthProperty];) {
-//         var w = words.slice(j, j += 16); // The message is expanded into 64 words as part of the iteration
-//         var oldHash = hash;
-//         // This is now the undefinedworking hash", often labelled as variables a...g
-//         // (we have to truncate as well, otherwise extra entries at the end accumulate
-//         hash = hash.slice(0, 8);
-//
-//         for (i = 0; i < 64; i++) {
-//             // Typescript error: i2 value is never read
-//             var i2 = i + j;
-//             // Expand the message into 64 words
-//             // Used below if
-//             var w15 = w[i - 15], w2 = w[i - 2];
-//
-//             // Iterate
-//             var a = hash[0], e = hash[4];
-//             var temp1 = hash[7]
-//                 + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) // S1
-//                 + ((e&hash[5])^((~e)&hash[6])) // ch
-//                 + k[i]
-//                 // Expand the message schedule if needed
-//                 + (w[i] = (i < 16) ? w[i] : (
-//                         w[i - 16]
-//                         + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15>>>3)) // s0
-//                         + w[i - 7]
-//                         + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2>>>10)) // s1
-//                     )|0
-//                 );
-//             // This is only used once, so *could* be moved below, but it only saves 4 bytes and makes things unreadble
-//             var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) // S0
-//                 + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2])); // maj
-//
-//             hash = [(temp1 + temp2)|0].concat(hash); // We don't bother trimming off the extra ones, they're harmless as long as we're truncating when we do the slice()
-//             hash[4] = (hash[4] + temp1)|0;
-//         }
-//
-//         for (i = 0; i < 8; i++) {
-//             hash[i] = (hash[i] + oldHash[i])|0;
-//         }
-//     }
-//
-//     for (i = 0; i < 8; i++) {
-//         for (j = 3; j + 1; j--) {
-//             var b = (hash[i]>>(j*8))&255;
-//             result += ((b < 16) ? 0 : '') + b.toString(16);
-//         }
-//     }
-//     return result;
-// };
+export const executeFunctionForAllNestedValuesOfType = (originalItem, customConfig) => {
+    const defaultConfig = new SanitizationConfig();
+    const config = mergeSanitizationConfigs(defaultConfig, customConfig || {});
+    const { customFunction, valueType, maxDepth } = config;
+    // Keep in mind that an array is of type "object" in typescript
+    if (typeof (originalItem) !== "object" &&
+        !Array.isArray(originalItem)) {
+        throw new Error("ERROR: There are no nested values because an item is not an object, nor an array.");
+    }
+    const seenItems = new Set();
+    // Maximum recursion depth to prevent stack overflow
+    const maxRecursionDepth = maxDepth ?? 10;
+    const executeRecursive = (currentItem, depth = 0) => {
+        if (depth > maxRecursionDepth) {
+            throw new Error("Maximum recursion depth exceeded");
+        }
+        if (seenItems.has(currentItem))
+            return;
+        seenItems.add(currentItem);
+        if (!currentItem)
+            return;
+        // 1. Array
+        if (Array.isArray(currentItem)) {
+            currentItem.forEach((value, index) => {
+                // 1.1. Exact data type match
+                if (typeof (value) === valueType) {
+                    currentItem[index] = customFunction(value);
+                }
+                // 1.2. Array
+                if (Array.isArray(value)) {
+                    executeRecursive(value, depth + 1);
+                }
+                // 1.3. Object
+                if (isObjectWithValues(value)) {
+                    executeRecursive(value, depth + 1);
+                }
+                // 1.4. Other types
+                // Do nothing
+                return;
+            });
+        }
+        // 2. Object
+        if (isObjectWithValues(currentItem)) {
+            Object.keys(currentItem).forEach(key => {
+                // 1.1. Exact data type match
+                if (typeof currentItem[key] === valueType) {
+                    currentItem[key] = customFunction(currentItem[key]);
+                }
+                // 1.2. Array
+                if (Array.isArray(currentItem[key])) {
+                    executeRecursive(currentItem[key], depth + 1);
+                }
+                // 1.3. Object
+                if (isObjectWithValues(currentItem[key])) {
+                    executeRecursive(currentItem[key], depth + 1);
+                }
+                // 1.4. Other types
+                // Do nothing
+                return;
+            });
+        }
+        // 3. Other data types
+        // Do nothing
+        return;
+    };
+    executeRecursive(originalItem);
+    return;
+};
+export const sanitizeEventWith = (originalItem, config) => {
+    try {
+        executeFunctionForAllNestedValuesOfType(originalItem, config);
+    }
+    catch (error) {
+        console.error("Sanitization failed", error);
+        if (Array.isArray(originalItem)) {
+            clearArray(originalItem);
+        }
+        else if (isObjectWithValues(originalItem)) {
+            clearObject(originalItem);
+        }
+    }
+};
+export const sanitizeStringWithDompurify = (val) => {
+    if (typeof (val) === "string") {
+        return DOMPurify.sanitize(val);
+    }
+    return val;
+};
+export const sanitizeEventWithDompurify = (originalItem, config) => {
+    sanitizeEventWith(originalItem, config);
+};
+export const sanitizeEvent = sanitizeEventWithDompurify;
+export const clearArray = (arr) => {
+    arr.length = 0; // This clears the array
+};
+export const clearObject = (obj) => {
+    Object.keys(obj).forEach(key => {
+        delete obj[key];
+    });
+};
+export const mergeObjects = (defaultObject, customObject) => {
+    if (!isObjectWithValues(defaultObject) &&
+        !isObjectWithValues(customObject))
+        return {};
+    if (isObjectWithValues(defaultObject) &&
+        !isObjectWithValues(customObject))
+        return defaultObject;
+    if (!isObjectWithValues(defaultObject) &&
+        isObjectWithValues(customObject))
+        return customObject;
+    const mergedObject = { ...defaultObject };
+    for (const key in customObject) {
+        const value = customObject[key];
+        if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            // If the value is an object, recursively merge it
+            mergedObject[key] = mergeObjects(defaultObject[key], value);
+        }
+        else if (value !== undefined) {
+            mergedObject[key] = value;
+        }
+    }
+    return mergedObject;
+};
+export const mergeConfigs = (defaultConfig, customConfig) => {
+    const newConfig = mergeObjects(defaultConfig, customConfig);
+    return newConfig;
+};
+export const mergeSanitizationConfigs = (defaultConfig, customConfig) => {
+    const newConfig = mergeObjects(defaultConfig, customConfig);
+    return newConfig;
+};
+export const hasSignatureOfFormat = (spasmEvent, signatureFormat) => {
+    if (!spasmEvent)
+        return false;
+    if (!isObjectWithValues(spasmEvent))
+        return false;
+    if (!spasmEvent.signatures)
+        return false;
+    if (!Array.isArray(spasmEvent.siblings))
+        return false;
+    let isSignatureFormatDetected = false;
+    spasmEvent.signatures.forEach(signature => {
+        if (isObjectWithValues(signature) &&
+            signature.format &&
+            isObjectWithValues(signature.format) &&
+            signature.format.name &&
+            typeof (signature.format.name) === "string") {
+            if (signature.format.name.startsWith(signatureFormat)) {
+                isSignatureFormatDetected = true;
+            }
+        }
+    });
+    return isSignatureFormatDetected;
+};
+export const hasSignatureEthereum = (spasmEvent) => {
+    return hasSignatureOfFormat(spasmEvent, "ethereum");
+};
+export const hasSignatureNostr = (spasmEvent) => {
+    return hasSignatureOfFormat(spasmEvent, "nostr");
+};
+export const hasSiblingOfProtocol = (spasmEvent, eventProtocol) => {
+    if (!spasmEvent)
+        return false;
+    if (!isObjectWithValues(spasmEvent))
+        return false;
+    if (!spasmEvent.siblings)
+        return false;
+    if (!Array.isArray(spasmEvent.siblings))
+        return false;
+    let isEventProtocolDetected = false;
+    spasmEvent.siblings.forEach(sibling => {
+        if (isObjectWithValues(sibling) &&
+            sibling.protocol &&
+            isObjectWithValues(sibling.protocol) &&
+            sibling.protocol.name &&
+            typeof (sibling.protocol.name) === "string") {
+            if (sibling.protocol.name === eventProtocol) {
+                isEventProtocolDetected = true;
+            }
+        }
+    });
+    return isEventProtocolDetected;
+};
+export const hasSiblingSpasm = (spasmEvent) => {
+    return hasSiblingOfProtocol(spasmEvent, "spasm");
+};
+export const hasSiblingDmp = (spasmEvent) => {
+    return hasSiblingOfProtocol(spasmEvent, "dmp");
+};
+export const hasSiblingNostr = (spasmEvent) => {
+    return hasSiblingOfProtocol(spasmEvent, "nostr");
+};
+export const hasSiblingWeb2 = (spasmEvent) => {
+    return hasSiblingOfProtocol(spasmEvent, "web2");
+};
+export const getAllSigners = (unknownEvent, onlyVerifiedFlag = false, toLowerCase = true) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    const spasmEventV2 = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEventV2 ||
+        !Array.isArray(spasmEventV2.authors))
+        return [];
+    const signers = [];
+    spasmEventV2.authors.forEach(author => {
+        if (author &&
+            author.addresses &&
+            Array.isArray(author.addresses) &&
+            author.addresses[0]) {
+            author.addresses.forEach(address => {
+                if (address &&
+                    typeof (address) === "object" &&
+                    !Array.isArray(address) &&
+                    address.value &&
+                    (typeof (address.value) === "string" ||
+                        typeof (address.value) === "number")) {
+                    if (onlyVerifiedFlag && address.verified) {
+                        signers.push(address.value);
+                    }
+                    else if (!onlyVerifiedFlag) {
+                        signers.push(address.value);
+                    }
+                }
+            });
+        }
+    });
+    if (toLowerCase) {
+        signers.forEach((signer, index) => {
+            if (typeof (signer) === "string") {
+                signers[index] = signer.toLowerCase();
+            }
+        });
+    }
+    return signers;
+};
+export const getVerifiedSigners = (unknownEvent) => {
+    return getAllSigners(unknownEvent, true, true);
+};
+export const getAllIdsFromArrayOfIdObjects = (arrayOfIdObjects, toLowerCase = true) => {
+    if (!arrayOfIdObjects || !Array.isArray(arrayOfIdObjects)) {
+        return [];
+    }
+    const allIds = [];
+    arrayOfIdObjects.forEach(idObject => {
+        if (idObject &&
+            'value' in idObject &&
+            idObject.value &&
+            (typeof (idObject.value) === "string" ||
+                typeof (idObject.value) === "number")) {
+            allIds.push(idObject.value);
+        }
+    });
+    if (toLowerCase) {
+        allIds.forEach((id, index) => {
+            if (typeof (id) === "string") {
+                allIds[index] = id.toLowerCase();
+            }
+        });
+    }
+    return allIds;
+};
+export const getAllEventIds = (unknownEvent, toLowerCase = true) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    const spasmEvent = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return [];
+    if ('ids' in spasmEvent &&
+        Array.isArray(spasmEvent.ids) &&
+        hasValue(spasmEvent.ids)) {
+        const arrayOfIds = getAllIdsFromArrayOfIdObjects(spasmEvent.ids, toLowerCase);
+        return arrayOfIds;
+    }
+    return [];
+};
+export const getAllParentIds = (unknownEvent, toLowerCase = true) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    const spasmEvent = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return [];
+    if ('parent' in spasmEvent &&
+        spasmEvent.parent &&
+        isObjectWithValues(spasmEvent.parent)) {
+        if ('ids' in spasmEvent.parent &&
+            Array.isArray(spasmEvent.parent.ids) &&
+            hasValue(spasmEvent.parent.ids)) {
+            const arrayOfIds = getAllIdsFromArrayOfIdObjects(spasmEvent.parent.ids, toLowerCase);
+            return arrayOfIds;
+        }
+    }
+    return [];
+};
+// TODO write tests
+export const getAllRootIds = (unknownEvent, toLowerCase = true) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    const spasmEvent = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return [];
+    if ('root' in spasmEvent &&
+        spasmEvent.root &&
+        isObjectWithValues(spasmEvent.root)) {
+        if ('ids' in spasmEvent.root &&
+            Array.isArray(spasmEvent.root.ids) &&
+            hasValue(spasmEvent.root.ids)) {
+            const arrayOfIds = getAllIdsFromArrayOfIdObjects(spasmEvent.root.ids, toLowerCase);
+            return arrayOfIds;
+        }
+    }
+    return [];
+};
+export const getAllSignatures = (unknownEvent, toLowerCase = true) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    let spasmEventV2 = null;
+    // SpasmEventV2
+    if ('type' in unknownEvent &&
+        unknownEvent.type === "SpasmEventV2") {
+        spasmEventV2 = unknownEvent;
+    }
+    else {
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEventV2 = convertToSpasm(unknownEvent, customConfig);
+    }
+    if (!spasmEventV2 ||
+        !Array.isArray(spasmEventV2.signatures))
+        return [];
+    const allSignatures = [];
+    spasmEventV2.signatures.forEach(signature => {
+        if (signature &&
+            signature.value &&
+            (typeof (signature.value) === "string" ||
+                typeof (signature.value) === "number")) {
+            allSignatures.push(signature.value);
+        }
+    });
+    if (toLowerCase) {
+        allSignatures.forEach((signature, index) => {
+            if (typeof (signature) === "string") {
+                allSignatures[index] = signature.toLowerCase();
+            }
+        });
+    }
+    return allSignatures;
+};
+export const getSignersListedIn = (unknownEvent, list) => {
+    if (!isObjectWithValues(unknownEvent))
+        return [];
+    if (!list ||
+        !Array.isArray(list) ||
+        !hasValue(list))
+        return [];
+    let spasmEvent = null;
+    // SpasmEventV2
+    if ('type' in unknownEvent &&
+        unknownEvent.type === "SpasmEventV2") {
+        spasmEvent = unknownEvent;
+    }
+    else {
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEvent = convertToSpasm(unknownEvent, customConfig);
+    }
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return [];
+    const allSigners = getVerifiedSigners(spasmEvent);
+    if (!allSigners ||
+        !hasValue(allSigners))
+        return [];
+    const filteredSigners = [];
+    allSigners.forEach(signer => {
+        if (signer && list.includes(signer)) {
+            filteredSigners.push(signer);
+        }
+    });
+    return filteredSigners;
+};
+export const getPubkeysListedIn = getSignersListedIn;
+export const isAnySignerListedIn = (unknownEvent, list) => {
+    const signersListedIn = getSignersListedIn(unknownEvent, list);
+    if (signersListedIn &&
+        Array.isArray(signersListedIn) &&
+        hasValue(signersListedIn)) {
+        return true;
+    }
+    return false;
+};
+export const isAnyPubkeyListedIn = isAnySignerListedIn;
+export const areAllSignersListedIn = (unknownEvent, list) => {
+    if (!isObjectWithValues(unknownEvent))
+        return false;
+    if (!list ||
+        !Array.isArray(list) ||
+        !hasValue(list))
+        return false;
+    const spasmEvent = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return false;
+    const allSigners = getVerifiedSigners(spasmEvent);
+    if (!allSigners ||
+        !hasValue(allSigners))
+        return false;
+    return allSigners.every(signer => {
+        if (signer) {
+            return list.includes(signer);
+        }
+        else {
+            return false;
+        }
+    });
+};
+export const areAllPubkeysListedIn = areAllSignersListedIn;
+export const getIdByFormat = (unknownEvent, customIdFormat) => {
+    const defaultIdFormat = {
+        name: "spasmid",
+        version: "01"
+    };
+    const idFormat = customIdFormat || defaultIdFormat;
+    const idFormatName = idFormat?.name
+        ? idFormat?.name : "spasmid";
+    const idFormatVersion = idFormat?.version
+        ? idFormat?.version : "";
+    const spasmEvent = toBeSpasmEventV2(unknownEvent);
+    if (!spasmEvent ||
+        !isObjectWithValues(spasmEvent) ||
+        !hasValue(spasmEvent))
+        return null;
+    if (!('ids' in spasmEvent) ||
+        !spasmEvent.ids ||
+        !Array.isArray(spasmEvent.ids)) {
+        return null;
+    }
+    const { ids } = spasmEvent;
+    let idValue = null;
+    ids.forEach(id => {
+        if (!id || typeof (id) !== "object" || Array.isArray(id) ||
+            !isObjectWithValues(id)) {
+            return;
+        }
+        if (!('value' in id) || !id.value ||
+            (typeof (id.value) !== "string" &&
+                typeof (id.value) !== "number")) {
+            return;
+        }
+        if (!('format' in id) || !id.format) {
+            return;
+        }
+        const { format } = id;
+        if (format && typeof (format) === "object" &&
+            !Array.isArray(format) &&
+            isObjectWithValues(format)) {
+            // Match format name
+            if (format.name && typeof (format.name) === "string" &&
+                idFormatName && format.name === idFormatName) {
+                // No version was specified, so returning an ID value
+                // which only matched the specified ID format name.
+                if (!idFormatVersion) {
+                    idValue = id.value;
+                }
+                // Match format version (if specified)
+                if (format.version &&
+                    typeof (format.version) === "string" &&
+                    idFormatVersion && format.version === idFormatVersion) {
+                    idValue = id.value;
+                }
+            }
+        }
+        return;
+    });
+    return idValue;
+};
+export const extractIdByFormat = getIdByFormat;
+export const extractSpasmId01 = (unknownEvent) => {
+    return extractIdByFormat(unknownEvent, { name: "spasmid", version: "01" });
+};
+export const toBeSpasmEventV2 = (unknownEvent) => {
+    if (!isObjectWithValues(unknownEvent))
+        return null;
+    let spasmEvent = null;
+    if ('type' in unknownEvent &&
+        unknownEvent.type === "SpasmEventV2") {
+        spasmEvent = unknownEvent;
+    }
+    else {
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEvent = convertToSpasm(unknownEvent, customConfig);
+    }
+    if (spasmEvent &&
+        isObjectWithValues(spasmEvent) &&
+        hasValue(spasmEvent) &&
+        'type' in spasmEvent &&
+        spasmEvent.type === "SpasmEventV2") {
+        return spasmEvent;
+    }
+    return null;
+};
 //# sourceMappingURL=utils.js.map

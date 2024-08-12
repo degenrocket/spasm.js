@@ -2,14 +2,17 @@ import { convertToSpasm } from "./convertToSpasm.js";
 import { isObjectWithValues, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, } from "./../utils/utils.js";
 // Spasm V2
 export const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
-    let spasmEventV2 = null;
     // SpasmEventV2
+    let spasmEventV2 = null;
     if ('type' in unknownEvent &&
         unknownEvent.type === "SpasmEventV2") {
         spasmEventV2 = unknownEvent;
     }
     else {
-        spasmEventV2 = convertToSpasm(unknownEvent, "2.0.0");
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEventV2 = convertToSpasm(unknownEvent, customConfig);
     }
     if (!spasmEventV2)
         return null;

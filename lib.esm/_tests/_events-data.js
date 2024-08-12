@@ -1,5 +1,5 @@
-import { toBeNpub } from "./../utils/index";
-import { toBeTimestamp } from "./../utils/index";
+import { toBeNpub } from "./../utils/index.js";
+import { toBeTimestamp } from "./../utils/index.js";
 // import { convertToSpasm } from "./../convert/convertToSpasm"
 // const latestSpasmVersion = "2.0.0"
 export const validEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2fa";
@@ -2337,4 +2337,88 @@ export const SpasmEventV2ConvertedToSpasmid01 = {
         },
     ]
 };
+export const validPostWithRssItemSpecialChars = {
+    "id": 7830,
+    "guid": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/",
+    "source": "moneroobserver-feed",
+    "category": "privacy",
+    "tickers": "XMR",
+    "tags": null,
+    "title": "hinto-janai releases Gupax v1.3.3",
+    "url": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/",
+    "description": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...",
+    "pubdate": "2023-11-26T23:00:00.000Z",
+    "upvote": null,
+    "downvote": null,
+    "bullish": null,
+    "bearish": null,
+    "important": null,
+    "scam": null,
+    "comments_count": null,
+    "latest_action_added_time": null
+};
+export const validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = { "action": "post", "categories": [{ "name": "privacy" }], "content": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "db": { "key": 7830 }, "ids": [{ "format": { "name": "spasmid", "version": "01" }, "value": "spasmid012231bee2002f36b0fe99f10aa0f9bbd62b4c6240779e7a77457a5cc37498ce92" }, { "format": { "name": "url" }, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }, { "format": { "name": "guid" }, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }], "keywords": ["XMR"], "links": [{ "host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "url", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }, { "host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "guid", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }], "siblings": [{ "ids": [{ "format": { "name": "url" }, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }, { "format": { "name": "guid" }, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }], "originalObject": { "bearish": null, "bullish": null, "category": "privacy", "comments_count": null, "description": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "downvote": null, "guid": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/", "id": 7830, "important": null, "latest_action_added_time": null, "pubdate": "2023-11-26T23:00:00.000Z", "scam": null, "source": "moneroobserver-feed", "tags": null, "tickers": "XMR", "title": "hinto-janai releases Gupax v1.3.3", "upvote": null, "url": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/" }, "protocol": { "name": "web2" }, "type": "SiblingWeb2V2" }], "source": { "name": "moneroobserver-feed" }, "timestamp": 1701039600000, "title": "hinto-janai releases Gupax v1.3.3", "type": "SpasmEventV2" };
+export const validPostWithRssItemTitleHasSpecialChars = {
+    "id": 4934,
+    "guid": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop",
+    "source": "thedefiant.io",
+    "category": "defi",
+    "tickers": "",
+    "tags": null,
+    "title": "PEPE COIN, GENSLR COIN, WOJAK COIN, TRUMP COIN, REKT COIN, STONKS COIN &#8212; WHEN DOES&nbsp;IT&nbsp;STOP?",
+    "url": "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop",
+    "description": "What's after PEPE?...",
+    "pubdate": "2023-04-24T09:41:16.000Z",
+    "upvote": null,
+    "downvote": null,
+    "bullish": null,
+    "bearish": null,
+    "important": null,
+    "scam": null,
+    "comments_count": null,
+    "latest_action_added_time": null
+};
+export const validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = { "type": "SpasmEventV2", "action": "post", "title": "PEPE COIN, GENSLR COIN, WOJAK COIN, TRUMP COIN, REKT COIN, STONKS COIN &#8212; WHEN DOES&nbsp;IT&nbsp;STOP?", "timestamp": 1682329276000, "content": "What's after PEPE?...", "ids": [{ "value": "spasmid014bf6e5c3dfb0c48cd4b808b3f1879275fb3a91cac9f500f35252ac1dbc3b66b5", "format": { "name": "spasmid", "version": "01" } }, { "value": "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "format": { "name": "url" } }, { "value": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "format": { "name": "guid" } }], "links": [{ "value": "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "protocol": "https", "origin": "https://thedefiant.io", "host": "thedefiant.io", "pathname": "/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "originalProtocolKey": "url" }, { "value": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "protocol": "https", "origin": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "host": "thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "pathname": "/", "originalProtocolKey": "guid" }], "siblings": [{ "type": "SiblingWeb2V2", "protocol": { "name": "web2" }, "ids": [{ "value": "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "format": { "name": "url" } }, { "value": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "format": { "name": "guid" } }], "originalObject": { "id": 4934, "guid": "https://thedefiant.iopepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "source": "thedefiant.io", "category": "defi", "tickers": "", "tags": null, "title": "PEPE COIN, GENSLR COIN, WOJAK COIN, TRUMP COIN, REKT COIN, STONKS COIN &#8212; WHEN DOES&nbsp;IT&nbsp;STOP?", "url": "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop", "description": "What's after PEPE?...", "pubdate": "2023-04-24T09:41:16.000Z", "upvote": null, "downvote": null, "bullish": null, "bearish": null, "important": null, "scam": null, "comments_count": null, "latest_action_added_time": null } }], "db": { "key": 4934 }, "source": { "name": "thedefiant.io" }, "categories": [{ "name": "defi" }] };
+export const validNostrSpasmEventSpasmV0WithInvalidHtmlTags = {
+    "id": 3803,
+    "target": "021d3791000e3f66699c8e3e3f8b46331a2b2acea0c19224d05160203d3142f5f7f0197a350f328ae34f590dcfcfef961e78a9158719c2bb0c27b56b61ef9a00",
+    "action": "reply",
+    "category": null,
+    "title": "",
+    "text": "<img src=\"x\"> test ",
+    "signer": "npub1xypux8nyuhaxhx0a9qugpz72ey6wacmsyma5uluauwm2aurn0hcq68gnae",
+    "signed_message": "{\"kind\":1,\"created_at\":1714510408,\"tags\":[[\"license\",\"SPDX-License-Identifier: CC0-1.0\"],[\"spasm_version\",\"1.0.0\"],[\"spasm_action\",\"reply\"],[\"spasm_target\",\"021d3791000e3f66699c8e3e3f8b46331a2b2acea0c19224d05160203d3142f5f7f0197a350f328ae34f590dcfcfef961e78a9158719c2bb0c27b56b61ef9a00\"]],\"content\":\"<img src=\"x\"> test \",\"pubkey\":\"3103c31e64e5fa6b99fd2838808bcac934eee37026fb4e7f9de3b6aef0737df0\",\"id\":\"e18dc3d5b73b89d4b1e269e7a525e780934cffbf94a4e4512b26dc97ffbec874\",\"sig\":\"b9e9cc534046f548ce94d664f906366f00ec90674a26678e1752bf1f89029e84c2b58a75d249688b7d3af45bffcf66f0ee67454b64f0db7a70e51476c93a3a13\"}",
+    "signature": "b9e9cc534046f548ce94d664f906366f00ec90674a26678e1752bf1f89029e84c2b58a75d249688b7d3af45bffcf66f0ee67454b64f0db7a70e51476c93a3a13",
+    "signed_time": "2024-04-30T20:53:28.000Z",
+    "added_time": "2024-04-30T20:53:39.734Z",
+    "upvote": null,
+    "downvote": null,
+    "bullish": null,
+    "bearish": null,
+    "important": null,
+    "scam": null,
+    "comments_count": 1,
+    "latest_action_added_time": "2024-04-30T20:57:10.296Z"
+};
+export const validRssItemWithEmoji = {
+    "id": 936756,
+    "guid": "https://medium.com/p/5b93a387639c",
+    "source": "osmosis-medium",
+    "category": "defi",
+    "tickers": "OSMO",
+    "title": "Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi",
+    "url": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c",
+    "description": "[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...",
+    "pubdate": "2024-05-13T14:11:34.000Z",
+    "tags": null,
+    "upvote": null,
+    "downvote": null,
+    "bullish": null,
+    "bearish": null,
+    "important": null,
+    "scam": null,
+    "comments_count": null,
+    "latest_action_added_time": null
+};
+export const validRssItemWithEmojiConvertedToSpasmEvent2 = { "type": "SpasmEventV2", "action": "post", "title": "Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi", "timestamp": 1715609494000, "content": "[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...", "keywords": ["OSMO"], "ids": [{ "value": "spasmid01fc9080487349b7fc6d298d7df02e29d7d39617dd38913dfda515556eee3e156c", "format": { "name": "spasmid", "version": "01" } }, { "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "format": { "name": "url" } }, { "value": "https://medium.com/p/5b93a387639c", "format": { "name": "guid" } }], "links": [{ "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "protocol": "https", "origin": "https://medium.com", "host": "medium.com", "pathname": "/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "originalProtocolKey": "url" }, { "value": "https://medium.com/p/5b93a387639c", "protocol": "https", "origin": "https://medium.com", "host": "medium.com", "pathname": "/p/5b93a387639c", "originalProtocolKey": "guid" }], "siblings": [{ "type": "SiblingWeb2V2", "protocol": { "name": "web2" }, "ids": [{ "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "format": { "name": "url" } }, { "value": "https://medium.com/p/5b93a387639c", "format": { "name": "guid" } }], "originalObject": { "id": 936756, "guid": "https://medium.com/p/5b93a387639c", "source": "osmosis-medium", "category": "defi", "tickers": "OSMO", "title": "Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi", "url": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "description": "[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...", "pubdate": "2024-05-13T14:11:34.000Z", "tags": null, "upvote": null, "downvote": null, "bullish": null, "bearish": null, "important": null, "scam": null, "comments_count": null, "latest_action_added_time": null } }], "db": { "key": 936756 }, "source": { "name": "osmosis-medium" }, "categories": [{ "name": "defi" }] };
 //# sourceMappingURL=_events-data.js.map

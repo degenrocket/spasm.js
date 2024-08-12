@@ -131,85 +131,91 @@ const identifyPostOrEvent = (unknownPostOrEvent
 // TODO change to UnknownEventV2 to handle SpasmV2
 // unknownPostOrEvent: UnknownEventV2
 ) => {
-    const info = {
-        webType: false,
-        eventIsSealed: false,
-        eventIsSealedUnderKeyName: false,
-        eventInfo: {
-            type: false,
-            hasSignature: false,
-            baseProtocol: false,
-            privateKeyType: false,
-            isSpasmCompatible: false,
-            hasExtraSpasmFields: false,
-            license: false
-        }
-    };
-    if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
-        return info;
-    // let unknownEventOrWeb2Post: UnknownPostOrEvent | undefined
-    let unknownEventOrWeb2Post = {};
-    // Option 1. 
-    // If an object is a post with a sealed event (signed string),
-    // we need to extract the event by parsing the signed string.
-    // We then check if that extracted object is a valid web3 event.
-    if ((0, exports.isWeb3Post)(unknownPostOrEvent)) {
-        info.webType = "web3";
-        info.eventIsSealed = true;
-        if ('signed_message' in unknownPostOrEvent &&
-            typeof (unknownPostOrEvent.signed_message) === "string") {
-            const signedObject = JSON.parse(unknownPostOrEvent.signed_message);
-            info.eventIsSealedUnderKeyName = 'signed_message';
-            unknownEventOrWeb2Post = signedObject;
-            // Edge cases.
-            // Signed DMP event sealed in the Post under the key
-            // 'signed_message' doesn't have signature inside the signed
-            // string, so we cannot just parse the string to extract the
-            // object and then pass it into an identify function.
-            // Instead, we have to attach a signer and signature to the
-            // signed string, which is a type of DmpEventSignedClosed.
-            if ((0, exports.isDmpEvent)(unknownEventOrWeb2Post) &&
-                'signer' in unknownPostOrEvent &&
-                typeof (unknownPostOrEvent.signer) === "string" &&
-                'signature' in unknownPostOrEvent &&
-                typeof (unknownPostOrEvent.signature) === "string") {
-                // Recreating DmpEventSignedClosed
-                unknownEventOrWeb2Post = {
-                    signer: unknownPostOrEvent.signer,
-                    signedString: unknownPostOrEvent.signed_message,
-                    signature: unknownPostOrEvent.signature
-                };
+    try {
+        const info = {
+            webType: false,
+            eventIsSealed: false,
+            eventIsSealedUnderKeyName: false,
+            eventInfo: {
+                type: false,
+                hasSignature: false,
+                baseProtocol: false,
+                privateKeyType: false,
+                isSpasmCompatible: false,
+                hasExtraSpasmFields: false,
+                license: false
             }
+        };
+        if (!(0, utils_js_1.isObjectWithValues)(unknownPostOrEvent))
+            return info;
+        // let unknownEventOrWeb2Post: UnknownPostOrEvent | undefined
+        let unknownEventOrWeb2Post = {};
+        // Option 1. 
+        // If an object is a post with a sealed event (signed string),
+        // we need to extract the event by parsing the signed string.
+        // We then check if that extracted object is a valid web3 event.
+        if ((0, exports.isWeb3Post)(unknownPostOrEvent)) {
+            info.webType = "web3";
+            info.eventIsSealed = true;
+            if ('signed_message' in unknownPostOrEvent &&
+                typeof (unknownPostOrEvent.signed_message) === "string") {
+                const signedObject = JSON.parse(unknownPostOrEvent.signed_message);
+                info.eventIsSealedUnderKeyName = 'signed_message';
+                unknownEventOrWeb2Post = signedObject;
+                // Edge cases.
+                // Signed DMP event sealed in the Post under the key
+                // 'signed_message' doesn't have signature inside the signed
+                // string, so we cannot just parse the string to extract the
+                // object and then pass it into an identify function.
+                // Instead, we have to attach a signer and signature to the
+                // signed string, which is a type of DmpEventSignedClosed.
+                if ((0, exports.isDmpEvent)(unknownEventOrWeb2Post) &&
+                    'signer' in unknownPostOrEvent &&
+                    typeof (unknownPostOrEvent.signer) === "string" &&
+                    'signature' in unknownPostOrEvent &&
+                    typeof (unknownPostOrEvent.signature) === "string") {
+                    // Recreating DmpEventSignedClosed
+                    unknownEventOrWeb2Post = {
+                        signer: unknownPostOrEvent.signer,
+                        signedString: unknownPostOrEvent.signed_message,
+                        signature: unknownPostOrEvent.signature
+                    };
+                }
+            }
+            // Option 2. 
+            // If an object doesn't have a sealed event (signed string), then 
+            // - either the object itself is a web3 event,
+            // - or the object is a web2 post (e.g., from an RSS feed).
         }
-        // Option 2. 
-        // If an object doesn't have a sealed event (signed string), then 
-        // - either the object itself is a web3 event,
-        // - or the object is a web2 post (e.g., from an RSS feed).
+        else {
+            info.webType = false;
+            info.eventIsSealed = false;
+            info.eventIsSealedUnderKeyName = false;
+            unknownEventOrWeb2Post = unknownPostOrEvent;
+        }
+        if (!unknownEventOrWeb2Post)
+            return info;
+        const eventInfo = (0, exports.identifyEvent)(unknownEventOrWeb2Post);
+        // An object has been identified as a web3 event.
+        if (eventInfo?.type &&
+            typeof (eventInfo.type) === "string" &&
+            eventInfo?.type !== "unknown") {
+            // web3 post and web3 event
+            info.webType = "web3";
+            info.eventInfo = eventInfo;
+            return info;
+            // An object has not been identified as a web3 event.
+        }
+        else {
+            // web2 post
+            info.webType = "web2";
+            info.eventInfo = false;
+            return info;
+        }
     }
-    else {
-        info.webType = false;
-        info.eventIsSealed = false;
-        info.eventIsSealedUnderKeyName = false;
-        unknownEventOrWeb2Post = unknownPostOrEvent;
-    }
-    if (!unknownEventOrWeb2Post)
-        return info;
-    const eventInfo = (0, exports.identifyEvent)(unknownEventOrWeb2Post);
-    // An object has been identified as a web3 event.
-    if (eventInfo?.type &&
-        typeof (eventInfo.type) === "string" &&
-        eventInfo?.type !== "unknown") {
-        // web3 post and web3 event
-        info.webType = "web3";
-        info.eventInfo = eventInfo;
-        return info;
-        // An object has not been identified as a web3 event.
-    }
-    else {
-        // web2 post
-        info.webType = "web2";
-        info.eventInfo = false;
-        return info;
+    catch (error) {
+        console.error(error);
+        return null;
     }
 };
 exports.identifyPostOrEvent = identifyPostOrEvent;

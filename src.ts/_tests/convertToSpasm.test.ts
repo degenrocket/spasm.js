@@ -29,9 +29,16 @@ import {
 
   // RSS items V2
   validSpasmEventRssItemV0,
-  validSpasmEventRssItemV0ConvertedToSpasmV2
-} from "./_events-data"
-import { convertToSpasm } from "./../convert/convertToSpasm"
+  validSpasmEventRssItemV0ConvertedToSpasmV2,
+  validPostWithRssItemSpecialChars,
+  validPostWithRssItemSpecialCharsConvertedToSpasmEventV2,
+  validPostWithRssItemTitleHasSpecialChars,
+  validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2,
+  validNostrSpasmEventSpasmV0WithInvalidHtmlTags,
+  validRssItemWithEmoji,
+  validRssItemWithEmojiConvertedToSpasmEvent2
+} from "./_events-data.js"
+import { convertToSpasm } from "./../convert/convertToSpasm.js"
 
 describe("convertToSpasm tests", () => {
   test("should return true if true", () => {
@@ -240,6 +247,164 @@ describe("convertToSpasm() tests for RSS items", () => {
   test("should convert validSpasmEventRssItemV0 to Spasm", () => {
     const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
     const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    expect(convertToSpasm(input)).toEqual(output);
+  });
+});
+
+// convertToSpasm() with sanitizeEvent() with DOMPurify
+// validPostWithRssItem - old name
+// validSpasmEventRssItemV0 - new name
+// validSpasmEventRssItemV0ConvertedToSpasmV2
+describe("convertToSpasm() tests with sanitizeEvent", () => {
+  // RssItem
+  test("should return null if an event has malicious code", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const inputMalicious = {
+      ...input,
+      tags: ["dark", "<img src=x onerror=alert(1)//>"]
+    }
+    /* const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2)); */
+    expect(convertToSpasm(inputMalicious)).toEqual(null);
+  });
+  test("should return null if an event has deeply nested malicious code", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const inputMalicious = {
+      ...input,
+      tags: [
+        "dark", "forest",
+        {
+          object: {
+            array: [ 
+              [ 1, 2, "three", "<svg><g/onload=alert(2)//<p>" ]
+            ]
+          }
+        }
+      ]
+    }
+    /* const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2)); */
+    expect(convertToSpasm(inputMalicious)).toEqual(null);
+  });
+  test("should return event with malicious input if xss sanitization is turned off", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const inputMalicious = {
+      ...input,
+      tags: ["dark", "<img src=x onerror=alert(1)//>"]
+    }
+    const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    const outputMalicious = {
+      ...output
+    }
+    outputMalicious.ids[0].value = "spasmid019c82c9d5bee650a096e15ddbe4567928c17343653f2a34f2f6d2dfc2f6c744d1"
+    outputMalicious.keywords = ["dark", "<img src=x onerror=alert(1)//>", "cookies"]
+    outputMalicious.siblings[0].originalObject.tags = ["dark", "<img src=x onerror=alert(1)//>"]
+    expect(
+      convertToSpasm(
+        inputMalicious,
+        { xss: { enableSanitization: false } }
+      )
+    ).toEqual(outputMalicious);
+  });
+  test("should return null if an event has deeply nested malicious code", () => {
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const inputMalicious = {
+      ...input,
+      tags: [
+        "dark", "forest",
+        {
+          object: {
+            array: [ 
+              [ 1, 2, "three", "<svg><g/onload=alert(2)//<p>" ]
+            ]
+          }
+        }
+      ]
+    }
+    /* const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2)); */
+    expect(convertToSpasm(inputMalicious)).toEqual(null);
+  });
+  test("should return valid spasm event if custom sanitization function returns unchanged value", () => {
+    const customFunction = (value: any) => value
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    expect(
+      convertToSpasm(
+        input,
+        {
+          xss: {
+            sanitizationConfig: {
+              customFunction: customFunction
+            }
+          }
+        }
+      )
+    ).toEqual(output);
+  });
+  test("should return null if custom sanitization function returns changed value", () => {
+    const customFunction = (value: any) => value + " changed"
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    // const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    expect(
+      convertToSpasm(
+        input,
+        {
+          xss: {
+            sanitizationConfig: {
+              customFunction: customFunction
+            }
+          }
+        }
+      )
+    ).toEqual(null);
+  });
+  test("should return null if sanitization max recursion depth exceeded", () => {
+    // Hide console errors for invalid addresses during tests
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const input = JSON.parse(JSON.stringify(validSpasmEventRssItemV0));
+    // const output = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    expect(
+      convertToSpasm(
+        input,
+        {
+          xss: {
+            sanitizationConfig: {
+              maxDepth: 0
+            }
+          }
+        }
+      )
+    ).toEqual(null);
+    // Restore console errors
+    jest.restoreAllMocks();
+  });
+});
+
+// convertToSpasm() for events with special chars
+describe("convertToSpasm() tests for DMP events", () => {
+  test("should convert validPostWithRssItemSpecialChars to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validPostWithRssItemSpecialChars));
+    const output = JSON.parse(JSON.stringify(validPostWithRssItemSpecialCharsConvertedToSpasmEventV2));
+    expect(convertToSpasm(input)).toEqual(output);
+  });
+
+  test("should convert validPostWithRssItemTitleHasSpecialChars to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validPostWithRssItemTitleHasSpecialChars));
+    const output = JSON.parse(JSON.stringify(validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2));
+    expect(convertToSpasm(input)).toEqual(output);
+  });
+
+  test("an attempt to convert validNostrSpasmEventSpasmV0WithInvalidHtmlTags to SpasmEventV2 should return null", () => {
+    // Hide console errors for invalid addresses during tests
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const input = JSON.parse(JSON.stringify(validNostrSpasmEventSpasmV0WithInvalidHtmlTags));
+    // null because cannot identify event
+    expect(convertToSpasm(input)).toEqual(null);
+    // Restore console errors
+    jest.restoreAllMocks();
+  });
+
+  test("should convert validRssItemWithEmoji to SpasmEventV2", () => {
+    const input = JSON.parse(JSON.stringify(validRssItemWithEmoji));
+    const output = JSON.parse(JSON.stringify(validRssItemWithEmojiConvertedToSpasmEvent2));
     expect(convertToSpasm(input)).toEqual(output);
   });
 });

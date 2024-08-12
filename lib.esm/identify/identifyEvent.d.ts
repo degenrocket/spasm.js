@@ -8,7 +8,7 @@ import { EventType, EventInfo, KnownPostOrEventInfo, UnknownPostOrEvent, Unknown
   You can check definitions to better understand the difference
   between a Post and an Event.
 */
-export declare const identifyPostOrEvent: (unknownPostOrEvent: UnknownPostOrEvent) => KnownPostOrEventInfo;
+export declare const identifyPostOrEvent: (unknownPostOrEvent: UnknownPostOrEvent) => KnownPostOrEventInfo | null;
 export declare const isWeb2Post: (unknownPostOrEvent: UnknownPostOrEvent | any) => boolean;
 export declare const isWeb3Post: (unknownPostOrEvent: UnknownPostOrEvent | any) => boolean;
 export declare const identifyEvent: (unknownPostOrEvent: UnknownPostOrEvent | any) => EventInfo;
@@ -59,6 +59,6 @@ export declare const isPostWithNostrEventSignedOpened: (unknownPostOrEvent: Unkn
 export declare const isPostWithNostrSpasmEvent: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
 export declare const isPostWithNostrEvent: (unknownPostOrEvent: UnknownEvent) => boolean;
 export declare const identifyEventInsidePost: (unknownPostOrEvent: UnknownPostOrEvent) => EventType | false;
-export declare const identifyObject: (unknownPostOrEvent: UnknownPostOrEvent) => KnownPostOrEventInfo;
+export declare const identifyObject: (unknownPostOrEvent: UnknownPostOrEvent) => KnownPostOrEventInfo | null;
 export {};
 //# sourceMappingURL=identifyEvent.d.ts.map

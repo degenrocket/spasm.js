@@ -4,5 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./lib.esm"
+    // "esModuleInterop": true,
+    // "resolveJsonModule": true,
+    // "allowJs": true
   }
 }

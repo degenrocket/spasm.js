@@ -247,6 +247,8 @@ link
 
 - convert web2 posts and web3 events to Spasm event
 
+- create unique Spasm ID for single-signed and multi-signed events
+
 ## Installation
 
 ```bash
@@ -323,6 +325,90 @@ const info = spasm.identifyObject(event)
 
 // Convert to Spasm
 const spasmEvent = spasm.convertToSpasm(event)
+```
+
+## Utils
+
+```js
+// Get an array of all signers/pubkeys from the event
+// (including signers which cannot be verified against signatures)
+const signers = spasm.getAllSigners(event)
+
+// Get an array of signers/pubkeys which have
+// been verified against attached signatures
+const verifiedSigners = spasm.getVerifiedSigners(event)
+```
+
+```js
+// Get an array of signers/pubkeys which match values provided
+// in the attached list (e.g., moderators, whitelisted, banned)
+const moderators = spasm.getSignersListedIn(event, moderatorsList)
+// alias
+const banned = spasm.getPubkeysListedIn(event, bannedList)
+```
+
+```js
+// Check if all signers/pubkeys match values provided
+// in the attached list (e.g., moderators, whitelisted, banned)
+const areModerators = spasm.areAllSignersListedIn(event, moderatorsList)
+// alias
+const areBanned = spasm.areAllPubkeysListedIn(event, bannedList)
+```
+
+```js
+// Check if at least one signer/pubkey matches a value provided
+// in the attached list (e.g., moderators, whitelisted, banned)
+const isModerator = spasm.isAnySignerListedIn(event, moderatorsList)
+// alias
+const isBanned = spasm.isAnyPubkeyListedIn(event, bannedList)
+```
+
+```js
+// Get an array of all event IDs
+const ids = spasm.getAllEventIds(event)
+
+// Get an array of all parent IDs
+const parentIds = spasm.getAllParentIds(event)
+
+// Get an array of all root IDs
+const rootIds = spasm.getAllRootIds(event)
+```
+
+```js
+// Get an array of all event signatures
+const signatures = spasm.getAllSignatures(event)
+```
+
+```js
+// Extract an ID from an event.
+const nostrId = spasm.getIdByFormat(event, { name: "nostr-hex" })
+
+const spasmId = spasm.getIdByFormat(event, {
+  name: "spasmid", version: "01"
+})
+
+// alias
+const spasmId = spasm.extractIdByFormat(event, {
+  name: "spasmid"
+})
+
+// Note: the function above doesn't calculate a new ID, but
+// simply extracts an existing ID from an event object.
+// If you want to calculate an ID (e.g., to verify it),
+// then you must use another function, for example:
+const spasmId = spasm.getSpasmId(event)
+```
+
+```js
+// Convert an event to SpasmEventV2 only if
+// it's not SpasmEventV2 yet.
+const spasmEventV2 = toBeSpasmEventV2(event)
+
+// Note: you must use convertToSpasm() at least one time
+// upon receiving an event, because by default it will
+// verify all the signatures and sanitize nested strings.
+// After that you can use toBeSpasmEventV2() in each
+// function to minimize computational load.
 ```
 
 ## Examples

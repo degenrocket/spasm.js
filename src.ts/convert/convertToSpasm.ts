@@ -31,7 +31,9 @@ import {
   SpasmEventReactionNameV2,
   SiblingNostrV2,
   SiblingWeb2V2,
-  SpasmEventMentionV2
+  SpasmEventMentionV2,
+  ConvertToSpasmConfig,
+  CustomConvertToSpasmConfig
 } from "./../types/interfaces.js";
 import {
   // toBeNpub,
@@ -44,7 +46,9 @@ import {
   createLinkObjectFromUrl, hasValue,
   getFormatFromId, getFormatFromAddress, getFormatFromSignature,
   markSpasmEventAddressAsVerified,
-  verifyEthereumSignature
+  verifyEthereumSignature,
+  sanitizeEvent,
+  mergeConfigs
 } from "./../utils/utils.js";
 import {
   identifyPostOrEvent,
@@ -64,21 +68,58 @@ import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2'
 // Spasm V2
 export const convertToSpasm = (
   unknownEvent: UnknownEventV2,
-  version = "2.0.0",
-  spasmIdVersions = ["01"]
+  customConfig?: CustomConvertToSpasmConfig
 ): SpasmEventV2 | null => {
-  if (version === "2.0.0") {
-    const standardizedEventV2 = 
-      standardizeEventV2(unknownEvent, version)
+  try {
+    const defaultConfig = new ConvertToSpasmConfig()
+    const config: ConvertToSpasmConfig = mergeConfigs(
+      defaultConfig, customConfig || {}
+    )
 
-    if (standardizedEventV2) {
-      const spasmEventV2: SpasmEventV2 | null =
-        assignSpasmId(standardizedEventV2, spasmIdVersions)
-
-      return spasmEventV2
+    if (config?.xss?.enableSanitization) {
+      // Sanitize event
+      const sanitizedEvent = JSON.parse(JSON.stringify(unknownEvent))
+      sanitizeEvent(
+        sanitizedEvent,
+        config.xss.sanitizationConfig
+      )
+      // Allow some special characters on the backend (database),
+      // because all strings should be sanitized on the frontend
+      // before displaying to users.
+      const jsonStringOriginal = JSON.stringify(unknownEvent)
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        // Below is a special character, not a simple empty space
+        .replace(/&nbsp;/g, ' ')
+      const jsonStringSanitized = JSON.stringify(sanitizedEvent)
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        // Below is a special character, not a simple empty space
+        .replace(/&nbsp;/g, ' ')
+      if (jsonStringOriginal !== jsonStringSanitized) {
+        // An event contains potentially malicious code
+        return null
+      }
     }
+
+    if (config?.to?.spasm?.version === "2.0.0") {
+      const standardizedEventV2 = 
+        standardizeEventV2(unknownEvent, config.to.spasm.version)
+
+      if (standardizedEventV2) {
+        const spasmEventV2: SpasmEventV2 | null =
+          assignSpasmId(
+            standardizedEventV2, config.to.spasm.id.versions
+        )
+
+        return spasmEventV2
+      }
+    }
+    return null
+  } catch (error) {
+    console.error(error)
+    return null
   }
-  return null
 }
 
 export const assignSpasmId = (
@@ -113,7 +154,7 @@ export const assignSpasmId = (
 export const standardizeEventV2 = (
   unknownEvent: UnknownEventV2,
   version = "2.0.0",
-  info?: KnownPostOrEventInfo
+  info?: KnownPostOrEventInfo | null
 ): SpasmEventV2 | null => {
 
   if (!isObjectWithValues(unknownEvent)) return null

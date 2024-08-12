@@ -9,6 +9,7 @@ import {
   SpasmEventBodyReferenceV2,
   SpasmEventBodyParentV2,
   SpasmEventDatabaseV2,
+  CustomConvertToSpasmConfig,
   // SpasmEventIdV2,
 } from "./../types/interfaces.js";
 
@@ -26,16 +27,19 @@ export const convertToSpasmEventDatabase = (
   dbVersion = "2.0.0"
 ): SpasmEventDatabaseV2 | null => {
 
+  // SpasmEventV2
   let spasmEventV2: SpasmEventV2 | null = null
 
-  // SpasmEventV2
   if (
     'type' in unknownEvent &&
     unknownEvent.type === "SpasmEventV2"
   ) {
     spasmEventV2 = unknownEvent
   } else {
-    spasmEventV2 = convertToSpasm(unknownEvent, "2.0.0")
+    const customConfig: CustomConvertToSpasmConfig = {
+      to: { spasm: { version: "2.0.0" } }
+    }
+    spasmEventV2 = convertToSpasm(unknownEvent, customConfig)
   }
 
   if (!spasmEventV2) return null

@@ -5,14 +5,17 @@ const convertToSpasm_js_1 = require("./convertToSpasm.js");
 const utils_js_1 = require("./../utils/utils.js");
 // Spasm V2
 const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
-    let spasmEventV2 = null;
     // SpasmEventV2
+    let spasmEventV2 = null;
     if ('type' in unknownEvent &&
         unknownEvent.type === "SpasmEventV2") {
         spasmEventV2 = unknownEvent;
     }
     else {
-        spasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)(unknownEvent, "2.0.0");
+        const customConfig = {
+            to: { spasm: { version: "2.0.0" } }
+        };
+        spasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)(unknownEvent, customConfig);
     }
     if (!spasmEventV2)
         return null;

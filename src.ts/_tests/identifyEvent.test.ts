@@ -1,12 +1,11 @@
-import { identifyLicense, identifyPostOrEvent } from './../identify/identifyEvent';
-import { isNostrEvent } from './../identify/identifyEvent';
-import { isNostrSpasmEvent } from './../identify/identifyEvent';
-import { isNostrEventSignedOpened } from './../identify/identifyEvent';
-import { isNostrSpasmEventSignedOpened } from './../identify/identifyEvent';
-// import { isDmpEventSignedClosed } from './../identify/identifyEvent';
-import { hasSignature } from './../identify/identifyEvent';
-// import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened } from "./../types/interfaces";
-// import { DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened } from "./../types/interfaces";
+import {
+  identifyLicense, identifyPostOrEvent,
+  isNostrEvent,
+  isNostrSpasmEvent,
+  isNostrEventSignedOpened,
+  isNostrSpasmEventSignedOpened,
+  hasSignature
+} from './../identify/identifyEvent.js';
 import {
   validDmpEvent,
   validDmpEventSignedClosed,
@@ -19,7 +18,7 @@ import {
   // validNostrEventSignedString,
   validPostWithNostrSpasmEventSignedOpened,
   validPostWithRssItem
-} from "./_events-data"
+} from "./_events-data.js"
 
 
 describe("default test identifyEvent", () => {

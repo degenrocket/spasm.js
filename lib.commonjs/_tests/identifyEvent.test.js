@@ -1,15 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const identifyEvent_1 = require("./../identify/identifyEvent");
-const identifyEvent_2 = require("./../identify/identifyEvent");
-const identifyEvent_3 = require("./../identify/identifyEvent");
-const identifyEvent_4 = require("./../identify/identifyEvent");
-const identifyEvent_5 = require("./../identify/identifyEvent");
-// import { isDmpEventSignedClosed } from './../identify/identifyEvent';
-const identifyEvent_6 = require("./../identify/identifyEvent");
-// import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened } from "./../types/interfaces";
-// import { DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened } from "./../types/interfaces";
-const _events_data_1 = require("./_events-data");
+const identifyEvent_js_1 = require("./../identify/identifyEvent.js");
+const _events_data_js_1 = require("./_events-data.js");
 describe("default test identifyEvent", () => {
     test("should return true", () => {
         expect(true).toBe(true);
@@ -46,15 +38,15 @@ describe("default test identifyEvent", () => {
 describe("hasSignature() function tests", () => {
     test("should return false if object doesn't contain necessary properties", () => {
         const input = {};
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     test("should return false if signature key is missing", () => {
         const input = { signer: '0x' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     test("should return false if signature key length is empty", () => {
         const input = { signature: '' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     // Signature verification is done in another function during
     // conversion to SpasmEvent, so disabling this test.
@@ -64,15 +56,15 @@ describe("hasSignature() function tests", () => {
     // });
     test("should return true if signature key exists and its length is greater than 40", () => {
         const input = { signature: 'a'.repeat(50) };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return true if signature key exists and its length is greater than 40", () => {
         const input = { signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return false if sig key length is empty", () => {
         const input = { sig: '', id: '' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     // Signature verification is done in another function during
     // conversion to SpasmEvent, so disabling this test.
@@ -82,92 +74,92 @@ describe("hasSignature() function tests", () => {
     // });
     test("should return true if sig key exists and its length is greater than 40", () => {
         const input = { sig: 'a'.repeat(50), id: '' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return true if sig key exists and its length is greater than 40", () => {
         const input = { sig: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b', id: '' };
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return false if is a valid DmpEvent without signature", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEvent));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     test("should return true if is a valid DmpEventSignedClosed", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedClosed));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosed));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return true if is a valid DmpEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedOpened));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpened));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return false if is a valid NostrEvent without signature", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEvent));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEvent));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     test("should return true if is a valid NostrEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpened));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     test("should return false if is a valid NostrSpasmEvent without signature", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEvent));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(false);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEvent));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(false);
     });
     test("should return true if is a valid NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_6.hasSignature)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.hasSignature)(input)).toBe(true);
     });
     // Add similar tests for other signature keys ('sig')
 });
 // identifyLicense()
 describe("identifyLicense() function tests", () => {
     test("should return false if no license found", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEvent));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
         delete input.license;
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe(false);
     });
     test("should identify license inside DmpEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEvent));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("MIT");
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("MIT");
     });
     test("should identify license inside DmpEventSignedClosed", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedClosed));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("MIT");
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosed));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("MIT");
     });
     test("should identify license inside DmpEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedOpened));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("MIT");
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpened));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("MIT");
     });
     test("should return false for NostrEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEvent));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe(false);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEvent));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe(false);
     });
     test("should return false for NostrEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpened));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe(false);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe(false);
     });
     test("should return SPDX CC0 license for NostrSpasmEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEvent));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEvent));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
     });
     test("should return false for NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
     });
     test("should identify license inside SPASM tags of NostrSpasmEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEvent));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEvent));
         input.tags.push([
             "license",
             "SPDX-License-Identifier: CC0-1.0"
         ]);
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
     });
     test("should identify license inside SPASM tags of NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.tags.push([
             "license",
             "SPDX-License-Identifier: CC0-1.0"
         ]);
-        expect((0, identifyEvent_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
+        expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
     });
 });
 // TODO:
@@ -186,138 +178,138 @@ describe("identifyLicense() function tests", () => {
 describe("isNostrEvent(), isNostrEventSignedOpened(), isNostrSpasmEvent(), isNostrSpasmEventSignedOpened() functions tests", () => {
     // kind
     test("should return false if an object is missing 'kind'", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         delete input.kind;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return false if kind is a string", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.kind = "1";
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return true if an object has a kind 0", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.kind = 0;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     test("should return true if an object has a kind 1", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.kind = 1;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     // created_at
     test("should return false if an object is missing 'created_at'", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         delete input.created_at;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return false if created_at is a string", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.created_at = "1673347337",
-            expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+            expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return true if an object has created_at 0", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.created_at = 0;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     test("should return true if an object has a normal created_at", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     // pubkey
     test("should return false if an object is missing 'pubkey'", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         delete input.pubkey;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return false if pubkey is a number", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.pubkey = 1337;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return true if an object has a normal pubkey", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     // content
     test("should return false if an object is missing 'content'", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         delete input.content;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return false if content is a number", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.content = 1337;
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(false);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(false);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(false);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(false);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(false);
     });
     test("should return true if an object has content '0' (string)", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         input.content = "0";
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     test("should return true if an object has a normal content", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
     // valid event
     test("should return true if an object is a valid Nostr event", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
-        expect((0, identifyEvent_2.isNostrEvent)(input)).toBe(true);
-        expect((0, identifyEvent_3.isNostrSpasmEvent)(input)).toBe(true);
-        expect((0, identifyEvent_4.isNostrEventSignedOpened)(input)).toBe(true);
-        expect((0, identifyEvent_5.isNostrSpasmEventSignedOpened)(input)).toBe(true);
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
+        expect((0, identifyEvent_js_1.isNostrEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEvent)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrEventSignedOpened)(input)).toBe(true);
+        expect((0, identifyEvent_js_1.isNostrSpasmEventSignedOpened)(input)).toBe(true);
     });
 });
 // identifyPostOrEvent() for DMP events
 describe("identifyPostOrEvent() tests for DMP events", () => {
     test("should identify DmpEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEvent));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
         const output = {
             eventInfo: {
                 baseProtocol: "dmp",
@@ -332,10 +324,10 @@ describe("identifyPostOrEvent() tests for DMP events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     test("should identify DmpEventSignedClosed", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedClosed));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosed));
         // TODO:
         // should 'signedString' also return eventInfo.eventIsSealed?
         // should eventInfo.eventIsSealedUnderKeyName be 'signedString'?
@@ -353,10 +345,10 @@ describe("identifyPostOrEvent() tests for DMP events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     test("should identify DmpEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validDmpEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpened));
         const output = {
             eventInfo: {
                 baseProtocol: "dmp",
@@ -371,13 +363,13 @@ describe("identifyPostOrEvent() tests for DMP events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
 });
 // identifyPostOrEvent() for Posts with DMP events
 describe("identifyPostOrEvent() tests for Posts with DMP events", () => {
     test("should identify a Post with DmpEventSignedClosed", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validPostWithDmpEventSignedClosed));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validPostWithDmpEventSignedClosed));
         const output = {
             eventInfo: {
                 baseProtocol: "dmp",
@@ -392,7 +384,7 @@ describe("identifyPostOrEvent() tests for Posts with DMP events", () => {
             eventIsSealedUnderKeyName: "signed_message",
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     // TODO:
     // test("should identify a Post with DmpEvent", () => {
@@ -401,7 +393,7 @@ describe("identifyPostOrEvent() tests for Posts with DMP events", () => {
 // identifyPostOrEvent() for Nostr events
 describe("identifyPostOrEvent() tests for Nostr events", () => {
     test("should identify NostrEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEvent));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEvent));
         const output = {
             eventInfo: {
                 baseProtocol: "nostr",
@@ -416,10 +408,10 @@ describe("identifyPostOrEvent() tests for Nostr events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     test("should identify NostrEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
         const output = {
             eventInfo: {
                 baseProtocol: "nostr",
@@ -434,10 +426,10 @@ describe("identifyPostOrEvent() tests for Nostr events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     test("should identify NostrSpasmEvent", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEvent));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEvent));
         const output = {
             eventInfo: {
                 baseProtocol: "nostr",
@@ -452,10 +444,10 @@ describe("identifyPostOrEvent() tests for Nostr events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
     test("should identify NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpened));
         const output = {
             eventInfo: {
                 baseProtocol: "nostr",
@@ -470,13 +462,13 @@ describe("identifyPostOrEvent() tests for Nostr events", () => {
             eventIsSealedUnderKeyName: false,
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
 });
 // identifyPostOrEvent() for Posts with Nostr events
 describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
     test("should identify a Post with NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validPostWithNostrSpasmEventSignedOpened));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validPostWithNostrSpasmEventSignedOpened));
         const output = {
             eventInfo: {
                 baseProtocol: "nostr",
@@ -491,20 +483,20 @@ describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
             eventIsSealedUnderKeyName: "signed_message",
             webType: "web3"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
 });
 // identifyPostOrEvent() for Posts with RSS item
 describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
     test("should identify a Post with NostrSpasmEventSignedOpened", () => {
-        const input = JSON.parse(JSON.stringify(_events_data_1.validPostWithRssItem));
+        const input = JSON.parse(JSON.stringify(_events_data_js_1.validPostWithRssItem));
         const output = {
             eventInfo: false,
             eventIsSealed: false,
             eventIsSealedUnderKeyName: false,
             webType: "web2"
         };
-        expect((0, identifyEvent_1.identifyPostOrEvent)(input)).toEqual(output);
+        expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
 });
 // describe("another function tests", () => {

@@ -39,11 +39,11 @@ import {
   SpasmEventV2ToTestSpasmid01,
   // SpasmEventV2ConvertedToSpasmid01,
   SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys
-} from "./_events-data"
+} from "./_events-data.js"
 
-import { convertToSpasm } from "./../convert/convertToSpasm"
-import { getSpasmId } from "./../convert/getSpasmId"
-import { SpasmEventV2 } from "../types/interfaces";
+import { convertToSpasm } from "./../convert/convertToSpasm.js"
+import { getSpasmId } from "./../convert/getSpasmId.js"
+import { SpasmEventV2 } from "../types/interfaces.js";
 
 describe("getSpasmId tests", () => {
   test("should return true if true", () => {

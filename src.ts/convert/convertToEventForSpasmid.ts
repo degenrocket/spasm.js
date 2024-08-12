@@ -8,6 +8,7 @@ import {
   SpasmEventMentionV2,
   SpasmEventBodyReferenceV2,
   SpasmEventBodyParentV2,
+  CustomConvertToSpasmConfig,
   // SpasmEventIdV2,
 } from "./../types/interfaces.js";
 
@@ -46,7 +47,10 @@ export const convertToEventForSpasmid = (
   ) {
     spasmEventV2 = unknownEvent
   } else {
-    spasmEventV2 = convertToSpasm(unknownEvent, "2.0.0")
+    const customConfig: CustomConvertToSpasmConfig = {
+      to: { spasm: { version: "2.0.0" } }
+    }
+    spasmEventV2 = convertToSpasm(unknownEvent, customConfig)
   }
 
   if (!spasmEventV2) return null

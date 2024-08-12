@@ -94,6 +94,7 @@ export interface DmpEventSignedOpened extends DmpEventSignedClosed {
     signedObject: DmpEvent;
 }
 export type SpasmVersion = "1.0.0" | "2.0.0";
+export type SpasmIdVersion = "01" | "02" | "03";
 export type DmpVersion = "0.0.1" | "0.1.0";
 export type NostrSpasmVersion = "1.0.0" | "2.0.0";
 export type ExtraSpasmFieldsVersion = NostrSpasmVersion;
@@ -189,6 +190,9 @@ export interface KnownPostOrEventInfo {
     eventInfo: EventInfo | false;
 }
 export type PrivateKeyType = "ethereum" | "nostr";
+export type SpasmEventType = SpasmEventTypeV2 | SpasmEventTypeV0;
+export type SpasmEventTypeV2 = "SpasmEventV2" | "SpasmEventBodyV2" | "SpasmEventDatabaseV2" | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTree";
+export type SpasmEventTypeV0 = "SpasmEventV0";
 export interface SpasmEventBodyV2 {
     type: "SpasmEventBodyV2";
     /**
@@ -609,4 +613,52 @@ export interface SiblingNostrSpasmSignedV2 {
     ids?: SpasmEventIdV2[];
     signatures?: SpasmEventSignatureV2[];
 }
+export type CustomFunctionType = (...args: any[]) => any;
+export declare class ConvertToSpasmConfig {
+    to: {
+        spasm: {
+            version: SpasmVersion;
+            type: "SpasmEventV2";
+            id: {
+                versions: SpasmIdVersion[];
+            };
+        };
+    };
+    from: {
+        spasm: {
+            enableEventVerification: boolean;
+        };
+        dmp: {
+            enableEventVerification: boolean;
+        };
+        nostr: {
+            enableEventVerification: boolean;
+        };
+    };
+    signature: {
+        ethereum: {
+            enableVerification: boolean;
+        };
+        nostr: {
+            enableVerification: boolean;
+        };
+    };
+    xss: {
+        enableSanitization: boolean;
+        sanitizationConfig: SanitizationConfig;
+    };
+    constructor();
+}
+export declare class SanitizationConfig {
+    customFunction: CustomFunctionType;
+    valueType: string;
+    maxDepth: number;
+    constructor();
+}
+type MakeOptional<T> = {
+    [P in keyof T]?: T[P] extends object ? MakeOptional<T[P]> : T[P];
+};
+export type CustomConvertToSpasmConfig = MakeOptional<ConvertToSpasmConfig>;
+export type CustomSanitizationConfig = MakeOptional<SanitizationConfig>;
+export {};
 //# sourceMappingURL=interfaces.d.ts.map
