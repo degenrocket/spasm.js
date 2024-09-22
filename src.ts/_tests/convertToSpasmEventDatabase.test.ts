@@ -15,9 +15,8 @@ import {
 import { convertToSpasmEventDatabase } from "./../convert/convertToSpasmEventDatabase.js"
 import { SpasmEventV2 } from "../types/interfaces.js";
 
-// DmpEvent
 describe("convertToSpasmEventDatabase() tests", () => {
-  test("should convert validDmpEventSignedClosedConvertedToSpasmV2 to SpasmEventDatabaseV2", () => {
+  test("should convert different events to SpasmEventDatabaseV2", () => {
     // Dmp
     const inputDmp0 = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
     const inputDmp1 = JSON.parse(JSON.stringify(validDmpEventSignedClosedConvertedToSpasmV2));
@@ -303,7 +302,7 @@ describe("convertToSpasmEventDatabase() tests", () => {
       ));
     }
 
-    const testAll = (input) => {
+    const testAll = (input: any) => {
       expect(convertToSpasmEventDatabase(input)).toStrictEqual(outputValid(input));
       expect(convertToSpasmEventDatabase(input)).not.toEqual(outputInvalidType(input));
       expect(convertToSpasmEventDatabase(input)).not.toEqual(outputInvalidParent(input));

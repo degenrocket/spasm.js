@@ -1,4 +1,14 @@
 import {
+  validDmpEventSignedClosedWithInvalidSignature,
+  validDmpEventSignedClosedWithInvalidSignedString,
+  validDmpEventSignedClosedWithInvalidSigner,
+  validNostrSpasmEventSignedOpenedWithInvalidContent,
+  validNostrSpasmEventSignedOpenedWithInvalidSignature,
+  validNostrSpasmEventSignedOpenedWithInvalidSigner,
+  validPostWithDmpEventSignedClosed,
+  validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2,
+  validPostWithDmpEventSignedClosedConvertedToSpasmV2,
+
   // DMP
   validDmpEvent,
   validDmpEventSignedClosed,
@@ -36,9 +46,26 @@ import {
   validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2,
   validNostrSpasmEventSpasmV0WithInvalidHtmlTags,
   validRssItemWithEmoji,
-  validRssItemWithEmojiConvertedToSpasmEvent2
+  validRssItemWithEmojiConvertedToSpasmEvent2,
+  // validPostWithNostrReplyToDmpEvent,
+  validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent
 } from "./_events-data.js"
 import { convertToSpasm } from "./../convert/convertToSpasm.js"
+import {
+  convertToSpasmEventEnvelope
+} from "./../convert/convertToSpasmEventEnvelope.js"
+import {
+  convertToSpasmEventEnvelopeWithTree
+} from "../convert/convertToSpasmEventEnvelopeWithTree.js";
+import {
+  convertToSpasmEventDatabase
+} from "../convert/convertToSpasmEventDatabase";
+import {
+  CustomConvertToSpasmConfig,
+  SpasmEventV2,
+  UnknownEventV2
+} from "../types/interfaces.js";
+import {copyOf} from "../utils/utils.js";
 
 describe("convertToSpasm tests", () => {
   test("should return true if true", () => {
@@ -251,6 +278,44 @@ describe("convertToSpasm() tests for RSS items", () => {
   });
 });
 
+describe("convertToSpasm() tests for events with sharedBy", () => {
+  test("convertToSpasm() tests for events with and without sharedBy", () => {
+    const dmpConverted: SpasmEventV2 =
+      JSON.parse(JSON.stringify(
+        validDmpEventSignedOpenedConvertedToSpasmV2
+    ));
+    const dmpConvertedWithOneSharedBy: SpasmEventV2 = {
+      ...dmpConverted,
+      sharedBy: {
+        ids: [ { value: "0x12345" } ]
+      }
+    }
+    const dmpConvertedWithTwoSharedBy: SpasmEventV2 = {
+      ...dmpConverted,
+      sharedBy: {
+        ids: [ { value: "0x12345" }, { value: "0x67890" } ]
+      }
+    }
+    expect(convertToSpasm(copyOf(dmpConverted)))
+      .toStrictEqual(copyOf(dmpConverted));
+    expect(convertToSpasm(copyOf(dmpConvertedWithOneSharedBy)))
+      .toStrictEqual(copyOf(dmpConvertedWithOneSharedBy));
+    expect(convertToSpasm(copyOf(dmpConvertedWithTwoSharedBy)))
+      .toStrictEqual(copyOf(dmpConvertedWithTwoSharedBy));
+  });
+});
+
+describe("convertToSpasm() tests for events with parent and root events", () => {
+  test("convertToSpasm() tests for converting events with and without parent and root events", () => {
+    // const spasmReply: SpasmEventV2 =
+    //   copyOf(validPostWithNostrReplyToDmpEvent)
+    const spasmReplyWithSpasmParent: SpasmEventV2 =
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent)
+    expect(convertToSpasm(copyOf(spasmReplyWithSpasmParent)))
+      .toStrictEqual(copyOf(spasmReplyWithSpasmParent));
+  });
+});
+
 // convertToSpasm() with sanitizeEvent() with DOMPurify
 // validPostWithRssItem - old name
 // validSpasmEventRssItemV0 - new name
@@ -379,7 +444,7 @@ describe("convertToSpasm() tests with sanitizeEvent", () => {
 });
 
 // convertToSpasm() for events with special chars
-describe("convertToSpasm() tests for DMP events", () => {
+describe("convertToSpasm() tests for events with special characters", () => {
   test("should convert validPostWithRssItemSpecialChars to SpasmEventV2", () => {
     const input = JSON.parse(JSON.stringify(validPostWithRssItemSpecialChars));
     const output = JSON.parse(JSON.stringify(validPostWithRssItemSpecialCharsConvertedToSpasmEventV2));
@@ -406,5 +471,198 @@ describe("convertToSpasm() tests for DMP events", () => {
     const input = JSON.parse(JSON.stringify(validRssItemWithEmoji));
     const output = JSON.parse(JSON.stringify(validRssItemWithEmojiConvertedToSpasmEvent2));
     expect(convertToSpasm(input)).toEqual(output);
+  });
+});
+
+describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
+  const convertConfigV2: CustomConvertToSpasmConfig = {to: {spasm: {version:"2.0.0"}}}
+  const testDoubleConvert = (from: any, to: any, equal: boolean = true) => {
+    const event = JSON.parse(JSON.stringify(from));
+    const spasmEnvelope = convertToSpasmEventEnvelope(event, "2.0.0");
+    const input = convertToSpasm(spasmEnvelope as UnknownEventV2, convertConfigV2);
+    const output = JSON.parse(JSON.stringify(to));
+    if (equal) { 
+      expect(input).toEqual(output);
+    } else {
+      expect(input).not.toEqual(output);
+    }
+  };
+  const testDoubleConvertWithTree = (from: any, to: any, equal: boolean = true) => {
+    const event = JSON.parse(JSON.stringify(from));
+    const spasmEnvelope = convertToSpasmEventEnvelopeWithTree(event, "2.0.0");
+    const input = convertToSpasm(spasmEnvelope as UnknownEventV2, convertConfigV2);
+    const output = JSON.parse(JSON.stringify(to));
+    if (equal) { 
+      expect(input).toEqual(output);
+    } else {
+      expect(input).not.toEqual(output);
+    }
+  };
+  const testDoubleConvertDatabase = (from: any, to: any, equal: boolean = true) => {
+    const event = JSON.parse(JSON.stringify(from));
+    const spasmEnvelope = convertToSpasmEventDatabase(event, "2.0.0");
+    const input = convertToSpasm(spasmEnvelope as UnknownEventV2, convertConfigV2);
+    const output = JSON.parse(JSON.stringify(to));
+    if (equal) { 
+      expect(input).toEqual(output);
+    } else {
+      expect(input).not.toEqual(output);
+    }
+  };
+
+  test("validDmpEvent, validDmpEvent, false", () => {
+    testDoubleConvert(validDmpEvent, validDmpEvent, false)
+  });
+
+  test("validDmpEvent, convertToSpasm(validDmpEvent, convertConfigV2)", () => {
+    testDoubleConvert(validDmpEvent, convertToSpasm(validDmpEvent, convertConfigV2))
+  });
+
+  test("validDmpEvent, validDmpEventConvertedToSpasmEventV2", () => {
+    testDoubleConvert(validDmpEvent, validDmpEventConvertedToSpasmEventV2)
+  });
+
+  test("validDmpEvent, validDmpEventSignedClosed, false", () => {
+    testDoubleConvert(validDmpEvent, validDmpEventSignedClosed, false)
+  });
+
+  test("validDmpEvent, validDmpEventSignedClosedConvertedToSpasmV2, false", () => {
+    testDoubleConvert(validDmpEvent, validDmpEventSignedClosedConvertedToSpasmV2, false)
+  });
+
+  test("validDmpEventSignedClosed, validDmpEventSignedClosed, false", () => {
+    testDoubleConvert(validDmpEventSignedClosed, validDmpEventSignedClosed, false)
+  });
+
+  test("validDmpEventSignedClosed, convertToSpasm(validDmpEventSignedClosed, convertConfigV2)", () => {
+    testDoubleConvert(validDmpEventSignedClosed, convertToSpasm(validDmpEventSignedClosed, convertConfigV2))
+  });
+
+  test("validDmpEventSignedClosed, validDmpEventSignedClosedConvertedToSpasmV2", () => {
+    testDoubleConvert(validDmpEventSignedClosed, validDmpEventSignedClosedConvertedToSpasmV2)
+  });
+
+  test("validDmpEventSignedOpened, validDmpEventSignedOpened, false", () => {
+    testDoubleConvert(validDmpEventSignedOpened, validDmpEventSignedOpened, false)
+  });
+
+  test("validDmpEventSignedOpened, convertToSpasm(validDmpEventSignedOpened, convertConfigV2)", () => {
+    testDoubleConvert(validDmpEventSignedOpened, convertToSpasm(validDmpEventSignedOpened, convertConfigV2))
+  });
+
+  test("validDmpEventSignedOpened, validDmpEventSignedOpenedConvertedToSpasmV2", () => {
+    testDoubleConvert(validDmpEventSignedOpened, validDmpEventSignedOpenedConvertedToSpasmV2)
+  });
+
+  test("validDmpEventSignedClosedConvertedToSpasmV2, validDmpEventSignedClosedConvertedToSpasmV2", () => {
+    testDoubleConvert(validDmpEventSignedClosedConvertedToSpasmV2, validDmpEventSignedClosedConvertedToSpasmV2)
+  });
+
+  test("validDmpEventSignedOpenedConvertedToSpasmV2, validDmpEventSignedClosedConvertedToSpasmV2", () => {
+    testDoubleConvert(validDmpEventSignedOpenedConvertedToSpasmV2, validDmpEventSignedClosedConvertedToSpasmV2)
+  });
+
+  test("multiple convertToSpasm for DmpEvent", () => {
+    testDoubleConvert(
+      validDmpEventSignedOpenedConvertedToSpasmV2,
+      convertToSpasm(
+        convertToSpasm(
+          convertToSpasm(
+            validDmpEventSignedClosedConvertedToSpasmV2,
+            convertConfigV2
+          ) as UnknownEventV2,
+          convertConfigV2
+        ) as UnknownEventV2,
+        convertConfigV2
+      )
+    )
+  });
+
+  test("validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2, rest1", () => {
+    const { children, ...rest1 } = validPostWithDmpEventSignedClosedConvertedToSpasmV2
+    testDoubleConvert(validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2, rest1);
+  });
+
+  test("validDmpEventSignedClosedWithInvalidSigner, null", () => {
+    testDoubleConvert(validDmpEventSignedClosedWithInvalidSigner, null)
+  });
+
+  test("validDmpEventSignedClosedWithInvalidSignature, null", () => {
+    testDoubleConvert(validDmpEventSignedClosedWithInvalidSignature, null)
+  });
+
+  test("validDmpEventSignedClosedWithInvalidSignedString, null", () => {
+    testDoubleConvert(validDmpEventSignedClosedWithInvalidSignedString, null)
+  });
+
+  test("should convert various Nostr events to SpasmEventEnvelopeV2 and then to SpasmEventV2", () => {
+    testDoubleConvert(validNostrEvent, validNostrEvent, false);
+    testDoubleConvert(validNostrEvent, validNostrEventConvertedToSpasmV2);
+    testDoubleConvert(validNostrEventSignedOpened, validNostrEventSignedOpened, false);
+    testDoubleConvert(validNostrEventSignedOpened, validNostrEventConvertedToSpasmV2, false);
+    testDoubleConvert(validNostrEventSignedOpened, validNostrEventSignedOpenedConvertedToSpasmV2);
+    testDoubleConvert(validNostrSpasmEvent, validNostrSpasmEventSignedOpened, false);
+    testDoubleConvert(validNostrSpasmEvent, validNostrSpasmEventSignedOpenedConvertedToSpasmV2, false);
+    testDoubleConvert(validNostrSpasmEvent, validNostrSpasmEventConvertedToSpasmV2);
+    testDoubleConvert(validNostrSpasmEventSignedOpened, validNostrSpasmEventSignedOpened, false);
+    testDoubleConvert(validNostrSpasmEventSignedOpened, validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+    testDoubleConvert(
+      validNostrSpasmEventSignedOpened,
+      convertToSpasm(
+        convertToSpasm(
+          convertToSpasm(
+            validNostrSpasmEventSignedOpened,
+            convertConfigV2
+          ) as UnknownEventV2,
+          convertConfigV2
+        ) as UnknownEventV2,
+        convertConfigV2
+      )
+    )
+    testDoubleConvert(validNostrSpasmEventSignedOpenedWithInvalidSignature, null)
+    testDoubleConvert(validNostrSpasmEventSignedOpenedWithInvalidSigner, null)
+    testDoubleConvert(validNostrSpasmEventSignedOpenedWithInvalidContent, null)
+  });
+
+  test("should convert various RSS items to SpasmEventEnvelopeV2 and then to SpasmEventV2", () => {
+    testDoubleConvert(validPostWithRssItemSpecialChars, validPostWithRssItemSpecialChars, false);
+    testDoubleConvert(validPostWithRssItemSpecialChars, validPostWithRssItemSpecialCharsConvertedToSpasmEventV2);
+    testDoubleConvert(validPostWithRssItemSpecialCharsConvertedToSpasmEventV2, validPostWithRssItemSpecialCharsConvertedToSpasmEventV2);
+
+    testDoubleConvert(validNostrEvent, validNostrEventConvertedToSpasmV2);
+  });
+
+  test("converting various edge case events to SpasmEventEnvelopeV2 and then to SpasmEventV2", () => {
+    // Hide console errors for invalid addresses during tests
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    testDoubleConvert(validNostrSpasmEventSpasmV0WithInvalidHtmlTags, null);
+    // Restore console errors
+    jest.restoreAllMocks();
+  });
+
+  test("converting events with comments to SpasmEventEnvelopeWithTreeV2 and then to SpasmEventV2", () => {
+    testDoubleConvertWithTree(validPostWithDmpEventSignedClosed, validPostWithDmpEventSignedClosedConvertedToSpasmV2);
+    testDoubleConvert(validPostWithDmpEventSignedClosed, validPostWithDmpEventSignedClosedConvertedToSpasmV2, false);
+  });
+
+  test("converting various events SpasmEventDatabaseV2 and then to SpasmEventV2", () => {
+    testDoubleConvertDatabase(validDmpEventSignedClosed, validDmpEventSignedClosedConvertedToSpasmV2);
+    testDoubleConvertDatabase(validDmpEventSignedClosed, validDmpEventSignedClosed, false);
+    testDoubleConvertDatabase(
+      validNostrSpasmEventSignedOpened,
+      convertToSpasm(
+        convertToSpasm(
+          convertToSpasm(
+            validNostrSpasmEventSignedOpened,
+            convertConfigV2
+          ) as UnknownEventV2,
+          convertConfigV2
+        ) as UnknownEventV2,
+        convertConfigV2
+      )
+    )
+    testDoubleConvertDatabase(validNostrSpasmEventSignedOpenedWithInvalidSignature, null)
+    testDoubleConvertDatabase(validNostrSpasmEventSignedOpenedWithInvalidSigner, null)
+    testDoubleConvertDatabase(validNostrSpasmEventSignedOpenedWithInvalidContent, null)
   });
 });

@@ -1,11 +1,12 @@
 {
   "name": "spasm.js",
-  "version": "2.0.0-beta",
+  "version": "2.0.0-beta.1",
   "description": "Tools for developing Signer and Protocol Agnostic Social Media (Spasm) apps.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "scripts": {
     "test-ts": "jest ./src.ts/",
+    "test-dev": "npm run clean-commonjs && npm run build-commonjs && jest ./lib.commonjs/_tests/_dev.test.js",
     "test-esm": "npm run clean-esm && npm run build-esm && jest ./lib.esm/",
     "test-commonjs": "npm run clean-commonjs && npm run build-commonjs && jest ./lib.commonjs/",
     "clean-esm": "rm -rf lib.esm/* && cp -r misc/basedirs/lib.esm/* ./lib.esm/",

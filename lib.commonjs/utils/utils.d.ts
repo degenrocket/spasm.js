@@ -1,4 +1,4 @@
-import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventIdV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2, ConvertToSpasmConfig, CustomConvertToSpasmConfig, CustomSanitizationConfig, SanitizationConfig, UnknownEventV2 } from "./../types/interfaces.js";
+import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventIdV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2, ConvertToSpasmConfig, CustomConvertToSpasmConfig, CustomSanitizationConfig, SanitizationConfig, UnknownEventV2, SpasmEventStatV2, SpasmEventChildV2 } from "./../types/interfaces.js";
 export declare const hasValue: (el?: any) => boolean;
 export declare const isObjectWithValues: (val: any) => boolean;
 export declare const extractVersion: (versionString: string) => string;
@@ -37,9 +37,10 @@ export declare const sanitizeEventWithDompurify: (originalItem: Object | any[], 
 export declare const sanitizeEvent: (originalItem: Object | any[], config?: CustomSanitizationConfig) => void;
 export declare const clearArray: (arr: any[]) => void;
 export declare const clearObject: (obj: Record<string, any>) => void;
-export declare const mergeObjects: (defaultObject: Object, customObject: Object) => Object;
-export declare const mergeConfigs: (defaultConfig: ConvertToSpasmConfig, customConfig: CustomConvertToSpasmConfig) => ConvertToSpasmConfig;
-export declare const mergeSanitizationConfigs: (defaultConfig: SanitizationConfig, customConfig: CustomSanitizationConfig) => SanitizationConfig;
+type mergeObjectsHandleArrays = "overwriteArrays" | "mergeArrays";
+export declare const mergeObjects: (defaultObject: Object, customObject: Object, handleArrays?: mergeObjectsHandleArrays, depth?: number) => Object;
+export declare const mergeConfigs: (defaultConfig: ConvertToSpasmConfig, customConfig: CustomConvertToSpasmConfig, handleArrays?: mergeObjectsHandleArrays) => ConvertToSpasmConfig;
+export declare const mergeSanitizationConfigs: (defaultConfig: SanitizationConfig, customConfig: CustomSanitizationConfig, handleArrays?: mergeObjectsHandleArrays) => SanitizationConfig;
 export declare const hasSignatureOfFormat: (spasmEvent: SpasmEventV2, signatureFormat: "ethereum" | "nostr") => boolean;
 export declare const hasSignatureEthereum: (spasmEvent: SpasmEventV2) => boolean;
 export declare const hasSignatureNostr: (spasmEvent: SpasmEventV2) => boolean;
@@ -65,4 +66,13 @@ export declare const getIdByFormat: (unknownEvent: UnknownEventV2, customIdForma
 export declare const extractIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2) => string | number | null;
 export declare const extractSpasmId01: (unknownEvent: UnknownEventV2) => string | number;
 export declare const toBeSpasmEventV2: (unknownEvent: UnknownEventV2) => SpasmEventV2 | null;
+export declare const extractSignerFromEthereumSignature: (signedString: string, signature: string) => string | null;
+export declare const mergeSpasmEventsV2: (spasmEvents: any[], depth?: number) => SpasmEventV2 | null;
+export declare const ifEventsHaveSameSpasmId01: (event1: UnknownEventV2, event2: UnknownEventV2) => Boolean;
+export declare const deepCopyOfObject: (obj: any) => any;
+export declare const copyOf: (obj: any) => any;
+export declare const cleanSpasmEventV2: (spasmEvent: SpasmEventV2) => void;
+export declare const mergeStatsV2: (allStats: SpasmEventStatV2[][]) => SpasmEventStatV2[] | null;
+export declare const mergeChildrenV2: (allChildren: SpasmEventChildV2[][], depth?: number) => SpasmEventChildV2[] | null;
+export {};
 //# sourceMappingURL=utils.d.ts.map

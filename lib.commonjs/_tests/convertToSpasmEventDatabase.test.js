@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _events_data_js_1 = require("./_events-data.js");
 const convertToSpasmEventDatabase_js_1 = require("./../convert/convertToSpasmEventDatabase.js");
-// DmpEvent
 describe("convertToSpasmEventDatabase() tests", () => {
-    test("should convert validDmpEventSignedClosedConvertedToSpasmV2 to SpasmEventDatabaseV2", () => {
+    test("should convert different events to SpasmEventDatabaseV2", () => {
         // Dmp
         const inputDmp0 = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
         const inputDmp1 = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2));

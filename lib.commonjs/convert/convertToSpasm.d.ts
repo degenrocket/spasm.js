@@ -1,7 +1,15 @@
-import { KnownPostOrEventInfo, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, UnknownEventV2, SpasmEventV2, SpasmEventV0, CustomConvertToSpasmConfig } from "./../types/interfaces.js";
+import { KnownPostOrEventInfo, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, UnknownEventV1, UnknownEventV2, SpasmEventV2, SpasmEventSiblingV2, SpasmEventV0, CustomConvertToSpasmConfig, SpasmEventEnvelopeV2, SpasmEventAnyV2, SpasmEventEnvelopeWithTreeV2, SpasmEventDatabaseV2, CustomSanitizationConfig } from "./../types/interfaces.js";
 export declare const convertToSpasm: (unknownEvent: UnknownEventV2, customConfig?: CustomConvertToSpasmConfig) => SpasmEventV2 | null;
+export declare const ifEventContainsMaliciousCode: (unknownEvent: UnknownEventV2, customConfig?: CustomSanitizationConfig) => Boolean;
 export declare const assignSpasmId: (spasmEventV2: SpasmEventV2, spasmIdVersions?: string[]) => SpasmEventV2 | null;
 export declare const standardizeEventV2: (unknownEvent: UnknownEventV2, version?: string, info?: KnownPostOrEventInfo | null) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventAnyV2: (event: SpasmEventAnyV2, version?: string) => SpasmEventV2 | null;
+export declare const standardizeNonSpasmEventV2: (unknownEvent: UnknownEventV1, version?: string, info?: KnownPostOrEventInfo | null) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventV2: (event: SpasmEventV2, version?: string) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventDatabaseV2: (event: SpasmEventDatabaseV2, version?: string) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventEnvelopeWithTreeV2: (event: SpasmEventEnvelopeWithTreeV2, version?: string) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventEnvelopeV2: (event: SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2, version?: string) => SpasmEventV2 | null;
+export declare const standardizeSpasmEventSiblingV2: (sibling: SpasmEventSiblingV2, version?: string) => SpasmEventV2 | null;
 export declare const standardizeDmpEventV2: (event: DmpEvent) => SpasmEventV2 | null;
 export declare const standardizeDmpEventSignedClosedV2: (event: DmpEventSignedClosed) => SpasmEventV2 | null;
 export declare const standardizeDmpEventSignedOpenedV2: (event: DmpEventSignedOpened) => SpasmEventV2 | null;

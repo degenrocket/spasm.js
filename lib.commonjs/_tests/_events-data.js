@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2 = exports.validDmpEventConvertedToSpasmEventV2 = exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed = exports.validPostWithNostrReplyToDmpEvent = exports.validNostrReplyToDmpEvent = exports.validSpasmWithDmpReplyToDmpEventV0 = exports.validDmpEventSignedOpened = exports.validDmpEventSignedClosed = exports.validDmpEvent = exports.validId0Spasmid01 = exports.invalidId2Note = exports.validId2Hex = exports.validId2Nevent = exports.validId2Note = exports.invalidId1Note = exports.validId1Hex = exports.validId1Nevent = exports.validId1Note = exports.invalidNpubAddress2 = exports.invalidNpubAddress1 = exports.validHexAddress2 = exports.validHexAddress1 = exports.validNpubAddress2 = exports.validNpubAddress1 = exports.invalidEthereumSignature1 = exports.validEthereumSignature1 = exports.invalidEthereumAddress1 = exports.validEthereumAddress1 = void 0;
-exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = void 0;
+exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = exports.validDmpEventSignedClosedConvertedToSpasmV2 = exports.validDmpEventConvertedToSpasmEventV2 = exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEvent = exports.validNostrReplyToDmpEvent = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = exports.validSpasmWithDmpReplyToDmpEventV0 = exports.validDmpEventSignedClosedWithInvalidSignature = exports.validDmpEventSignedClosedWithInvalidSigner = exports.validDmpEventSignedClosedWithInvalidSignedString = exports.validDmpEventSignedOpened = exports.validDmpEventSignedClosed = exports.validDmpEvent = exports.validId0Spasmid01 = exports.invalidId2Note = exports.validId2Hex = exports.validId2Nevent = exports.validId2Note = exports.invalidId1Note = exports.validId1Hex = exports.validId1Nevent = exports.validId1Note = exports.invalidNpubAddress2 = exports.invalidNpubAddress1 = exports.validHexAddress2 = exports.validHexAddress1 = exports.validNpubAddress2 = exports.validNpubAddress1 = exports.invalidEthereumSignature1 = exports.validEthereumSignature1 = exports.invalidEthereumAddress1 = exports.validEthereumAddress1 = void 0;
+exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = exports.validNostrSpasmEventSignedOpenedWithInvalidContent = exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = void 0;
 const index_js_1 = require("./../utils/index.js");
 const index_js_2 = require("./../utils/index.js");
 // import { convertToSpasm } from "./../convert/convertToSpasm"
@@ -48,6 +48,18 @@ exports.validDmpEventSignedOpened = {
     ...exports.validDmpEventSignedClosed,
     signedObject: exports.validDmpEvent
 };
+exports.validDmpEventSignedClosedWithInvalidSignedString = {
+    ...exports.validDmpEventSignedClosed,
+    signedString: "{\"version\":\"dmp_v0.0.1\",\"time\":\"2022-01-01T22:04:46.178Z\",\"action\":\"post\",\"target\":\"\",\"title\":\"genesis\",\"text\":\"not your keys, not your word\",\"license\":\"MIT\"}"
+};
+exports.validDmpEventSignedClosedWithInvalidSigner = {
+    ...exports.validDmpEventSignedClosed,
+    signer: '0xf8553015220a857eda377a1e903c9e5afb3ac2fb'
+};
+exports.validDmpEventSignedClosedWithInvalidSignature = {
+    ...exports.validDmpEventSignedClosed,
+    signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71a'
+};
 // validNostrReplyToDmpEvent
 exports.validSpasmWithDmpReplyToDmpEventV0 = {
     "id": 401,
@@ -71,6 +83,85 @@ exports.validSpasmWithDmpReplyToDmpEventV0 = {
     "scam": null,
     "comments_count": null,
     "latest_action_added_time": null
+};
+exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = {
+    type: "SpasmEventV2",
+    parent: {
+        ids: [
+            {
+                value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+                format: {
+                    name: "ethereum-sig",
+                }
+            }
+        ]
+    },
+    db: {
+        key: 401,
+        addedTimestamp: (0, index_js_2.toBeTimestamp)("2024-02-17T05:48:00.076Z")
+    },
+    action: "reply",
+    content: "To the moon!",
+    timestamp: (0, index_js_2.toBeTimestamp)("2024-02-17T05:47:59.932Z"),
+    authors: [
+        {
+            addresses: [
+                {
+                    value: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+                    format: { name: "ethereum-pubkey" },
+                    verified: true
+                }
+            ]
+        }
+    ],
+    license: "SPDX-License-Identifier: CC0-1.0",
+    ids: [
+        {
+            value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+            format: {
+                name: "spasmid",
+                version: "01"
+            }
+        },
+        {
+            value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+            format: {
+                name: "ethereum-sig",
+            }
+        },
+    ],
+    signatures: [
+        {
+            value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+            pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+            format: { name: "ethereum-sig" }
+        }
+    ],
+    siblings: [
+        {
+            type: "SiblingDmpSignedV2",
+            protocol: {
+                name: "dmp",
+                version: "0.1.0"
+            },
+            signedString: "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}",
+            ids: [
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                }
+            ],
+            signatures: [
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+                    format: { name: "ethereum-sig" }
+                }
+            ]
+        }
+    ]
 };
 exports.validNostrReplyToDmpEvent = {
     kind: 1,
@@ -110,6 +201,149 @@ exports.validPostWithNostrReplyToDmpEvent = {
     comments_count: 3,
     latest_action_added_time: "2024-01-21T10:52:37.165Z",
 };
+exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
+    type: "SpasmEventV2",
+    parent: {
+        ids: [
+            {
+                value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+                format: {
+                    name: "ethereum-sig"
+                }
+            }
+        ]
+    },
+    db: {
+        key: 5,
+        addedTimestamp: (0, index_js_2.toBeTimestamp)("2024-01-18T02:37:40.712Z")
+    },
+    action: "reply",
+    content: "To the SPASM!",
+    timestamp: 1708153412,
+    authors: [
+        {
+            addresses: [
+                {
+                    value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+                    format: {
+                        name: "nostr-hex",
+                    },
+                    verified: true
+                }
+            ]
+        }
+    ],
+    license: "SPDX-License-Identifier: CC0-1.0",
+    ids: [
+        {
+            value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+            format: {
+                name: "spasmid",
+                version: "01"
+            }
+        },
+        {
+            value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+            format: {
+                name: "nostr-hex",
+            }
+        },
+        {
+            value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+            format: {
+                name: "nostr-sig",
+            }
+        }
+        // {
+        //   value: "spasmid01xyz",
+        //   format: {
+        //     name: "spasmid",
+        //     version: "01"
+        //   }
+        // }
+    ],
+    signatures: [
+        {
+            value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+            pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+            format: { name: "nostr-sig" }
+        }
+    ],
+    siblings: [
+        {
+            type: "SiblingNostrSpasmSignedV2",
+            protocol: {
+                name: "nostr",
+                hasExtraSpasmFields: true,
+                extraSpasmFieldsVersion: "1.0.0"
+            },
+            originalObject: exports.validNostrReplyToDmpEvent,
+            ids: [
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+                // {
+                //   value: "spasmid01xyz",
+                //   format: {
+                //     name: "spasmid",
+                //     version: "01"
+                //   }
+                // }
+            ],
+            signatures: [
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+                    format: { name: "nostr-sig" }
+                }
+            ],
+        }
+    ],
+    stats: [
+        {
+            action: "react",
+            contents: [
+                {
+                    value: "upvote",
+                    total: 11
+                },
+                {
+                    value: "downvote",
+                    total: 1
+                },
+                {
+                    value: "bullish",
+                    total: 2
+                },
+                {
+                    value: "bearish",
+                    total: 3
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 3
+                },
+            ]
+        },
+        {
+            action: "reply",
+            total: 3
+        }
+    ]
+};
 exports.validPostWithDmpEventSignedClosed = {
     id: 1337,
     target: exports.validDmpEvent.target,
@@ -121,7 +355,7 @@ exports.validPostWithDmpEventSignedClosed = {
     signature: exports.validDmpEventSignedClosed.signature,
     signed_time: exports.validDmpEvent.time,
     added_time: "2022-01-01T22:04:46.195Z",
-    category: "privacy",
+    // category: "privacy",
     source: "degenrocket.space",
     tags: null,
     tickers: null,
@@ -228,20 +462,156 @@ exports.validDmpEventSignedClosedConvertedToSpasmV2 = {
         }
     ]
 };
-exports.validDmpEventSignedOpenedConvertedToSpasmV2 = {
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = {
     ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            latestTimestamp: 1641077686178,
+            latestDbTimestamp: 1644077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 8
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 5
+                },
+                {
+                    value: "bearish",
+                    total: 0
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 0
+                },
+            ]
+        },
+        {
+            action: "reply",
+            latestTimestamp: 1641087686178,
+            latestDbTimestamp: 1644087686178,
+            total: 3
+        }
+    ],
+};
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            latestTimestamp: 1642077686178,
+            latestDbTimestamp: 1643077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 18
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 8
+                },
+                {
+                    value: "bearish",
+                    total: 7
+                },
+                {
+                    value: "important",
+                    total: 26
+                },
+                {
+                    value: "scam",
+                    total: 3
+                },
+            ]
+        },
+        {
+            action: "reply",
+            latestTimestamp: 1642087686178,
+            latestDbTimestamp: 1643087686178,
+            total: 18081
+        }
+    ],
+};
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            contents: [
+                {
+                    value: "upvote",
+                    total: 8
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 5
+                },
+                {
+                    value: "bearish",
+                    total: 0
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 0
+                },
+            ]
+        },
+        {
+            action: "reply",
+            total: 3
+        }
+    ],
+};
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    db: {
+        key: 1337,
+        addedTimestamp: 1641074686195,
+        updatedTimestamp: 1641074686195
+    },
+};
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    db: {
+        key: 1337,
+        table: "spasm_events",
+        addedTimestamp: 1641074686195,
+        updatedTimestamp: 1642074686195
+    },
 };
 exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
     ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    // categories: [
+    //   {
+    //     name: "privacy"
+    //   }
+    // ],
     db: {
         key: 1337,
         addedTimestamp: 1641074686195
     },
-    categories: [
-        {
-            name: "privacy"
-        }
-    ],
     source: {
         name: "degenrocket.space"
     },
@@ -304,149 +674,7 @@ exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
                     }
                 }
             ],
-            event: {
-                type: "SpasmEventV2",
-                parent: {
-                    ids: [
-                        {
-                            value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-                            format: {
-                                name: "ethereum-sig"
-                            }
-                        }
-                    ]
-                },
-                db: {
-                    key: 5,
-                    addedTimestamp: (0, index_js_2.toBeTimestamp)("2024-01-18T02:37:40.712Z")
-                },
-                action: "reply",
-                content: "To the SPASM!",
-                timestamp: 1708153412,
-                authors: [
-                    {
-                        addresses: [
-                            {
-                                value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                                format: {
-                                    name: "nostr-hex",
-                                },
-                                verified: true
-                            }
-                        ]
-                    }
-                ],
-                license: "SPDX-License-Identifier: CC0-1.0",
-                ids: [
-                    {
-                        value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
-                        format: {
-                            name: "spasmid",
-                            version: "01"
-                        }
-                    },
-                    {
-                        value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
-                        format: {
-                            name: "nostr-hex",
-                        }
-                    },
-                    {
-                        value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                        format: {
-                            name: "nostr-sig",
-                        }
-                    }
-                    // {
-                    //   value: "spasmid01xyz",
-                    //   format: {
-                    //     name: "spasmid",
-                    //     version: "01"
-                    //   }
-                    // }
-                ],
-                signatures: [
-                    {
-                        value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                        pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                        format: { name: "nostr-sig" }
-                    }
-                ],
-                siblings: [
-                    {
-                        type: "SiblingNostrSpasmSignedV2",
-                        protocol: {
-                            name: "nostr",
-                            hasExtraSpasmFields: true,
-                            extraSpasmFieldsVersion: "1.0.0"
-                        },
-                        originalObject: exports.validNostrReplyToDmpEvent,
-                        ids: [
-                            {
-                                value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
-                                format: {
-                                    name: "nostr-hex",
-                                }
-                            },
-                            {
-                                value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                                format: {
-                                    name: "nostr-sig",
-                                }
-                            }
-                            // {
-                            //   value: "spasmid01xyz",
-                            //   format: {
-                            //     name: "spasmid",
-                            //     version: "01"
-                            //   }
-                            // }
-                        ],
-                        signatures: [
-                            {
-                                value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                                pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                                format: { name: "nostr-sig" }
-                            }
-                        ],
-                    }
-                ],
-                stats: [
-                    {
-                        action: "react",
-                        contents: [
-                            {
-                                value: "upvote",
-                                total: 11
-                            },
-                            {
-                                value: "downvote",
-                                total: 1
-                            },
-                            {
-                                value: "bullish",
-                                total: 2
-                            },
-                            {
-                                value: "bearish",
-                                total: 3
-                            },
-                            {
-                                value: "important",
-                                total: 6
-                            },
-                            {
-                                value: "scam",
-                                total: 3
-                            },
-                        ]
-                    },
-                    {
-                        action: "reply",
-                        total: 3
-                    }
-                ],
-            }
+            event: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2
         },
         // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
         {
@@ -465,87 +693,208 @@ exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
                     }
                 },
             ],
-            event: {
-                type: "SpasmEventV2",
-                parent: {
-                    ids: [
-                        {
-                            value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-                            format: {
-                                name: "ethereum-sig",
-                            }
-                        }
-                    ]
-                },
-                db: {
-                    key: 401,
-                    addedTimestamp: (0, index_js_2.toBeTimestamp)("2024-02-17T05:48:00.076Z")
-                },
-                action: "reply",
-                content: "To the moon!",
-                timestamp: (0, index_js_2.toBeTimestamp)("2024-02-17T05:47:59.932Z"),
-                authors: [
-                    {
-                        addresses: [
-                            {
-                                value: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                                format: { name: "ethereum-pubkey" },
-                                verified: true
-                            }
-                        ]
-                    }
-                ],
-                license: "SPDX-License-Identifier: CC0-1.0",
-                ids: [
-                    {
-                        value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
-                        format: {
-                            name: "spasmid",
-                            version: "01"
-                        }
-                    },
-                    {
-                        value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                        format: {
-                            name: "ethereum-sig",
-                        }
-                    },
-                ],
-                signatures: [
-                    {
-                        value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                        pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                        format: { name: "ethereum-sig" }
-                    }
-                ],
-                siblings: [
-                    {
-                        type: "SiblingDmpSignedV2",
-                        protocol: {
-                            name: "dmp",
-                            version: "0.1.0"
-                        },
-                        signedString: "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}",
-                        ids: [
-                            {
-                                value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                                format: {
-                                    name: "ethereum-sig",
-                                }
-                            }
-                        ],
-                        signatures: [
-                            {
-                                value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                                pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                                format: { name: "ethereum-sig" }
-                            }
-                        ]
-                    }
-                ]
-            }
+            event: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
         }
     ]
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        }
+    ]
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                }
+            ]
+        }
+    ]
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        }
+    ]
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        },
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        }
+    ]
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        },
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        }
+    ]
+};
+exports.validDmpEventSignedOpenedConvertedToSpasmV2 = {
+    ...exports.validDmpEventSignedClosedConvertedToSpasmV2,
+};
+exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = {
+    ...exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2,
+    source: {
+        name: "differentsource.space"
+    },
+};
+exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = {
+    type: "SpasmEventEnvelopeV2",
+    ids: exports.validDmpEventSignedClosedConvertedToSpasmV2.ids,
+    siblings: exports.validDmpEventSignedClosedConvertedToSpasmV2.siblings,
+    source: exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2.source,
+    db: exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2.db,
+    stats: exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2.stats
+};
+exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = {
+    ...exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2,
+    parent: {
+        ids: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2.parent.ids,
+        event: exports.validDmpEventSignedClosedConvertedToSpasmV2
+    }
 };
 // Post with event is essentially SpasmEventV0
 exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2;
@@ -610,6 +959,18 @@ exports.validNostrSpasmEventSignedOpened = {
     pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
     id: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
     sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+};
+exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = {
+    ...exports.validNostrSpasmEventSignedOpened,
+    sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f2"
+};
+exports.validNostrSpasmEventSignedOpenedWithInvalidContent = {
+    ...exports.validNostrSpasmEventSignedOpened,
+    content: "Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls!"
+};
+exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = {
+    ...exports.validNostrSpasmEventSignedOpened,
+    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f43"
 };
 exports.validPostWithNostrEventSignedOpened = {
     id: 6,

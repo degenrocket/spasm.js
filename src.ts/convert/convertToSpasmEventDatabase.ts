@@ -26,6 +26,13 @@ export const convertToSpasmEventDatabase = (
   unknownEvent: UnknownEventV2,
   dbVersion = "2.0.0"
 ): SpasmEventDatabaseV2 | null => {
+  // Already SpasmEventDatabaseV2
+  if (
+    'type' in unknownEvent &&
+    unknownEvent.type === "SpasmEventDatabaseV2"
+  ) {
+    return unknownEvent
+  }
 
   // SpasmEventV2
   let spasmEventV2: SpasmEventV2 | null = null
@@ -72,7 +79,9 @@ export const convertSpasmEventV2ToSpasmEventDatabaseV2 = (
   // }
 
   if (spasmEvent.parent) {
-    // Only 'ids' and 'marker' of a parent are used for Spasm ID
+    // Only 'ids' and 'marker' of a parent event are saved in db
+    // to prevent saving duplicate data via recursive saving of
+    // event.parent.event.parent.event.parent, etc.
     const cleanParent: SpasmEventBodyParentV2 = 
       keepTheseKeysInObject(
         spasmEvent.parent, ["ids", "marker"]

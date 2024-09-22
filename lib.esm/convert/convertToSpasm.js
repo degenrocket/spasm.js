@@ -1,11 +1,12 @@
-import { ConvertToSpasmConfig } from "./../types/interfaces.js";
+import { ConvertToSpasmConfig, SanitizationConfig, } from "./../types/interfaces.js";
 import { 
 // toBeNpub,
 // toBeNote,
 toBeHex } from "./../utils/nostrUtils.js";
-import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature, sanitizeEvent, mergeConfigs } from "./../utils/utils.js";
+import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature, sanitizeEvent, mergeConfigs, extractSignerFromEthereumSignature, extractIdByFormat, mergeSanitizationConfigs, mergeSpasmEventsV2 } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 import { getSpasmId } from "./getSpasmId.js";
+import { convertToSpasmEventEnvelopeWithTree } from "./../convert/convertToSpasmEventEnvelopeWithTree";
 import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2';
 // const latestSpasmVersion = "2.0.0"
 // Spasm V2
@@ -13,25 +14,9 @@ export const convertToSpasm = (unknownEvent, customConfig) => {
     try {
         const defaultConfig = new ConvertToSpasmConfig();
         const config = mergeConfigs(defaultConfig, customConfig || {});
+        // First sanitization
         if (config?.xss?.enableSanitization) {
-            // Sanitize event
-            const sanitizedEvent = JSON.parse(JSON.stringify(unknownEvent));
-            sanitizeEvent(sanitizedEvent, config.xss.sanitizationConfig);
-            // Allow some special characters on the backend (database),
-            // because all strings should be sanitized on the frontend
-            // before displaying to users.
-            const jsonStringOriginal = JSON.stringify(unknownEvent)
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                // Below is a special character, not a simple empty space
-                .replace(/&nbsp;/g, ' ');
-            const jsonStringSanitized = JSON.stringify(sanitizedEvent)
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                // Below is a special character, not a simple empty space
-                .replace(/&nbsp;/g, ' ');
-            if (jsonStringOriginal !== jsonStringSanitized) {
-                // An event contains potentially malicious code
+            if (ifEventContainsMaliciousCode(unknownEvent, config.xss.sanitizationConfig)) {
                 return null;
             }
         }
@@ -39,6 +24,12 @@ export const convertToSpasm = (unknownEvent, customConfig) => {
             const standardizedEventV2 = standardizeEventV2(unknownEvent, config.to.spasm.version);
             if (standardizedEventV2) {
                 const spasmEventV2 = assignSpasmId(standardizedEventV2, config.to.spasm.id.versions);
+                // An extra sanitization because some strings were parsed
+                if (config?.xss?.enableSanitization) {
+                    if (ifEventContainsMaliciousCode(unknownEvent, config.xss.sanitizationConfig)) {
+                        return null;
+                    }
+                }
                 return spasmEventV2;
             }
         }
@@ -49,12 +40,48 @@ export const convertToSpasm = (unknownEvent, customConfig) => {
         return null;
     }
 };
+export const ifEventContainsMaliciousCode = (unknownEvent, customConfig) => {
+    try {
+        const defaultConfig = new SanitizationConfig();
+        const config = mergeSanitizationConfigs(defaultConfig, customConfig || {});
+        // Sanitize event
+        const sanitizedEvent = JSON.parse(JSON.stringify(unknownEvent));
+        sanitizeEvent(sanitizedEvent, config);
+        // Allow some special characters on the backend (database),
+        // because all strings should be sanitized on the frontend
+        // before displaying to users.
+        const jsonStringOriginal = JSON.stringify(unknownEvent)
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            // Below is a special character, not a simple empty space
+            .replace(/&nbsp;/g, ' ');
+        const jsonStringSanitized = JSON.stringify(sanitizedEvent)
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            // Below is a special character, not a simple empty space
+            .replace(/&nbsp;/g, ' ');
+        if (jsonStringOriginal !== jsonStringSanitized) {
+            // An event contains potentially malicious code
+            return true;
+        }
+        // Event is safe to use
+        return false;
+    }
+    catch (error) {
+        console.error(error);
+        // If we're not sure whether an event contains malicious
+        // code, it's better to return true for security reasons.
+        return true;
+    }
+};
 export const assignSpasmId = (spasmEventV2, spasmIdVersions = ["01"]) => {
     if (!isObjectWithValues(spasmEventV2))
         return null;
     spasmIdVersions.forEach(spasmIdVersion => {
         const spasmId = getSpasmId(spasmEventV2, spasmIdVersion);
-        if (spasmId && typeof (spasmId) === "string") {
+        const alreadyId = extractIdByFormat(spasmEventV2, { name: "spasmid", version: "01" });
+        if (spasmId && typeof (spasmId) === "string" &&
+            spasmId !== alreadyId) {
             // Create ids if it's null or undefined
             spasmEventV2.ids ??= [];
             // Prepend the new Spasm ID to an array of other IDs
@@ -62,56 +89,78 @@ export const assignSpasmId = (spasmEventV2, spasmIdVersions = ["01"]) => {
                 value: spasmId,
                 format: {
                     name: "spasmid",
-                    version: "01"
+                    version: spasmIdVersion
                 }
             });
         }
     });
     return spasmEventV2;
 };
-export const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
+export const standardizeEventV2 = (unknownEvent, version = "2.0.0", info = null) => {
     if (!isObjectWithValues(unknownEvent))
         return null;
-    let standardizedEvent = {
-        type: "SpasmEventV2"
-    };
-    // TODO convert Spasm events V2
     // SpasmEventV2, SpasmBodyV2, SpasmEnvelopeV2,
     // SpasmEnvelopeWithTreeV2, SpasmEventDatabaseV2
     if ('type' in unknownEvent &&
         typeof (unknownEvent.type) === "string") {
-        if (unknownEvent.type === "SpasmEventV2") {
-            // standardizedEvent =
-            //   standardizeSpasmEventV2(
-            //   unknownEvent
-            // )
-            return unknownEvent;
-        }
-        else if (unknownEvent.type === "SpasmEventBodyV2") {
-            // standardizedEvent =
-            //   standardizeSpasmEventBodyV2(
-            //   unknownEvent
-            // )
-        }
-        else if (unknownEvent.type === "SpasmEventEnvelopeV2") {
-            // standardizedEvent =
-            //   standardizeSpasmEventEnvelopeV2(
-            //   unknownEvent
-            // )
-        }
-        else if (unknownEvent.type === "SpasmEventEnvelopeWithTreeV2") {
-            // standardizedEvent =
-            //   standardizeSpasmEventEnvelopeWithTreeV2(
-            //   unknownEvent
-            // )
-        }
-        else if (unknownEvent.type === "SpasmEventDatabaseV2") {
-            // standardizedEvent =
-            //   standardizeSpasmEventV2(
-            //   unknownEvent
-            // )
+        if (unknownEvent.type === "SpasmEventV2" ||
+            unknownEvent.type === "SpasmEventBodyV2" ||
+            unknownEvent.type === "SpasmEventEnvelopeV2" ||
+            unknownEvent.type === "SpasmEventEnvelopeWithTreeV2" ||
+            unknownEvent.type === "SpasmEventDatabaseV2") {
+            return standardizeSpasmEventAnyV2(unknownEvent, version);
         }
     }
+    // Non-Spasm events
+    return standardizeNonSpasmEventV2(unknownEvent, version, info);
+};
+export const standardizeSpasmEventAnyV2 = (event, version = "2.0.0") => {
+    if (!isObjectWithValues(event))
+        return null;
+    if (!("type" in event) ||
+        !event.type) {
+        return null;
+    }
+    let standardizedEvent = {
+        type: "SpasmEventV2"
+    };
+    if ('type' in event &&
+        typeof (event.type) === "string") {
+        if (event.type === "SpasmEventV2") {
+            standardizedEvent =
+                standardizeSpasmEventV2(event, version);
+            return standardizedEvent;
+        }
+        else if (event.type === "SpasmEventBodyV2") {
+            // TODO
+            // standardizedEvent =
+            //   standardizeSpasmEventBodyV2(
+            //   event
+            // )
+        }
+        else if (event.type === "SpasmEventEnvelopeV2") {
+            standardizedEvent =
+                standardizeSpasmEventEnvelopeV2(event, version);
+            return standardizedEvent;
+        }
+        else if (event.type === "SpasmEventEnvelopeWithTreeV2") {
+            standardizedEvent =
+                standardizeSpasmEventEnvelopeWithTreeV2(event, version);
+            return standardizedEvent;
+        }
+        else if (event.type === "SpasmEventDatabaseV2") {
+            standardizedEvent =
+                standardizeSpasmEventDatabaseV2(event, version);
+            return standardizedEvent;
+        }
+        else if (event.type === "SpasmEventBodySignedClosedV2") {
+        }
+    }
+    return null;
+};
+export const standardizeNonSpasmEventV2 = (unknownEvent, version = "2.0.0", info = null) => {
+    if (!isObjectWithValues(unknownEvent))
+        return null;
     // If unknown event is not any of V2,
     // then proceed with SpasmEventV0 (Post)
     // and UnknownEventV1 like DpmEvent, NostrSpasmEvent, etc.
@@ -123,6 +172,9 @@ export const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
     }
     if (!info || !info.webType)
         return null;
+    let standardizedEvent = {
+        type: "SpasmEventV2"
+    };
     // DmpEvent
     // DMP event without signature
     if (info.eventInfo &&
@@ -215,6 +267,266 @@ export const standardizeEventV2 = (unknownEvent, version = "2.0.0", info) => {
         standardizedEvent = addFieldsFromEnvelopeSpasmEventV0_V2(unknownEvent, standardizedEvent);
     }
     return standardizedEvent;
+};
+export const standardizeSpasmEventV2 = (event, version = "2.0.0") => {
+    if (!isObjectWithValues(event))
+        return null;
+    // The simplest wait to standardize SpasmEventV2
+    // with signature verification and sanitization
+    // is to convert it to EnvelopeWithTree and then
+    // back to SpasmEventV2
+    // Convert to SpasmEventEnvelopeWithTreeV2
+    const spasmEventEnvelopeWithTreeV2 = convertToSpasmEventEnvelopeWithTree(event, version);
+    if (!spasmEventEnvelopeWithTreeV2)
+        return null;
+    const spasmEvent = standardizeSpasmEventEnvelopeWithTreeV2(spasmEventEnvelopeWithTreeV2);
+    return spasmEvent;
+};
+export const standardizeSpasmEventDatabaseV2 = (event, version = "2.0.0") => {
+    if (!isObjectWithValues(event))
+        return null;
+    // The simplest wait to standardize SpasmEventDatabaseV2
+    // with signature verification and sanitization
+    // is to change type to SpasmEventV2, convert it to
+    // EnvelopeWithTree and then to SpasmEventV2.
+    // Note: make sure to change type to SpasmEventV2
+    // to avoid infinite recursion.
+    const spasmEventNotYetConverted = {
+        ...event,
+        type: "SpasmEventV2"
+    };
+    // Convert to SpasmEventEnvelopeWithTreeV2
+    const spasmEventEnvelopeWithTreeV2 = convertToSpasmEventEnvelopeWithTree(spasmEventNotYetConverted, version);
+    if (!spasmEventEnvelopeWithTreeV2)
+        return null;
+    const spasmEvent = standardizeSpasmEventEnvelopeWithTreeV2(spasmEventEnvelopeWithTreeV2);
+    return spasmEvent;
+};
+export const standardizeSpasmEventEnvelopeWithTreeV2 = (event, version = "2.0.0") => {
+    if (!isObjectWithValues(event))
+        return null;
+    const spasmEventV2 = standardizeSpasmEventEnvelopeV2(event, version);
+    if (!spasmEventV2)
+        return null;
+    if ("children" in event &&
+        event.children &&
+        Array.isArray(event.children)) {
+        event.children.forEach(child => {
+            if (child && isObjectWithValues(child)) {
+                if ('event' in child && child.event &&
+                    isObjectWithValues(child.event)) {
+                    const childEventConvertedToSpasmEventV2 = convertToSpasm(child.event);
+                    if (childEventConvertedToSpasmEventV2) {
+                        const spasmEventChildV2 = {
+                            ...child,
+                            event: childEventConvertedToSpasmEventV2
+                        };
+                        // Create children if it's null or undefined
+                        spasmEventV2.children ??= [];
+                        spasmEventV2.children?.push(spasmEventChildV2);
+                        // convertToSpasm() returned null
+                    }
+                    else {
+                        const { event, ...childWithoutEvent } = child;
+                        const spasmEventChildV2 = {
+                            ...childWithoutEvent
+                        };
+                        // Create children if it's null or undefined
+                        spasmEventV2.children ??= [];
+                        spasmEventV2.children?.push(spasmEventChildV2);
+                    }
+                    // child has no event key
+                }
+                else {
+                    const { event, ...childWithoutEvent } = child;
+                    const spasmEventChildV2 = {
+                        ...childWithoutEvent
+                    };
+                    // Create children if it's null or undefined
+                    spasmEventV2.children ??= [];
+                    spasmEventV2.children?.push(spasmEventChildV2);
+                }
+                // spasmEventV2.children?.push(child)
+            }
+        });
+    }
+    if ("parent" in event &&
+        event.parent &&
+        "event" in event.parent &&
+        event.parent.event &&
+        isObjectWithValues(event.parent.event)) {
+        if ("parent" in spasmEventV2 &&
+            spasmEventV2.parent) {
+            const parentEvent = convertToSpasm(event.parent.event);
+            if (parentEvent) {
+                spasmEventV2.parent.event = parentEvent;
+            }
+        }
+        else if (!spasmEventV2.parent) {
+            const parentEvent = convertToSpasm(event.parent.event);
+            if (parentEvent) {
+                spasmEventV2.parent = {
+                    ...event.parent,
+                    event: parentEvent
+                };
+            }
+        }
+    }
+    if ("root" in event &&
+        event.root &&
+        "event" in event.root &&
+        event.root.event &&
+        isObjectWithValues(event.root.event)) {
+        if ("root" in spasmEventV2 &&
+            spasmEventV2.root) {
+            const rootEvent = convertToSpasm(event.root.event);
+            if (rootEvent) {
+                spasmEventV2.root.event = rootEvent;
+            }
+        }
+        else if (!spasmEventV2.root) {
+            const rootEvent = convertToSpasm(event.root.event);
+            if (rootEvent) {
+                spasmEventV2.root = {
+                    ...event.root,
+                    event: rootEvent
+                };
+            }
+        }
+    }
+    return spasmEventV2;
+};
+export const standardizeSpasmEventEnvelopeV2 = (event, version = "2.0.0") => {
+    if (!isObjectWithValues(event))
+        return null;
+    if (!("type" in event) ||
+        (event.type !== "SpasmEventEnvelopeV2" &&
+            event.type !== "SpasmEventEnvelopeWithTreeV2")) {
+        return null;
+    }
+    // Get siblings
+    if (!("siblings" in event) ||
+        !event.siblings ||
+        !Array.isArray(event.siblings)) {
+        return null;
+    }
+    const { siblings } = event;
+    const spasmEventsV2 = [];
+    // Convert siblings to SpasmEventV2
+    siblings.forEach(sibling => {
+        const spasmEventV2 = standardizeSpasmEventSiblingV2(sibling, version);
+        if (spasmEventV2) {
+            spasmEventsV2.push(spasmEventV2);
+        }
+    });
+    // Merge all SpasmEventV2
+    const spasmEventV2 = mergeSpasmEventsV2(spasmEventsV2);
+    if (!spasmEventV2)
+        return null;
+    if ('db' in event && event.db) {
+        spasmEventV2.db = event.db;
+    }
+    if ('stats' in event && event.stats) {
+        spasmEventV2.stats = event.stats;
+    }
+    if ('source' in event && event.source) {
+        spasmEventV2.source = event.source;
+    }
+    if ('sharedBy' in event && event.sharedBy) {
+        spasmEventV2.sharedBy = event.sharedBy;
+    }
+    return spasmEventV2;
+};
+export const standardizeSpasmEventSiblingV2 = (sibling, version = "2.0.0") => {
+    if (!isObjectWithValues(sibling))
+        return null;
+    if (!("type" in sibling) ||
+        typeof (sibling.type) !== "string") {
+        return null;
+    }
+    if (sibling.type === "SiblingWeb2V2" &&
+        sibling.originalObject) {
+        return standardizeNonSpasmEventV2(sibling.originalObject, version);
+    }
+    if (sibling.type === "SiblingSpasmV2") {
+        if ("signedString" in sibling &&
+            sibling.signedString &&
+            typeof (sibling.signedString) === "string") {
+            const spasmEventBodyV2 = JSON.parse(sibling.signedString);
+            // TODO add sequence, previousEvent
+            return standardizeSpasmEventAnyV2(spasmEventBodyV2);
+        }
+    }
+    if (sibling.type === "SiblingSpasmSignedV2") {
+        if ("signedString" in sibling &&
+            sibling.signedString &&
+            typeof (sibling.signedString) === "string" &&
+            "signatures" in sibling &&
+            Array.isArray(sibling.signatures) &&
+            sibling.signatures[0] &&
+            sibling.signatures[0].value &&
+            typeof (sibling.signatures[0].value) === "string") {
+            // TODO each sibling might have multiple signatures,
+            // eg. Spasm protocol signed with Ethereum and Nostr keys.
+            // const verifyAllSignaturesOfSibling = (sibling) => {}
+            const { signedString } = sibling;
+            const signature = sibling.signatures[0].value;
+            const signer = extractSignerFromEthereumSignature(signedString, signature);
+            if (!signer || typeof (signer) !== "string")
+                return null;
+            const spasmEventBodySignedV2 = {
+                type: "SpasmEventBodySignedClosedV2",
+                signedString, signature, signer
+            };
+            // TODO add sequence, previousEvent
+            return standardizeSpasmEventAnyV2(spasmEventBodySignedV2);
+        }
+    }
+    if (sibling.type === "SiblingDmpV2") {
+        if ("signedString" in sibling &&
+            sibling.signedString &&
+            typeof (sibling.signedString) === "string") {
+            const dmpEvent = JSON.parse(sibling.signedString);
+            return standardizeEventV2(dmpEvent);
+        }
+    }
+    if (sibling.type === "SiblingDmpSignedV2") {
+        if ("signedString" in sibling &&
+            sibling.signedString &&
+            typeof (sibling.signedString) === "string" &&
+            "signatures" in sibling &&
+            Array.isArray(sibling.signatures) &&
+            sibling.signatures[0] &&
+            sibling.signatures[0].value &&
+            typeof (sibling.signatures[0].value) === "string") {
+            const { signedString } = sibling;
+            const signature = sibling.signatures[0].value;
+            const signer = extractSignerFromEthereumSignature(signedString, signature);
+            if (!signer || typeof (signer) !== "string")
+                return null;
+            const dmpEventSigned = {
+                signedString, signature, signer
+            };
+            return standardizeNonSpasmEventV2(dmpEventSigned);
+        }
+    }
+    if (sibling.type === "SiblingNostrV2" &&
+        sibling.originalObject) {
+        return standardizeNonSpasmEventV2(sibling.originalObject);
+    }
+    if (sibling.type === "SiblingNostrSpasmV2" &&
+        sibling.originalObject) {
+        return standardizeNonSpasmEventV2(sibling.originalObject);
+    }
+    if (sibling.type === "SiblingNostrSignedV2" &&
+        sibling.originalObject) {
+        return standardizeNonSpasmEventV2(sibling.originalObject);
+    }
+    if (sibling.type === "SiblingNostrSpasmSignedV2" &&
+        sibling.originalObject) {
+        return standardizeNonSpasmEventV2(sibling.originalObject);
+    }
+    return null;
 };
 export const standardizeDmpEventV2 = (event) => {
     if (!isObjectWithValues(event))

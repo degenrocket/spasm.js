@@ -57,8 +57,9 @@ export type UnknownEvent = DmpEvent | DmpEventSignedClosed | DmpEventSignedOpene
 export type AnyNostrEvent = NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened;
 export type UnknownPostOrEvent = Post | UnknownEvent;
 export type SpasmEventV0 = Post;
-export type UnknownEventV1 = UnknownEvent;
-export type UnknownEventV2 = UnknownEventV1 | SpasmEventV0 | SpasmEventV2 | SpasmEventBodyV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2 | SpasmEventDatabaseV2;
+export type UnknownEventV1 = UnknownEvent | SpasmEventV0;
+export type SpasmEventAnyV2 = SpasmEventV2 | SpasmEventBodyV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2 | SpasmEventDatabaseV2 | SpasmEventBodySignedClosedV2;
+export type UnknownEventV2 = UnknownEventV1 | SpasmEventAnyV2;
 export interface NostrEvent {
     id?: string;
     content: string;
@@ -191,12 +192,18 @@ export interface KnownPostOrEventInfo {
 }
 export type PrivateKeyType = "ethereum" | "nostr";
 export type SpasmEventType = SpasmEventTypeV2 | SpasmEventTypeV0;
-export type SpasmEventTypeV2 = "SpasmEventV2" | "SpasmEventBodyV2" | "SpasmEventDatabaseV2" | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTree";
+export type SpasmEventTypeV2 = "SpasmEventV2" | "SpasmEventBodyV2" | "SpasmEventDatabaseV2" | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTreeV2";
 export type SpasmEventTypeV0 = "SpasmEventV0";
+export interface SpasmEventBodySignedClosedV2 {
+    type: "SpasmEventBodySignedClosedV2";
+    signedString: string;
+    signature: string;
+    signer?: string;
+}
 export interface SpasmEventBodyV2 {
     type: "SpasmEventBodyV2";
     /**
-     * Body & Signling have a protocol field, but not SpasmEventV2
+     * Body & Sibling have a protocol field, but not SpasmEventV2
      * because each Spasm event can be signed with many protocols.
      * Protocol is not hashed for Spasm ID for the same reason.
      */
@@ -303,7 +310,7 @@ export interface SpasmEventEnvelopeWithTreeV2 extends Omit<SpasmEventEnvelopeV2,
     children?: SpasmEventEnvelopeWithTreeChildV2[];
 }
 export type SpasmEventEnvelopeWithTreeChildEventV2 = SpasmEventV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
-export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>, Omit<SpasmEventEnvelopeWithTreeV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'> {
+export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>, Omit<SpasmEventEnvelopeWithTreeV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent' | 'children'> {
     type: "SpasmEventV2";
     /**
      * Protocol, sequence, previousEvent shouldn't be a part
@@ -317,6 +324,7 @@ export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol'
     links?: SpasmEventLinkV2[];
     references?: SpasmEventReferenceV2[];
     signatures?: SpasmEventSignatureV2[];
+    children?: SpasmEventChildV2[];
 }
 export interface SpasmEventDatabaseV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'previousEvent' | 'sequence'>, Omit<SpasmEventEnvelopeV2, 'type' | 'db'> {
     type: "SpasmEventDatabaseV2";
@@ -449,7 +457,7 @@ export interface SpasmEventBodyPreviousEventV2 extends SpasmEventBodyReferenceV2
  * There is no need to add the depth level to the reference,
  * so the depth is only added to root, parent, previousEvent.
  */
-export interface SpasmEventEnvelopeWithTreeReferenceV2 extends Partial<SpasmEventBodyReferenceV2> {
+export interface SpasmEventEnvelopeWithTreeReferenceV2 extends SpasmEventBodyReferenceV2 {
     event?: SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
 }
 export interface SpasmEventEnvelopeWithTreeRootV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
@@ -463,6 +471,9 @@ export interface SpasmEventEnvelopeWithTreeChildV2 {
     marker?: string | number;
     event?: SpasmEventEnvelopeWithTreeChildEventV2;
     depth?: number;
+}
+export interface SpasmEventChildV2 extends SpasmEventEnvelopeWithTreeChildV2 {
+    event?: SpasmEventV2;
 }
 export interface SpasmEventReferenceV2 {
     ids: SpasmEventIdV2[];

@@ -100,16 +100,21 @@ export type UnknownPostOrEvent = Post | UnknownEvent
 // Post is essentially SpasmEventV0
 export type SpasmEventV0 = Post
 
-export type UnknownEventV1 = UnknownEvent
-
-export type UnknownEventV2 =
-  | UnknownEventV1
+export type UnknownEventV1 = 
+  | UnknownEvent
   | SpasmEventV0
+
+export type SpasmEventAnyV2 =
   | SpasmEventV2
   | SpasmEventBodyV2
   | SpasmEventEnvelopeV2
   | SpasmEventEnvelopeWithTreeV2
   | SpasmEventDatabaseV2
+  | SpasmEventBodySignedClosedV2
+
+export type UnknownEventV2 =
+  | UnknownEventV1
+  | SpasmEventAnyV2
 
 export interface NostrEvent {
   id?: string
@@ -379,14 +384,21 @@ export type SpasmEventType =
 export type SpasmEventTypeV2 =
   | "SpasmEventV2"
   | "SpasmEventBodyV2" | "SpasmEventDatabaseV2"
-  | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTree"
+  | "SpasmEventEnvelopeV2" | "SpasmEventEnvelopeWithTreeV2"
 
 export type SpasmEventTypeV0 = "SpasmEventV0"
+
+export interface SpasmEventBodySignedClosedV2 {
+  type: "SpasmEventBodySignedClosedV2",
+  signedString: string,
+  signature: string,
+  signer?: string
+}
 
 export interface SpasmEventBodyV2 {
   type: "SpasmEventBodyV2"
  /**
-  * Body & Signling have a protocol field, but not SpasmEventV2
+  * Body & Sibling have a protocol field, but not SpasmEventV2
   * because each Spasm event can be signed with many protocols.
   * Protocol is not hashed for Spasm ID for the same reason.
   */
@@ -525,7 +537,7 @@ export interface SpasmEventV2 extends
     'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>,
   // Omit<SpasmEventEnvelopeV2, 'type'>,
   Omit<SpasmEventEnvelopeWithTreeV2,
-    'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'> {
+    'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent' | 'children'> {
   type: "SpasmEventV2"
   /**
    * Protocol, sequence, previousEvent shouldn't be a part
@@ -542,6 +554,7 @@ export interface SpasmEventV2 extends
   references?: SpasmEventReferenceV2[]
   // Some events don't have signatures (e.g. RSS posts, URLs)
   signatures?: SpasmEventSignatureV2[]
+  children?: SpasmEventChildV2[]
 }
 
 export interface SpasmEventDatabaseV2 extends
@@ -749,7 +762,8 @@ export interface SpasmEventBodyPreviousEventV2 extends
  * so the depth is only added to root, parent, previousEvent.
  */
 export interface SpasmEventEnvelopeWithTreeReferenceV2 extends
-  Partial<SpasmEventBodyReferenceV2> {
+  // Partial<SpasmEventBodyReferenceV2> {
+  SpasmEventBodyReferenceV2 {
   event?: SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2
 }
 
@@ -773,6 +787,11 @@ export interface SpasmEventEnvelopeWithTreeChildV2 {
   marker?: string | number
   event?: SpasmEventEnvelopeWithTreeChildEventV2
   depth?: number
+}
+
+export interface SpasmEventChildV2 extends
+  SpasmEventEnvelopeWithTreeChildV2 {
+    event?: SpasmEventV2
 }
 
 // Using partial because SpasmEvent might not have reference.event

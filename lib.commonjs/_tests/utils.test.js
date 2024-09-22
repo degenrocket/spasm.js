@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {SpasmEventAuthorV2} from '../types/interfaces';
+const convertToSpasm_js_1 = require("../convert/convertToSpasm.js");
 const interfaces_js_1 = require("../types/interfaces.js");
 const index_js_1 = require("./../utils/index.js");
 const _events_data_js_1 = require("./_events-data.js");
@@ -1016,10 +1017,6 @@ describe("getAllSigners() function tests", () => {
         const outputNostr = ["6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93"];
         const outputNostrSpasm = ["2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42"];
         const outputWeb2 = [];
-        // TODO
-        // const inputSpasm =
-        // const outputSpasm =
-        // expect(getAllSigners(inputSpasm)).toEqual(outputSpasm);
         // getAllSigners() for original events
         expect((0, index_js_1.getAllSigners)(inputDmp)).toEqual(outputDmp);
         expect((0, index_js_1.getAllSigners)(inputNostr)).toEqual(outputNostr);
@@ -1216,8 +1213,8 @@ describe("toBeSpasmEventV2() function tests", () => {
 });
 // getIdByFormat()
 // extractIdByFormat() - alias
-describe("getIdByFormat() function tests", () => {
-    test("getIdByFormat() should return true if true", () => {
+describe("getIdByFormat() tests", () => {
+    test("getIdByFormat() get ID by format", () => {
         // Not converted to SpasmEventV2 yet
         const inputDmp = _events_data_js_1.validDmpEventSignedClosed;
         const inputNostr = _events_data_js_1.validNostrEventSignedOpened;
@@ -1274,6 +1271,628 @@ describe("getIdByFormat() function tests", () => {
         expect((0, index_js_1.getIdByFormat)(inputDmp, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
         expect((0, index_js_1.getIdByFormat)(inputNostr, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
         expect((0, index_js_1.getIdByFormat)(inputNostrSpasm, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
+    });
+});
+// mergeSpasmEventsV2()
+describe("mergeSpasmEventsV2() tests", () => {
+    test("mergeSpasmEventsV2() tests with null", () => {
+        const input = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed);
+        const output = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        expect((0, index_js_1.mergeSpasmEventsV2)([null, (0, index_js_1.copyOf)(input)]))
+            .toStrictEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            null, (0, index_js_1.copyOf)(input), (0, index_js_1.copyOf)(input)
+        ])).toStrictEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([null, (0, index_js_1.copyOf)(input), null]))
+            .toStrictEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input), null]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input), null, null]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(input), null, null, (0, index_js_1.copyOf)(input)
+        ])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([null, null, null]))
+            .toStrictEqual(null);
+    });
+    test("mergeSpasmEventsV2() should merge same DMP events", () => {
+        const input1 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed);
+        const input2 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpened);
+        const output = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input1)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)]))
+            .toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])?.title)
+            .toStrictEqual("genesis");
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])?.siblings?.length)
+            .toStrictEqual(1);
+    });
+    test("mergeSpasmEventsV2() should merge same DMP events", () => {
+        const input1 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened);
+        const input2 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+        const output = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input1)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])).toStrictEqual((0, index_js_1.copyOf)(output));
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])).not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])?.title).toStrictEqual("Nostr Spasm genesis");
+        expect((0, index_js_1.mergeSpasmEventsV2)([(0, index_js_1.copyOf)(input1), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input2), (0, index_js_1.copyOf)(input1)])?.siblings?.length)
+            .toStrictEqual(1);
+    });
+    test("mergeSpasmEventsV2() should merge same SpasmEventsV2 with DMP siblings", () => {
+        const input = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        const output = (0, index_js_1.copyOf)(input);
+        expect((0, index_js_1.mergeSpasmEventsV2)([input, input]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input, input, input, input
+        ]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input, input, input, input
+        ]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input, input, input, input
+        ])?.title)
+            .toStrictEqual("genesis");
+        expect((0, index_js_1.mergeSpasmEventsV2)([input, input, input, input, input, input])?.siblings?.length)
+            .toStrictEqual(1);
+    });
+    test("mergeSpasmEventsV2() should merge same SpasmEventsV2 with Nostr siblings", () => {
+        const input = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2);
+        const output = (0, index_js_1.copyOf)(input);
+        expect((0, index_js_1.mergeSpasmEventsV2)([input, input]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ])?.content)
+            .toStrictEqual("Walled gardens became prisons, and nostr is the first step towards tearing down the prison walls.");
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ])?.siblings?.length)
+            .toStrictEqual(1);
+    });
+    test("mergeSpasmEventsV2() should merge same SpasmEventsV2 with NostrSpasm siblings", () => {
+        const input = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+        const output = (0, index_js_1.copyOf)(input);
+        expect((0, index_js_1.mergeSpasmEventsV2)([input, input]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ]))
+            .toStrictEqual(output);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ])?.title)
+            .toStrictEqual("Nostr Spasm genesis");
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            input, input, input,
+            input, input, input
+        ])?.siblings?.length)
+            .toStrictEqual(1);
+    });
+    test("mergeSpasmEventsV2() should return the first event if events have different Spasm ID", () => {
+        const input1 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEvent);
+        const input2 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed);
+        const input3 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpened);
+        const input4 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        const input5 = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2);
+        const input6 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEvent);
+        const input7 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpened);
+        const input8 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2);
+        const input9 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEvent);
+        const input10 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened);
+        const input11 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+        expect((0, index_js_1.mergeSpasmEventsV2)([input2, input1]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input2));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input3, input4]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input3));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input5, input6]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input5));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input7, input8]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input7));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input8, input9]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input8));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input9, input10]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input10));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input10, input11]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input10));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input11, input1]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input11));
+        expect((0, index_js_1.mergeSpasmEventsV2)([input1, input2, input3, input4]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(input1));
+    });
+    test("mergeSpasmEventsV2() tests for merging unsigned with signed events, which have the same Spasm ID", () => {
+        const dmpUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEvent);
+        const dmpSigned = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed);
+        const nostrUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEvent);
+        const nostrSigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpened);
+        const nostrSpasmUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEvent);
+        const nostrSpasmSigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened);
+        // DMP signed and unsigned events have different Spasm IDs
+        // because unsigned events don't have a signer, which
+        // affects the Spasm ID.
+        // Since events have different Spasm IDs, they aren't merged.
+        expect((0, index_js_1.mergeSpasmEventsV2)([dmpUnsigned, dmpSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(dmpUnsigned));
+        // Signed and unsigned Nostr events have the same Spasm ID
+        // so unsigned sibling is dropped in favor of a signed
+        // sibling during merge.
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrUnsigned, nostrSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrUnsigned, nostrUnsigned, nostrSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSigned, nostrUnsigned, nostrUnsigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSpasmUnsigned, nostrSpasmSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSpasmSigned));
+        // Not equal
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrUnsigned, nostrSigned]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSpasmUnsigned, nostrSpasmSigned]))
+            .not.toEqual(null);
+    });
+    test("mergeSpasmEventsV2() tests for merging events with different Spasm IDs", () => {
+        const dmpUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEvent);
+        const dmpSigned = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed);
+        const nostrUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEvent);
+        const nostrSigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpened);
+        const nostrSpasmUnsigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEvent);
+        const nostrSpasmSigned = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened);
+        // DMP signed and unsigned events have different Spasm IDs
+        // because unsigned events don't have a signer, which
+        // affects the Spasm ID.
+        // Since events have different Spasm IDs, they aren't merged.
+        expect((0, index_js_1.mergeSpasmEventsV2)([dmpUnsigned, dmpSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(dmpUnsigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([dmpSigned, dmpUnsigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(dmpSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            dmpSigned, dmpUnsigned, dmpSigned, dmpUnsigned, dmpUnsigned
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(dmpSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([dmpUnsigned, nostrSpasmSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(dmpUnsigned));
+        // Signed and unsigned Nostr events have the same Spasm ID
+        // so unsigned sibling is dropped in favor of a signed
+        // sibling during merge.
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSigned, nostrSpasmSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrUnsigned, nostrSpasmSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrUnsigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            nostrUnsigned, nostrSpasmUnsigned, nostrSpasmUnsigned
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrUnsigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSpasmUnsigned, nostrSigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSpasmUnsigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSpasmUnsigned, dmpUnsigned]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSpasmUnsigned));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            nostrSpasmUnsigned, dmpSigned, dmpSigned
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(nostrSpasmUnsigned));
+        // Not equal
+        expect((0, index_js_1.mergeSpasmEventsV2)([dmpSigned, nostrSigned]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrUnsigned, dmpSigned]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([nostrSpasmUnsigned, nostrUnsigned]))
+            .not.toEqual(null);
+    });
+    test("mergeSpasmEventsV2() tests for merging events with and without source", () => {
+        const dmpConverted = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
+        const dmpConvertedWithSource = {
+            ...dmpConverted,
+            source: "newsource.space"
+        };
+        const dmpConvertedWithAnotherSource = {
+            ...dmpConverted,
+            source: "anothersource.space"
+        };
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConverted)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConverted)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConvertedWithSource)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithSource)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConvertedWithSource), (0, index_js_1.copyOf)(dmpConvertedWithSource)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithSource)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConvertedWithSource),
+            (0, index_js_1.copyOf)(dmpConvertedWithAnotherSource)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithSource)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConvertedWithAnotherSource)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithAnotherSource)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConvertedWithSource),
+            (0, index_js_1.copyOf)(dmpConvertedWithAnotherSource)
+        ]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted),
+            (0, index_js_1.copyOf)(dmpConvertedWithSource)
+        ]))
+            .not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted),
+            (0, index_js_1.copyOf)(dmpConvertedWithSource)
+        ]))
+            .not.toEqual(dmpConverted);
+    });
+    test("mergeSpasmEventsV2() tests for merging events with and without sharedBy", () => {
+        const dmpConverted = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
+        const dmpConvertedWithOneSharedBy = {
+            ...dmpConverted,
+            sharedBy: {
+                ids: [{ value: "0x12345" }]
+            }
+        };
+        const dmpConvertedWithTwoSharedBy = {
+            ...dmpConverted,
+            sharedBy: {
+                ids: [{ value: "0x12345" }, { value: "0x67890" }]
+            }
+        };
+        const dmpConvertedWithAnotherSharedBy = {
+            ...dmpConverted,
+            sharedBy: {
+                ids: [{ value: "0xanother" }]
+            }
+        };
+        const dmpConvertedWithThreeSharedBy = {
+            ...dmpConverted,
+            sharedBy: {
+                ids: [
+                    { value: "0x12345" },
+                    { value: "0x67890" },
+                    { value: "0xanother" }
+                ]
+            }
+        };
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConverted)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConverted)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConvertedWithOneSharedBy)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithOneSharedBy)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted), (0, index_js_1.copyOf)(dmpConvertedWithTwoSharedBy)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithTwoSharedBy)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConverted),
+            (0, index_js_1.copyOf)(dmpConvertedWithAnotherSharedBy)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithAnotherSharedBy)));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(dmpConvertedWithOneSharedBy),
+            (0, index_js_1.copyOf)(dmpConvertedWithTwoSharedBy),
+            (0, index_js_1.copyOf)(dmpConvertedWithAnotherSharedBy)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(dmpConvertedWithThreeSharedBy)));
+    });
+    test("mergeSpasmEventsV2() tests for merging events with parent event", () => {
+        const spasmParent = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2);
+        const spasmReply = (0, index_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEvent);
+        const spasmReplyWithSpasmParent = (0, index_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(spasmReply), (0, index_js_1.copyOf)(spasmReplyWithSpasmParent)
+        ]))
+            .toStrictEqual((0, index_js_1.copyOf)(spasmReplyWithSpasmParent));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(spasmReply), (0, index_js_1.copyOf)(spasmReplyWithSpasmParent)
+        ]))
+            .toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, index_js_1.copyOf)(spasmReplyWithSpasmParent))));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(spasmReply), (0, index_js_1.copyOf)(spasmReplyWithSpasmParent)
+        ]).parent.event)
+            .toStrictEqual((0, index_js_1.copyOf)(spasmParent));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(spasmReply), (0, index_js_1.copyOf)(spasmReplyWithSpasmParent)
+        ]).parent.event?.title)
+            .toStrictEqual("genesis");
+    });
+    test("mergeSpasmEventsV2() should merge events with stats", () => {
+        const event1WithoutStats = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2;
+        const event1WithStats = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats;
+        const event1WithStatsOld = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld;
+        const event1WithStatsNew = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew;
+        const event2WithStats = _events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2;
+        // Same event
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutStats),
+            (0, index_js_1.copyOf)(event1WithoutStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithoutStats));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutStats),
+            (0, index_js_1.copyOf)(event1WithStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStats));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStats),
+            (0, index_js_1.copyOf)(event1WithoutStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStats));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStats),
+            (0, index_js_1.copyOf)(event1WithStats),
+            (0, index_js_1.copyOf)(event1WithStats),
+            (0, index_js_1.copyOf)(event1WithoutStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStats));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStatsNew));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsNew),
+            (0, index_js_1.copyOf)(event1WithStatsOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStatsNew));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStatsOld));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsNew),
+            (0, index_js_1.copyOf)(event1WithStatsNew),
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStatsNew));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsOld),
+            (0, index_js_1.copyOf)(event1WithStatsNew)
+        ]).stats[0].action)
+            .toStrictEqual("react");
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStatsNew),
+            (0, index_js_1.copyOf)(event1WithStatsOld)
+        ])).not.toEqual(null);
+        // Merge with different event
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutStats),
+            (0, index_js_1.copyOf)(event2WithStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithoutStats));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithStats),
+            (0, index_js_1.copyOf)(event2WithStats)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithStats));
+    });
+    test("mergeSpasmEventsV2() should merge events with db", () => {
+        const event1WithoutDb = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2;
+        const event1WithDb = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb;
+        const event1WithDbNew = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew;
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutDb),
+            (0, index_js_1.copyOf)(event1WithoutDb)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithoutDb));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutDb),
+            (0, index_js_1.copyOf)(event1WithDb)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithDb));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutDb),
+            (0, index_js_1.copyOf)(event1WithDb),
+            (0, index_js_1.copyOf)(event1WithDbNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithDbNew));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutDb),
+            (0, index_js_1.copyOf)(event1WithDb),
+            (0, index_js_1.copyOf)(event1WithDbNew)
+        ])).not.toEqual(null);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithDb),
+            (0, index_js_1.copyOf)(event1WithDbNew)
+        ]).db.key).toStrictEqual(1337);
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithDb),
+            (0, index_js_1.copyOf)(event1WithDbNew)
+        ]).db.table).toStrictEqual("spasm_events");
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithDb),
+            (0, index_js_1.copyOf)(event1WithDbNew)
+        ]).db.updatedTimestamp).toStrictEqual(1642074686195);
+    });
+    test("mergeSpasmEventsV2() should merge events with children", () => {
+        const event1WithoutChildren = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2;
+        const event1WithOneChild = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild;
+        const event1WithAnotherChild = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild;
+        const event1WithAnotherChildWithoutEvent = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent;
+        const event1WithBothChildren = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren;
+        const event1WithBothChildrenReverse = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse;
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutChildren),
+            (0, index_js_1.copyOf)(event1WithoutChildren)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithoutChildren));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithOneChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithOneChild));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithAnotherChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithAnotherChild));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithBothChildren),
+            (0, index_js_1.copyOf)(event1WithBothChildren)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithBothChildren));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutChildren),
+            (0, index_js_1.copyOf)(event1WithOneChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithOneChild));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithBothChildren));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutChildren),
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithBothChildren));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithAnotherChild),
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithoutChildren)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithBothChildrenReverse));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithAnotherChildWithoutEvent),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithAnotherChild));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithAnotherChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChildWithoutEvent)
+        ])).toStrictEqual((0, index_js_1.copyOf)(event1WithAnotherChild));
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutChildren),
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ]).children[1].event?.content).toStrictEqual("To the moon!");
+        expect((0, index_js_1.mergeSpasmEventsV2)([
+            (0, index_js_1.copyOf)(event1WithoutChildren),
+            (0, index_js_1.copyOf)(event1WithOneChild),
+            (0, index_js_1.copyOf)(event1WithAnotherChild)
+        ])).not.toEqual(null);
+    });
+});
+// mergeStatsV2()
+describe("mergeStatsV2() function tests", () => {
+    test("mergeStatsV2() should merge different stats", () => {
+        const statReactOld = {
+            action: "react",
+            latestTimestamp: 1641077686178,
+            latestDbTimestamp: 1644077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 2
+                }
+            ]
+        };
+        const statReactNew = {
+            action: "react",
+            latestTimestamp: 1642077686178,
+            latestDbTimestamp: 1643077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 3
+                },
+                {
+                    value: "downvote",
+                    total: 1
+                },
+            ]
+        };
+        const statReplyOld = {
+            action: "reply",
+            latestTimestamp: 1641087686178,
+            latestDbTimestamp: 1644087686178,
+            total: 15
+        };
+        const statReplyNew = {
+            action: "reply",
+            latestTimestamp: 1642087686178,
+            latestDbTimestamp: 1643087686178,
+            total: 23
+        };
+        const statsReactOld = [statReactOld];
+        const statsReactNew = [statReactNew];
+        const statsReplyOld = [statReplyOld];
+        const statsReplyNew = [statReplyNew];
+        const statsAllOld = [statReactOld, statReplyOld];
+        const statsAllMix = [statReactOld, statReplyNew];
+        const statsAllNew = [statReactNew, statReplyNew];
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsReactOld), (0, index_js_1.copyOf)(statsReactNew)
+        ])[0].action).toStrictEqual("react");
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsReactOld), (0, index_js_1.copyOf)(statsReactNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsReactNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsReplyOld), (0, index_js_1.copyOf)(statsReplyNew)
+        ])[0].action).toStrictEqual("reply");
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsReplyOld), (0, index_js_1.copyOf)(statsReplyNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsReplyNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld), (0, index_js_1.copyOf)(statsAllOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllOld));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld), (0, index_js_1.copyOf)(statsAllMix)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllMix));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld), (0, index_js_1.copyOf)(statsAllNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld), (0, index_js_1.copyOf)(statsAllMix),
+            (0, index_js_1.copyOf)(statsAllNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllMix), (0, index_js_1.copyOf)(statsAllOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllMix));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllMix), (0, index_js_1.copyOf)(statsAllOld),
+            (0, index_js_1.copyOf)(statsAllOld), (0, index_js_1.copyOf)(statsAllOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllMix));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllNew), (0, index_js_1.copyOf)(statsAllNew)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsReactNew), (0, index_js_1.copyOf)(statsAllMix)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllNew));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld)
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllOld));
+        expect((0, index_js_1.mergeStatsV2)([
+            (0, index_js_1.copyOf)(statsAllOld), null
+        ])).toStrictEqual((0, index_js_1.copyOf)(statsAllOld));
+        expect((0, index_js_1.mergeStatsV2)([
+            null, (0, index_js_1.copyOf)(statsAllOld)
+        ])).toStrictEqual(null);
     });
 });
 // template()

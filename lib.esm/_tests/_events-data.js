@@ -44,6 +44,18 @@ export const validDmpEventSignedOpened = {
     ...validDmpEventSignedClosed,
     signedObject: validDmpEvent
 };
+export const validDmpEventSignedClosedWithInvalidSignedString = {
+    ...validDmpEventSignedClosed,
+    signedString: "{\"version\":\"dmp_v0.0.1\",\"time\":\"2022-01-01T22:04:46.178Z\",\"action\":\"post\",\"target\":\"\",\"title\":\"genesis\",\"text\":\"not your keys, not your word\",\"license\":\"MIT\"}"
+};
+export const validDmpEventSignedClosedWithInvalidSigner = {
+    ...validDmpEventSignedClosed,
+    signer: '0xf8553015220a857eda377a1e903c9e5afb3ac2fb'
+};
+export const validDmpEventSignedClosedWithInvalidSignature = {
+    ...validDmpEventSignedClosed,
+    signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71a'
+};
 // validNostrReplyToDmpEvent
 export const validSpasmWithDmpReplyToDmpEventV0 = {
     "id": 401,
@@ -67,6 +79,85 @@ export const validSpasmWithDmpReplyToDmpEventV0 = {
     "scam": null,
     "comments_count": null,
     "latest_action_added_time": null
+};
+export const validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = {
+    type: "SpasmEventV2",
+    parent: {
+        ids: [
+            {
+                value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+                format: {
+                    name: "ethereum-sig",
+                }
+            }
+        ]
+    },
+    db: {
+        key: 401,
+        addedTimestamp: toBeTimestamp("2024-02-17T05:48:00.076Z")
+    },
+    action: "reply",
+    content: "To the moon!",
+    timestamp: toBeTimestamp("2024-02-17T05:47:59.932Z"),
+    authors: [
+        {
+            addresses: [
+                {
+                    value: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+                    format: { name: "ethereum-pubkey" },
+                    verified: true
+                }
+            ]
+        }
+    ],
+    license: "SPDX-License-Identifier: CC0-1.0",
+    ids: [
+        {
+            value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+            format: {
+                name: "spasmid",
+                version: "01"
+            }
+        },
+        {
+            value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+            format: {
+                name: "ethereum-sig",
+            }
+        },
+    ],
+    signatures: [
+        {
+            value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+            pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+            format: { name: "ethereum-sig" }
+        }
+    ],
+    siblings: [
+        {
+            type: "SiblingDmpSignedV2",
+            protocol: {
+                name: "dmp",
+                version: "0.1.0"
+            },
+            signedString: "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}",
+            ids: [
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                }
+            ],
+            signatures: [
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
+                    format: { name: "ethereum-sig" }
+                }
+            ]
+        }
+    ]
 };
 export const validNostrReplyToDmpEvent = {
     kind: 1,
@@ -106,6 +197,149 @@ export const validPostWithNostrReplyToDmpEvent = {
     comments_count: 3,
     latest_action_added_time: "2024-01-21T10:52:37.165Z",
 };
+export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
+    type: "SpasmEventV2",
+    parent: {
+        ids: [
+            {
+                value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
+                format: {
+                    name: "ethereum-sig"
+                }
+            }
+        ]
+    },
+    db: {
+        key: 5,
+        addedTimestamp: toBeTimestamp("2024-01-18T02:37:40.712Z")
+    },
+    action: "reply",
+    content: "To the SPASM!",
+    timestamp: 1708153412,
+    authors: [
+        {
+            addresses: [
+                {
+                    value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+                    format: {
+                        name: "nostr-hex",
+                    },
+                    verified: true
+                }
+            ]
+        }
+    ],
+    license: "SPDX-License-Identifier: CC0-1.0",
+    ids: [
+        {
+            value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+            format: {
+                name: "spasmid",
+                version: "01"
+            }
+        },
+        {
+            value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+            format: {
+                name: "nostr-hex",
+            }
+        },
+        {
+            value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+            format: {
+                name: "nostr-sig",
+            }
+        }
+        // {
+        //   value: "spasmid01xyz",
+        //   format: {
+        //     name: "spasmid",
+        //     version: "01"
+        //   }
+        // }
+    ],
+    signatures: [
+        {
+            value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+            pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+            format: { name: "nostr-sig" }
+        }
+    ],
+    siblings: [
+        {
+            type: "SiblingNostrSpasmSignedV2",
+            protocol: {
+                name: "nostr",
+                hasExtraSpasmFields: true,
+                extraSpasmFieldsVersion: "1.0.0"
+            },
+            originalObject: validNostrReplyToDmpEvent,
+            ids: [
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+                // {
+                //   value: "spasmid01xyz",
+                //   format: {
+                //     name: "spasmid",
+                //     version: "01"
+                //   }
+                // }
+            ],
+            signatures: [
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+                    format: { name: "nostr-sig" }
+                }
+            ],
+        }
+    ],
+    stats: [
+        {
+            action: "react",
+            contents: [
+                {
+                    value: "upvote",
+                    total: 11
+                },
+                {
+                    value: "downvote",
+                    total: 1
+                },
+                {
+                    value: "bullish",
+                    total: 2
+                },
+                {
+                    value: "bearish",
+                    total: 3
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 3
+                },
+            ]
+        },
+        {
+            action: "reply",
+            total: 3
+        }
+    ]
+};
 export const validPostWithDmpEventSignedClosed = {
     id: 1337,
     target: validDmpEvent.target,
@@ -117,7 +351,7 @@ export const validPostWithDmpEventSignedClosed = {
     signature: validDmpEventSignedClosed.signature,
     signed_time: validDmpEvent.time,
     added_time: "2022-01-01T22:04:46.195Z",
-    category: "privacy",
+    // category: "privacy",
     source: "degenrocket.space",
     tags: null,
     tickers: null,
@@ -224,20 +458,156 @@ export const validDmpEventSignedClosedConvertedToSpasmV2 = {
         }
     ]
 };
-export const validDmpEventSignedOpenedConvertedToSpasmV2 = {
+export const validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = {
     ...validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            latestTimestamp: 1641077686178,
+            latestDbTimestamp: 1644077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 8
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 5
+                },
+                {
+                    value: "bearish",
+                    total: 0
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 0
+                },
+            ]
+        },
+        {
+            action: "reply",
+            latestTimestamp: 1641087686178,
+            latestDbTimestamp: 1644087686178,
+            total: 3
+        }
+    ],
+};
+export const validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            latestTimestamp: 1642077686178,
+            latestDbTimestamp: 1643077686178,
+            contents: [
+                {
+                    value: "upvote",
+                    total: 18
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 8
+                },
+                {
+                    value: "bearish",
+                    total: 7
+                },
+                {
+                    value: "important",
+                    total: 26
+                },
+                {
+                    value: "scam",
+                    total: 3
+                },
+            ]
+        },
+        {
+            action: "reply",
+            latestTimestamp: 1642087686178,
+            latestDbTimestamp: 1643087686178,
+            total: 18081
+        }
+    ],
+};
+export const validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    stats: [
+        {
+            action: "react",
+            contents: [
+                {
+                    value: "upvote",
+                    total: 8
+                },
+                {
+                    value: "downvote",
+                    total: 0
+                },
+                {
+                    value: "bullish",
+                    total: 5
+                },
+                {
+                    value: "bearish",
+                    total: 0
+                },
+                {
+                    value: "important",
+                    total: 6
+                },
+                {
+                    value: "scam",
+                    total: 0
+                },
+            ]
+        },
+        {
+            action: "reply",
+            total: 3
+        }
+    ],
+};
+export const validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    db: {
+        key: 1337,
+        addedTimestamp: 1641074686195,
+        updatedTimestamp: 1641074686195
+    },
+};
+export const validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    db: {
+        key: 1337,
+        table: "spasm_events",
+        addedTimestamp: 1641074686195,
+        updatedTimestamp: 1642074686195
+    },
 };
 export const validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
     ...validDmpEventSignedClosedConvertedToSpasmV2,
+    // categories: [
+    //   {
+    //     name: "privacy"
+    //   }
+    // ],
     db: {
         key: 1337,
         addedTimestamp: 1641074686195
     },
-    categories: [
-        {
-            name: "privacy"
-        }
-    ],
     source: {
         name: "degenrocket.space"
     },
@@ -300,149 +670,7 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
                     }
                 }
             ],
-            event: {
-                type: "SpasmEventV2",
-                parent: {
-                    ids: [
-                        {
-                            value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-                            format: {
-                                name: "ethereum-sig"
-                            }
-                        }
-                    ]
-                },
-                db: {
-                    key: 5,
-                    addedTimestamp: toBeTimestamp("2024-01-18T02:37:40.712Z")
-                },
-                action: "reply",
-                content: "To the SPASM!",
-                timestamp: 1708153412,
-                authors: [
-                    {
-                        addresses: [
-                            {
-                                value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                                format: {
-                                    name: "nostr-hex",
-                                },
-                                verified: true
-                            }
-                        ]
-                    }
-                ],
-                license: "SPDX-License-Identifier: CC0-1.0",
-                ids: [
-                    {
-                        value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
-                        format: {
-                            name: "spasmid",
-                            version: "01"
-                        }
-                    },
-                    {
-                        value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
-                        format: {
-                            name: "nostr-hex",
-                        }
-                    },
-                    {
-                        value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                        format: {
-                            name: "nostr-sig",
-                        }
-                    }
-                    // {
-                    //   value: "spasmid01xyz",
-                    //   format: {
-                    //     name: "spasmid",
-                    //     version: "01"
-                    //   }
-                    // }
-                ],
-                signatures: [
-                    {
-                        value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                        pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                        format: { name: "nostr-sig" }
-                    }
-                ],
-                siblings: [
-                    {
-                        type: "SiblingNostrSpasmSignedV2",
-                        protocol: {
-                            name: "nostr",
-                            hasExtraSpasmFields: true,
-                            extraSpasmFieldsVersion: "1.0.0"
-                        },
-                        originalObject: validNostrReplyToDmpEvent,
-                        ids: [
-                            {
-                                value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
-                                format: {
-                                    name: "nostr-hex",
-                                }
-                            },
-                            {
-                                value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                                format: {
-                                    name: "nostr-sig",
-                                }
-                            }
-                            // {
-                            //   value: "spasmid01xyz",
-                            //   format: {
-                            //     name: "spasmid",
-                            //     version: "01"
-                            //   }
-                            // }
-                        ],
-                        signatures: [
-                            {
-                                value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
-                                pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
-                                format: { name: "nostr-sig" }
-                            }
-                        ],
-                    }
-                ],
-                stats: [
-                    {
-                        action: "react",
-                        contents: [
-                            {
-                                value: "upvote",
-                                total: 11
-                            },
-                            {
-                                value: "downvote",
-                                total: 1
-                            },
-                            {
-                                value: "bullish",
-                                total: 2
-                            },
-                            {
-                                value: "bearish",
-                                total: 3
-                            },
-                            {
-                                value: "important",
-                                total: 6
-                            },
-                            {
-                                value: "scam",
-                                total: 3
-                            },
-                        ]
-                    },
-                    {
-                        action: "reply",
-                        total: 3
-                    }
-                ],
-            }
+            event: validPostWithNostrReplyToDmpEventConvertedToSpasmV2
         },
         // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
         {
@@ -461,87 +689,208 @@ export const validPostWithDmpEventSignedClosedConvertedToSpasmV2 = {
                     }
                 },
             ],
-            event: {
-                type: "SpasmEventV2",
-                parent: {
-                    ids: [
-                        {
-                            value: "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b",
-                            format: {
-                                name: "ethereum-sig",
-                            }
-                        }
-                    ]
-                },
-                db: {
-                    key: 401,
-                    addedTimestamp: toBeTimestamp("2024-02-17T05:48:00.076Z")
-                },
-                action: "reply",
-                content: "To the moon!",
-                timestamp: toBeTimestamp("2024-02-17T05:47:59.932Z"),
-                authors: [
-                    {
-                        addresses: [
-                            {
-                                value: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                                format: { name: "ethereum-pubkey" },
-                                verified: true
-                            }
-                        ]
-                    }
-                ],
-                license: "SPDX-License-Identifier: CC0-1.0",
-                ids: [
-                    {
-                        value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
-                        format: {
-                            name: "spasmid",
-                            version: "01"
-                        }
-                    },
-                    {
-                        value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                        format: {
-                            name: "ethereum-sig",
-                        }
-                    },
-                ],
-                signatures: [
-                    {
-                        value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                        pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                        format: { name: "ethereum-sig" }
-                    }
-                ],
-                siblings: [
-                    {
-                        type: "SiblingDmpSignedV2",
-                        protocol: {
-                            name: "dmp",
-                            version: "0.1.0"
-                        },
-                        signedString: "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}",
-                        ids: [
-                            {
-                                value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                                format: {
-                                    name: "ethereum-sig",
-                                }
-                            }
-                        ],
-                        signatures: [
-                            {
-                                value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
-                                pubkey: "0x49e8d02294e721ac47f6f4794625312b9005fd80",
-                                format: { name: "ethereum-sig" }
-                            }
-                        ]
-                    }
-                ]
-            }
+            event: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
         }
     ]
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        }
+    ]
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                }
+            ]
+        }
+    ]
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        }
+    ]
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        },
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        }
+    ]
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+    children: [
+        // convertToSpasm(validSpasmWithDmpReplyToDmpEventV0)
+        {
+            ids: [
+                {
+                    value: "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b",
+                    format: {
+                        name: "ethereum-sig",
+                    }
+                },
+            ],
+            event: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2
+        },
+        // convertToSpasm(validPostWithNostrReplyToDmpEvent)
+        {
+            ids: [
+                {
+                    value: "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0",
+                    format: {
+                        name: "spasmid",
+                        version: "01"
+                    }
+                },
+                {
+                    value: "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f",
+                    format: {
+                        name: "nostr-hex",
+                    }
+                },
+                {
+                    value: "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290",
+                    format: {
+                        name: "nostr-sig",
+                    }
+                }
+            ],
+            event: validPostWithNostrReplyToDmpEventConvertedToSpasmV2
+        }
+    ]
+};
+export const validDmpEventSignedOpenedConvertedToSpasmV2 = {
+    ...validDmpEventSignedClosedConvertedToSpasmV2,
+};
+export const validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = {
+    ...validPostWithDmpEventSignedClosedConvertedToSpasmV2,
+    source: {
+        name: "differentsource.space"
+    },
+};
+export const validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = {
+    type: "SpasmEventEnvelopeV2",
+    ids: validDmpEventSignedClosedConvertedToSpasmV2.ids,
+    siblings: validDmpEventSignedClosedConvertedToSpasmV2.siblings,
+    source: validPostWithDmpEventSignedClosedConvertedToSpasmV2.source,
+    db: validPostWithDmpEventSignedClosedConvertedToSpasmV2.db,
+    stats: validPostWithDmpEventSignedClosedConvertedToSpasmV2.stats
+};
+export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = {
+    ...validPostWithNostrReplyToDmpEventConvertedToSpasmV2,
+    parent: {
+        ids: validPostWithNostrReplyToDmpEventConvertedToSpasmV2.parent.ids,
+        event: validDmpEventSignedClosedConvertedToSpasmV2
+    }
 };
 // Post with event is essentially SpasmEventV0
 export const validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = validPostWithDmpEventSignedClosedConvertedToSpasmV2;
@@ -606,6 +955,18 @@ export const validNostrSpasmEventSignedOpened = {
     pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
     id: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
     sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+};
+export const validNostrSpasmEventSignedOpenedWithInvalidSignature = {
+    ...validNostrSpasmEventSignedOpened,
+    sig: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f2"
+};
+export const validNostrSpasmEventSignedOpenedWithInvalidContent = {
+    ...validNostrSpasmEventSignedOpened,
+    content: "Walled gardens became prisons, and Spasm is the second step towards tearing down the prison walls!"
+};
+export const validNostrSpasmEventSignedOpenedWithInvalidSigner = {
+    ...validNostrSpasmEventSignedOpened,
+    pubkey: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f43"
 };
 export const validPostWithNostrEventSignedOpened = {
     id: 6,

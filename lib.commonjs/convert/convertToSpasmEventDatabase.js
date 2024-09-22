@@ -5,6 +5,11 @@ const convertToSpasm_js_1 = require("./convertToSpasm.js");
 const utils_js_1 = require("./../utils/utils.js");
 // Spasm V2
 const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
+    // Already SpasmEventDatabaseV2
+    if ('type' in unknownEvent &&
+        unknownEvent.type === "SpasmEventDatabaseV2") {
+        return unknownEvent;
+    }
     // SpasmEventV2
     let spasmEventV2 = null;
     if ('type' in unknownEvent &&
@@ -38,7 +43,9 @@ const convertSpasmEventV2ToSpasmEventDatabaseV2 = (spasmEvent) => {
     //   spasmEventDatabase.root = spasmEvent.root
     // }
     if (spasmEvent.parent) {
-        // Only 'ids' and 'marker' of a parent are used for Spasm ID
+        // Only 'ids' and 'marker' of a parent event are saved in db
+        // to prevent saving duplicate data via recursive saving of
+        // event.parent.event.parent.event.parent, etc.
         const cleanParent = (0, utils_js_1.keepTheseKeysInObject)(spasmEvent.parent, ["ids", "marker"]);
         spasmEventDatabase.parent = cleanParent;
     }

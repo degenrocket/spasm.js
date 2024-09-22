@@ -2,6 +2,11 @@ import { convertToSpasm } from "./convertToSpasm.js";
 import { isObjectWithValues, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, } from "./../utils/utils.js";
 // Spasm V2
 export const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
+    // Already SpasmEventDatabaseV2
+    if ('type' in unknownEvent &&
+        unknownEvent.type === "SpasmEventDatabaseV2") {
+        return unknownEvent;
+    }
     // SpasmEventV2
     let spasmEventV2 = null;
     if ('type' in unknownEvent &&
@@ -34,7 +39,9 @@ export const convertSpasmEventV2ToSpasmEventDatabaseV2 = (spasmEvent) => {
     //   spasmEventDatabase.root = spasmEvent.root
     // }
     if (spasmEvent.parent) {
-        // Only 'ids' and 'marker' of a parent are used for Spasm ID
+        // Only 'ids' and 'marker' of a parent event are saved in db
+        // to prevent saving duplicate data via recursive saving of
+        // event.parent.event.parent.event.parent, etc.
         const cleanParent = keepTheseKeysInObject(spasmEvent.parent, ["ids", "marker"]);
         spasmEventDatabase.parent = cleanParent;
     }
