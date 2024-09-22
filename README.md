@@ -249,6 +249,8 @@ link
 
 - create unique Spasm ID for single-signed and multi-signed events
 
+- merge two Spasm events with the same Spasm ID
+
 ## Installation
 
 ```bash
@@ -264,6 +266,7 @@ Option 1. Import separate functions:
 ```js
 const {identifyObject} = require('spasm.js')
 const {convertToSpasm} = require('spasm.js')
+const {mergeSpasmEventsV2} = require('spasm.js')
 
 const event = {
   // some event
@@ -274,6 +277,11 @@ const info = identifyObject(event)
 
 // Convert to Spasm
 const spasmEvent = convertToSpasm(event)
+
+// Merge events into one event
+const spasmEvent = mergeSpasmEventsV2(
+  event, eventWithStats, eventWithComments
+)
 ```
 
 Option 2. Import all functions:
@@ -290,6 +298,11 @@ const info = spasm.identifyObject(event)
 
 // Convert to Spasm
 const spasmEvent = spasm.convertToSpasm(event)
+
+// Merge events into one event
+const spasmEvent = spasm.mergeSpasmEventsV2(
+  event, eventWithStats, eventWithComments
+)
 ```
 
 #### ESM (import)
