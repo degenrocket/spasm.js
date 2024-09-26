@@ -10,6 +10,29 @@ import {hasValue, isObjectWithValues} from "../utils/utils.js"
 import { convertToSpasm } from "./convertToSpasm.js"
 import { convertToSpasmEventEnvelope } from "./convertToSpasmEventEnvelope"
 
+export const convertManyToSpasmEventEnvelopeWithTree = (
+  unknownEvents: UnknownEventV2[],
+  envelopeVersion = "2.0.0"
+): SpasmEventEnvelopeWithTreeV2[] | null => {
+  try {
+    if (!unknownEvents) return null
+    if (!Array.isArray(unknownEvents)) return null
+    if (!hasValue(unknownEvents)) return null
+    const convertedEvents: SpasmEventEnvelopeWithTreeV2[] = []
+    unknownEvents.forEach(event => {
+      const convertedEvent = convertToSpasmEventEnvelopeWithTree(
+        event, envelopeVersion
+      )
+      if (convertedEvent) {convertedEvents.push(convertedEvent)}
+    })
+    if (!hasValue(convertedEvents)) return null
+    return convertedEvents
+  } catch (err) {
+    console.error(err);
+    return null
+  }
+}
+
 // Spasm V2
 export const convertToSpasmEventEnvelopeWithTree = (
   unknownEvent: UnknownEventV2,

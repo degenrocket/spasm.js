@@ -1,8 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertSpasmEventV2ToSpasmEventDatabaseV2 = exports.convertToSpasmEventDatabase = void 0;
+exports.convertSpasmEventV2ToSpasmEventDatabaseV2 = exports.convertToSpasmEventDatabase = exports.convertManyToSpasmEventDatabase = void 0;
 const convertToSpasm_js_1 = require("./convertToSpasm.js");
 const utils_js_1 = require("./../utils/utils.js");
+const convertManyToSpasmEventDatabase = (unknownEvents, dbVersion = "2.0.0") => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!(0, utils_js_1.hasValue)(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = (0, exports.convertToSpasmEventDatabase)(event, dbVersion);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!(0, utils_js_1.hasValue)(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+exports.convertManyToSpasmEventDatabase = convertManyToSpasmEventDatabase;
 // Spasm V2
 const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
     // Already SpasmEventDatabaseV2

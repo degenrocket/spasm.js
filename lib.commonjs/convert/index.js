@@ -1,16 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSpasmId = exports.convertToSpasmEventEnvelopeWithTree = exports.convertToSpasmEventEnvelope = exports.convertToSpasmEventDatabase = exports.convertToEventForSpasmid = exports.convertToSpasm = void 0;
+exports.getSpasmId = exports.convertToEventForSpasmid = exports.convertManyToSpasmEventEnvelopeWithTree = exports.convertToSpasmEventEnvelopeWithTree = exports.convertManyToSpasmEventEnvelope = exports.convertToSpasmEventEnvelope = exports.convertManyToSpasmEventDatabase = exports.convertToSpasmEventDatabase = exports.convertManyToSpasm = exports.convertToSpasm = void 0;
 var convertToSpasm_js_1 = require("./convertToSpasm.js");
 Object.defineProperty(exports, "convertToSpasm", { enumerable: true, get: function () { return convertToSpasm_js_1.convertToSpasm; } });
-var convertToEventForSpasmid_js_1 = require("./convertToEventForSpasmid.js");
-Object.defineProperty(exports, "convertToEventForSpasmid", { enumerable: true, get: function () { return convertToEventForSpasmid_js_1.convertToEventForSpasmid; } });
+Object.defineProperty(exports, "convertManyToSpasm", { enumerable: true, get: function () { return convertToSpasm_js_1.convertManyToSpasm; } });
 var convertToSpasmEventDatabase_js_1 = require("./convertToSpasmEventDatabase.js");
 Object.defineProperty(exports, "convertToSpasmEventDatabase", { enumerable: true, get: function () { return convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase; } });
+Object.defineProperty(exports, "convertManyToSpasmEventDatabase", { enumerable: true, get: function () { return convertToSpasmEventDatabase_js_1.convertManyToSpasmEventDatabase; } });
 var convertToSpasmEventEnvelope_js_1 = require("./convertToSpasmEventEnvelope.js");
 Object.defineProperty(exports, "convertToSpasmEventEnvelope", { enumerable: true, get: function () { return convertToSpasmEventEnvelope_js_1.convertToSpasmEventEnvelope; } });
+Object.defineProperty(exports, "convertManyToSpasmEventEnvelope", { enumerable: true, get: function () { return convertToSpasmEventEnvelope_js_1.convertManyToSpasmEventEnvelope; } });
 var convertToSpasmEventEnvelopeWithTree_js_1 = require("./convertToSpasmEventEnvelopeWithTree.js");
 Object.defineProperty(exports, "convertToSpasmEventEnvelopeWithTree", { enumerable: true, get: function () { return convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree; } });
+Object.defineProperty(exports, "convertManyToSpasmEventEnvelopeWithTree", { enumerable: true, get: function () { return convertToSpasmEventEnvelopeWithTree_js_1.convertManyToSpasmEventEnvelopeWithTree; } });
+var convertToEventForSpasmid_js_1 = require("./convertToEventForSpasmid.js");
+Object.defineProperty(exports, "convertToEventForSpasmid", { enumerable: true, get: function () { return convertToEventForSpasmid_js_1.convertToEventForSpasmid; } });
 var getSpasmId_js_1 = require("./getSpasmId.js");
 Object.defineProperty(exports, "getSpasmId", { enumerable: true, get: function () { return getSpasmId_js_1.getSpasmId; } });
 //# sourceMappingURL=index.js.map

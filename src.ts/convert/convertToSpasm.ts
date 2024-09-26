@@ -82,6 +82,27 @@ import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2'
 
 // const latestSpasmVersion = "2.0.0"
 
+export const convertManyToSpasm = (
+  unknownEvents: UnknownEventV2[],
+  customConfig?: CustomConvertToSpasmConfig
+): SpasmEventV2[] | null => {
+  try {
+    if (!unknownEvents) return null
+    if (!Array.isArray(unknownEvents)) return null
+    if (!hasValue(unknownEvents)) return null
+    const convertedEvents: SpasmEventV2[] = []
+    unknownEvents.forEach(event => {
+      const convertedEvent = convertToSpasm(event, customConfig)
+      if (convertedEvent) {convertedEvents.push(convertedEvent)}
+    })
+    if (!hasValue(convertedEvents)) return null
+    return convertedEvents
+  } catch (err) {
+    console.error(err);
+    return null
+  }
+}
+
 // Spasm V2
 export const convertToSpasm = (
   unknownEvent: UnknownEventV2,
@@ -271,6 +292,14 @@ export const standardizeSpasmEventAnyV2 = (
       //   event
       // )
     } else if (
+      event.type === "SpasmEventBodySignedClosedV2"
+    ) {
+      // TODO
+      // standardizedEvent =
+      //   standardizeSpasmEventBodySignedClosedV2(
+      //   event
+      // )
+    } else if (
       event.type === "SpasmEventEnvelopeV2"
     ) {
       standardizedEvent =
@@ -288,9 +317,6 @@ export const standardizeSpasmEventAnyV2 = (
       standardizedEvent =
         standardizeSpasmEventDatabaseV2(event, version)
       return standardizedEvent
-    } else if (
-      event.type === "SpasmEventBodySignedClosedV2"
-    ) {
     }
   }
 

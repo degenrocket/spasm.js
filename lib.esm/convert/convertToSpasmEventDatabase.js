@@ -1,5 +1,29 @@
 import { convertToSpasm } from "./convertToSpasm.js";
-import { isObjectWithValues, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, } from "./../utils/utils.js";
+import { hasValue, isObjectWithValues, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, } from "./../utils/utils.js";
+export const convertManyToSpasmEventDatabase = (unknownEvents, dbVersion = "2.0.0") => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!hasValue(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = convertToSpasmEventDatabase(event, dbVersion);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!hasValue(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
 // Spasm V2
 export const convertToSpasmEventDatabase = (unknownEvent, dbVersion = "2.0.0") => {
     // Already SpasmEventDatabaseV2

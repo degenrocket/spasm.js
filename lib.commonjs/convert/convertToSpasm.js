@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToSpasmStatus = exports.addFieldsFromEnvelopeSpasmEventV0_V2 = exports.standardizeSpasmWithRssItemV0_V2 = exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = exports.standardizeSpasmDmpEventSignedClosedV0_V2 = exports.standardizeNostrSpasmEventSignedOpenedV2 = exports.standardizeNostrEventSignedOpenedV2 = exports.standardizeNostrSpasmEventV2 = exports.standardizeNostrEventV2 = exports.standardizeDmpEventSignedOpenedV2 = exports.standardizeDmpEventSignedClosedV2 = exports.standardizeDmpEventV2 = exports.standardizeSpasmEventSiblingV2 = exports.standardizeSpasmEventEnvelopeV2 = exports.standardizeSpasmEventEnvelopeWithTreeV2 = exports.standardizeSpasmEventDatabaseV2 = exports.standardizeSpasmEventV2 = exports.standardizeNonSpasmEventV2 = exports.standardizeSpasmEventAnyV2 = exports.standardizeEventV2 = exports.assignSpasmId = exports.ifEventContainsMaliciousCode = exports.convertToSpasm = void 0;
+exports.convertToSpasmStatus = exports.addFieldsFromEnvelopeSpasmEventV0_V2 = exports.standardizeSpasmWithRssItemV0_V2 = exports.standardizeSpasmNostrSpasmEventSignedOpenedV0_V2 = exports.standardizeSpasmNostrEventSignedOpenedV0_V2 = exports.standardizeSpasmDmpEventSignedClosedV0_V2 = exports.standardizeNostrSpasmEventSignedOpenedV2 = exports.standardizeNostrEventSignedOpenedV2 = exports.standardizeNostrSpasmEventV2 = exports.standardizeNostrEventV2 = exports.standardizeDmpEventSignedOpenedV2 = exports.standardizeDmpEventSignedClosedV2 = exports.standardizeDmpEventV2 = exports.standardizeSpasmEventSiblingV2 = exports.standardizeSpasmEventEnvelopeV2 = exports.standardizeSpasmEventEnvelopeWithTreeV2 = exports.standardizeSpasmEventDatabaseV2 = exports.standardizeSpasmEventV2 = exports.standardizeNonSpasmEventV2 = exports.standardizeSpasmEventAnyV2 = exports.standardizeEventV2 = exports.assignSpasmId = exports.ifEventContainsMaliciousCode = exports.convertToSpasm = exports.convertManyToSpasm = void 0;
 const interfaces_js_1 = require("./../types/interfaces.js");
 const nostrUtils_js_1 = require("./../utils/nostrUtils.js");
 const utils_js_1 = require("./../utils/utils.js");
@@ -9,6 +9,31 @@ const getSpasmId_js_1 = require("./getSpasmId.js");
 const convertToSpasmEventEnvelopeWithTree_1 = require("./../convert/convertToSpasmEventEnvelopeWithTree");
 const nostr_tools_v2_1 = require("nostr-tools-v2");
 // const latestSpasmVersion = "2.0.0"
+const convertManyToSpasm = (unknownEvents, customConfig) => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!(0, utils_js_1.hasValue)(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = (0, exports.convertToSpasm)(event, customConfig);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!(0, utils_js_1.hasValue)(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+exports.convertManyToSpasm = convertManyToSpasm;
 // Spasm V2
 const convertToSpasm = (unknownEvent, customConfig) => {
     try {
@@ -142,6 +167,13 @@ const standardizeSpasmEventAnyV2 = (event, version = "2.0.0") => {
             //   event
             // )
         }
+        else if (event.type === "SpasmEventBodySignedClosedV2") {
+            // TODO
+            // standardizedEvent =
+            //   standardizeSpasmEventBodySignedClosedV2(
+            //   event
+            // )
+        }
         else if (event.type === "SpasmEventEnvelopeV2") {
             standardizedEvent =
                 (0, exports.standardizeSpasmEventEnvelopeV2)(event, version);
@@ -156,8 +188,6 @@ const standardizeSpasmEventAnyV2 = (event, version = "2.0.0") => {
             standardizedEvent =
                 (0, exports.standardizeSpasmEventDatabaseV2)(event, version);
             return standardizedEvent;
-        }
-        else if (event.type === "SpasmEventBodySignedClosedV2") {
         }
     }
     return null;

@@ -1,4 +1,5 @@
 import { KnownPostOrEventInfo, DmpEvent, DmpEventSignedClosed, DmpEventSignedOpened, NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, UnknownEventV1, UnknownEventV2, SpasmEventV2, SpasmEventSiblingV2, SpasmEventV0, CustomConvertToSpasmConfig, SpasmEventEnvelopeV2, SpasmEventAnyV2, SpasmEventEnvelopeWithTreeV2, SpasmEventDatabaseV2, CustomSanitizationConfig } from "./../types/interfaces.js";
+export declare const convertManyToSpasm: (unknownEvents: UnknownEventV2[], customConfig?: CustomConvertToSpasmConfig) => SpasmEventV2[] | null;
 export declare const convertToSpasm: (unknownEvent: UnknownEventV2, customConfig?: CustomConvertToSpasmConfig) => SpasmEventV2 | null;
 export declare const ifEventContainsMaliciousCode: (unknownEvent: UnknownEventV2, customConfig?: CustomSanitizationConfig) => Boolean;
 export declare const assignSpasmId: (spasmEventV2: SpasmEventV2, spasmIdVersions?: string[]) => SpasmEventV2 | null;

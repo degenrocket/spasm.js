@@ -1,8 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertSpasmEventV2ToSpasmEventEnvelopeV2 = exports.convertToSpasmEventEnvelope = void 0;
+exports.convertSpasmEventV2ToSpasmEventEnvelopeV2 = exports.convertToSpasmEventEnvelope = exports.convertManyToSpasmEventEnvelope = void 0;
 const utils_js_1 = require("../utils/utils.js");
 const convertToSpasm_js_1 = require("./convertToSpasm.js");
+const convertManyToSpasmEventEnvelope = (unknownEvents, envelopeVersion = "2.0.0") => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!(0, utils_js_1.hasValue)(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = (0, exports.convertToSpasmEventEnvelope)(event, envelopeVersion);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!(0, utils_js_1.hasValue)(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+exports.convertManyToSpasmEventEnvelope = convertManyToSpasmEventEnvelope;
 // Spasm V2
 const convertToSpasmEventEnvelope = (unknownEvent, envelopeVersion = "2.0.0") => {
     // Already SpasmEventEnvelopeV2

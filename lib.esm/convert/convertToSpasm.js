@@ -9,6 +9,30 @@ import { getSpasmId } from "./getSpasmId.js";
 import { convertToSpasmEventEnvelopeWithTree } from "./../convert/convertToSpasmEventEnvelopeWithTree";
 import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2';
 // const latestSpasmVersion = "2.0.0"
+export const convertManyToSpasm = (unknownEvents, customConfig) => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!hasValue(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = convertToSpasm(event, customConfig);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!hasValue(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
 // Spasm V2
 export const convertToSpasm = (unknownEvent, customConfig) => {
     try {
@@ -138,6 +162,13 @@ export const standardizeSpasmEventAnyV2 = (event, version = "2.0.0") => {
             //   event
             // )
         }
+        else if (event.type === "SpasmEventBodySignedClosedV2") {
+            // TODO
+            // standardizedEvent =
+            //   standardizeSpasmEventBodySignedClosedV2(
+            //   event
+            // )
+        }
         else if (event.type === "SpasmEventEnvelopeV2") {
             standardizedEvent =
                 standardizeSpasmEventEnvelopeV2(event, version);
@@ -152,8 +183,6 @@ export const standardizeSpasmEventAnyV2 = (event, version = "2.0.0") => {
             standardizedEvent =
                 standardizeSpasmEventDatabaseV2(event, version);
             return standardizedEvent;
-        }
-        else if (event.type === "SpasmEventBodySignedClosedV2") {
         }
     }
     return null;

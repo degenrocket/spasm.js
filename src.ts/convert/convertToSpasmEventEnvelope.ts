@@ -4,9 +4,32 @@ import {
   SpasmEventV2,
   UnknownEventV2
 } from "../types/interfaces.js"
-import {isObjectWithValues} from "../utils/utils.js"
+import {hasValue, isObjectWithValues} from "../utils/utils.js"
 
 import { convertToSpasm } from "./convertToSpasm.js"
+
+export const convertManyToSpasmEventEnvelope = (
+  unknownEvents: UnknownEventV2[],
+  envelopeVersion = "2.0.0"
+): SpasmEventEnvelopeV2[] | null => {
+  try {
+    if (!unknownEvents) return null
+    if (!Array.isArray(unknownEvents)) return null
+    if (!hasValue(unknownEvents)) return null
+    const convertedEvents: SpasmEventEnvelopeV2[] = []
+    unknownEvents.forEach(event => {
+      const convertedEvent = convertToSpasmEventEnvelope(
+        event, envelopeVersion
+      )
+      if (convertedEvent) {convertedEvents.push(convertedEvent)}
+    })
+    if (!hasValue(convertedEvents)) return null
+    return convertedEvents
+  } catch (err) {
+    console.error(err);
+    return null
+  }
+}
 
 // Spasm V2
 export const convertToSpasmEventEnvelope = (

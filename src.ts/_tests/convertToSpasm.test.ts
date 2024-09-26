@@ -50,14 +50,17 @@ import {
   // validPostWithNostrReplyToDmpEvent,
   validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent
 } from "./_events-data.js"
-import { convertToSpasm } from "./../convert/convertToSpasm.js"
+import { convertManyToSpasm, convertToSpasm } from "./../convert/convertToSpasm.js"
 import {
+  convertManyToSpasmEventEnvelope,
   convertToSpasmEventEnvelope
 } from "./../convert/convertToSpasmEventEnvelope.js"
 import {
+  convertManyToSpasmEventEnvelopeWithTree,
   convertToSpasmEventEnvelopeWithTree
 } from "../convert/convertToSpasmEventEnvelopeWithTree.js";
 import {
+  convertManyToSpasmEventDatabase,
   convertToSpasmEventDatabase
 } from "../convert/convertToSpasmEventDatabase";
 import {
@@ -169,6 +172,60 @@ describe("convertToSpasm() tests for DMP events", () => {
     expect(convertToSpasm(inputInvalid7)).toEqual(null);
     // expect(convertToSpasm(inputInvalid8)).toEqual(null);
     expect(convertToSpasm(inputInvalid9)).toEqual(null);
+  });
+});
+
+describe("convertMany... tests for different events", () => {
+  test("should convert DMP events to SpasmEventV2", () => {
+    const dmpInput = JSON.parse(JSON.stringify(validDmpEvent));
+    const dmpOutput = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
+    expect(convertManyToSpasm([
+      copyOf(dmpInput), copyOf(dmpInput), copyOf(dmpInput)
+    ])).toEqual([
+      copyOf(dmpOutput), copyOf(dmpOutput), copyOf(dmpOutput)
+    ]);
+  });
+  test("should convert different DMP and Nostr events to SpasmEventV2", () => {
+    const dmpInput = JSON.parse(JSON.stringify(validDmpEvent));
+    const nostrInput = JSON.parse(JSON.stringify(validNostrEventSignedOpened));
+    const dmpOutput = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
+    const nostrOutput = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
+    expect(convertManyToSpasm([
+      copyOf(dmpInput), copyOf(nostrInput), copyOf(dmpInput)
+    ])).toEqual([
+      copyOf(dmpOutput), copyOf(nostrOutput), copyOf(dmpOutput)
+    ]);
+  });
+  test("should convert DMP events to SpasmEventEnvelopeV2", () => {
+    const dmpInput = JSON.parse(JSON.stringify(validPostWithDmpEventSignedClosed));
+    const dmpOutput = JSON.parse(JSON.stringify(validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2));
+    expect(convertManyToSpasmEventEnvelope([
+      copyOf(dmpInput), copyOf(dmpInput), copyOf(dmpInput)
+    ])).toEqual([
+      copyOf(dmpOutput), copyOf(dmpOutput), copyOf(dmpOutput)
+    ]);
+  });
+  test("should convert different DMP and Nostr events to EnvelopeWithTree and then to SpasmEventV2", () => {
+    const dmpInput = JSON.parse(JSON.stringify(validDmpEvent));
+    const nostrInput = JSON.parse(JSON.stringify(validNostrEventSignedOpened));
+    const dmpOutput = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
+    const nostrOutput = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
+    const envelopesWithTree = convertManyToSpasmEventEnvelopeWithTree([
+      dmpInput, nostrInput
+    ])
+    expect(convertManyToSpasm(envelopesWithTree!))
+      .toEqual([copyOf(dmpOutput), copyOf(nostrOutput)]);
+  });
+  test("should convert different DMP and Nostr events to SpasmEventDatabaseV2 and then to SpasmEventV2", () => {
+    const dmpInput = JSON.parse(JSON.stringify(validDmpEvent));
+    const nostrInput = JSON.parse(JSON.stringify(validNostrEventSignedOpened));
+    const dmpOutput = JSON.parse(JSON.stringify(validDmpEventConvertedToSpasmEventV2));
+    const nostrOutput = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
+    const databaseEvents = convertManyToSpasmEventDatabase([
+      dmpInput, nostrInput
+    ])
+    expect(convertManyToSpasm(databaseEvents!))
+      .toEqual([copyOf(dmpOutput), copyOf(nostrOutput)]);
   });
 });
 
@@ -500,8 +557,8 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
   };
   const testDoubleConvertDatabase = (from: any, to: any, equal: boolean = true) => {
     const event = JSON.parse(JSON.stringify(from));
-    const spasmEnvelope = convertToSpasmEventDatabase(event, "2.0.0");
-    const input = convertToSpasm(spasmEnvelope as UnknownEventV2, convertConfigV2);
+    const spasmDatabase = convertToSpasmEventDatabase(event, "2.0.0");
+    const input = convertToSpasm(spasmDatabase as UnknownEventV2, convertConfigV2);
     const output = JSON.parse(JSON.stringify(to));
     if (equal) { 
       expect(input).toEqual(output);
@@ -515,7 +572,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
   });
 
   test("validDmpEvent, convertToSpasm(validDmpEvent, convertConfigV2)", () => {
-    testDoubleConvert(validDmpEvent, convertToSpasm(validDmpEvent, convertConfigV2))
+    testDoubleConvert(validDmpEvent, convertToSpasm(copyOf(validDmpEvent), convertConfigV2))
   });
 
   test("validDmpEvent, validDmpEventConvertedToSpasmEventV2", () => {
@@ -535,7 +592,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
   });
 
   test("validDmpEventSignedClosed, convertToSpasm(validDmpEventSignedClosed, convertConfigV2)", () => {
-    testDoubleConvert(validDmpEventSignedClosed, convertToSpasm(validDmpEventSignedClosed, convertConfigV2))
+    testDoubleConvert(validDmpEventSignedClosed, convertToSpasm(copyOf(validDmpEventSignedClosed), convertConfigV2))
   });
 
   test("validDmpEventSignedClosed, validDmpEventSignedClosedConvertedToSpasmV2", () => {
@@ -547,7 +604,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
   });
 
   test("validDmpEventSignedOpened, convertToSpasm(validDmpEventSignedOpened, convertConfigV2)", () => {
-    testDoubleConvert(validDmpEventSignedOpened, convertToSpasm(validDmpEventSignedOpened, convertConfigV2))
+    testDoubleConvert(validDmpEventSignedOpened, convertToSpasm(copyOf(validDmpEventSignedOpened), convertConfigV2))
   });
 
   test("validDmpEventSignedOpened, validDmpEventSignedOpenedConvertedToSpasmV2", () => {
@@ -564,11 +621,11 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
 
   test("multiple convertToSpasm for DmpEvent", () => {
     testDoubleConvert(
-      validDmpEventSignedOpenedConvertedToSpasmV2,
+      copyOf(validDmpEventSignedOpenedConvertedToSpasmV2),
       convertToSpasm(
         convertToSpasm(
           convertToSpasm(
-            validDmpEventSignedClosedConvertedToSpasmV2,
+            copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
             convertConfigV2
           ) as UnknownEventV2,
           convertConfigV2
@@ -607,11 +664,11 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
     testDoubleConvert(validNostrSpasmEventSignedOpened, validNostrSpasmEventSignedOpened, false);
     testDoubleConvert(validNostrSpasmEventSignedOpened, validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
     testDoubleConvert(
-      validNostrSpasmEventSignedOpened,
+      copyOf(validNostrSpasmEventSignedOpened),
       convertToSpasm(
         convertToSpasm(
           convertToSpasm(
-            validNostrSpasmEventSignedOpened,
+            copyOf(validNostrSpasmEventSignedOpened),
             convertConfigV2
           ) as UnknownEventV2,
           convertConfigV2

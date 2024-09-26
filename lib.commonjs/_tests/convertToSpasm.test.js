@@ -104,6 +104,59 @@ describe("convertToSpasm() tests for DMP events", () => {
         expect((0, convertToSpasm_js_1.convertToSpasm)(inputInvalid9)).toEqual(null);
     });
 });
+describe("convertMany... tests for different events", () => {
+    test("should convert DMP events to SpasmEventV2", () => {
+        const dmpInput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
+        expect((0, convertToSpasm_js_1.convertManyToSpasm)([
+            (0, utils_js_1.copyOf)(dmpInput), (0, utils_js_1.copyOf)(dmpInput), (0, utils_js_1.copyOf)(dmpInput)
+        ])).toEqual([
+            (0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(dmpOutput)
+        ]);
+    });
+    test("should convert different DMP and Nostr events to SpasmEventV2", () => {
+        const dmpInput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        const nostrInput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
+        const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
+        const nostrOutput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
+        expect((0, convertToSpasm_js_1.convertManyToSpasm)([
+            (0, utils_js_1.copyOf)(dmpInput), (0, utils_js_1.copyOf)(nostrInput), (0, utils_js_1.copyOf)(dmpInput)
+        ])).toEqual([
+            (0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(nostrOutput), (0, utils_js_1.copyOf)(dmpOutput)
+        ]);
+    });
+    test("should convert DMP events to SpasmEventEnvelopeV2", () => {
+        const dmpInput = JSON.parse(JSON.stringify(_events_data_js_1.validPostWithDmpEventSignedClosed));
+        const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2));
+        expect((0, convertToSpasmEventEnvelope_js_1.convertManyToSpasmEventEnvelope)([
+            (0, utils_js_1.copyOf)(dmpInput), (0, utils_js_1.copyOf)(dmpInput), (0, utils_js_1.copyOf)(dmpInput)
+        ])).toEqual([
+            (0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(dmpOutput)
+        ]);
+    });
+    test("should convert different DMP and Nostr events to EnvelopeWithTree and then to SpasmEventV2", () => {
+        const dmpInput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        const nostrInput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
+        const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
+        const nostrOutput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
+        const envelopesWithTree = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertManyToSpasmEventEnvelopeWithTree)([
+            dmpInput, nostrInput
+        ]);
+        expect((0, convertToSpasm_js_1.convertManyToSpasm)(envelopesWithTree))
+            .toEqual([(0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(nostrOutput)]);
+    });
+    test("should convert different DMP and Nostr events to SpasmEventDatabaseV2 and then to SpasmEventV2", () => {
+        const dmpInput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEvent));
+        const nostrInput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
+        const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
+        const nostrOutput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
+        const databaseEvents = (0, convertToSpasmEventDatabase_1.convertManyToSpasmEventDatabase)([
+            dmpInput, nostrInput
+        ]);
+        expect((0, convertToSpasm_js_1.convertManyToSpasm)(databaseEvents))
+            .toEqual([(0, utils_js_1.copyOf)(dmpOutput), (0, utils_js_1.copyOf)(nostrOutput)]);
+    });
+});
 // convertToSpasm() for Nostr events
 describe("convertToSpasm() tests for Nostr events", () => {
     // NostrEvent to V2
@@ -393,8 +446,8 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
     };
     const testDoubleConvertDatabase = (from, to, equal = true) => {
         const event = JSON.parse(JSON.stringify(from));
-        const spasmEnvelope = (0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(event, "2.0.0");
-        const input = (0, convertToSpasm_js_1.convertToSpasm)(spasmEnvelope, convertConfigV2);
+        const spasmDatabase = (0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(event, "2.0.0");
+        const input = (0, convertToSpasm_js_1.convertToSpasm)(spasmDatabase, convertConfigV2);
         const output = JSON.parse(JSON.stringify(to));
         if (equal) {
             expect(input).toEqual(output);
@@ -407,7 +460,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEvent, _events_data_js_1.validDmpEvent, false);
     });
     test("validDmpEvent, convertToSpasm(validDmpEvent, convertConfigV2)", () => {
-        testDoubleConvert(_events_data_js_1.validDmpEvent, (0, convertToSpasm_js_1.convertToSpasm)(_events_data_js_1.validDmpEvent, convertConfigV2));
+        testDoubleConvert(_events_data_js_1.validDmpEvent, (0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEvent), convertConfigV2));
     });
     test("validDmpEvent, validDmpEventConvertedToSpasmEventV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEvent, _events_data_js_1.validDmpEventConvertedToSpasmEventV2);
@@ -422,7 +475,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEventSignedClosed, _events_data_js_1.validDmpEventSignedClosed, false);
     });
     test("validDmpEventSignedClosed, convertToSpasm(validDmpEventSignedClosed, convertConfigV2)", () => {
-        testDoubleConvert(_events_data_js_1.validDmpEventSignedClosed, (0, convertToSpasm_js_1.convertToSpasm)(_events_data_js_1.validDmpEventSignedClosed, convertConfigV2));
+        testDoubleConvert(_events_data_js_1.validDmpEventSignedClosed, (0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed), convertConfigV2));
     });
     test("validDmpEventSignedClosed, validDmpEventSignedClosedConvertedToSpasmV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEventSignedClosed, _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
@@ -431,7 +484,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEventSignedOpened, _events_data_js_1.validDmpEventSignedOpened, false);
     });
     test("validDmpEventSignedOpened, convertToSpasm(validDmpEventSignedOpened, convertConfigV2)", () => {
-        testDoubleConvert(_events_data_js_1.validDmpEventSignedOpened, (0, convertToSpasm_js_1.convertToSpasm)(_events_data_js_1.validDmpEventSignedOpened, convertConfigV2));
+        testDoubleConvert(_events_data_js_1.validDmpEventSignedOpened, (0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpened), convertConfigV2));
     });
     test("validDmpEventSignedOpened, validDmpEventSignedOpenedConvertedToSpasmV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEventSignedOpened, _events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2);
@@ -443,7 +496,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvert(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2, _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
     });
     test("multiple convertToSpasm for DmpEvent", () => {
-        testDoubleConvert(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2, (0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2, convertConfigV2), convertConfigV2), convertConfigV2));
+        testDoubleConvert((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2), (0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2), convertConfigV2), convertConfigV2), convertConfigV2));
     });
     test("validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2, rest1", () => {
         const { children, ...rest1 } = _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2;
@@ -469,7 +522,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvert(_events_data_js_1.validNostrSpasmEvent, _events_data_js_1.validNostrSpasmEventConvertedToSpasmV2);
         testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpened, _events_data_js_1.validNostrSpasmEventSignedOpened, false);
         testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpened, _events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
-        testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpened, (0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)(_events_data_js_1.validNostrSpasmEventSignedOpened, convertConfigV2), convertConfigV2), convertConfigV2));
+        testDoubleConvert((0, utils_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened), (0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpened), convertConfigV2), convertConfigV2), convertConfigV2));
         testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidSignature, null);
         testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidSigner, null);
         testDoubleConvert(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidContent, null);

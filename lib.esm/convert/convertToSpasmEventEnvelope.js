@@ -1,5 +1,29 @@
-import { isObjectWithValues } from "../utils/utils.js";
+import { hasValue, isObjectWithValues } from "../utils/utils.js";
 import { convertToSpasm } from "./convertToSpasm.js";
+export const convertManyToSpasmEventEnvelope = (unknownEvents, envelopeVersion = "2.0.0") => {
+    try {
+        if (!unknownEvents)
+            return null;
+        if (!Array.isArray(unknownEvents))
+            return null;
+        if (!hasValue(unknownEvents))
+            return null;
+        const convertedEvents = [];
+        unknownEvents.forEach(event => {
+            const convertedEvent = convertToSpasmEventEnvelope(event, envelopeVersion);
+            if (convertedEvent) {
+                convertedEvents.push(convertedEvent);
+            }
+        });
+        if (!hasValue(convertedEvents))
+            return null;
+        return convertedEvents;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
 // Spasm V2
 export const convertToSpasmEventEnvelope = (unknownEvent, envelopeVersion = "2.0.0") => {
     // Already SpasmEventEnvelopeV2
