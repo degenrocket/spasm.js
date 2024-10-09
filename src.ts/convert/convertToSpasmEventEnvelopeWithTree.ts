@@ -1,14 +1,16 @@
 import {
   CustomConvertToSpasmConfig,
+  SpasmEventChildV2,
   SpasmEventEnvelopeV2,
+  SpasmEventEnvelopeWithTreeChildV2,
   SpasmEventEnvelopeWithTreeV2,
   SpasmEventV2,
   UnknownEventV2
 } from "../types/interfaces.js"
-import {hasValue, isObjectWithValues} from "../utils/utils.js"
+import {hasValue, isArrayWithValues, isObjectWithValues} from "../utils/utils.js"
 
 import { convertToSpasm } from "./convertToSpasm.js"
-import { convertToSpasmEventEnvelope } from "./convertToSpasmEventEnvelope"
+import { convertToSpasmEventEnvelope } from "./convertToSpasmEventEnvelope.js"
 
 export const convertManyToSpasmEventEnvelopeWithTree = (
   unknownEvents: UnknownEventV2[],
@@ -36,8 +38,20 @@ export const convertManyToSpasmEventEnvelopeWithTree = (
 // Spasm V2
 export const convertToSpasmEventEnvelopeWithTree = (
   unknownEvent: UnknownEventV2,
-  envelopeVersion = "2.0.0"
+  envelopeVersion = "2.0.0",
+  depth: number = 0,
+  maxDepth: number = 50
 ): SpasmEventEnvelopeWithTreeV2 | null => {
+  // Maximum recursion depth to prevent stack overflow
+  if (
+    typeof(depth) !== "number" ||
+    typeof(maxDepth) !== "number"
+  ) { return null }
+  const maxRecursionDepth = maxDepth ?? 10
+  if (depth > maxRecursionDepth) {
+    return null
+  }
+
   // Already SpasmEventEnvelopeV2
   if (
     'type' in unknownEvent &&
@@ -66,7 +80,7 @@ export const convertToSpasmEventEnvelopeWithTree = (
   if (envelopeVersion === "2.0.0") {
     const SpasmEventEnvelopeV2 =
       convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2(
-        spasmEventV2
+        spasmEventV2, envelopeVersion, depth, maxDepth
     )
     return SpasmEventEnvelopeV2
   }
@@ -74,14 +88,26 @@ export const convertToSpasmEventEnvelopeWithTree = (
   return null
 }
 
-// TODO add recursion maxDepth
 export const convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2 = (
-  spasmEvent: SpasmEventV2
+  spasmEvent: SpasmEventV2,
+  envelopeVersion = "2.0.0",
+  depth: number = 0,
+  maxDepth: number = 50
 ): SpasmEventEnvelopeWithTreeV2 | null => {
+  // Maximum recursion depth to prevent stack overflow
+  if (
+    typeof(depth) !== "number" ||
+    typeof(maxDepth) !== "number"
+  ) { return null }
+  const maxRecursionDepth = maxDepth ?? 10
+  if (depth > maxRecursionDepth) {
+    return null
+  }
 
   if (!isObjectWithValues(spasmEvent)) return null
   
   if (spasmEvent.type !== "SpasmEventV2") return null
+
 
   const spasmEventEnvelope: SpasmEventEnvelopeV2 | null = convertToSpasmEventEnvelope(spasmEvent)
 
@@ -103,7 +129,8 @@ export const convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2 = (
   ) {
     const parentEventAsSpasmEnvelopeWithTree =
       convertToSpasmEventEnvelopeWithTree(
-        spasmEvent.parent.event
+        spasmEvent.parent.event, envelopeVersion,
+        depth + 1, maxDepth
       )
     if (parentEventAsSpasmEnvelopeWithTree) {
       spasmEventEnvelopeWithTree.parent = {
@@ -124,7 +151,8 @@ export const convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2 = (
   ) {
     const rootEventAsSpasmEnvelopeWithTree =
       convertToSpasmEventEnvelopeWithTree(
-        spasmEvent.root.event
+        spasmEvent.root.event, envelopeVersion,
+        depth + 1, maxDepth
       )
     if (rootEventAsSpasmEnvelopeWithTree) {
       spasmEventEnvelopeWithTree.root = {
@@ -139,7 +167,34 @@ export const convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2 = (
     spasmEvent.children &&
     Array.isArray(spasmEvent.children)
   ) {
-    spasmEventEnvelopeWithTree.children = spasmEvent.children
+    const originalChildren: SpasmEventChildV2[] =
+      spasmEvent.children
+    const convertedChildren: SpasmEventEnvelopeWithTreeChildV2[] = []
+
+    originalChildren.forEach((originalChild) => {
+      if (
+        originalChild.event &&
+        isObjectWithValues(originalChild.event)
+      ) {
+        const convertedChildEvent: SpasmEventEnvelopeWithTreeV2 | null =
+          convertSpasmEventV2ToSpasmEventEnvelopeWithTreeV2(
+            originalChild.event, envelopeVersion,
+            depth + 1, maxDepth
+        )
+        if (
+          convertedChildEvent &&
+          isObjectWithValues(convertedChildEvent)
+        ) {
+          convertedChildren.push({
+            ...originalChild,
+            event: convertedChildEvent
+          })
+        }
+      }
+    })
+    if (isArrayWithValues(convertedChildren)) {
+      spasmEventEnvelopeWithTree.children = convertedChildren
+    }
   }
 
   return spasmEventEnvelopeWithTree

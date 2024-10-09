@@ -4,7 +4,7 @@ const _events_data_js_1 = require("./_events-data.js");
 const convertToSpasm_js_1 = require("./../convert/convertToSpasm.js");
 const convertToSpasmEventEnvelope_js_1 = require("./../convert/convertToSpasmEventEnvelope.js");
 const convertToSpasmEventEnvelopeWithTree_js_1 = require("../convert/convertToSpasmEventEnvelopeWithTree.js");
-const convertToSpasmEventDatabase_1 = require("../convert/convertToSpasmEventDatabase");
+const convertToSpasmEventDatabase_js_1 = require("../convert/convertToSpasmEventDatabase.js");
 const utils_js_1 = require("../utils/utils.js");
 describe("convertToSpasm tests", () => {
     test("should return true if true", () => {
@@ -150,7 +150,7 @@ describe("convertMany... tests for different events", () => {
         const nostrInput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpened));
         const dmpOutput = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventConvertedToSpasmEventV2));
         const nostrOutput = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
-        const databaseEvents = (0, convertToSpasmEventDatabase_1.convertManyToSpasmEventDatabase)([
+        const databaseEvents = (0, convertToSpasmEventDatabase_js_1.convertManyToSpasmEventDatabase)([
             dmpInput, nostrInput
         ]);
         expect((0, convertToSpasm_js_1.convertManyToSpasm)(databaseEvents))
@@ -446,7 +446,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
     };
     const testDoubleConvertDatabase = (from, to, equal = true) => {
         const event = JSON.parse(JSON.stringify(from));
-        const spasmDatabase = (0, convertToSpasmEventDatabase_1.convertToSpasmEventDatabase)(event, "2.0.0");
+        const spasmDatabase = (0, convertToSpasmEventDatabase_js_1.convertToSpasmEventDatabase)(event, "2.0.0");
         const input = (0, convertToSpasm_js_1.convertToSpasm)(spasmDatabase, convertConfigV2);
         const output = JSON.parse(JSON.stringify(to));
         if (equal) {
@@ -542,6 +542,7 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
     });
     test("converting events with comments to SpasmEventEnvelopeWithTreeV2 and then to SpasmEventV2", () => {
         testDoubleConvertWithTree(_events_data_js_1.validPostWithDmpEventSignedClosed, _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2);
+        testDoubleConvertWithTree([], null);
         testDoubleConvert(_events_data_js_1.validPostWithDmpEventSignedClosed, _events_data_js_1.validPostWithDmpEventSignedClosedConvertedToSpasmV2, false);
     });
     test("converting various events SpasmEventDatabaseV2 and then to SpasmEventV2", () => {
@@ -551,6 +552,74 @@ describe("convertToSpasm() tests for SpasmEventEnvelopeV2", () => {
         testDoubleConvertDatabase(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidSignature, null);
         testDoubleConvertDatabase(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidSigner, null);
         testDoubleConvertDatabase(_events_data_js_1.validNostrSpasmEventSignedOpenedWithInvalidContent, null);
+    });
+});
+describe("convertToSpasmEventEnvelopeWithTree() tests", () => {
+    test("convertToSpasmEventEnvelopeWithTree() should convert event with relatives", () => {
+        const envelopeWithTree = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren), "2.0.0");
+        expect(envelopeWithTree).not.toEqual(null);
+        expect(envelopeWithTree?.type).toStrictEqual("SpasmEventEnvelopeWithTreeV2");
+        expect(envelopeWithTree?.children?.length).toStrictEqual(2);
+        expect(envelopeWithTree?.children?.[0]?.event?.type).toStrictEqual("SpasmEventEnvelopeWithTreeV2");
+        expect(envelopeWithTree?.children?.[0]?.event?.ids).toStrictEqual((0, utils_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2).ids);
+        expect(envelopeWithTree).toStrictEqual((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren));
+        // Convert envelopeWithTree back to SpasmEvent
+        const convertConfigV2 = { to: { spasm: { version: "2.0.0" } } };
+        const envelopeWithTreeConvertedToSpasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(envelopeWithTree), convertConfigV2);
+        const spasmEvent = envelopeWithTreeConvertedToSpasmEventV2;
+        expect(spasmEvent).not.toEqual(null);
+        expect(spasmEvent?.type).toStrictEqual("SpasmEventV2");
+        expect(spasmEvent?.title).toStrictEqual("genesis");
+        expect("children" in spasmEvent).toStrictEqual(true);
+        expect(spasmEvent?.children?.length).toStrictEqual(2);
+        expect(spasmEvent?.children?.[0].event?.type)
+            .toStrictEqual("SpasmEventV2");
+        expect(spasmEvent?.children?.[1].event?.type)
+            .toStrictEqual("SpasmEventV2");
+        expect(spasmEvent?.children?.[0].event).toStrictEqual(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2);
+        // Testing max recursion with depth 0
+        const envelopeWithTreeMaxDepth0 = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren), "2.0.0", 0, 0);
+        expect(envelopeWithTreeMaxDepth0).not.toEqual(null);
+        expect(envelopeWithTreeMaxDepth0?.type)
+            .toStrictEqual("SpasmEventEnvelopeWithTreeV2");
+        expect("title" in envelopeWithTreeMaxDepth0)
+            .toStrictEqual(false);
+        expect("content" in envelopeWithTreeMaxDepth0)
+            .toStrictEqual(false);
+        expect("children" in envelopeWithTreeMaxDepth0)
+            .toStrictEqual(false);
+        // Testing max recursion with depth 1
+        const envelopeWithTreeMaxDepth1 = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren), "2.0.0", 0, 1);
+        expect(envelopeWithTreeMaxDepth1).not.toEqual(null);
+        expect(envelopeWithTreeMaxDepth1?.type)
+            .toStrictEqual("SpasmEventEnvelopeWithTreeV2");
+        expect("title" in envelopeWithTreeMaxDepth1)
+            .toStrictEqual(false);
+        expect("content" in envelopeWithTreeMaxDepth1)
+            .toStrictEqual(false);
+        expect("children" in envelopeWithTreeMaxDepth1)
+            .toStrictEqual(true);
+        expect(envelopeWithTreeMaxDepth1?.children?.[0]?.event?.type).toStrictEqual("SpasmEventEnvelopeWithTreeV2");
+        expect(envelopeWithTreeMaxDepth1?.children?.[0]?.event?.ids).toStrictEqual((0, utils_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2).ids);
+    });
+});
+describe("convertToSpasmEventEnvelope() tests", () => {
+    test("convertToSpasmEventEnvelope() should convert event with relatives", () => {
+        const envelope = (0, convertToSpasmEventEnvelope_js_1.convertToSpasmEventEnvelope)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren), "2.0.0");
+        expect(envelope).not.toEqual(null);
+        expect(envelope.type).toStrictEqual("SpasmEventEnvelopeV2");
+        expect("title" in envelope).toStrictEqual(false);
+        expect("content" in envelope).toStrictEqual(false);
+        expect("children" in envelope).toStrictEqual(false);
+        expect(envelope?.ids).toStrictEqual((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2.ids));
+        // Convert envelope back to SpasmEvent
+        const convertConfigV2 = { to: { spasm: { version: "2.0.0" } } };
+        const envelopeConvertedToSpasmEventV2 = (0, convertToSpasm_js_1.convertToSpasm)((0, utils_js_1.copyOf)(envelope), convertConfigV2);
+        const spasmEvent = envelopeConvertedToSpasmEventV2;
+        expect(spasmEvent).not.toEqual(null);
+        expect(spasmEvent?.type).toStrictEqual("SpasmEventV2");
+        expect(spasmEvent?.title).toStrictEqual("genesis");
+        expect("children" in spasmEvent).toStrictEqual(false);
     });
 });
 //# sourceMappingURL=convertToSpasm.test.js.map

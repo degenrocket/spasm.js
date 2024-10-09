@@ -267,6 +267,7 @@ Option 1. Import separate functions:
 const {identifyObject} = require('spasm.js')
 const {convertToSpasm} = require('spasm.js')
 const {mergeSpasmEventsV2} = require('spasm.js')
+const {mergeDifferentSpasmEventsV2} = require('spasm.js')
 
 const event = {
   // some event
@@ -279,9 +280,15 @@ const info = identifyObject(event)
 const spasmEvent = convertToSpasm(event)
 
 // Merge events into one event
-const spasmEvent = mergeSpasmEventsV2(
+const spasmEvent = mergeSpasmEventsV2([
   event, eventWithStats, eventWithComments
-)
+])
+
+// Merge different events
+const spasmEvents = mergeDifferentSpasmEventsV2([
+  event, eventWithStats, eventWithComments,
+  anotherEvent, anotherEventWithStats
+])
 ```
 
 Option 2. Import all functions:
@@ -300,9 +307,15 @@ const info = spasm.identifyObject(event)
 const spasmEvent = spasm.convertToSpasm(event)
 
 // Merge events into one event
-const spasmEvent = spasm.mergeSpasmEventsV2(
+const spasmEvent = spasm.mergeSpasmEventsV2([
   event, eventWithStats, eventWithComments
-)
+])
+
+// Merge different events
+const spasmEvents = spasm.mergeDifferentSpasmEventsV2([
+  event, eventWithStats, eventWithComments,
+  anotherEvent, anotherEventWithStats
+])
 ```
 
 #### ESM (import)
@@ -393,6 +406,38 @@ const signatures = spasm.getAllSignatures(event)
 ```
 
 ```js
+// Get a stat object of a specified action
+const stats = spasm.getStatByAction(event, "react")
+```
+
+```js
+// Get a total number of a specified action
+const stats = spasm.getTotalOfAction(event, "reply")
+```
+
+```js
+// Get a total number of a specified reaction
+const stats = spasm.getTotalOfReaction(event, "upvote")
+```
+
+```js
+// Get a total number of the most popular reaction
+const stats = spasm.getTotalOfMostPopularReaction(event)
+```
+
+```js
+// Get a total number of a react/reply action
+const stats = spasm.getTotalOfReact(event)
+const stats = spasm.getTotalOfReply(event)
+
+// aliases
+const stats = spasm.getTotalOfActionReact(event)
+const stats = spasm.getTotalOfReactAction(event)
+const stats = spasm.getTotalOfActionReply(event)
+const stats = spasm.getTotalOfReplyAction(event)
+```
+
+```js
 // Extract an ID from an event.
 const nostrId = spasm.getIdByFormat(event, { name: "nostr-hex" })
 
@@ -413,6 +458,29 @@ const spasmId = spasm.getSpasmId(event)
 ```
 
 ```js
+const ifEventHasThisId = spasm.checkIfEventHasThisId(
+  event, "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+)
+```
+
+```js
+const event = spasm.getEventById(
+  [ event1, event2, event3 ],
+  "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+)
+```
+
+```js
+const events = spasm.getEventsByIds(
+  [ event1, event2, event3 ],
+  [
+    "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+    "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+  ]
+)
+```
+
+```js
 // Convert an event to SpasmEventV2 only if
 // it's not SpasmEventV2 yet.
 const spasmEventV2 = toBeSpasmEventV2(event)
@@ -422,6 +490,34 @@ const spasmEventV2 = toBeSpasmEventV2(event)
 // verify all the signatures and sanitize nested strings.
 // After that you can use toBeSpasmEventV2() in each
 // function to minimize computational load.
+```
+
+```js
+// Merge event children
+const mergedChildren = mergedChildrenV2(children1, children2)
+```
+
+```js
+// Add events (root, parent, children) to event's tree
+const eventWithTree = addEventsToTree(mainEvent, relatives)
+
+// Attaching events as relatives to event's tree
+const eventWithRoot = attachEventAsRoot(mainEvent, root)
+const eventWithParent = attachEventAsParent(mainEvent, parent)
+const eventWithChildren = attachEventAsChild(mainEvent, child)
+```
+
+```js
+// Check if arrays have common IDs
+const ifCommonId = ifArraysHaveCommonId(array1, array2)
+
+// Example of finding whether events are relatives
+// and then attaching event as a root
+const event1RootIds = getAllRootIds(event1)
+const event2Ids = getAllEventIds(event2)
+if (ifArraysHaveCommonId(event1RootIds, event2Ids)) {
+  treeEventV2 = attachEventAsRoot(event1, event2)
+}
 ```
 
 ## Examples

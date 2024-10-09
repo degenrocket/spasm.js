@@ -7,6 +7,7 @@ import {
   SpasmEventV0,
   EventForSpasmid01,
   SpasmEventEnvelopeV2,
+  SpasmEventEnvelopeWithTreeV2,
   // SpasmEventBodyV2,
   // SpasmEventEnvelopeV2,
   // SpasmEventEnvelopeWithTreeV2,
@@ -191,7 +192,6 @@ export const validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2: SpasmEve
   ]
 }
 
-
 export const validNostrReplyToDmpEvent: NostrSpasmEventSignedOpened = {
     kind: 1,
     created_at: 1708153412,
@@ -246,7 +246,8 @@ export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2: SpasmEventV2 =
   },
   db: {
     key: 5,
-    addedTimestamp: toBeTimestamp("2024-01-18T02:37:40.712Z")
+    addedTimestamp: 1705545460712
+    // addedTimestamp: toBeTimestamp("2024-01-18T02:37:40.712Z")
   },
   action: "reply",
   content: "To the SPASM!",
@@ -285,13 +286,6 @@ export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2: SpasmEventV2 =
         name: "nostr-sig",
       }
     }
-    // {
-    //   value: "spasmid01xyz",
-    //   format: {
-    //     name: "spasmid",
-    //     version: "01"
-    //   }
-    // }
   ],
   signatures: [
     {
@@ -322,13 +316,6 @@ export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2: SpasmEventV2 =
             name: "nostr-sig",
           }
         }
-        // {
-        //   value: "spasmid01xyz",
-        //   format: {
-        //     name: "spasmid",
-        //     version: "01"
-        //   }
-        // }
       ],
       signatures: [
         {
@@ -372,65 +359,6 @@ export const validPostWithNostrReplyToDmpEventConvertedToSpasmV2: SpasmEventV2 =
     {
       action: "reply",
       total: 3
-    }
-  ]
-}
-
-export const validPostWithDmpEventSignedClosed: Post = {
-  id: 1337,
-  target: validDmpEvent.target,
-  action: validDmpEvent.action,
-  title: validDmpEvent.title,
-  text: validDmpEvent.text,
-  signer: validDmpEventSignedClosed.signer,
-  signed_message: JSON.stringify(validDmpEvent),
-  signature: validDmpEventSignedClosed.signature,
-  signed_time: validDmpEvent.time,
-  added_time: "2022-01-01T22:04:46.195Z",
-  // category: "privacy",
-  source: "degenrocket.space",
-  tags: null,
-  tickers: null,
-  upvote: 8,
-  downvote: 0,
-  bullish: 5,
-  bearish: 0,
-  important: 6,
-  scam: 0,
-  comments_count: 3,
-  latest_action_added_time: "2023-01-01T22:04:46.195Z",
-  children: [
-    validPostWithNostrReplyToDmpEvent,
-    validSpasmWithDmpReplyToDmpEventV0
-  ]
-}
-
-export const validSpasmDmpEventSignedClosedV0 = validPostWithDmpEventSignedClosed
-
-export const validDmpEventConvertedToSpasmEventV2: SpasmEventV2 = {
-  type: "SpasmEventV2",
-  action: "post",
-  ids: [
-    {
-      value: "spasmid0103086d8c9881aa566b755d0b50fc0c80ab4362224860ee21859e658f64cca4c3",
-      format: {
-        name: "spasmid",
-        version: "01"
-      }
-    }
-  ],
-  title: "genesis",
-  content: "not your keys, not your words",
-  timestamp: 1641074686178,
-  license: "MIT",
-  siblings: [
-    {
-      type: "SiblingDmpV2",
-      protocol: {
-        name: "dmp",
-        version: "0.0.1"
-      },
-      signedString: JSON.stringify(validDmpEvent),
     }
   ]
 }
@@ -494,6 +422,86 @@ export const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2 = {
           format: { name: "ethereum-sig" }
         }
       ]
+    }
+  ]
+}
+
+
+export const validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives: SpasmEventEnvelopeWithTreeV2 = {"db": {"addedTimestamp": 1705545460712, "key": 5}, "ids": [{"format": {"name": "spasmid", "version": "01"}, "value": "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0"}, {"format": {"name": "nostr-hex"}, "value": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f"}, {"format": {"name": "nostr-sig"}, "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290"}], "siblings": [{"ids": [{"format": {"name": "nostr-hex"}, "value": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f"}, {"format": {"name": "nostr-sig"}, "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290"}], "originalObject": {"content": "To the SPASM!", "created_at": 1708153412, "id": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f", "kind": 1, "pubkey": "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42", "sig": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290", "tags": [["license", "SPDX-License-Identifier: CC0-1.0"], ["spasm_version", "1.0.0"], ["spasm_action", "reply"], ["spasm_target", "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b"]]}, "protocol": {"extraSpasmFieldsVersion": "1.0.0", "hasExtraSpasmFields": true, "name": "nostr"}, "signatures": [{"format": {"name": "nostr-sig"}, "pubkey": "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42", "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290"}], "type": "SiblingNostrSpasmSignedV2"}], "stats": [{"action": "react", "contents": [{"total": 11, "value": "upvote"}, {"total": 1, "value": "downvote"}, {"total": 2, "value": "bullish"}, {"total": 3, "value": "bearish"}, {"total": 6, "value": "important"}, {"total": 3, "value": "scam"}]}, {"action": "reply", "total": 3}], "type": "SpasmEventEnvelopeWithTreeV2"}
+
+export const validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives: SpasmEventEnvelopeWithTreeV2 = {"db": {"addedTimestamp": 1708148880076, "key": 401}, "ids": [{"format": {"name": "spasmid", "version": "01"}, "value": "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9"}, {"format": {"name": "ethereum-sig"}, "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b"}], "siblings": [{"ids": [{"format": {"name": "ethereum-sig"}, "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b"}], "protocol": {"name": "dmp", "version": "0.1.0"}, "signatures": [{"format": {"name": "ethereum-sig"}, "pubkey": "0x49e8d02294e721ac47f6f4794625312b9005fd80", "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b"}], "signedString": "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}", "type": "SiblingDmpSignedV2"}], "type": "SpasmEventEnvelopeWithTreeV2"}
+
+export const validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren: SpasmEventEnvelopeWithTreeV2 = {
+  type: "SpasmEventEnvelopeWithTreeV2",
+  ids: validDmpEventSignedClosedConvertedToSpasmV2.ids,
+  siblings: validDmpEventSignedClosedConvertedToSpasmV2.siblings,
+  children: [
+    {
+      ids: validPostWithNostrReplyToDmpEventConvertedToSpasmV2.ids,
+      event: validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives
+    },
+    {
+      event: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives,
+      ids: validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2.ids
+    }
+  ]
+}
+
+export const validPostWithDmpEventSignedClosed: Post = {
+  id: 1337,
+  target: validDmpEvent.target,
+  action: validDmpEvent.action,
+  title: validDmpEvent.title,
+  text: validDmpEvent.text,
+  signer: validDmpEventSignedClosed.signer,
+  signed_message: JSON.stringify(validDmpEvent),
+  signature: validDmpEventSignedClosed.signature,
+  signed_time: validDmpEvent.time,
+  added_time: "2022-01-01T22:04:46.195Z",
+  // category: "privacy",
+  source: "degenrocket.space",
+  tags: null,
+  tickers: null,
+  upvote: 8,
+  downvote: 0,
+  bullish: 5,
+  bearish: 0,
+  important: 6,
+  scam: 0,
+  comments_count: 3,
+  latest_action_added_time: "2023-01-01T22:04:46.195Z",
+  children: [
+    validPostWithNostrReplyToDmpEvent,
+    validSpasmWithDmpReplyToDmpEventV0
+  ]
+}
+
+export const validSpasmDmpEventSignedClosedV0 = validPostWithDmpEventSignedClosed
+
+export const validDmpEventConvertedToSpasmEventV2: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  action: "post",
+  ids: [
+    {
+      value: "spasmid0103086d8c9881aa566b755d0b50fc0c80ab4362224860ee21859e658f64cca4c3",
+      format: {
+        name: "spasmid",
+        version: "01"
+      }
+    }
+  ],
+  title: "genesis",
+  content: "not your keys, not your words",
+  timestamp: 1641074686178,
+  license: "MIT",
+  siblings: [
+    {
+      type: "SiblingDmpV2",
+      protocol: {
+        name: "dmp",
+        version: "0.0.1"
+      },
+      signedString: JSON.stringify(validDmpEvent),
     }
   ]
 }

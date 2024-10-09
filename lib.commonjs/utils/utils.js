@@ -23,8 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeEvent = exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isObjectWithValues = exports.hasValue = void 0;
-exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventV2 = exports.extractSpasmId01 = exports.extractIdByFormat = exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = exports.isAnySignerListedIn = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedSigners = void 0;
+exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeEvent = exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers = exports.isArrayOfNumbers = exports.isArrayOfStrings = exports.isArrayWithValues = exports.isObjectWithValues = exports.ifNumberOrString = exports.ifStringOrNumber = exports.isNumberOrString = exports.isStringOrNumber = exports.hasValue = void 0;
+exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.extractSpasmId01 = exports.extractIdByFormat = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = void 0;
+exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addEventsToTree = void 0;
 /*
  * Using sha256 from 'js-sha256' npm package, because
  * built-in 'crypto' module works only in a server-side
@@ -32,6 +33,7 @@ exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exp
  */
 const js_sha256_v0_1 = require("js-sha256-v0");
 const ethers_v6_1 = require("ethers-v6");
+const index_js_1 = require("./../utils/index.js");
 const DOMPurify = __importStar(require("isomorphic-dompurify-v2"));
 const interfaces_js_1 = require("./../types/interfaces.js");
 const convertToSpasm_js_1 = require("./../convert/convertToSpasm.js");
@@ -92,6 +94,19 @@ const hasValue = (el) => {
     return true;
 };
 exports.hasValue = hasValue;
+const isStringOrNumber = (val) => {
+    if (!val && val !== 0)
+        return false;
+    if (typeof (val) === "string")
+        return true;
+    if (typeof (val) === "number")
+        return true;
+    return false;
+};
+exports.isStringOrNumber = isStringOrNumber;
+exports.isNumberOrString = exports.isStringOrNumber;
+exports.ifStringOrNumber = exports.isStringOrNumber;
+exports.ifNumberOrString = exports.isStringOrNumber;
 const isObjectWithValues = (val) => {
     if (!val)
         return false;
@@ -104,6 +119,54 @@ const isObjectWithValues = (val) => {
     return true;
 };
 exports.isObjectWithValues = isObjectWithValues;
+const isArrayWithValues = (array) => {
+    if (!array)
+        return false;
+    if (!Array.isArray(array))
+        return false;
+    if (!(0, exports.hasValue)(array))
+        return false;
+    return true;
+};
+exports.isArrayWithValues = isArrayWithValues;
+const isArrayOfStrings = (array) => {
+    if (!array)
+        return false;
+    if (!Array.isArray(array))
+        return false;
+    if (array.length > 0 &&
+        array.every(element => typeof (element) === "string")) {
+        return true;
+    }
+    return false;
+};
+exports.isArrayOfStrings = isArrayOfStrings;
+const isArrayOfNumbers = (array) => {
+    if (!array)
+        return false;
+    if (!Array.isArray(array))
+        return false;
+    if (array.length > 0 &&
+        array.every(element => typeof (element) === "number")) {
+        return true;
+    }
+    return false;
+};
+exports.isArrayOfNumbers = isArrayOfNumbers;
+const isArrayOfStringsOrNumbers = (array) => {
+    if (!array)
+        return false;
+    if (!Array.isArray(array))
+        return false;
+    if (array.length > 0 &&
+        array.every(element => typeof (element) === "string" ||
+            typeof (element) === "number")) {
+        return true;
+    }
+    return false;
+};
+exports.isArrayOfStringsOrNumbers = isArrayOfStringsOrNumbers;
+exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers;
 const extractVersion = (versionString) => {
     if (!versionString ||
         typeof (versionString) !== "string")
@@ -1163,12 +1226,33 @@ const getAllSignatures = (unknownEvent, toLowerCase = true) => {
     return allSignatures;
 };
 exports.getAllSignatures = getAllSignatures;
-const getSignersListedIn = (unknownEvent, list) => {
+const getSignersListedIn = (unknownEvent, originaList) => {
     if (!(0, exports.isObjectWithValues)(unknownEvent))
         return [];
-    if (!list ||
-        !Array.isArray(list) ||
-        !(0, exports.hasValue)(list))
+    if (!originaList ||
+        !Array.isArray(originaList) ||
+        !(0, exports.hasValue)(originaList))
+        return [];
+    // Standardize list
+    // Convert npubs to hex
+    const list = [];
+    originaList.forEach(signer => {
+        if (
+        // Address is npub
+        signer && typeof (signer) === "string" &&
+            signer.startsWith("npub") &&
+            signer.length === 63) {
+            const signerHex = (0, index_js_1.toBeHex)(signer);
+            if (signerHex) {
+                list.push(signerHex);
+            }
+            // Address is not npub
+        }
+        else if ((0, exports.isStringOrNumber)(signer)) {
+            list.push(signer);
+        }
+    });
+    if (!(0, exports.isArrayOfStringsOrNumbers)(list))
         return [];
     let spasmEvent = null;
     // SpasmEventV2
@@ -1200,6 +1284,126 @@ const getSignersListedIn = (unknownEvent, list) => {
 };
 exports.getSignersListedIn = getSignersListedIn;
 exports.getPubkeysListedIn = exports.getSignersListedIn;
+const getStatByAction = (unknownEvent, action = "react") => {
+    if (!action || !exports.isStringOrNumber) {
+        return null;
+    }
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent || !(0, exports.isObjectWithValues)(spasmEvent)) {
+        return null;
+    }
+    if (!("stats" in spasmEvent) || !spasmEvent.stats) {
+        return null;
+    }
+    let spasmEventStat = null;
+    spasmEvent.stats?.forEach(stat => {
+        if ((0, exports.isObjectWithValues)(stat) &&
+            "action" in stat && stat.action &&
+            stat.action === action) {
+            spasmEventStat = stat;
+        }
+    });
+    return spasmEventStat;
+};
+exports.getStatByAction = getStatByAction;
+const getTotalOfReaction = (unknownEvent, reaction = "upvote") => {
+    if (!reaction || !exports.isStringOrNumber) {
+        return 0;
+    }
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent || !(0, exports.isObjectWithValues)(spasmEvent)) {
+        return 0;
+    }
+    const reactionStat = (0, exports.getStatByAction)(spasmEvent, "react");
+    if (!reactionStat) {
+        return 0;
+    }
+    if (!("contents" in reactionStat) || !reactionStat.contents ||
+        !(0, exports.isArrayWithValues)(reactionStat.contents)) {
+        return 0;
+    }
+    let total = 0;
+    reactionStat.contents.forEach(content => {
+        if ("value" in content && content.value &&
+            content.value === reaction &&
+            "total" in content && content.total) {
+            if (typeof (content.total) === "number") {
+                total = content.total;
+            }
+            else if (typeof (content.total) === "string") {
+                total = Number(content.total);
+            }
+        }
+    });
+    return total;
+};
+exports.getTotalOfReaction = getTotalOfReaction;
+const getTotalOfMostPopularReaction = (unknownEvent) => {
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent || !(0, exports.isObjectWithValues)(spasmEvent)) {
+        return 0;
+    }
+    const reactionStat = (0, exports.getStatByAction)(spasmEvent, "react");
+    if (!reactionStat) {
+        return 0;
+    }
+    if (!("contents" in reactionStat) || !reactionStat.contents ||
+        !(0, exports.isArrayWithValues)(reactionStat.contents)) {
+        return 0;
+    }
+    let total = 0;
+    reactionStat.contents.forEach(content => {
+        if ("total" in content && content.total) {
+            let newTotal = 0;
+            if (typeof (content.total) === "number") {
+                newTotal = content.total;
+            }
+            else if (typeof (content.total) === "string") {
+                newTotal = Number(content.total);
+            }
+            if (newTotal > total) {
+                total = newTotal;
+            }
+        }
+    });
+    return total;
+};
+exports.getTotalOfMostPopularReaction = getTotalOfMostPopularReaction;
+const getTotalOfAction = (unknownEvent, action = "reply") => {
+    if (!action || !exports.isStringOrNumber) {
+        return 0;
+    }
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent || !(0, exports.isObjectWithValues)(spasmEvent)) {
+        return 0;
+    }
+    const actionStat = (0, exports.getStatByAction)(spasmEvent, action);
+    if (!actionStat) {
+        return 0;
+    }
+    if ("total" in actionStat && actionStat.total) {
+        if (typeof (actionStat.total) === "number") {
+            return actionStat.total;
+        }
+        else if (typeof (actionStat.total) === "string") {
+            return Number(actionStat.total);
+        }
+    }
+    return 0;
+};
+exports.getTotalOfAction = getTotalOfAction;
+const getTotalOfReply = (unknownEvent) => {
+    return (0, exports.getTotalOfAction)(unknownEvent, "reply");
+};
+exports.getTotalOfReply = getTotalOfReply;
+exports.getTotalOfReplyAction = exports.getTotalOfReply;
+exports.getTotalOfActionReply = exports.getTotalOfReply;
+const getTotalOfReact = (unknownEvent) => {
+    return (0, exports.getTotalOfAction)(unknownEvent, "react");
+};
+exports.getTotalOfReact = getTotalOfReact;
+exports.getTotalOfReactAction = exports.getTotalOfReact;
+exports.getTotalOfActionReact = exports.getTotalOfReact;
 const isAnySignerListedIn = (unknownEvent, list) => {
     const signersListedIn = (0, exports.getSignersListedIn)(unknownEvent, list);
     if (signersListedIn &&
@@ -1298,6 +1502,98 @@ const getIdByFormat = (unknownEvent, customIdFormat) => {
     return idValue;
 };
 exports.getIdByFormat = getIdByFormat;
+const checkIfEventHasThisId = (unknownEvent, id, shortIdLength) => {
+    if (!id || !(0, exports.isStringOrNumber)(id)) {
+        return false;
+    }
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent || !(0, exports.isObjectWithValues)(spasmEvent)) {
+        return false;
+    }
+    const eventIds = (0, exports.getAllEventIds)(spasmEvent);
+    if (!eventIds || !(0, exports.isArrayWithValues)(eventIds)) {
+        return false;
+    }
+    // Short ID (not URL)
+    if (shortIdLength && typeof (shortIdLength) === "number" &&
+        shortIdLength > 15 && String(id) &&
+        String(id).length === shortIdLength &&
+        !(0, exports.isValidUrl)(id)) {
+        let ifMatch = false;
+        eventIds.forEach(eventId => {
+            if (String(eventId) && String(id) &&
+                String(eventId).startsWith(String(id))) {
+                ifMatch = true;
+            }
+        });
+        return ifMatch;
+        // Full ID
+    }
+    else {
+        if (eventIds.includes(id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+};
+exports.checkIfEventHasThisId = checkIfEventHasThisId;
+const getEventById = (unknownEvents, id, shortIdLength) => {
+    if (!id || !(0, exports.isStringOrNumber)(id)) {
+        return null;
+    }
+    const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
+    if (!spasmEvents || !spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return null;
+    const foundEvents = [];
+    spasmEvents.forEach(event => {
+        if ((0, exports.checkIfEventHasThisId)(event, id, shortIdLength)) {
+            foundEvents.push(event);
+        }
+    });
+    if (foundEvents && Array.isArray(foundEvents) &&
+        foundEvents.length === 1 &&
+        (0, exports.isObjectWithValues)(foundEvents[0])) {
+        return foundEvents[0];
+    }
+    else if (foundEvents && Array.isArray(foundEvents) &&
+        foundEvents.length > 1 &&
+        (0, exports.isArrayWithValues)(foundEvents)) {
+        const mergedEvent = (0, exports.mergeSpasmEventsV2)(foundEvents);
+        if (mergedEvent) {
+            return mergedEvent;
+        }
+    }
+    return null;
+};
+exports.getEventById = getEventById;
+const getEventsByIds = (unknownEvents, ids, shortIdLength) => {
+    if (!ids || !(0, exports.isArrayWithValues)(ids)) {
+        return null;
+    }
+    const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
+    if (!spasmEvents || !spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return null;
+    const foundEvents = [];
+    ids.forEach(id => {
+        spasmEvents.forEach(event => {
+            if ((0, exports.checkIfEventHasThisId)(event, id, shortIdLength)) {
+                foundEvents.push(event);
+            }
+        });
+    });
+    const mergedEvents = (0, exports.mergeDifferentSpasmEventsV2)(foundEvents);
+    if (mergedEvents && (0, exports.isArrayWithValues)(mergedEvents)) {
+        return mergedEvents;
+    }
+    else {
+        return null;
+    }
+};
+exports.getEventsByIds = getEventsByIds;
 exports.extractIdByFormat = exports.getIdByFormat;
 const extractSpasmId01 = (unknownEvent) => {
     return (0, exports.extractIdByFormat)(unknownEvent, { name: "spasmid", version: "01" });
@@ -1327,6 +1623,22 @@ const toBeSpasmEventV2 = (unknownEvent) => {
     return null;
 };
 exports.toBeSpasmEventV2 = toBeSpasmEventV2;
+const toBeSpasmEventsV2 = (unknownEvents) => {
+    if (!unknownEvents || !Array.isArray(unknownEvents))
+        return null;
+    let spasmEvents = [];
+    unknownEvents.forEach(event => {
+        const spasmEvent = (0, exports.toBeSpasmEventV2)(event);
+        if (spasmEvent && (0, exports.isObjectWithValues)(spasmEvent)) {
+            spasmEvents.push(spasmEvent);
+        }
+    });
+    if (!spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return null;
+    return spasmEvents;
+};
+exports.toBeSpasmEventsV2 = toBeSpasmEventsV2;
 const extractSignerFromEthereumSignature = (signedString, signature) => {
     try {
         if (signature && typeof (signature) === 'string') {
@@ -1678,6 +1990,152 @@ const mergeSpasmEventsV2 = (spasmEvents, depth = 0) => {
     return mainSpasmEvent;
 };
 exports.mergeSpasmEventsV2 = mergeSpasmEventsV2;
+const mergeDifferentSpasmEventsV2 = (unknownEvents, depth = 0) => {
+    const maxRecursionDepth = 50;
+    if (depth > maxRecursionDepth) {
+        throw new Error("Maximum recursion depth exceeded");
+    }
+    const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
+    if (!spasmEvents || !spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return null;
+    const uniqueIds = new Set();
+    const uniqueEvents = [];
+    const checkIfEventIsAlreadyInUnique = (event) => {
+        const allEventIds = (0, exports.getAllEventIds)(event);
+        let isAlreadyAdded = false;
+        if (allEventIds && Array.isArray(allEventIds)) {
+            allEventIds.forEach(id => {
+                if (uniqueIds.has(id)) {
+                    isAlreadyAdded = true;
+                }
+            });
+        }
+        return isAlreadyAdded;
+    };
+    spasmEvents?.forEach(event => {
+        // Spasm events might have multiple IDs so we need to use
+        // flags below to avoid redoing the same actions.
+        let isEventAddedToUnique = false;
+        const isEventAlreadyInUnique = checkIfEventIsAlreadyInUnique(event);
+        let isEventMerged = false;
+        // TODO check if other IDs of an event
+        // are not in uniqueIds
+        if ('ids' in event && event.ids &&
+            Array.isArray(event.ids)) {
+            event.ids.forEach(id => {
+                if ("value" in id && id.value &&
+                    (typeof (id.value) === "string" ||
+                        typeof (id.value) === "number")) {
+                    if (!uniqueIds.has(id.value) &&
+                        !isEventAlreadyInUnique) {
+                        uniqueIds.add(id.value);
+                        if (!isEventAddedToUnique) {
+                            uniqueEvents.push(event);
+                            isEventAddedToUnique = true;
+                        }
+                    }
+                    else if (uniqueIds.has(id.value)) {
+                        if (!isEventAddedToUnique && !isEventMerged) {
+                            // find unique event with same ID and merge
+                            uniqueEvents.forEach((uniqueEvent, uniqueEventIndex) => {
+                                if ('ids' in uniqueEvent && uniqueEvent.ids &&
+                                    Array.isArray(uniqueEvent.ids)) {
+                                    uniqueEvent.ids.forEach(uniqueEventId => {
+                                        if ("value" in uniqueEventId &&
+                                            uniqueEventId.value &&
+                                            (typeof (uniqueEventId.value) === "string" ||
+                                                typeof (uniqueEventId.value) === "number")) {
+                                            if (uniqueEventId.value === id.value) {
+                                                const mergedEvent = (0, exports.mergeSpasmEventsV2)([
+                                                    uniqueEvent, event, depth
+                                                ]);
+                                                if (mergedEvent) {
+                                                    uniqueEvents[uniqueEventIndex] =
+                                                        mergedEvent;
+                                                    isEventMerged = true;
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
+    if (uniqueEvents && Array.isArray(uniqueEvents) &&
+        uniqueEvents[0] &&
+        (0, exports.isObjectWithValues)(uniqueEvents[0])) {
+        return uniqueEvents;
+    }
+    else {
+        return null;
+    }
+};
+exports.mergeDifferentSpasmEventsV2 = mergeDifferentSpasmEventsV2;
+const sortSpasmEventsV2ByDbAddedTimestamp = (unknownEvents, order = "desc") => {
+    const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
+    if (!spasmEvents || !spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return null;
+    try {
+        const spasmEventsWithDbTimestamp = [];
+        const spasmEventsWithoutDbTimestamp = [];
+        // Events without db.addedTimestamp are moved into a separate
+        // array which is joined with the sorted array at the end.
+        spasmEvents.forEach(event => {
+            if ('db' in event && event.db &&
+                'addedTimestamp' in event.db &&
+                event.db.addedTimestamp &&
+                typeof (event.db.addedTimestamp) === "number") {
+                spasmEventsWithDbTimestamp.push(event);
+            }
+            else {
+                spasmEventsWithoutDbTimestamp.push(event);
+            }
+        });
+        spasmEventsWithDbTimestamp.sort((a, b) => {
+            if (a.db?.addedTimestamp && b.db?.addedTimestamp) {
+                if (order === "desc") {
+                    const result = String(b.db.addedTimestamp)
+                        .localeCompare(String(a.db.addedTimestamp));
+                    return result;
+                }
+                else if (order === "asc") {
+                    const result = String(a.db.addedTimestamp)
+                        .localeCompare(String(b.db.addedTimestamp));
+                    return result;
+                }
+            }
+            // Ideally, return 1 should never happen because we've
+            // filtered out events without db.addedTimestamp above.
+            // In case if we missed some scenarios,
+            // then 'return 1' should push an element without
+            // db.addedTimestamp to the end of the array,
+            // but it can still mess up the sorting.
+            return 1;
+        });
+        const sortedSpasmEvents = [
+            ...spasmEventsWithDbTimestamp,
+            ...spasmEventsWithoutDbTimestamp
+        ];
+        if ((0, exports.isArrayWithValues)(sortedSpasmEvents)) {
+            return sortedSpasmEvents;
+        }
+        else {
+            return null;
+        }
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+exports.sortSpasmEventsV2ByDbAddedTimestamp = sortSpasmEventsV2ByDbAddedTimestamp;
+exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp;
 const ifEventsHaveSameSpasmId01 = (event1, event2) => {
     if (!event1 || !event2)
         return false;
@@ -1812,8 +2270,8 @@ const mergeChildrenV2 = (allChildren, depth = 0) => {
         return null;
     if (!allChildren[0])
         return null;
-    if (!allChildren[0][0])
-        return null;
+    // The first array might be empty
+    // if (!allChildren[0][0]) return null
     const mainChildren = allChildren[0];
     const mainChildrenIds = new Set();
     mainChildren?.forEach(mainChild => {
@@ -1910,4 +2368,164 @@ const mergeChildrenV2 = (allChildren, depth = 0) => {
     return mainChildren;
 };
 exports.mergeChildrenV2 = mergeChildrenV2;
+const addEventsToTree = (unknownEvent, unknownEvents) => {
+    if (!unknownEvent)
+        return null;
+    let treeEventV2 = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!treeEventV2 || !(0, exports.isObjectWithValues)(treeEventV2))
+        return null;
+    if (!unknownEvents)
+        return treeEventV2;
+    const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
+    if (!spasmEvents || !spasmEvents[0] ||
+        !(0, exports.isObjectWithValues)(spasmEvents[0]))
+        return treeEventV2;
+    const treeRootIds = (0, exports.getAllRootIds)(treeEventV2);
+    const treeParentIds = (0, exports.getAllParentIds)(treeEventV2);
+    const treeIds = (0, exports.getAllEventIds)(treeEventV2);
+    spasmEvents.forEach(event => {
+        if (event && (0, exports.isObjectWithValues)(event)) {
+            // const eventRootIds = getAllRootIds(event)
+            const eventParentIds = (0, exports.getAllParentIds)(event);
+            const eventIds = (0, exports.getAllEventIds)(event);
+            // Attach to tree as a root event
+            if ((0, exports.ifArraysHaveCommonId)(treeRootIds, eventIds)) {
+                if (treeEventV2) {
+                    treeEventV2 = (0, exports.attachEventAsRoot)(treeEventV2, event);
+                }
+                // Attach to tree as a parent event
+            }
+            else if ((0, exports.ifArraysHaveCommonId)(treeParentIds, eventIds)) {
+                if (treeEventV2) {
+                    treeEventV2 = (0, exports.attachEventAsParent)(treeEventV2, event);
+                }
+                // Attach to tree as a child event
+            }
+            else if ((0, exports.ifArraysHaveCommonId)(treeIds, eventParentIds)) {
+                if (treeEventV2) {
+                    treeEventV2 = (0, exports.attachEventAsChild)(treeEventV2, event);
+                }
+            }
+        }
+    });
+    if (treeEventV2 && (0, exports.isObjectWithValues)(treeEventV2)) {
+        return treeEventV2;
+    }
+    else {
+        return null;
+    }
+};
+exports.addEventsToTree = addEventsToTree;
+const ifArraysHaveCommonId = (array1, array2) => {
+    if (!array1 || !(0, exports.isArrayOfStringsOrNumbers)(array1))
+        return false;
+    if (!array2 || !(0, exports.isArrayOfStringsOrNumbers)(array2))
+        return false;
+    let ifCommonValue = false;
+    array1.forEach(value => {
+        if (array2.includes(value)) {
+            ifCommonValue = true;
+        }
+    });
+    return ifCommonValue;
+};
+exports.ifArraysHaveCommonId = ifArraysHaveCommonId;
+const attachEventAsChild = (unknownMainEvent, unknownChildEvent) => {
+    if (!unknownMainEvent)
+        return null;
+    const mainSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownMainEvent);
+    if (!mainSpasmEvent || !(0, exports.isObjectWithValues)(mainSpasmEvent))
+        return null;
+    if (!unknownChildEvent)
+        return mainSpasmEvent;
+    const childSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownChildEvent);
+    if (!childSpasmEvent || !(0, exports.isObjectWithValues)(childSpasmEvent))
+        return mainSpasmEvent;
+    const child = { event: childSpasmEvent };
+    if (childSpasmEvent.ids &&
+        (0, exports.isArrayWithValues)(childSpasmEvent.ids)) {
+        child.ids = childSpasmEvent.ids;
+    }
+    // Create children key if it doesn't exist
+    mainSpasmEvent.children ??= [];
+    const mergedChildren = (0, exports.mergeChildrenV2)([
+        mainSpasmEvent.children, [child]
+    ]);
+    if (mergedChildren) {
+        mainSpasmEvent.children = mergedChildren;
+    }
+    if (mainSpasmEvent && (0, exports.isObjectWithValues)(mainSpasmEvent)) {
+        return mainSpasmEvent;
+    }
+    else {
+        return null;
+    }
+};
+exports.attachEventAsChild = attachEventAsChild;
+const attachEventAsRoot = (unknownMainEvent, unknownRootEvent) => {
+    if (!unknownMainEvent)
+        return null;
+    const mainSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownMainEvent);
+    if (!mainSpasmEvent || !(0, exports.isObjectWithValues)(mainSpasmEvent))
+        return null;
+    if (!unknownRootEvent)
+        return mainSpasmEvent;
+    const rootSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownRootEvent);
+    if (!rootSpasmEvent || !(0, exports.isObjectWithValues)(rootSpasmEvent))
+        return mainSpasmEvent;
+    if (mainSpasmEvent.root) {
+        if (!mainSpasmEvent.root.event) {
+            mainSpasmEvent.root.event = rootSpasmEvent;
+        }
+        else if (mainSpasmEvent.root.event &&
+            (0, exports.isObjectWithValues)(mainSpasmEvent.root.event)) {
+            const mergedRootEvent = (0, exports.mergeSpasmEventsV2)([
+                mainSpasmEvent.root.event, rootSpasmEvent
+            ]);
+            if (mergedRootEvent) {
+                mainSpasmEvent.root.event = mergedRootEvent;
+            }
+        }
+    }
+    if (mainSpasmEvent && (0, exports.isObjectWithValues)(mainSpasmEvent)) {
+        return mainSpasmEvent;
+    }
+    else {
+        return null;
+    }
+};
+exports.attachEventAsRoot = attachEventAsRoot;
+const attachEventAsParent = (unknownMainEvent, unknownParentEvent) => {
+    if (!unknownMainEvent)
+        return null;
+    const mainSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownMainEvent);
+    if (!mainSpasmEvent || !(0, exports.isObjectWithValues)(mainSpasmEvent))
+        return null;
+    if (!unknownParentEvent)
+        return mainSpasmEvent;
+    const parentSpasmEvent = (0, exports.toBeSpasmEventV2)(unknownParentEvent);
+    if (!parentSpasmEvent || !(0, exports.isObjectWithValues)(parentSpasmEvent))
+        return mainSpasmEvent;
+    if (mainSpasmEvent.parent) {
+        if (!mainSpasmEvent.parent.event) {
+            mainSpasmEvent.parent.event = parentSpasmEvent;
+        }
+        else if (mainSpasmEvent.parent.event &&
+            (0, exports.isObjectWithValues)(mainSpasmEvent.parent.event)) {
+            const mergedParentEvent = (0, exports.mergeSpasmEventsV2)([
+                mainSpasmEvent.parent.event, parentSpasmEvent
+            ]);
+            if (mergedParentEvent) {
+                mainSpasmEvent.parent.event = mergedParentEvent;
+            }
+        }
+    }
+    if (mainSpasmEvent && (0, exports.isObjectWithValues)(mainSpasmEvent)) {
+        return mainSpasmEvent;
+    }
+    else {
+        return null;
+    }
+};
+exports.attachEventAsParent = attachEventAsParent;
 //# sourceMappingURL=utils.js.map

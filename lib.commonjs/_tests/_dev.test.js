@@ -7,22 +7,11 @@ const utils_js_1 = require("../utils/utils.js");
 //   SpasmEventV2
 // } from "../types/interfaces.js";
 describe("convertToSpasm() tests for events with parent and root events", () => {
-    test("mergeSpasmEventsV2() should merge events with children", () => {
-        // const event1WithoutChildren = validDmpEventSignedClosedConvertedToSpasmV2
-        const event1WithOneChild = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild;
-        const event1WithAnotherChild = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild;
-        const event1WithBothChildren = _events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren;
-        // const test = mergeSpasmEventsV2([
-        //   copyOf(event1WithOneChild),
-        //   copyOf(event1WithAnotherChild)
-        // ])
-        // console.log("test:", test)
-        // console.log("test.children:", test.children)
-        expect((0, utils_js_1.mergeSpasmEventsV2)([
-            (0, utils_js_1.copyOf)(event1WithOneChild),
-            (0, utils_js_1.copyOf)(event1WithAnotherChild)
-        ])).toStrictEqual((0, utils_js_1.copyOf)(event1WithBothChildren));
-        // ])).not.toEqual(copyOf(event1WithBothChildren));
+    test("addEventsToTree() should add one comment to an event with a child without an event", () => {
+        expect((0, utils_js_1.addEventsToTree)((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent), [
+            (0, utils_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+            (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2)
+        ])).toStrictEqual((0, utils_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse));
     });
 });
 //# sourceMappingURL=_dev.test.js.map

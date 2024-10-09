@@ -6,7 +6,7 @@ toBeHex } from "./../utils/nostrUtils.js";
 import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature, sanitizeEvent, mergeConfigs, extractSignerFromEthereumSignature, extractIdByFormat, mergeSanitizationConfigs, mergeSpasmEventsV2 } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 import { getSpasmId } from "./getSpasmId.js";
-import { convertToSpasmEventEnvelopeWithTree } from "./../convert/convertToSpasmEventEnvelopeWithTree";
+import { convertToSpasmEventEnvelopeWithTree } from "./../convert/convertToSpasmEventEnvelopeWithTree.js";
 import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2';
 // const latestSpasmVersion = "2.0.0"
 export const convertManyToSpasm = (unknownEvents, customConfig) => {

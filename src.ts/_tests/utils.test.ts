@@ -1,6 +1,13 @@
 // import {SpasmEventAuthorV2} from '../types/interfaces';
 import {convertToSpasm} from '../convert/convertToSpasm.js';
-import {ConvertToSpasmConfig, CustomConvertToSpasmConfig, SpasmEventIdV2, SpasmEventStatV2, SpasmEventV2, UnknownEventV2} from '../types/interfaces.js';
+import {
+  ConvertToSpasmConfig,
+  CustomConvertToSpasmConfig,
+  SpasmEventIdV2,
+  SpasmEventStatV2,
+  SpasmEventV2,
+  UnknownEventV2
+} from '../types/interfaces.js';
 import {
   isObjectWithValues,
   getFormatFromId, getFormatFromAddress, getFormatFromValue,
@@ -40,8 +47,24 @@ import {
   extractIdByFormat,
   extractSpasmId01,
   mergeSpasmEventsV2,
+  mergeDifferentSpasmEventsV2,
   copyOf,
-  mergeStatsV2
+  mergeStatsV2,
+  sortSpasmEventsV2ByDbAddedTimestamp,
+  getStatByAction,
+  getTotalOfReaction,
+  getTotalOfMostPopularReaction,
+  getTotalOfReply,
+  getTotalOfAction,
+  getTotalOfActionReply,
+  getTotalOfReplyAction,
+  getTotalOfReact,
+  checkIfEventHasThisId,
+  getEventById,
+  getEventsByIds,
+  isArrayOfStringsOrNumbers,
+  ifArraysHaveCommonId,
+  addEventsToTree
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -70,6 +93,12 @@ import {
   validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild,
   validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse,
   validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent,
+  validDmpEventConvertedToSpasmEventV2,
+  validNostrSpasmEventSignedOpenedWithInvalidSignature,
+  validNostrEventConvertedToSpasmV2,
+  validPostWithDmpEventSignedClosedConvertedToSpasmV2,
+  validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2,
+  validNostrSpasmEventConvertedToSpasmV2,
 } from "./_events-data.js"
 
 import {
@@ -151,6 +180,96 @@ describe("isObjectWithValues() function tests", () => {
   test("should return false if event is a string", () => {
     const input = JSON.stringify(validNostrEventSignedOpened);
     expect(isObjectWithValues(input)).toBe(false);
+  });
+});
+
+// isArrayOfStringsOrNumbers
+describe("isArrayOfStringsOrNumbers() function tests", () => {
+  test("should return false if input is null", () => {
+    expect(isArrayOfStringsOrNumbers(null)).toBe(false);
+  });
+  test("should return false if input array has null value", () => {
+    const input = [ null, 1 ]
+    expect(isArrayOfStringsOrNumbers(input)).toBe(false);
+  });
+  test("should return true if input array has only numbers", () => {
+    const input = [ 1, 2, 3 ]
+    expect(isArrayOfStringsOrNumbers(input)).toBe(true);
+  });
+  test("should return true if input array has only strings", () => {
+    const input = [ "one", "2", "null" ]
+    expect(isArrayOfStringsOrNumbers(input)).toBe(true);
+  });
+  test("should return true if input array has only strings and numbers", () => {
+    const input = [ "one", 2, "null" ]
+    expect(isArrayOfStringsOrNumbers(input)).toBe(true);
+  });
+  test("should return false if input array has strings, numbers, and null", () => {
+    const input = [ "one", 2, null ]
+    expect(isArrayOfStringsOrNumbers(input)).toBe(false);
+  });
+  test("should return false if input array has no values", () => {
+    const input = []
+    expect(isArrayOfStringsOrNumbers(input)).toBe(false);
+  });
+});
+
+// ifArraysHaveCommonId
+describe("ifArraysHaveCommonId() function tests", () => {
+  test("should return false if inputs are empty arrays", () => {
+    const input1 = []
+    const input2 = []
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input is empty array", () => {
+    const input1 = [ 1, 2, 3 ]
+    const input2 = []
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input is empty array", () => {
+    const input1 = []
+    const input2 = [ "one", 2 ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if inputs have no common values", () => {
+    const input1 = [ 1, 2, 3 ]
+    const input2 = [ 4 ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input has an object as value", () => {
+    const input1 = [ 1, 2, "four", {} ] as (string | number)[]
+    const input2 = [ 3, "four", "five" ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input has an array as value", () => {
+    const input1 = [ 1, 2, "four" ]
+    const input2 = [ 3, "four", "five", [] ] as (string | number)[]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input has null as value", () => {
+    const input1 = [ 1, 2, "four" ]
+    const input2 = [ 3, "four", "five", null] as (string | number)[]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return false if one input has undefined as value", () => {
+    const input1 = [ 1, 2, "four" ]
+    const input2 = [ 3, "four", "five", undefined] as (string | number)[]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(false);
+  });
+  test("should return true if inputs a common value number", () => {
+    const input1 = [ 1, 2, 3 ]
+    const input2 = [ 3, "four", "five" ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(true);
+  });
+  test("should return true if inputs a common value string", () => {
+    const input1 = [ 1, 2, "four" ]
+    const input2 = [ 3, "four", "five" ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(true);
+  });
+  test("should return true if inputs have same values", () => {
+    const input1 = [ 1, 2, "four" ]
+    const input2 = [ 1, 2, "four" ]
+    expect(ifArraysHaveCommonId(input1,input2)).toBe(true);
   });
 });
 
@@ -382,6 +501,65 @@ describe("sortArrayOfObjects() function tests", () => {
     // expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual("");
     // expect(sortArrayOfObjects(input, ["category", "title", "value", "id"])).toStrictEqual("");
     expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual(output);
+  });
+});
+
+
+describe("sortAuthorsForSpasmEventV2() function tests", () => {
+  test("should return sorted array", () => {
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpened)
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2)
+    ]);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validNostrEventSignedOpened),
+      copyOf(validDmpEventSignedClosed)
+    ])).toStrictEqual([
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    ]);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpened)
+    ])![0].title).toStrictEqual("genesis");
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpened)
+    ])![0]).not.toEqual(null);
+    // Default order is descending "desc"
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validSpasmWithDmpReplyToDmpEventV0),
+      copyOf(validNostrEventSignedOpened),
+      copyOf(validPostWithDmpEventSignedClosed),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2)
+    ])).toStrictEqual([
+      copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2)
+    ]);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validSpasmWithDmpReplyToDmpEventV0),
+      copyOf(validNostrEventSignedOpened),
+      copyOf(validPostWithDmpEventSignedClosed),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2)
+    ], "asc")).toStrictEqual([
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2)
+    ]);
   });
 });
 
@@ -1237,6 +1415,19 @@ describe("getSignersListedIn() function tests", () => {
       "0xf8553015220a857eda377a1e903c9e5afb3ac2fa"
     ]
 
+    const whitelistedForActionPostWithNpub = [
+      "npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjqspcmr0z",
+      "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+      "0xf8553015220a857eda377a1e903c9e5afb3ac2fa"
+    ]
+
+    const whitelistedForActionPostWithNpubAndHex = [
+      "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93",
+      "npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjqspcmr0z",
+      "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+      "0xf8553015220a857eda377a1e903c9e5afb3ac2fa"
+    ]
+
     const bannedAuthors = [
       "0x49e8d02294e721ac47f6f4794625312b9005fd80",
       "vita1ik.eth"
@@ -1369,6 +1560,18 @@ describe("getSignersListedIn() function tests", () => {
       whitelistedForActionPost
     )).toEqual(true);
     expect(isAnySignerListedIn(
+      inputNostrSpasmConverted,
+      whitelistedForActionPost
+    )).toEqual(true);
+    expect(isAnySignerListedIn(
+      inputNostrSpasmConverted,
+      whitelistedForActionPostWithNpub
+    )).toEqual(true);
+    expect(isAnySignerListedIn(
+      inputNostrSpasmConverted,
+      whitelistedForActionPostWithNpubAndHex
+    )).toEqual(true);
+    expect(isAnySignerListedIn(
       inputNostr,
       bannedAuthors
     )).toEqual(false);
@@ -1468,6 +1671,123 @@ describe("getSignersListedIn() function tests", () => {
       inputWeb2,
       bannedAuthors
     )).toEqual(false);
+  });
+});
+
+describe("getStatsByAction() tests", () => {
+  test("getStatsByAction() should return a stat", () => {
+    // Default is "react"
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats)
+    )!.action).toEqual("react");
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "react"
+    )!.action).toEqual("react");
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "reply"
+    )!.action).toEqual("reply");
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "moderate"
+    )).toEqual(null);
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "react"
+    )).toEqual(
+      validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats.stats![0]
+    );
+    expect(getStatByAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "reply"
+    )).toEqual(
+      validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats.stats![1]
+    );
+  });
+});
+
+describe("getTotalOfReaction() tests", () => {
+  test("getTotalOfReaction() should return a stat", () => {
+    // Default is "upvote"
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats)
+    )).toEqual(8);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "upvote"
+    )).toEqual(8);
+    expect(getTotalOfReaction(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      "upvote"
+    )).toEqual(0);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "downvote"
+    )).toEqual(0);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "bullish"
+    )).toEqual(5);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "bearish"
+    )).toEqual(0);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "important"
+    )).toEqual(6);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "scam"
+    )).toEqual(0);
+    expect(getTotalOfReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats),
+      "random"
+    )).toEqual(0);
+  });
+});
+
+describe("getTotalOfMostPopularReaction() tests", () => {
+  test("getTotalOfMostPopularReaction() should return a total of most popular reaction", () => {
+    expect(getTotalOfMostPopularReaction(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    )).toEqual(0);
+    expect(getTotalOfMostPopularReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats)
+    )).toEqual(8);
+    expect(getTotalOfMostPopularReaction(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2)
+    )).toEqual(11);
+    expect(getTotalOfMostPopularReaction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew)
+    )).toEqual(26);
+  });
+});
+
+describe("getTotalOfReply() tests", () => {
+  test("getTotalOfReply() should return a total of most popular reaction", () => {
+    expect(getTotalOfReact(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    )).toEqual(0);
+    expect(getTotalOfReply(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    )).toEqual(0);
+    expect(getTotalOfReply(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats)
+    )).toEqual(3);
+    expect(getTotalOfActionReply(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2)
+    )).toEqual(3);
+    expect(getTotalOfReplyAction(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2)
+    )).toEqual(3);
+    expect(getTotalOfAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew), "reply"
+    )).toEqual(18081);
+    expect(getTotalOfAction(
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew), "react"
+    )).toEqual(0);
   });
 });
 
@@ -1740,6 +2060,390 @@ describe("getIdByFormat() tests", () => {
   });
 });
 
+describe("checkIfEventHasThisId() tests", () => {
+  test("checkIfEventHasThisId() get ID by format", () => {
+    // Not converted DMP
+    expect(checkIfEventHasThisId(
+      copyOf(validDmpEventSignedClosed),
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(true);
+    expect(checkIfEventHasThisId(
+      copyOf(validDmpEventSignedClosed),
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6e"
+    )).toStrictEqual(false);
+    expect(checkIfEventHasThisId(
+      copyOf(validDmpEventSignedClosed),
+      "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807"
+    )).toStrictEqual(false);
+    expect(checkIfEventHasThisId(
+      copyOf(validDmpEventSignedClosed),
+      "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b"
+    )).toStrictEqual(true);
+
+    // Converted Nostr
+    expect(checkIfEventHasThisId(
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807"
+    )).toStrictEqual(true);
+    expect(checkIfEventHasThisId(
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27808"
+    )).toStrictEqual(false);
+    expect(checkIfEventHasThisId(
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(false);
+    expect(checkIfEventHasThisId(
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65"
+    )).toStrictEqual(true);
+  });
+});
+
+describe("getEventById() tests", () => {
+  test("getEventById() get ID by format", () => {
+    // Not converted DMP
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosed),
+    ],
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosed),
+    ],
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ],
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpened),
+    ],
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+    )).toStrictEqual(
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ],
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    )).toStrictEqual(
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ],
+      // Wrong ID
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5652"
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], null!
+    )).toStrictEqual(null);
+    expect(getEventById([],
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    )).toStrictEqual(null);
+    expect(getEventById({} as UnknownEventV2[],
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    )).toStrictEqual(null);
+    expect(getEventById(undefined!,
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    )).toStrictEqual(null);
+    expect(getEventById(null!,
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    )).toStrictEqual(null);
+    // Short ID (not URL)
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,20),
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,20),
+      20
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validNostrEventSignedOpenedConvertedToSpasmV2.ids![0].value.toString().slice(0,20),
+      20
+    )).toStrictEqual(
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,20),
+      20
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    );
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,19),
+      20
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,21),
+      20
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,20),
+      21
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,20),
+      19
+    )).toStrictEqual(null);
+    expect(getEventById([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ],
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,15),
+      15
+      // Valid short ID should be at least 16 chars
+    )).toStrictEqual(null);
+  });
+});
+
+describe("getEventsByIds() tests", () => {
+  test("getEventsByIds() get ID by format", () => {
+    // Not converted DMP
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosed),
+    ], [
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosed),
+    ], [
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ], [
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpened),
+    ], [
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1"
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEvent),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      // NostrSpasm
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+      // DMP
+      "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+      // NostrSpasm
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+      // NostrSpasm
+      "spasmid014c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      // Wrong ID
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5652"
+    ])).toStrictEqual(null);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      null!
+    ])).toStrictEqual(null);
+    expect(getEventsByIds([], [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual(null);
+    expect(getEventsByIds({} as UnknownEventV2[], [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual(null);
+    expect(getEventsByIds(undefined!, [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual(null);
+    expect(getEventsByIds(null!, [
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
+    ])).toStrictEqual(null);
+    // Short ID
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,20)
+    ])).toStrictEqual(null);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,20)
+    ], 19)).toStrictEqual(null);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,20)
+    ], 20)).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value.toString().slice(0,20)
+    ], 20)).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      "spasmid01192d1f9994b"
+    ], 20)).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,19)
+    ], 20)).toStrictEqual(null);
+    expect(getEventsByIds([
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2),
+    ], [
+      validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value.toString().slice(0,21)
+    ], 20)).toStrictEqual(null);
+  });
+});
+
 // mergeSpasmEventsV2()
 describe("mergeSpasmEventsV2() tests", () => {
   test("mergeSpasmEventsV2() tests with null", () => {
@@ -1963,12 +2667,22 @@ describe("mergeSpasmEventsV2() tests", () => {
     // sibling during merge.
     expect(mergeSpasmEventsV2([nostrUnsigned, nostrSigned]))
       .toStrictEqual(convertToSpasm(nostrSigned));
+    expect(mergeSpasmEventsV2([nostrSigned, nostrSigned]))
+      .toStrictEqual(convertToSpasm(nostrSigned));
+    expect(mergeSpasmEventsV2([nostrSigned, nostrUnsigned]))
+      .toStrictEqual(convertToSpasm(nostrSigned));
     expect(mergeSpasmEventsV2([nostrUnsigned, nostrUnsigned, nostrSigned]))
       .toStrictEqual(convertToSpasm(nostrSigned));
     expect(mergeSpasmEventsV2([nostrSigned, nostrUnsigned, nostrUnsigned]))
       .toStrictEqual(convertToSpasm(nostrSigned));
     expect(mergeSpasmEventsV2([nostrSpasmUnsigned, nostrSpasmSigned]))
       .toStrictEqual(convertToSpasm(nostrSpasmSigned));
+    expect(mergeSpasmEventsV2([
+      copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ])).toStrictEqual(
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    )
     // Not equal
     expect(mergeSpasmEventsV2([nostrUnsigned, nostrSigned]))
       .not.toEqual(null);
@@ -2350,6 +3064,72 @@ describe("mergeSpasmEventsV2() tests", () => {
   });
 });
 
+// mergeDifferentSpasmEventsV2()
+describe("mergeDifferentSpasmEventsV2() tests", () => {
+  test("mergeDifferentSpasmEventsV2() tests with many events", () => {
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent)
+    ])![0].title).toStrictEqual("genesis");
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent)
+    ])![0]).not.toEqual(null);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent),
+      copyOf(validDmpEvent),
+    ])).toStrictEqual([
+      copyOf(validDmpEventConvertedToSpasmEventV2)
+    ]);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    ]);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent),
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEvent)
+    ])).toStrictEqual([
+      copyOf(validDmpEventConvertedToSpasmEventV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventConvertedToSpasmV2)
+    ]);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent),
+      copyOf(validDmpEvent),
+      copyOf(validNostrSpasmEventSignedOpenedWithInvalidSignature),
+      copyOf(validDmpEventSignedClosed),
+      null, undefined, false, true, "hello world", 1, [], {},
+      copyOf(validNostrEvent),
+      copyOf(validNostrEventSignedOpened),
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validDmpEventSignedClosed)
+    ])).toStrictEqual([
+      copyOf(validDmpEventConvertedToSpasmEventV2),
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      copyOf(validNostrEventSignedOpenedConvertedToSpasmV2)
+    ]);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validDmpEvent),
+      copyOf(validDmpEventSignedClosed),
+      copyOf(validNostrEvent),
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew),
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld)
+    ])).toStrictEqual([
+      copyOf(validDmpEventConvertedToSpasmEventV2),
+      copyOf(validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew),
+      copyOf(validNostrEventConvertedToSpasmV2)
+    ]);
+    expect(mergeDifferentSpasmEventsV2([
+      copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ])).toStrictEqual([
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+    ]);
+  });
+});
+
 // mergeStatsV2()
 describe("mergeStatsV2() function tests", () => {
   test("mergeStatsV2() should merge different stats", () => {
@@ -2445,6 +3225,104 @@ describe("mergeStatsV2() function tests", () => {
     expect(mergeStatsV2([
       null, copyOf(statsAllOld)
     ])).toStrictEqual(null);
+  });
+});
+
+// addEventsToTree()
+describe("addEventsToTree() function tests", () => {
+  test("addEventsToTree() should return original event if no tree events were provided", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      []
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    );
+  });
+  test("addEventsToTree() should add one comment to an event without any comments", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+      [ copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2) ]
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild),
+    );
+  });
+  test("addEventsToTree() should add one comment to an event with a child without an event", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent),
+      [ copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2) ]
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild),
+    );
+  });
+  test("addEventsToTree() should add one comment to an event with a child without an event", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent),
+      [ copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2) ]
+    )).not.toEqual(null);
+  });
+  test("addEventsToTree() should add two comments to an event with a child without an event", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent),
+      [
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2)
+      ]
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse),
+    );
+  });
+  test("addEventsToTree() should add two comments to an event without any children", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosed),
+      [
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2)
+      ]
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren),
+    );
+  });
+  test("addEventsToTree() should add attach only related events", () => {
+    expect(addEventsToTree(
+      copyOf(validDmpEventSignedClosed),
+      [
+        // Add many unrelated events
+        copyOf(validNostrEvent),
+        copyOf(validNostrSpasmEventSignedOpened),
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2),
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ]
+    )).toStrictEqual(
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren),
+    );
+  });
+  test("addEventsToTree() should only add related parent event", () => {
+    expect(addEventsToTree(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      [
+        // unrelated
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2),
+      ]
+    )).toStrictEqual(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+    );
+  });
+  test("addEventsToTree() should add a parent event to an event", () => {
+    expect(addEventsToTree(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+      [
+        // unrelated
+        copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2),
+        copyOf(validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2),
+        // related
+        copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+      ]
+    )).toStrictEqual(
+      copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent),
+    );
   });
 });
 

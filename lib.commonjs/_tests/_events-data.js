@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = exports.validDmpEventSignedClosedConvertedToSpasmV2 = exports.validDmpEventConvertedToSpasmEventV2 = exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEvent = exports.validNostrReplyToDmpEvent = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = exports.validSpasmWithDmpReplyToDmpEventV0 = exports.validDmpEventSignedClosedWithInvalidSignature = exports.validDmpEventSignedClosedWithInvalidSigner = exports.validDmpEventSignedClosedWithInvalidSignedString = exports.validDmpEventSignedOpened = exports.validDmpEventSignedClosed = exports.validDmpEvent = exports.validId0Spasmid01 = exports.invalidId2Note = exports.validId2Hex = exports.validId2Nevent = exports.validId2Note = exports.invalidId1Note = exports.validId1Hex = exports.validId1Nevent = exports.validId1Note = exports.invalidNpubAddress2 = exports.invalidNpubAddress1 = exports.validHexAddress2 = exports.validHexAddress1 = exports.validNpubAddress2 = exports.validNpubAddress1 = exports.invalidEthereumSignature1 = exports.validEthereumSignature1 = exports.invalidEthereumAddress1 = exports.validEthereumAddress1 = void 0;
-exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = exports.validNostrSpasmEventSignedOpenedWithInvalidContent = exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = void 0;
+exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = exports.validDmpEventConvertedToSpasmEventV2 = exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed = exports.validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = exports.validDmpEventSignedClosedConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEvent = exports.validNostrReplyToDmpEvent = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = exports.validSpasmWithDmpReplyToDmpEventV0 = exports.validDmpEventSignedClosedWithInvalidSignature = exports.validDmpEventSignedClosedWithInvalidSigner = exports.validDmpEventSignedClosedWithInvalidSignedString = exports.validDmpEventSignedOpened = exports.validDmpEventSignedClosed = exports.validDmpEvent = exports.validId0Spasmid01 = exports.invalidId2Note = exports.validId2Hex = exports.validId2Nevent = exports.validId2Note = exports.invalidId1Note = exports.validId1Hex = exports.validId1Nevent = exports.validId1Note = exports.invalidNpubAddress2 = exports.invalidNpubAddress1 = exports.validHexAddress2 = exports.validHexAddress1 = exports.validNpubAddress2 = exports.validNpubAddress1 = exports.invalidEthereumSignature1 = exports.validEthereumSignature1 = exports.invalidEthereumAddress1 = exports.validEthereumAddress1 = void 0;
+exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = exports.validNostrSpasmEventSignedOpenedWithInvalidContent = exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = void 0;
 const index_js_1 = require("./../utils/index.js");
 const index_js_2 = require("./../utils/index.js");
 // import { convertToSpasm } from "./../convert/convertToSpasm"
@@ -215,7 +215,8 @@ exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
     },
     db: {
         key: 5,
-        addedTimestamp: (0, index_js_2.toBeTimestamp)("2024-01-18T02:37:40.712Z")
+        addedTimestamp: 1705545460712
+        // addedTimestamp: toBeTimestamp("2024-01-18T02:37:40.712Z")
     },
     action: "reply",
     content: "To the SPASM!",
@@ -254,13 +255,6 @@ exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
                 name: "nostr-sig",
             }
         }
-        // {
-        //   value: "spasmid01xyz",
-        //   format: {
-        //     name: "spasmid",
-        //     version: "01"
-        //   }
-        // }
     ],
     signatures: [
         {
@@ -291,13 +285,6 @@ exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
                         name: "nostr-sig",
                     }
                 }
-                // {
-                //   value: "spasmid01xyz",
-                //   format: {
-                //     name: "spasmid",
-                //     version: "01"
-                //   }
-                // }
             ],
             signatures: [
                 {
@@ -341,62 +328,6 @@ exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = {
         {
             action: "reply",
             total: 3
-        }
-    ]
-};
-exports.validPostWithDmpEventSignedClosed = {
-    id: 1337,
-    target: exports.validDmpEvent.target,
-    action: exports.validDmpEvent.action,
-    title: exports.validDmpEvent.title,
-    text: exports.validDmpEvent.text,
-    signer: exports.validDmpEventSignedClosed.signer,
-    signed_message: JSON.stringify(exports.validDmpEvent),
-    signature: exports.validDmpEventSignedClosed.signature,
-    signed_time: exports.validDmpEvent.time,
-    added_time: "2022-01-01T22:04:46.195Z",
-    // category: "privacy",
-    source: "degenrocket.space",
-    tags: null,
-    tickers: null,
-    upvote: 8,
-    downvote: 0,
-    bullish: 5,
-    bearish: 0,
-    important: 6,
-    scam: 0,
-    comments_count: 3,
-    latest_action_added_time: "2023-01-01T22:04:46.195Z",
-    children: [
-        exports.validPostWithNostrReplyToDmpEvent,
-        exports.validSpasmWithDmpReplyToDmpEventV0
-    ]
-};
-exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed;
-exports.validDmpEventConvertedToSpasmEventV2 = {
-    type: "SpasmEventV2",
-    action: "post",
-    ids: [
-        {
-            value: "spasmid0103086d8c9881aa566b755d0b50fc0c80ab4362224860ee21859e658f64cca4c3",
-            format: {
-                name: "spasmid",
-                version: "01"
-            }
-        }
-    ],
-    title: "genesis",
-    content: "not your keys, not your words",
-    timestamp: 1641074686178,
-    license: "MIT",
-    siblings: [
-        {
-            type: "SiblingDmpV2",
-            protocol: {
-                name: "dmp",
-                version: "0.0.1"
-            },
-            signedString: JSON.stringify(exports.validDmpEvent),
         }
     ]
 };
@@ -459,6 +390,79 @@ exports.validDmpEventSignedClosedConvertedToSpasmV2 = {
                     format: { name: "ethereum-sig" }
                 }
             ]
+        }
+    ]
+};
+exports.validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = { "db": { "addedTimestamp": 1705545460712, "key": 5 }, "ids": [{ "format": { "name": "spasmid", "version": "01" }, "value": "spasmid01906605460f67979a0f82eb220e58ba1de54aadebab4ed601c41ea695d51be1f0" }, { "format": { "name": "nostr-hex" }, "value": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f" }, { "format": { "name": "nostr-sig" }, "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290" }], "siblings": [{ "ids": [{ "format": { "name": "nostr-hex" }, "value": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f" }, { "format": { "name": "nostr-sig" }, "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290" }], "originalObject": { "content": "To the SPASM!", "created_at": 1708153412, "id": "4ca9b330abad821509acbfe90ebcc25f267e02718377eb4d831bc5bb9482c85f", "kind": 1, "pubkey": "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42", "sig": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290", "tags": [["license", "SPDX-License-Identifier: CC0-1.0"], ["spasm_version", "1.0.0"], ["spasm_action", "reply"], ["spasm_target", "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b"]] }, "protocol": { "extraSpasmFieldsVersion": "1.0.0", "hasExtraSpasmFields": true, "name": "nostr" }, "signatures": [{ "format": { "name": "nostr-sig" }, "pubkey": "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42", "value": "2f8f195c70070f0c434c397da2fb44b1196994a2f24515d76477a8c8b5a4f289fcc5287d8163cbadfee29af55450fa9fa6b15ac732877d732e98e2be10acb290" }], "type": "SiblingNostrSpasmSignedV2" }], "stats": [{ "action": "react", "contents": [{ "total": 11, "value": "upvote" }, { "total": 1, "value": "downvote" }, { "total": 2, "value": "bullish" }, { "total": 3, "value": "bearish" }, { "total": 6, "value": "important" }, { "total": 3, "value": "scam" }] }, { "action": "reply", "total": 3 }], "type": "SpasmEventEnvelopeWithTreeV2" };
+exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = { "db": { "addedTimestamp": 1708148880076, "key": 401 }, "ids": [{ "format": { "name": "spasmid", "version": "01" }, "value": "spasmid01ea26607382b0abc560b8d7b372b7f8b7df29afc6a81ce84d9085a6ba533227a9" }, { "format": { "name": "ethereum-sig" }, "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b" }], "siblings": [{ "ids": [{ "format": { "name": "ethereum-sig" }, "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b" }], "protocol": { "name": "dmp", "version": "0.1.0" }, "signatures": [{ "format": { "name": "ethereum-sig" }, "pubkey": "0x49e8d02294e721ac47f6f4794625312b9005fd80", "value": "0xbe8bcd4b5565f146a3a069504c3efd9405fa19a9f7621dfa405f25cfeea9513072230b8533d7044efe0cd82e3af2e2f38292200006cf2103da193efcd888efc01b" }], "signedString": "{\"version\":\"dmp_v0.1.0\",\"time\":\"2024-02-17T05:47:59.932Z\",\"action\":\"reply\",\"target\":\"0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b\",\"title\":\"\",\"text\":\"To the moon!\",\"license\":\"SPDX-License-Identifier: CC0-1.0\"}", "type": "SiblingDmpSignedV2" }], "type": "SpasmEventEnvelopeWithTreeV2" };
+exports.validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren = {
+    type: "SpasmEventEnvelopeWithTreeV2",
+    ids: exports.validDmpEventSignedClosedConvertedToSpasmV2.ids,
+    siblings: exports.validDmpEventSignedClosedConvertedToSpasmV2.siblings,
+    children: [
+        {
+            ids: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2.ids,
+            event: exports.validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives
+        },
+        {
+            event: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives,
+            ids: exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2.ids
+        }
+    ]
+};
+exports.validPostWithDmpEventSignedClosed = {
+    id: 1337,
+    target: exports.validDmpEvent.target,
+    action: exports.validDmpEvent.action,
+    title: exports.validDmpEvent.title,
+    text: exports.validDmpEvent.text,
+    signer: exports.validDmpEventSignedClosed.signer,
+    signed_message: JSON.stringify(exports.validDmpEvent),
+    signature: exports.validDmpEventSignedClosed.signature,
+    signed_time: exports.validDmpEvent.time,
+    added_time: "2022-01-01T22:04:46.195Z",
+    // category: "privacy",
+    source: "degenrocket.space",
+    tags: null,
+    tickers: null,
+    upvote: 8,
+    downvote: 0,
+    bullish: 5,
+    bearish: 0,
+    important: 6,
+    scam: 0,
+    comments_count: 3,
+    latest_action_added_time: "2023-01-01T22:04:46.195Z",
+    children: [
+        exports.validPostWithNostrReplyToDmpEvent,
+        exports.validSpasmWithDmpReplyToDmpEventV0
+    ]
+};
+exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed;
+exports.validDmpEventConvertedToSpasmEventV2 = {
+    type: "SpasmEventV2",
+    action: "post",
+    ids: [
+        {
+            value: "spasmid0103086d8c9881aa566b755d0b50fc0c80ab4362224860ee21859e658f64cca4c3",
+            format: {
+                name: "spasmid",
+                version: "01"
+            }
+        }
+    ],
+    title: "genesis",
+    content: "not your keys, not your words",
+    timestamp: 1641074686178,
+    license: "MIT",
+    siblings: [
+        {
+            type: "SiblingDmpV2",
+            protocol: {
+                name: "dmp",
+                version: "0.0.1"
+            },
+            signedString: JSON.stringify(exports.validDmpEvent),
         }
     ]
 };

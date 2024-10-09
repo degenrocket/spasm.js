@@ -418,6 +418,14 @@ describe('toBeHex function', () => {
     expect(toBeHex(validId1Nevent)).toStrictEqual(validId1Hex);
     expect(toBeHex(validId2Nevent)).toStrictEqual(validId2Hex);
   });
+  it(
+    "should return a valid hex if one valid npub is passed",
+    () => {
+    expect(toBeHex(validNpubAddress1)).toStrictEqual(validHexAddress1);
+    expect(toBeHex(validNpubAddress2)).toStrictEqual(validHexAddress2);
+    expect(toBeHex(validNpubAddress2)).not.toEqual(null);
+    expect(toBeHex(validHexAddress1)).toStrictEqual(validHexAddress1);
+  });
 });
 
 describe('toBeHexes function', () => {

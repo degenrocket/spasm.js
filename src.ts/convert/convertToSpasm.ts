@@ -77,7 +77,7 @@ import {
 import { getSpasmId } from "./getSpasmId.js"
 import {
   convertToSpasmEventEnvelopeWithTree
-} from "./../convert/convertToSpasmEventEnvelopeWithTree"
+} from "./../convert/convertToSpasmEventEnvelopeWithTree.js"
 import { verifyEvent as verifyNostrEvent } from 'nostr-tools-v2'
 
 // const latestSpasmVersion = "2.0.0"

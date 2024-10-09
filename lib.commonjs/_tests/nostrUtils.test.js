@@ -179,6 +179,12 @@ describe('toBeHex function', () => {
         expect((0, index_js_1.toBeHex)(_events_data_js_1.validId1Nevent)).toStrictEqual(_events_data_js_1.validId1Hex);
         expect((0, index_js_1.toBeHex)(_events_data_js_1.validId2Nevent)).toStrictEqual(_events_data_js_1.validId2Hex);
     });
+    it("should return a valid hex if one valid npub is passed", () => {
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validNpubAddress1)).toStrictEqual(_events_data_js_1.validHexAddress1);
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validNpubAddress2)).toStrictEqual(_events_data_js_1.validHexAddress2);
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validNpubAddress2)).not.toEqual(null);
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validHexAddress1)).toStrictEqual(_events_data_js_1.validHexAddress1);
+    });
 });
 describe('toBeHexes function', () => {
     it("should return an array of valid hexes if valid notes and npubs and nevents are passed", () => {

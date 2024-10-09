@@ -6,7 +6,7 @@ const nostrUtils_js_1 = require("./../utils/nostrUtils.js");
 const utils_js_1 = require("./../utils/utils.js");
 const identifyEvent_js_1 = require("./../identify/identifyEvent.js");
 const getSpasmId_js_1 = require("./getSpasmId.js");
-const convertToSpasmEventEnvelopeWithTree_1 = require("./../convert/convertToSpasmEventEnvelopeWithTree");
+const convertToSpasmEventEnvelopeWithTree_js_1 = require("./../convert/convertToSpasmEventEnvelopeWithTree.js");
 const nostr_tools_v2_1 = require("nostr-tools-v2");
 // const latestSpasmVersion = "2.0.0"
 const convertManyToSpasm = (unknownEvents, customConfig) => {
@@ -312,7 +312,7 @@ const standardizeSpasmEventV2 = (event, version = "2.0.0") => {
     // is to convert it to EnvelopeWithTree and then
     // back to SpasmEventV2
     // Convert to SpasmEventEnvelopeWithTreeV2
-    const spasmEventEnvelopeWithTreeV2 = (0, convertToSpasmEventEnvelopeWithTree_1.convertToSpasmEventEnvelopeWithTree)(event, version);
+    const spasmEventEnvelopeWithTreeV2 = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree)(event, version);
     if (!spasmEventEnvelopeWithTreeV2)
         return null;
     const spasmEvent = (0, exports.standardizeSpasmEventEnvelopeWithTreeV2)(spasmEventEnvelopeWithTreeV2);
@@ -333,7 +333,7 @@ const standardizeSpasmEventDatabaseV2 = (event, version = "2.0.0") => {
         type: "SpasmEventV2"
     };
     // Convert to SpasmEventEnvelopeWithTreeV2
-    const spasmEventEnvelopeWithTreeV2 = (0, convertToSpasmEventEnvelopeWithTree_1.convertToSpasmEventEnvelopeWithTree)(spasmEventNotYetConverted, version);
+    const spasmEventEnvelopeWithTreeV2 = (0, convertToSpasmEventEnvelopeWithTree_js_1.convertToSpasmEventEnvelopeWithTree)(spasmEventNotYetConverted, version);
     if (!spasmEventEnvelopeWithTreeV2)
         return null;
     const spasmEvent = (0, exports.standardizeSpasmEventEnvelopeWithTreeV2)(spasmEventEnvelopeWithTreeV2);
