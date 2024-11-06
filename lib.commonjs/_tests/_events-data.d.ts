@@ -1,4 +1,4 @@
-import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0, EventForSpasmid01, SpasmEventEnvelopeV2, SpasmEventEnvelopeWithTreeV2 } from "./../types/interfaces.js";
+import { NostrEvent, NostrEventSignedOpened, NostrSpasmEvent, NostrSpasmEventSignedOpened, DmpEvent, Post, DmpEventSignedClosed, DmpEventSignedOpened, SpasmEventV2, SpasmEventV0, EventForSpasmid01, SpasmEventEnvelopeV2, SpasmEventEnvelopeWithTreeV2, SpasmEventBodyV2, SpasmEventBodySignedClosedV2 } from "./../types/interfaces.js";
 export declare const validEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2fa";
 export declare const invalidEthereumAddress1 = "0xf8553015220a857eda377a1e903c9e5afb3ac2f";
 export declare const validEthereumSignature1 = "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b";
@@ -18,6 +18,13 @@ export declare const validId2Nevent = "nevent1qqsrm2tegjxehgnrsexy6mc5npxyyw3c8q
 export declare const validId2Hex = "3da979448d9ba263864c4d6f14984c423a3838364ec255f03c7904b1ae77f206";
 export declare const invalidId2Note = "note18k5hj3ydnw3x8pjvf4h3fxzvggarswpkfmp9tupu0yztrtnh7grq760gfr";
 export declare const validId0Spasmid01 = "spasmid01a948904f2f0f479b8f8197694b30184b0d2ed1c1cd2a1ec0fb85d299a192a447";
+export declare const validSpasmEventBodyV2: SpasmEventBodyV2;
+export declare const validSpasmEventBodyV2ConvertedToSpasmV2: SpasmEventV2;
+export declare const validSpasmEventBodySignedClosedV2: SpasmEventBodySignedClosedV2;
+export declare const validSpasmEventBodySignedClosedV2ConvertedToSpasmV2: SpasmEventV2;
+export declare const validSpasmEventBodyV2ReplyToGenesis: SpasmEventBodyV2;
+export declare const validSpasmEventBodyV2ReplyToGenesisSignedClosed: SpasmEventBodySignedClosedV2;
+export declare const validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2: SpasmEventV2;
 export declare const validDmpEvent: DmpEvent;
 export declare const validDmpEventSignedClosed: DmpEventSignedClosed;
 export declare const validDmpEventSignedOpened: DmpEventSignedOpened;
@@ -30,6 +37,7 @@ export declare const validNostrReplyToDmpEvent: NostrSpasmEventSignedOpened;
 export declare const validPostWithNostrReplyToDmpEvent: Post;
 export declare const validPostWithNostrReplyToDmpEventConvertedToSpasmV2: SpasmEventV2;
 export declare const validDmpEventSignedClosedConvertedToSpasmV2: SpasmEventV2;
+export declare const validDmpEventSignedClosedConvertedToSpasmV2WithoutFormats: SpasmEventV2;
 export declare const validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives: SpasmEventEnvelopeWithTreeV2;
 export declare const validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives: SpasmEventEnvelopeWithTreeV2;
 export declare const validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren: SpasmEventEnvelopeWithTreeV2;
@@ -113,6 +121,10 @@ export declare const validNostrEventSignedOpenedConvertedToSpasmV2: SpasmEventV2
 export declare const validNostrSpasmEventSignedOpenedConvertedToSpasmV2: SpasmEventV2;
 export declare const validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2: SpasmEventV2;
 export declare const validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2: SpasmEventV2;
+export declare const validSpasmEventBodyV2WithOneNostrSigner: SpasmEventBodyV2;
+export declare const validSpasmEventBodyV2WithOneNostrSignerConvertedToNostrSpasmEventV2: NostrSpasmEvent;
+export declare const validSpasmEventBodyV2ReplyWithTwoSigners: SpasmEventBodyV2;
+export declare const validSpasmEventBodyV2ReplyWithTwoSignersConvertedToNostrSpasmEventV2: NostrSpasmEvent;
 export declare const validPostWithRssItem: Post;
 export declare const validPostWithRssItemReverseTags: Post;
 export declare const validSpasmEventRssItemV0: SpasmEventV0;

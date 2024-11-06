@@ -64,7 +64,13 @@ import {
   getEventsByIds,
   isArrayOfStringsOrNumbers,
   ifArraysHaveCommonId,
-  addEventsToTree
+  addEventsToTree,
+  assignFormats,
+  getParentIdByFormat,
+  extractParentSpasmId01,
+  extractParentIdByFormat,
+  toBeShortTimestamp,
+  toBeNostrTimestamp
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -99,6 +105,7 @@ import {
   validPostWithDmpEventSignedClosedConvertedToSpasmV2,
   validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2,
   validNostrSpasmEventConvertedToSpasmV2,
+  validNostrReplyToDmpEvent,
 } from "./_events-data.js"
 
 import {
@@ -2060,6 +2067,25 @@ describe("getIdByFormat() tests", () => {
   });
 });
 
+describe("getIdByFormat() tests", () => {
+  test("getIdByFormat() get ID by format", () => {
+    expect(getParentIdByFormat(
+      validNostrReplyToDmpEvent, { name: "nostr-hex" }
+    )).toStrictEqual(null)
+    expect(getParentIdByFormat(
+        validNostrReplyToDmpEvent, { name: "nostr-sig" }
+    )).toStrictEqual(null)
+    expect(extractParentSpasmId01(
+      validNostrReplyToDmpEvent
+    )).toStrictEqual(null)
+    expect(extractParentIdByFormat(
+        validNostrReplyToDmpEvent, { name: "ethereum-sig" }
+    )).toStrictEqual(
+      "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b"
+    )
+  });
+});
+
 describe("checkIfEventHasThisId() tests", () => {
   test("checkIfEventHasThisId() get ID by format", () => {
     // Not converted DMP
@@ -3323,6 +3349,32 @@ describe("addEventsToTree() function tests", () => {
     )).toStrictEqual(
       copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent),
     );
+  });
+});
+
+// assignFormats()
+describe("assignFormats() function tests", () => {
+  test("assignFormats() should assign formats", () => {
+    const input = copyOf(
+      validDmpEventSignedClosedConvertedToSpasmV2)
+    const output = copyOf(
+      validDmpEventSignedClosedConvertedToSpasmV2)
+    assignFormats(input)
+    expect(input).toStrictEqual(output);
+  });
+});
+
+// toBeShortTimestamp()
+describe("toBeShortTimestamp() function tests", () => {
+  test("toBeShortTimestamp() should return short timestamp", () => {
+    expect(toBeShortTimestamp(1641074686178))
+      .toStrictEqual(1641074686);
+    expect(toBeShortTimestamp("1641074686178"))
+      .toStrictEqual(1641074686);
+    expect(toBeNostrTimestamp(1641074686))
+      .toStrictEqual(1641074686);
+    expect(toBeNostrTimestamp("1641074686"))
+      .toStrictEqual(1641074686);
   });
 });
 

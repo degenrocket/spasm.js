@@ -526,6 +526,15 @@ export const hasExtraSpasmFields = (unknownPostOrEvent) => {
     return false;
 };
 export const isNostrEvent = (unknownPostOrEvent) => {
+    if ('type' in unknownPostOrEvent &&
+        (unknownPostOrEvent.type === "SpasmEventV2" ||
+            unknownPostOrEvent.type === "SpasmEventBodyV2" ||
+            unknownPostOrEvent.type === "SpasmEventEnvelopeV2" ||
+            unknownPostOrEvent.type === "SpasmEventEnvelopeWithTreeV2" ||
+            unknownPostOrEvent.type === "SpasmEventDatabaseV2" ||
+            unknownPostOrEvent.type === "SpasmEventBodySignedClosedV2")) {
+        return false;
+    }
     if (!isObjectWithValues(unknownPostOrEvent))
         return false;
     // Unsigned Nostr event can be without 'id'
@@ -555,6 +564,8 @@ export const isNostrEvent = (unknownPostOrEvent) => {
         return false;
     if (typeof (unknownPostOrEvent.kind) !== "number")
         return false;
+    // TODO what if we want to convert Spasm event without author
+    // to Nostr event before attaching a Nostr pubkey?
     // pubkey
     if (!('pubkey' in unknownPostOrEvent))
         return false;

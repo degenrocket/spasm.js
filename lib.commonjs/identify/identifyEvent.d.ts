@@ -1,4 +1,4 @@
-import { EventType, EventInfo, KnownPostOrEventInfo, UnknownPostOrEvent, UnknownEvent, PrivateKeyType } from "./../types/interfaces.js";
+import { EventType, EventInfo, KnownPostOrEventInfo, UnknownPostOrEvent, UnknownEvent, PrivateKeyType, UnknownEventV2 } from "./../types/interfaces.js";
 /**
   There are usually 3 types of objects passed to this function:
   - web3 post - an object is a post with a web3 event sealed inside
@@ -18,10 +18,10 @@ export declare const identifyLicense: (unknownPostOrEvent: UnknownPostOrEvent) =
 export declare const identifyLicenseInsideTags: (unknownPostOrEvent: UnknownPostOrEvent) => string | false;
 export declare const identifyPrivateKey: (unknownPostOrEvent: UnknownPostOrEvent) => PrivateKeyType | false;
 export declare const hasExtraSpasmFields: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
-export declare const isNostrEvent: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
-export declare const isNostrEventSignedOpened: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
-export declare const isNostrSpasmEvent: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
-export declare const isNostrSpasmEventSignedOpened: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
+export declare const isNostrEvent: (unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2) => boolean;
+export declare const isNostrEventSignedOpened: (unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2) => boolean;
+export declare const isNostrSpasmEvent: (unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2) => boolean;
+export declare const isNostrSpasmEventSignedOpened: (unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2) => boolean;
 export declare const isDmpEvent: (unknownPostOrEvent: UnknownPostOrEvent | any) => boolean;
 export declare const isDmpEventSignedClosed: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;
 export declare const isDmpEventSignedOpened: (unknownPostOrEvent: UnknownPostOrEvent) => boolean;

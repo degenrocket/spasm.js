@@ -450,9 +450,16 @@ const spasmId = spasm.extractIdByFormat(event, {
   name: "spasmid"
 })
 
-// Note: the function above doesn't calculate a new ID, but
+// other aliases for extracting event, parent, and root IDs:
+// extractSpasmId01()
+// extractParentIdByFormat()
+// extractParentSpasmId01()
+// extractRootIdByFormat()
+// extractRootSpasmId01()
+
+// Note: the functions above don't calculate new IDs, but
 // simply extracts an existing ID from an event object.
-// If you want to calculate an ID (e.g., to verify it),
+// If you want to calculate a Spasm ID (e.g., to verify it),
 // then you must use another function, for example:
 const spasmId = spasm.getSpasmId(event)
 ```

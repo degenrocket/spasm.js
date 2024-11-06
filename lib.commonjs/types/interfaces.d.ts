@@ -310,7 +310,7 @@ export interface SpasmEventEnvelopeWithTreeV2 extends Omit<SpasmEventEnvelopeV2,
     children?: SpasmEventEnvelopeWithTreeChildV2[];
 }
 export type SpasmEventEnvelopeWithTreeChildEventV2 = SpasmEventV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
-export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>, Omit<SpasmEventEnvelopeWithTreeV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent' | 'children'> {
+export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol' | 'authors' | 'parent' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>, Omit<SpasmEventEnvelopeWithTreeV2, 'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent' | 'children'> {
     type: "SpasmEventV2";
     /**
      * Protocol, sequence, previousEvent shouldn't be a part
@@ -348,6 +348,8 @@ export interface SpasmEventIdFormatV2 {
 }
 export interface SpasmEventIdV2 {
     value: string | number;
+    pubkey?: string | number;
+    marker?: string | number;
     format?: SpasmEventIdFormatV2;
     hosts?: SpasmEventHostV2[];
 }
@@ -375,6 +377,7 @@ export interface SpasmEventAddressFormatV2 {
 export interface SpasmEventBodyAddressV2 {
     value: string | number;
     format?: SpasmEventAddressFormatV2;
+    marker?: string | number;
     hosts?: SpasmEventHostV2[];
 }
 /**

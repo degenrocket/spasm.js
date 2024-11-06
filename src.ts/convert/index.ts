@@ -3,6 +3,9 @@ export {
   convertManyToSpasm
 } from "./convertToSpasm.js"
 export {
+  convertToNostr
+} from "./convertToNostr.js"
+export {
   convertToSpasmEventDatabase,
   convertManyToSpasmEventDatabase
 } from "./convertToSpasmEventDatabase.js"

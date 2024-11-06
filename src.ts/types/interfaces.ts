@@ -312,6 +312,7 @@ export interface StandardizedEvent {
 }
 
 export interface SpasmEventSource {
+  // TODO add network? (spasm, nostr, rss)
   name?: string
   uiUrl?: string
   apiUrl?: string
@@ -534,7 +535,7 @@ export type SpasmEventEnvelopeWithTreeChildEventV2 =
 
 export interface SpasmEventV2 extends
   Omit<SpasmEventBodyV2,
-    'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>,
+    'type' | 'protocol' | 'authors' | 'parent' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent'>,
   // Omit<SpasmEventEnvelopeV2, 'type'>,
   Omit<SpasmEventEnvelopeWithTreeV2,
     'type' | 'protocol' | 'authors' | 'parent' | 'root' | 'hosts' | 'links' | 'references' | 'sequence' | 'previousEvent' | 'children'> {
@@ -626,6 +627,11 @@ export interface SpasmEventIdFormatV2 {
 // and for each ID (e.g., Spasm ID and Nostr ID)
 export interface SpasmEventIdV2 {
   value: string | number
+  // Some protocols might include a pubkey of an author
+  // so preferred hosts can be retrieved when an event
+  // with this ID cannot be found.
+  pubkey?: string | number
+  marker?: string | number
   format?: SpasmEventIdFormatV2
   hosts?: SpasmEventHostV2[]
 }
@@ -660,6 +666,7 @@ export interface SpasmEventAddressFormatV2 {
 export interface SpasmEventBodyAddressV2 {
   value: string | number
   format?: SpasmEventAddressFormatV2
+  marker?: string | number
   hosts?: SpasmEventHostV2[]
 }
 
@@ -739,6 +746,9 @@ export interface SpasmEventProtocolV2 extends
 
 export interface SpasmEventBodyReferenceV2 {
   ids: SpasmEventIdV2[]
+  // Authors can be used to get preferred hosts
+  // when an event with these IDs cannot be found.
+  // authors?: SpasmEventBodyAuthorV2[]
   marker?: string | number
 }
 

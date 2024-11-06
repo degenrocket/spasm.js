@@ -51,7 +51,13 @@ import {
   validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent,
   validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren,
   validPostWithNostrReplyToDmpEventConvertedToSpasmV2,
-  validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren
+  validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren,
+  validSpasmEventBodyV2,
+  validSpasmEventBodyV2ConvertedToSpasmV2,
+  validSpasmEventBodySignedClosedV2,
+  validSpasmEventBodySignedClosedV2ConvertedToSpasmV2,
+  validSpasmEventBodyV2ReplyToGenesisSignedClosed,
+  validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2,
 } from "./_events-data.js"
 import { convertManyToSpasm, convertToSpasm } from "./../convert/convertToSpasm.js"
 import {
@@ -109,6 +115,35 @@ describe("convertToSpasm() tests for DMP events", () => {
     const input = JSON.parse(JSON.stringify(validSpasmDmpEventSignedClosedV0));
     const output = JSON.parse(JSON.stringify(validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2));
     expect(convertToSpasm(input)).toEqual(output);
+  });
+
+  // SpasmEventBodyV2 to SpasmEventV2
+  test("should convert validSpasmEventBodyV2 to SpasmEventV2", () => {
+    const convertConfigV2: CustomConvertToSpasmConfig = {to: {spasm: {version:"2.0.0"}}}
+    const input = copyOf(validSpasmEventBodyV2);
+    const output = copyOf(validSpasmEventBodyV2ConvertedToSpasmV2);
+    expect(convertToSpasm(input, convertConfigV2))
+      .toEqual(output);
+  });
+
+  // SpasmEventBodySignedClosedV2 to SpasmEventV2
+  test("should convert validSpasmEventBodySignedClosedV2 to SpasmEventV2", () => {
+    const convertConfigV2: CustomConvertToSpasmConfig = {to: {spasm: {version:"2.0.0"}}}
+    const input = copyOf(validSpasmEventBodySignedClosedV2);
+    const output =
+      copyOf(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2);
+    expect(convertToSpasm(input, convertConfigV2))
+      .toEqual(output);
+  });
+
+  // validSpasmEventBodyV2ReplyToGenesisSignedClosed to SpasmEventV2
+  test("should convert validSpasmEventBodyV2ReplyToGenesisSignedClosed to SpasmEventV2", () => {
+    const convertConfigV2: CustomConvertToSpasmConfig = {to: {spasm: {version:"2.0.0"}}}
+    const input = copyOf(validSpasmEventBodyV2ReplyToGenesisSignedClosed);
+    const output =
+      copyOf(validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2);
+    expect(convertToSpasm(input, convertConfigV2))
+      .toEqual(output);
   });
 
   test("should return null if signed Dmp events have invalid signatures", () => {

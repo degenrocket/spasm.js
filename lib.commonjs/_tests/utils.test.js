@@ -1476,6 +1476,14 @@ describe("getIdByFormat() tests", () => {
         expect((0, index_js_1.getIdByFormat)(inputNostrSpasm, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
     });
 });
+describe("getIdByFormat() tests", () => {
+    test("getIdByFormat() get ID by format", () => {
+        expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "nostr-hex" })).toStrictEqual(null);
+        expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "nostr-sig" })).toStrictEqual(null);
+        expect((0, index_js_1.extractParentSpasmId01)(_events_data_js_1.validNostrReplyToDmpEvent)).toStrictEqual(null);
+        expect((0, index_js_1.extractParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "ethereum-sig" })).toStrictEqual("0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b");
+    });
+});
 describe("checkIfEventHasThisId() tests", () => {
     test("checkIfEventHasThisId() get ID by format", () => {
         // Not converted DMP
@@ -2514,6 +2522,28 @@ describe("addEventsToTree() function tests", () => {
             // related
             (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2)
         ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent));
+    });
+});
+// assignFormats()
+describe("assignFormats() function tests", () => {
+    test("assignFormats() should assign formats", () => {
+        const input = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        const output = (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2);
+        (0, index_js_1.assignFormats)(input);
+        expect(input).toStrictEqual(output);
+    });
+});
+// toBeShortTimestamp()
+describe("toBeShortTimestamp() function tests", () => {
+    test("toBeShortTimestamp() should return short timestamp", () => {
+        expect((0, index_js_1.toBeShortTimestamp)(1641074686178))
+            .toStrictEqual(1641074686);
+        expect((0, index_js_1.toBeShortTimestamp)("1641074686178"))
+            .toStrictEqual(1641074686);
+        expect((0, index_js_1.toBeNostrTimestamp)(1641074686))
+            .toStrictEqual(1641074686);
+        expect((0, index_js_1.toBeNostrTimestamp)("1641074686"))
+            .toStrictEqual(1641074686);
     });
 });
 // template()

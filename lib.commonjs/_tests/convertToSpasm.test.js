@@ -39,6 +39,30 @@ describe("convertToSpasm() tests for DMP events", () => {
         const output = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2));
         expect((0, convertToSpasm_js_1.convertToSpasm)(input)).toEqual(output);
     });
+    // SpasmEventBodyV2 to SpasmEventV2
+    test("should convert validSpasmEventBodyV2 to SpasmEventV2", () => {
+        const convertConfigV2 = { to: { spasm: { version: "2.0.0" } } };
+        const input = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodyV2);
+        const output = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodyV2ConvertedToSpasmV2);
+        expect((0, convertToSpasm_js_1.convertToSpasm)(input, convertConfigV2))
+            .toEqual(output);
+    });
+    // SpasmEventBodySignedClosedV2 to SpasmEventV2
+    test("should convert validSpasmEventBodySignedClosedV2 to SpasmEventV2", () => {
+        const convertConfigV2 = { to: { spasm: { version: "2.0.0" } } };
+        const input = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodySignedClosedV2);
+        const output = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2);
+        expect((0, convertToSpasm_js_1.convertToSpasm)(input, convertConfigV2))
+            .toEqual(output);
+    });
+    // validSpasmEventBodyV2ReplyToGenesisSignedClosed to SpasmEventV2
+    test("should convert validSpasmEventBodyV2ReplyToGenesisSignedClosed to SpasmEventV2", () => {
+        const convertConfigV2 = { to: { spasm: { version: "2.0.0" } } };
+        const input = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodyV2ReplyToGenesisSignedClosed);
+        const output = (0, utils_js_1.copyOf)(_events_data_js_1.validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2);
+        expect((0, convertToSpasm_js_1.convertToSpasm)(input, convertConfigV2))
+            .toEqual(output);
+    });
     test("should return null if signed Dmp events have invalid signatures", () => {
         const inputValid = {
             ...JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedClosed)),

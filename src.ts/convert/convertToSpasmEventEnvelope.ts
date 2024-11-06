@@ -40,9 +40,7 @@ export const convertToSpasmEventEnvelope = (
   if (
     'type' in unknownEvent &&
     unknownEvent.type === "SpasmEventEnvelopeV2"
-  ) {
-    return unknownEvent
-  }
+  ) { return unknownEvent }
 
   // SpasmEventV2
   let spasmEventV2: SpasmEventV2 | null = null

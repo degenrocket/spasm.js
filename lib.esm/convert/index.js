@@ -1,4 +1,5 @@
 export { convertToSpasm, convertManyToSpasm } from "./convertToSpasm.js";
+export { convertToNostr } from "./convertToNostr.js";
 export { convertToSpasmEventDatabase, convertManyToSpasmEventDatabase } from "./convertToSpasmEventDatabase.js";
 export { convertToSpasmEventEnvelope, convertManyToSpasmEventEnvelope } from "./convertToSpasmEventEnvelope.js";
 export { convertToSpasmEventEnvelopeWithTree, convertManyToSpasmEventEnvelopeWithTree } from "./convertToSpasmEventEnvelopeWithTree.js";

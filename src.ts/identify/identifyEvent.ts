@@ -2,7 +2,7 @@ import {
   EventType, EventInfo, KnownPostOrEventInfo,
   UnknownPostOrEvent, UnknownEvent, DmpEvent,
   NostrEvent, NostrSpasmEvent, NostrSpasmTag,
-  AnyTag, PrivateKeyType,
+  AnyTag, PrivateKeyType, UnknownEventV2,
   // V2
   // UnknownEventV2
 } from "./../types/interfaces.js";
@@ -620,8 +620,20 @@ export const hasExtraSpasmFields = (
 }
 
 export const isNostrEvent = (
-  unknownPostOrEvent: UnknownPostOrEvent
+  unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2
 ): boolean => {
+  if (
+    'type' in unknownPostOrEvent &&
+    (
+      unknownPostOrEvent.type === "SpasmEventV2" ||
+      unknownPostOrEvent.type === "SpasmEventBodyV2" ||
+      unknownPostOrEvent.type === "SpasmEventEnvelopeV2" ||
+      unknownPostOrEvent.type === "SpasmEventEnvelopeWithTreeV2" ||
+      unknownPostOrEvent.type === "SpasmEventDatabaseV2" ||
+      unknownPostOrEvent.type === "SpasmEventBodySignedClosedV2"
+    )
+  ) { return false }
+
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 
   // Unsigned Nostr event can be without 'id'
@@ -650,6 +662,8 @@ export const isNostrEvent = (
   ) return false
   if (typeof(unknownPostOrEvent.kind) !== "number") return false
 
+  // TODO what if we want to convert Spasm event without author
+  // to Nostr event before attaching a Nostr pubkey?
   // pubkey
   if (!('pubkey' in unknownPostOrEvent)) return false
   if (!unknownPostOrEvent.pubkey) return false
@@ -666,7 +680,7 @@ export const isNostrEvent = (
 }
 
 export const isNostrEventSignedOpened = (
-  unknownPostOrEvent: UnknownPostOrEvent
+  unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2
 ): boolean => {
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 
@@ -681,7 +695,7 @@ export const isNostrEventSignedOpened = (
 }
 
 export const isNostrSpasmEvent = (
-  unknownPostOrEvent: UnknownPostOrEvent
+  unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2
 ): boolean => {
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 
@@ -693,7 +707,7 @@ export const isNostrSpasmEvent = (
 }
 
 export const isNostrSpasmEventSignedOpened = (
-  unknownPostOrEvent: UnknownPostOrEvent
+  unknownPostOrEvent: UnknownPostOrEvent | UnknownEventV2
 ): boolean => {
   if (!isObjectWithValues(unknownPostOrEvent)) return false
 

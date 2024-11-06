@@ -34,7 +34,8 @@ import {
   SanitizationConfig,
   UnknownEventV2,
   SpasmEventStatV2,
-  SpasmEventChildV2
+  SpasmEventChildV2,
+  SpasmEventAddressFormatNameV2
 } from "./../types/interfaces.js"
 
 import { convertToSpasm } from "./../convert/convertToSpasm.js"
@@ -211,11 +212,18 @@ export const extractSealedEvent = (
 }
 
 export const toBeTimestamp = (time: any): number | undefined => {
- const date = new Date(time);
- const timestamp = date.getTime();
+ let date = new Date(time);
+ let timestamp = date.getTime();
 
   // Check if the timestamp is NaN, indicating an invalid date
   if (Number.isNaN(timestamp)) {
+    if (Number(time)) {
+      date = new Date(Number(time))
+      timestamp = date.getTime()
+      if (Number(timestamp)) {
+        return timestamp
+      }
+    }
     return undefined;
   }
 
@@ -227,7 +235,52 @@ export const toBeTimestamp = (time: any): number | undefined => {
   // }
 
  return timestamp;
-};
+}
+
+// Nostr relays only accept 10 digits long timestamps
+export const toBeShortTimestamp = (
+  value: string | number
+): number | undefined => {
+  if (!value || !isStringOrNumber) return undefined
+  let timestamp = toBeTimestamp(value)
+  if (!timestamp) return undefined
+  if (String(timestamp) && String(timestamp).length === 13) {
+    const str = String(timestamp)
+    if (str && str.slice(0,10)) {
+      const shortStr = str.slice(0,10)
+      if (Number(shortStr)) { return Number(shortStr) }
+    }
+  } else if (
+    String(timestamp) && String(timestamp).length === 10
+  ) { return timestamp }
+  return undefined
+}
+
+export const toBeLongTimestamp = (
+  value: string | number
+): number | null => {
+  if (!value || !isStringOrNumber) return null
+  let timestamp = toBeTimestamp(value)
+  if (!timestamp) return null
+  // Some timestamps are 10 digits long, so we
+  // need to standardize them to 13 digits
+  if (String(timestamp) && String(timestamp).length === 10) {
+    timestamp = timestamp * 1000;
+  }
+  if (
+    timestamp && typeof(timestamp) === "number" &&
+    String(timestamp) && String(timestamp).length >= 13
+  ) {
+    return timestamp
+  } else {
+    return null
+  }
+}
+
+export const toBeFullTimestamp = toBeLongTimestamp
+export const toBeStandardizedTimestamp = toBeShortTimestamp
+export const toBeStandardTimestamp = toBeShortTimestamp
+export const toBeNostrTimestamp = toBeShortTimestamp
 
 export const getNostrSpasmVersion = (
   event: NostrSpasmEvent | NostrSpasmEventSignedOpened,
@@ -374,9 +427,20 @@ export const getFormatFromValue = (
       return format
     }
 
-    // Dmp ID (signature)
-    if (value.length === 132 && value.startsWith("0x")) {
+    // Dmp ID (ethereum signature)
+    if (
+      value.length === 132 && value.startsWith("0x") &&
+      typeof(value) === "string" && isHex(value.slice(2))
+    ) {
       format = { name: "ethereum-sig" }
+      return format
+    }
+
+    // Dmp ID (nostr signature)
+    if (
+      value.length === 128 && isHex(value)
+    ) {
+      format = { name: "nostr-sig" }
       return format
     }
 
@@ -1429,7 +1493,9 @@ export const hasSiblingWeb2 = (
 export const getAllSigners = (
   unknownEvent: UnknownEventV2,
   onlyVerifiedFlag: boolean = false,
-  toLowerCase: boolean = true
+  toLowerCase: boolean = true,
+  formatName?: SpasmEventAddressFormatNameV2
+            | "nostr" | "ethereum" | "spasm"
 ): (string | number)[] => {
   if (!isObjectWithValues(unknownEvent)) return []
 
@@ -1460,10 +1526,51 @@ export const getAllSigners = (
             typeof(address.value) === "number"
           )
         ) {
-          if (onlyVerifiedFlag && address.verified) {
-            signers.push(address.value)
-          } else if (!onlyVerifiedFlag) {
-            signers.push(address.value)
+          // Format name is not specified
+          if (!formatName) {
+            if (onlyVerifiedFlag && address.verified) {
+              signers.push(address.value)
+            } else if (!onlyVerifiedFlag) {
+              signers.push(address.value)
+            }
+          // Format name is specified
+          } else {
+            if ((
+              formatName === "nostr" ||
+              formatName === "nostr-hex" ||
+              formatName === "nostr-npub"
+            ) && address.format && (
+              address.format.name === "nostr-hex" ||
+              address.format.name === "nostr-npub"
+            )) {
+              if (onlyVerifiedFlag && address.verified) {
+                signers.push(address.value)
+              } else if (!onlyVerifiedFlag) {
+                signers.push(address.value)
+              }
+            } else if ((
+              formatName === "ethereum" ||
+              formatName === "ethereum-pubkey"
+            ) && address.format && (
+              address.format.name === "ethereum-pubkey"
+            )) {
+              if (onlyVerifiedFlag && address.verified) {
+                signers.push(address.value)
+              } else if (!onlyVerifiedFlag) {
+                signers.push(address.value)
+              }
+            } else if ((
+              formatName === "spasm" ||
+              formatName === "spasmer"
+            ) && address.format && (
+              address.format.name === "spasmer"
+            )) {
+              if (onlyVerifiedFlag && address.verified) {
+                signers.push(address.value)
+              } else if (!onlyVerifiedFlag) {
+                signers.push(address.value)
+              }
+            }
           }
         }
       })
@@ -1481,10 +1588,48 @@ export const getAllSigners = (
   return signers
 }
 
+export const getAllSpasmSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, false, true, "spasm")
+}
+
+export const getAllEthereumSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, false, true, "ethereum")
+}
+
+export const getAllNostrSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, false, true, "nostr")
+}
+
+// TODO doesn't work with events where author
+// addresses are not lowercase
 export const getVerifiedSigners = (
   unknownEvent: UnknownEventV2,
 ): (string | number)[] => {
   return getAllSigners (unknownEvent, true, true)
+}
+
+export const getVerifiedSpasmSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, true, true, "spasm")
+}
+
+export const getVerifiedEthereumSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, true, true, "ethereum")
+}
+
+export const getVerifiedNostrSigners = (
+  unknownEvent: UnknownEventV2,
+): (string | number)[] => {
+  return getAllSigners (unknownEvent, true, true, "nostr")
 }
 
 export const getAllIdsFromArrayOfIdObjects = (
@@ -1959,14 +2104,13 @@ export const areAllPubkeysListedIn = areAllSignersListedIn
 
 export const getIdByFormat = (
   unknownEvent: UnknownEventV2,
-  customIdFormat?: SpasmEventIdFormatV2
+  customIdFormat?: SpasmEventIdFormatV2,
+  from?: "event" | "parent" | "root"
 ): string | number | null => {
-
   const defaultIdFormat = {
     name: "spasmid",
     version: "01"
   }
-
   const idFormat = customIdFormat || defaultIdFormat
 
   const idFormatName = idFormat?.name
@@ -1986,11 +2130,30 @@ export const getIdByFormat = (
     !('ids' in spasmEvent) ||
     !spasmEvent.ids ||
     !Array.isArray(spasmEvent.ids)
-  ) {
-    return null
+  ) { return null }
+
+  let ids: SpasmEventIdV2[] | null = null
+
+  if (!from || from === "event") {
+    if (
+      "ids" in spasmEvent && spasmEvent.ids &&
+      isArrayWithValues(spasmEvent.ids)
+    ) { ids = spasmEvent.ids }
+  } else if (from === "parent") {
+    if (
+      "parent" in spasmEvent && spasmEvent.parent &&
+      "ids" in spasmEvent.parent && spasmEvent.parent.ids &&
+      isArrayWithValues(spasmEvent.parent.ids)
+    ) { ids = spasmEvent.parent.ids }
+  } else if (from === "root") {
+    if (
+      "root" in spasmEvent && spasmEvent.root &&
+      "ids" in spasmEvent.root && spasmEvent.root.ids &&
+      isArrayWithValues(spasmEvent.root.ids)
+    ) { ids = spasmEvent.root.ids }
   }
 
-  const { ids } = spasmEvent
+  if (!ids || !isArrayWithValues(ids)) { return null }
 
   let idValue: string | number | null = null
 
@@ -2041,6 +2204,54 @@ export const getIdByFormat = (
   })
 
   return idValue
+}
+
+export const extractIdByFormat = getIdByFormat
+
+export const extractSpasmId01 = (
+  unknownEvent: UnknownEventV2,
+) => {
+  return extractIdByFormat(
+    unknownEvent, { name: "spasmid", version: "01" }
+  )
+}
+
+export const getParentIdByFormat = (
+  unknownEvent: UnknownEventV2,
+  customIdFormat?: SpasmEventIdFormatV2,
+): string | number | null => {
+  return getIdByFormat(
+    unknownEvent, customIdFormat, "parent"
+  )
+}
+
+export const extractParentIdByFormat = getParentIdByFormat
+
+export const extractParentSpasmId01 = (
+  unknownEvent: UnknownEventV2,
+) => {
+  return extractParentIdByFormat(
+    unknownEvent, { name: "spasmid", version: "01" }
+  )
+}
+
+export const getRootIdByFormat = (
+  unknownEvent: UnknownEventV2,
+  customIdFormat?: SpasmEventIdFormatV2,
+): string | number | null => {
+  return getIdByFormat(
+    unknownEvent, customIdFormat, "root"
+  )
+}
+
+export const extractRootIdByFormat = getRootIdByFormat
+
+export const extractRootSpasmId01 = (
+  unknownEvent: UnknownEventV2,
+) => {
+  return extractRootIdByFormat(
+    unknownEvent, { name: "spasmid", version: "01" }
+  )
 }
 
 export const checkIfEventHasThisId = (
@@ -2159,16 +2370,6 @@ export const getEventsByIds = (
   } else {
     return null
   }
-}
-
-export const extractIdByFormat = getIdByFormat
-
-export const extractSpasmId01 = (
-  unknownEvent: UnknownEventV2,
-) => {
-  return extractIdByFormat(
-    unknownEvent, { name: "spasmid", version: "01" }
-  )
 }
 
 export const toBeSpasmEventV2 = (
@@ -3376,4 +3577,208 @@ export const attachEventAsParent = (
   if (
     mainSpasmEvent && isObjectWithValues(mainSpasmEvent)
   ) { return mainSpasmEvent } else { return null }
+}
+
+// Assign formats for IDs, signatures, addresses if don't exist
+export const assignFormats = (
+  event: SpasmEventV2
+): void => {
+  if (
+    !isObjectWithValues(event) ||
+    !("type" in event) || !event.type ||
+    event.type !== "SpasmEventV2"
+  ) { return }
+
+  // Assign id format if doesn't exist
+  if (
+    "ids" in event && event.ids &&
+    isArrayWithValues(event.ids)
+  ) {
+    event.ids.forEach(id => {
+      if (
+        id.value && (
+          !("format" in id) || !id.format ||
+          !isObjectWithValues(id.format)
+        )
+      ) { id.format = getFormatFromId(id.value) }
+    })
+  }
+
+  // Assign author address format if doesn't exist
+  if (
+    "authors" in event && event.authors &&
+    isArrayWithValues(event.authors)
+  ) {
+    event.authors.forEach(author => {
+      if (
+        "addresses" in author && author.addresses &&
+        isArrayWithValues(author.addresses)
+      ) {
+        author.addresses.forEach(address => {
+          if (
+            !("format" in address) || !address.format ||
+            isObjectWithValues(address.format)
+          ) {
+            address.format = getFormatFromAddress(address.value)
+          }
+        })
+      }
+    })
+  }
+
+  // Assign signature format if doesn't exist
+  if (
+    "signatures" in event && event.signatures &&
+    isArrayWithValues(event.signatures)
+  ) {
+    event.signatures.forEach(signature => {
+      if (
+        signature.value && (
+          !("format" in signature) || !signature.format ||
+          !isObjectWithValues(signature.format)
+        )
+      ) {
+        signature.format =
+          getFormatFromSignature(signature.value)
+      }
+    })
+  }
+
+  // Assign ID and signature formats for siblings
+  if (
+    "siblings" in event && event.siblings &&
+    isArrayWithValues(event.siblings)
+  ) {
+    event.siblings.forEach(sibling => {
+      // Assign id format if doesn't exist
+      if (
+        "ids" in sibling && sibling.ids &&
+        isArrayWithValues(sibling.ids)
+      ) {
+        sibling.ids.forEach(id => {
+          if (
+            id.value && (
+              !("format" in id) || !id.format ||
+              !isObjectWithValues(id.format)
+            )
+          ) { id.format = getFormatFromId(id.value) }
+        })
+      }
+
+      // Assign signature format if doesn't exist
+      if (
+        "signatures" in sibling && sibling.signatures &&
+        isArrayWithValues(sibling.signatures)
+      ) {
+        sibling.signatures.forEach(signature => {
+          if (
+            signature.value && (
+              !("format" in signature) || !signature.format ||
+              !isObjectWithValues(signature.format)
+            )
+          ) {
+            signature.format =
+              getFormatFromSignature(signature.value)
+          }
+        })
+      }
+    })
+  }
+
+  // Assign parent ID format if doesn't exist
+  if (
+    "parent" in event && event.parent &&
+    isObjectWithValues(event.parent)
+  ) {
+    if (
+      "ids" in event.parent && event.parent.ids &&
+      isArrayWithValues(event.parent.ids)
+    ) {
+      event.parent.ids.forEach(id => {
+        if (
+          id.value && (
+            !("format" in id) || !id.format ||
+            !isObjectWithValues(id.format)
+          )
+        ) { id.format = getFormatFromId(id.value) }
+      })
+    }
+  }
+
+  // Assign root ID format if doesn't exist
+  if (
+    "root" in event && event.root &&
+    isObjectWithValues(event.root)
+  ) {
+    if (
+      "ids" in event.root && event.root.ids &&
+      isArrayWithValues(event.root.ids)
+    ) {
+      event.root.ids.forEach(id => {
+        if (
+          id.value && (
+            !("format" in id) || !id.format ||
+            !isObjectWithValues(id.format)
+          )
+        ) { id.format = getFormatFromId(id.value) }
+      })
+    }
+  }
+
+  // Assign ID format for each reference if doesn't exist
+  if (
+    "references" in event && event.references &&
+    isArrayWithValues(event.references)
+  ) {
+    event.references.forEach(reference => {
+      if (
+        "ids" in reference && reference.ids &&
+        isArrayWithValues(reference.ids)
+      ) {
+        reference.ids.forEach(id => {
+          if (
+            id.value && (
+              !("format" in id) || !id.format ||
+              !isObjectWithValues(id.format)
+            )
+          ) { id.format = getFormatFromId(id.value) }
+        })
+      }
+    })
+  }
+
+  // Assign address format for each mentionedAuthor if doesn't exist
+  if (
+    "mentions" in event && event.mentions &&
+    isArrayWithValues(event.mentions)
+  ) {
+    event.mentions.forEach(mention => {
+      if (
+        "addresses" in mention && mention.addresses &&
+        isArrayWithValues(mention.addresses)
+      ) {
+        mention.addresses.forEach(address => {
+          if (
+            !("format" in address) || !address.format ||
+            isObjectWithValues(address.format)
+          ) {
+            address.format = getFormatFromAddress(address.value)
+          }
+        })
+      }
+    })
+  }
+}
+
+export const isHex = (
+  value: string
+): boolean => {
+  if (!value) return false
+  if (typeof(value) !== "string") return false
+  const hexChars = [
+    "0","1","2","3","4","5","6","7","8","9",
+    "a","b","c","d","e","f"
+  ]
+  const valueArray = value.toLowerCase().split("")
+  return valueArray.every(char => hexChars.includes(char))
 }
