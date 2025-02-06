@@ -1731,6 +1731,460 @@ export const validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2: SpasmEve
   ]
 }
 
+export const validNostrSpasmEventV2SingleSignedOpened: NostrSpasmEventSignedOpened = {
+  kind: 1,
+  created_at: 1730416636,
+  tags:[
+    ["license","SPDX-License-Identifier: CC0-1.0"],
+    ["spasm_version","2.0.0"], // Do we need this?
+    ["nostr_spasm_version","2.0.0"],
+    ["spasm_action","reply"],
+    ["spasm_category","memes","memecoins","wojak"],
+    ["spasm_category","stonks"],
+    ["title","Nostr Spasm event V2 title"],
+    [ "t", "defi" ],
+    [ "t", "degen" ],
+    [ "t", "pepe" ],
+    [ "r", "https://degenrocket.space" ],
+    [ "r", "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop" ],
+    [
+      "e",
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+      "", // relay
+      "reply", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651", // tag value to map
+      "se2", // target event type (SpasmEventV2)
+      "parent.ids", // key in target event
+      "0", // parent index
+      "0", // ids index
+      "full", // method (padStart24, padEnd24, padBrand2.0.0, slice, hashHex for url/guid/text)
+      "", // original value
+      "nostr-hex", // spasm_format_name
+      "", // spasm_format_version
+      "", // spasm_marker
+      "", // spasm_hosts ("wss://relay1,wss://relay2,wss://relay3")
+      "" // spasm_pubkey
+    ],
+    [
+      "e",
+      "4c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+      "", // relay
+      "reply", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "4c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c", // tag value to map
+      "se2", // target event type
+      "parent.ids", // key in SpasmEvent
+      "0", // parent index
+      "1", // ids index
+      "hex_to_spasmid01_1", // method (padStart24, padEnd24, padBrand2.0.0, slice, hashHex for url/guid/text)
+      "", // original "spasmid014c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+      "spasmid", // spasm_format_name
+      "01", // spasm_format_version
+      "", "", "" 
+    ],
+    [
+      "e",
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779",
+      "", // relay
+      "reply", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779", // tag value to map
+      "se2", // target event type
+      "parent.ids", // key in target event
+      "0", // parent index
+      "2", // ids index
+      "slice064", // method
+      "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1", // original value
+      "nostr-sig", // spasm_format_name
+      "", "", "", "" 
+    ],
+    [
+      "e",
+      "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65",
+      "", // relay
+      "mention", // marker (root, reply, mention)
+      "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65", // tag value to map
+      "se2", // target event type (SpasmEventV2)
+      "references.ids", // key in target event
+      "0", // references index
+      "0", // ids index
+      "full", // method (padStart24, padEnd24, padBrand2.0.0, slice, hashHex for url/guid/text)
+      "", // original value
+      "nostr-hex", // spasm_format_name
+      "", // spasm_format_version
+      "", // spasm_marker
+      "", // spasm_hosts
+      "full", // spasm_pubkey method
+      "", // spasm_pubkey original
+    ],
+    [
+      "e",
+      "9ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807",
+      "", // relay
+      "mention", // marker (root, reply, mention)
+      "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "9ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807", // tag value to map
+      "se2", // target event type
+      "references.ids", // key in SpasmEvent
+      "0", // references index
+      "1", // ids index
+      "hex_to_spasmid01_1", // method
+      "", // original
+      "spasmid", // spasm_format_name
+      "01", // spasm_format_version
+      "", // spasm_marker
+      "", // spasm_hosts
+      "full", // spasm_pubkey method
+      "", // spasm_pubkey original
+    ],
+    [
+      "e",
+      "8c2de31b99295885fbc4d86ecbeaa51c006a79abe5e728493b24bd186fb752eb",
+      "", // relay
+      "mention", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "8c2de31b99295885fbc4d86ecbeaa51c006a79abe5e728493b24bd186fb752eb", // tag value to map
+      "se2", // target event type
+      "references.ids", // key in SpasmEvent
+      "1", // references index
+      "0", // ids index
+      "hex_to_spasmid01_1", // method
+      "", // original
+      "spasmid", // spasm_format_name
+      "01", // spasm_format_version
+      "", "", "" 
+    ],
+    [
+      "e",
+      "907f49b51b6b8d095f1edb2a1cb3370eafbac5c879cd0d7d4903e673b0c24373",
+      "", // relay
+      "mention", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "907f49b51b6b8d095f1edb2a1cb3370eafbac5c879cd0d7d4903e673b0c24373", // tag value to map
+      "se2", // target event type
+      "references.ids", // key in target event
+      "1", // reference index
+      "1", // ids index
+      "sha256", // method
+      "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack", // original value
+      "url", // format name
+      "", "", "", "" 
+    ],
+    [
+      "e",
+      "9e91d86688b81fd8ea92a9747cdb02b138fbc894ad66712be93232632c435c45",
+      "", // relay
+      "mention", // marker (root, reply, mention)
+      "", // pubkey
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_id_1", // mapping algorithm (id_details)
+      "e", // tag name to map
+      "9e91d86688b81fd8ea92a9747cdb02b138fbc894ad66712be93232632c435c45", // tag value to map
+      "se2", // target event type
+      "references.ids", // key in target event
+      "1", // reference index
+      "2", // ids index
+      "sha256", // method
+      "https://forum.degenrocket.space/?l=terraforming", // original
+      "guid", // format name
+      "", "", "", "" 
+    ],
+    [
+      "p",
+      "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce",
+      "" // relay
+    ],
+    [
+      "p",
+      "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93"
+    ],
+    [
+      "p",
+      "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_add_1", // mapping algorithm (author_address_details)
+      "p", // tag name to map
+      "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42", // tag value to map
+      "se2", // target event type
+      "mentions.addresses", // key in target event
+      "0", // mentions index
+      "0", // addresses index
+      "full", // method (slice02_padEnd24Brand_ethereum-pub)
+      "", // original value
+      "nostr-hex", // format name
+      "", // format version
+      "", // marker
+      "" // hosts
+    ],
+    [
+      "p",
+      "b9b19bfc786e1ab397e69c04737bcc1a92656b99657468657265756d2d707562",
+      "", // relay
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_add_1", // mapping algorithm (author_address_details)
+      "p", // tag name to map
+      "b9b19bfc786e1ab397e69c04737bcc1a92656b99657468657265756d2d707562", // tag value to map
+      // 657468657265756d2d707562 - 'ethereum-pub' in hex
+      "se2", // target event type
+      "mentions.addresses", // key in target event
+      "1", // mentions index
+      "0", // addresses index
+      "hex_to_eth_pub_1", // method (slice02_padEnd24Brand_ethereum-pub)
+      "", // original "0xb9b19bfc786e1ab397e69c04737bcc1a92656b99",
+      "ethereum-pubkey", // format name
+      "", "", ""
+    ],
+    [
+      "O",
+      "spasm_extra_author:0x8f898046952fbfbbe99c59ec35b2dba2923224ed",
+      "spasm_eaadd_1", // marker (extra_author_details)
+    ],
+    [
+      "tags_mapping", // tag name
+      "spasm_eaadd_1", // mapping algorithm (extra author address details)
+      "O", // tag name to map
+      "spasm_extra_author:0x8f898046952fbfbbe99c59ec35b2dba2923224ed", // tag value to map
+      "se2", // target event type
+      "authors.addresses", // key in target event
+      "0", // authors index
+      "1", // addresses index
+      "slice.19", // method
+      "", // original
+      "ethereum-pubkey", // format name
+      "", // format version
+      "", // hosts
+      "", // extra signature
+      "", // signed string
+      "" // type?
+    ],
+  ],
+  content: "Walled gardens became prisons, and NostrSpasmV2 is the third step towards tearing down the prison walls.",
+  pubkey: "28ab9c876811d4e5c6fb7672b795a33585825b9d025c56d4cbcdbc29f105f252",
+  id: "d33724f8aec2f71b830baac3c0a50c2bf13b5c86e3283f080a435a058808a5a2",
+  sig: "68ece6436137b5d04fa4ffab7ed9ad1fc3b55ac788bfd38eb5256787463254b131c956f12d052b4ea4d55db56c95f4f0c4d0b7d6b22074072f7d73c562490d66"
+};
+
+// TODO this is how event should look like, but in reality
+// Ethereum signer is removed after conversion. Need to check.
+export const validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2: SpasmEventV2 = {
+  type: "SpasmEventV2",
+  action: "reply",
+  title: "Nostr Spasm event V2 title",
+  content: "Walled gardens became prisons, and NostrSpasmV2 is the third step towards tearing down the prison walls.",
+  timestamp: 1730416636,
+  license: "SPDX-License-Identifier: CC0-1.0",
+  categories: [
+    {
+      name: "memes",
+      sub: {
+        name: "memecoins",
+        sub: {
+          name: "wojak"
+        }
+      }
+    },
+    { name: "stonks" }
+  ],
+  keywords: [ "defi", "degen", "pepe" ],
+  parent: {
+    ids: [
+      {
+        value: "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651",
+        format: { name: "nostr-hex" }
+      },
+      {
+        value: "spasmid014c291be8d272307c43c8bdb34046ae176b03797b54ae8733d01f8c0d96e1909c",
+        format: { name: "spasmid", version: "01" }
+      },
+      {
+        value: "db60516accfc025582bf556e3c7660c89e3982d2a656201aaea4189c6d3e3779b202c60302e55ad782ca711df20550384516abe4d7387470bc83ac757ed8f0f1",
+        format: { name: "nostr-sig" }
+      }
+    ]
+  },
+  authors: [
+    {
+      addresses: [
+        {
+          value: "28ab9c876811d4e5c6fb7672b795a33585825b9d025c56d4cbcdbc29f105f252",
+          format: { name: "nostr-hex" },
+          verified: true
+        },
+        {
+          value: "0x8f898046952fbfbbe99c59ec35b2dba2923224ed",
+          format: { name: "ethereum-pubkey" }
+        }
+      ]
+    }
+  ],
+  references: [
+    {
+      ids: [
+        {
+          value: "4376c65d2f232afbe9b882a35baa4f6fe8667c4e684749af565f981833ed6a65",
+          format: { name: "nostr-hex" },
+          pubkey: "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce"
+        },
+        {
+          value: "spasmid019ad43c95e3a59ef9fb7ef0e493c6fee5653569a33872af9caad6b37e8fc27807",
+          format: { name: "spasmid", version: "01" },
+          pubkey: "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce"
+        }
+      ]
+    },
+    {
+      ids: [
+        {
+          value: "spasmid018c2de31b99295885fbc4d86ecbeaa51c006a79abe5e728493b24bd186fb752eb",
+          format: { name: "spasmid", version: "01" }
+        },
+        {
+          value: "https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack",
+          format: { name: "url" }
+        },
+        {
+          value: "https://forum.degenrocket.space/?l=terraforming",
+          format: { name: "guid" }
+        }
+      ]
+    },
+    {
+      ids: [
+        {
+          value: "https://degenrocket.space",
+          format: { name: "url" }
+        }
+      ]
+    },
+    {
+      ids: [
+        {
+          value: "https://thedefiant.io/pepe-coin-genslr-coin-wojak-coin-trump-coin-rekt-coin-stonks-coin-when-does-it-stop",
+          format: { name: "url" }
+        }
+      ]
+    }
+  ],
+  mentions: [
+    {
+      addresses: [
+        {
+          value: "2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42",
+          format: { name: "nostr-hex" }
+        }
+      ]
+    },
+    {
+      addresses: [
+        {
+          value: "0xb9b19bfc786e1ab397e69c04737bcc1a92656b99",
+          format: { name: "ethereum-pubkey" }
+        }
+      ]
+    },
+    {
+      addresses: [
+        {
+          value: "bf2376e17ba4ec269d10fcc996a4746b451152be9031fa48e74553dde5526bce",
+          format: { name: "nostr-hex" }
+        }
+      ]
+    },
+    {
+      addresses: [
+        {
+          value: "6e468422dfb74a5738702a8823b9b28168abab8655faacb6853cd0ee15deee93",
+          format: { name: "nostr-hex" }
+        }
+      ]
+    },
+  ],
+  ids: [
+    {
+      value: "spasmid017fd3f089dbb4a5a5cf6e4a9082d299d1c887ba42302133c5013364ed4f65db52",
+      format: { name: "spasmid", version: "01" }
+    },
+    {
+      value: "d33724f8aec2f71b830baac3c0a50c2bf13b5c86e3283f080a435a058808a5a2",
+      format: { name: "nostr-hex" }
+    }
+  ],
+  signatures: [
+    {
+      value: "68ece6436137b5d04fa4ffab7ed9ad1fc3b55ac788bfd38eb5256787463254b131c956f12d052b4ea4d55db56c95f4f0c4d0b7d6b22074072f7d73c562490d66",
+      pubkey: "28ab9c876811d4e5c6fb7672b795a33585825b9d025c56d4cbcdbc29f105f252",
+      format: { name: "nostr-sig" }
+    }
+  ],
+  siblings: [
+    {
+      type: "SiblingNostrSpasmSignedV2",
+      originalObject: validNostrSpasmEventV2SingleSignedOpened,
+      protocol: {
+        name: "nostr",
+        hasExtraSpasmFields: true,
+        extraSpasmFieldsVersion: "2.0.0"
+      },
+      ids: [
+        {
+          value: "d33724f8aec2f71b830baac3c0a50c2bf13b5c86e3283f080a435a058808a5a2",
+          format: { name: "nostr-hex" }
+        }
+      ],
+      signatures: [
+        {
+          value: "68ece6436137b5d04fa4ffab7ed9ad1fc3b55ac788bfd38eb5256787463254b131c956f12d052b4ea4d55db56c95f4f0c4d0b7d6b22074072f7d73c562490d66",
+          pubkey: "28ab9c876811d4e5c6fb7672b795a33585825b9d025c56d4cbcdbc29f105f252",
+          format: { name: "nostr-sig" }
+        }
+      ],
+    }
+  ]
+}
+
 export const validSpasmEventBodyV2WithOneNostrSigner: SpasmEventBodyV2 = {
   type: "SpasmEventBodyV2",
   action: "post",

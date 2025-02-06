@@ -527,6 +527,22 @@ if (ifArraysHaveCommonId(event1RootIds, event2Ids)) {
 }
 ```
 
+```js
+// Insert or merge an event into array
+insertIntoArrayIfEventIsUnique(array, event)
+
+// alias (merge enabled by default)
+appendToArrayIfEventIsUnique(array, event)
+pushToArrayIfEventIsUnique(array, event)
+
+// alias (merge enabled by default)
+prependToArrayIfEventIsUnique(array, event)
+unshiftToArrayIfEventIsUnique(array, event)
+
+// Merge event into array (only if not unique)
+mergeEventIntoArray(array, event)
+```
+
 ## Examples
 
 ### Convert DmpEventSignedClosed to Spasm

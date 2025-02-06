@@ -1,4 +1,4 @@
-import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventIdV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2, ConvertToSpasmConfig, CustomConvertToSpasmConfig, CustomSanitizationConfig, SanitizationConfig, UnknownEventV2, SpasmEventStatV2, SpasmEventChildV2, SpasmEventAddressFormatNameV2 } from "./../types/interfaces.js";
+import { UnknownPostOrEvent, UnknownEvent, NostrSpasmEvent, NostrSpasmEventSignedOpened, NostrSpasmVersion, LinkObject, SpasmEventIdFormatV2, SpasmEventAddressFormatV2, SpasmEventSignatureFormatV2, SpasmEventV2, SpasmEventAuthorV2, SpasmEventBodyHostV2, SpasmEventMediaV2, SpasmEventIdV2, SpasmEventBodyReferenceV2, SpasmEventBodyParentV2, ConvertToSpasmConfig, CustomConvertToSpasmConfig, CustomSanitizationConfig, SanitizationConfig, UnknownEventV2, SpasmEventStatV2, SpasmEventChildV2, SpasmEventAddressFormatNameV2, NostrEventSignedOpened, NostrEvent } from "./../types/interfaces.js";
 export declare const hasValue: (el?: any) => boolean;
 export declare const isStringOrNumber: (val: any) => boolean;
 export declare const isNumberOrString: (val: any) => boolean;
@@ -50,6 +50,8 @@ export declare const sanitizeEventWith: (originalItem: Object | any[], config?: 
 export declare const sanitizeStringWithDompurify: (val: any) => any;
 export declare const sanitizeEventWithDompurify: (originalItem: Object | any[], config?: CustomSanitizationConfig) => void;
 export declare const sanitizeEvent: (originalItem: Object | any[], config?: CustomSanitizationConfig) => void;
+export declare const sanitizeArray: (originalItem: Object | any[], config?: CustomSanitizationConfig) => void;
+export declare const sanitizeAnything: (originalItem: Object | any[], config?: CustomSanitizationConfig) => void;
 export declare const clearArray: (arr: any[]) => void;
 export declare const clearObject: (obj: Record<string, any>) => void;
 type mergeObjectsHandleArrays = "overwriteArrays" | "mergeArrays";
@@ -59,6 +61,10 @@ export declare const mergeSanitizationConfigs: (defaultConfig: SanitizationConfi
 export declare const hasSignatureOfFormat: (spasmEvent: SpasmEventV2, signatureFormat: "ethereum" | "nostr") => boolean;
 export declare const hasSignatureEthereum: (spasmEvent: SpasmEventV2) => boolean;
 export declare const hasSignatureNostr: (spasmEvent: SpasmEventV2) => boolean;
+export declare const extractNostrEvent: (spasmEvent: SpasmEventV2, onlySigned?: boolean) => NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened | null;
+export declare const extractSignedNostrEvent: (spasmEvent: SpasmEventV2) => NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened | null;
+export declare const extractSignedNostrEvents: (spasmEvent: SpasmEventV2) => (NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened)[] | null;
+export declare const extractNostrEvents: (unknownEvent: UnknownEventV2, onlySigned?: boolean) => (NostrEvent | NostrEventSignedOpened | NostrSpasmEvent | NostrSpasmEventSignedOpened)[] | null;
 export declare const hasSiblingOfProtocol: (spasmEvent: SpasmEventV2, eventProtocol: "spasm" | "dmp" | "nostr" | "web2") => boolean;
 export declare const hasSiblingSpasm: (spasmEvent: SpasmEventV2) => boolean;
 export declare const hasSiblingDmp: (spasmEvent: SpasmEventV2) => boolean;
@@ -110,6 +116,14 @@ export declare const toBeSpasmEventsV2: (unknownEvents: any[]) => SpasmEventV2[]
 export declare const extractSignerFromEthereumSignature: (signedString: string, signature: string) => string | null;
 export declare const mergeSpasmEventsV2: (spasmEvents: any[], depth?: number) => SpasmEventV2 | null;
 export declare const mergeDifferentSpasmEventsV2: (unknownEvents: any[], depth?: number) => SpasmEventV2[] | null;
+export declare const checkIfArrayHasThisSpasmEventV2: (array: UnknownEventV2[], event: UnknownEventV2) => boolean;
+export declare const checkIfArrayHasThisEvent: (array: UnknownEventV2[], event: UnknownEventV2) => boolean;
+export declare const mergeEventIntoArray: (array: UnknownEventV2[], event: UnknownEventV2) => void;
+export declare const insertIntoArrayIfEventIsUnique: (array: UnknownEventV2[], originalEvent: UnknownEventV2, method?: "unshift" | "push", ifMergeWhenAvailable?: boolean, ifConvertToSpasm?: boolean, convertToSpasmVersion?: "2.0.0") => void;
+export declare const pushToArrayIfEventIsUnique: (array: SpasmEventV2[], event: SpasmEventV2, ifMergeWhenAvailable?: boolean, ifConvertToSpasm?: boolean, convertToSpasmVersion?: "2.0.0") => void;
+export declare const appendToArrayIfEventIsUnique: (array: SpasmEventV2[], event: SpasmEventV2, ifMergeWhenAvailable?: boolean, ifConvertToSpasm?: boolean, convertToSpasmVersion?: "2.0.0") => void;
+export declare const unshiftToArrayIfEventIsUnique: (array: SpasmEventV2[], event: SpasmEventV2, ifMergeWhenAvailable?: boolean, ifConvertToSpasm?: boolean, convertToSpasmVersion?: "2.0.0") => void;
+export declare const prependToArrayIfEventIsUnique: (array: SpasmEventV2[], event: SpasmEventV2, ifMergeWhenAvailable?: boolean, ifConvertToSpasm?: boolean, convertToSpasmVersion?: "2.0.0") => void;
 export declare const sortSpasmEventsV2ByDbAddedTimestamp: (unknownEvents: any[], order?: "asc" | "desc") => SpasmEventV2[] | null;
 export declare const sortSpasmEventsV2: (unknownEvents: any[], order?: "asc" | "desc") => SpasmEventV2[] | null;
 export declare const ifEventsHaveSameSpasmId01: (event1: UnknownEventV2, event2: UnknownEventV2) => Boolean;

@@ -70,7 +70,14 @@ import {
   extractParentSpasmId01,
   extractParentIdByFormat,
   toBeShortTimestamp,
-  toBeNostrTimestamp
+  toBeNostrTimestamp,
+  extractNostrEvent,
+  extractSignedNostrEvent,
+  extractNostrEvents,
+  extractSignedNostrEvents,
+  checkIfArrayHasThisEvent,
+  appendToArrayIfEventIsUnique,
+  prependToArrayIfEventIsUnique
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -106,6 +113,11 @@ import {
   validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2,
   validNostrSpasmEventConvertedToSpasmV2,
   validNostrReplyToDmpEvent,
+  validNostrSpasmEventV2SingleSignedOpened,
+  validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2,
+  validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2,
+  validRssItemWithEmojiConvertedToSpasmEvent2,
+  validSpasmEventBodySignedClosedV2,
 } from "./_events-data.js"
 
 import {
@@ -1337,6 +1349,38 @@ describe("hasSiblingSpasm() function tests", () => {
     expect(hasSignatureNostr(inputNostr)).toEqual(true);
     expect(hasSignatureNostr(inputNostrSpasm)).toEqual(true);
     expect(hasSignatureNostr(inputWeb2)).toEqual(false);
+  });
+});
+
+describe("extractNostrEvents() function tests", () => {
+  test("extractNostrEvents() should extract valid Nostr event from Spasm event", () => {
+    expect(extractNostrEvent(
+      validDmpEventConvertedToSpasmEventV2
+    )).toStrictEqual(null)
+    expect(extractNostrEvent(
+      validDmpEventSignedOpenedConvertedToSpasmV2
+    )).toStrictEqual(null)
+    expect(extractNostrEvent(
+      validNostrEventConvertedToSpasmV2
+    )).toStrictEqual(validNostrEvent)
+    expect(extractSignedNostrEvent(
+      validNostrEventConvertedToSpasmV2
+    )).toStrictEqual(null)
+    expect(extractSignedNostrEvent(
+      validNostrEventSignedOpenedConvertedToSpasmV2
+    )).toStrictEqual(validNostrEventSignedOpened)
+    expect(extractSignedNostrEvent(
+      validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2
+    )).toStrictEqual(validNostrSpasmEventV2SingleSignedOpened)
+    expect(extractNostrEvents(
+      validNostrEventConvertedToSpasmV2
+    )).toStrictEqual([validNostrEvent])
+    expect(extractSignedNostrEvents(
+      validNostrEventConvertedToSpasmV2
+    )).toStrictEqual(null)
+    expect(extractSignedNostrEvents(
+      validNostrEventSignedOpenedConvertedToSpasmV2
+    )).toStrictEqual([validNostrEventSignedOpened])
   });
 });
 
@@ -3153,6 +3197,120 @@ describe("mergeDifferentSpasmEventsV2() tests", () => {
     ])).toStrictEqual([
       copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
     ]);
+  });
+});
+
+// checkIfArrayHasThisEvent()
+describe("checkIfArrayHasThisEvent() function tests", () => {
+  test("checkIfArrayHasThisEvent()", () => {
+    expect(checkIfArrayHasThisEvent(
+      [
+        copyOf(validNostrSpasmEventConvertedToSpasmV2),
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ], copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      )).toStrictEqual(true);
+    expect(checkIfArrayHasThisEvent(
+      [
+        copyOf(validNostrSpasmEventConvertedToSpasmV2),
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ], copyOf(null),
+      )).toStrictEqual(false);
+    expect(checkIfArrayHasThisEvent(
+      [ ], copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      )).toStrictEqual(false);
+    // Should return true because it's the same event, but one
+    // is signed, while another one is unsigned
+    expect(checkIfArrayHasThisEvent(
+      [
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ], copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      )).toStrictEqual(true);
+    expect(checkIfArrayHasThisEvent(
+      [
+        copyOf(validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2),
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ], copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      )).toStrictEqual(true);
+    expect(checkIfArrayHasThisEvent(
+      [
+        copyOf(validNostrSpasmEventConvertedToSpasmV2),
+        copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+      ], copyOf(validNostrSpasmEventConvertedToSpasmV2),
+      )).toStrictEqual(true);
+  });
+});
+
+// appendToArrayIfEventIsUnique()
+// prependToArrayIfEventIsUnique()
+describe("appendToArrayIfEventIsUnique() function tests", () => {
+  test("appendToArrayIfEventIsUnique() should push to array", () => {
+    const event1 =
+      copyOf(validRssItemWithEmojiConvertedToSpasmEvent2)
+    const event2 =
+      copyOf(validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2)
+    const event3 =
+      copyOf(validNostrSpasmEventConvertedToSpasmV2)
+    const event3signed =
+      copyOf(validNostrSpasmEventSignedOpenedConvertedToSpasmV2)
+    const event4 =
+      copyOf(validSpasmEventBodySignedClosedV2)
+    const array1 = [ copyOf(event2), copyOf(event3) ]
+    expect(array1.length).toStrictEqual(2)
+
+    prependToArrayIfEventIsUnique(array1, event1)
+    expect(array1.length).toStrictEqual(3)
+    expect(array1[0].content).toStrictEqual(event1.content)
+    expect(array1[1].content).toStrictEqual(event2.content)
+    expect(array1[2].content).toStrictEqual(event3.content)
+    expect(array1[0]).toStrictEqual(event1)
+
+    // Append without converting to SpasmEvent
+    appendToArrayIfEventIsUnique(array1, event4, false, false)
+    expect(array1.length).toStrictEqual(4)
+    expect(array1[0].content).toStrictEqual(event1.content)
+    expect(array1[1].content).toStrictEqual(event2.content)
+    expect(array1[2].content).toStrictEqual(event3.content)
+    // Event is unchanged
+    expect(array1[3].type).toStrictEqual(event4.type)
+    expect('content' in array1[3]).toStrictEqual(false)
+    expect(array1[3]).toStrictEqual(event4)
+
+    // Nothing happens when appending duplicate without merging
+    appendToArrayIfEventIsUnique(
+      array1, copyOf(event4), false, false)
+    expect(array1.length).toStrictEqual(4)
+    expect(array1[3].type).toStrictEqual(event4.type)
+    expect('content' in array1[3]).toStrictEqual(false)
+    expect(array1[3]).toStrictEqual(event4)
+
+    // Re-inserting the same event, but converted to SpasmEvent
+    array1.pop()
+    expect(array1.length).toStrictEqual(3)
+    appendToArrayIfEventIsUnique(array1, copyOf(event4))
+    expect(array1.length).toStrictEqual(4)
+    expect(array1[3]).toStrictEqual(convertToSpasm(event4))
+
+    // Nothing happens when inserting signed event without merging
+    appendToArrayIfEventIsUnique(
+      array1, copyOf(event3signed), false, false)
+    expect(array1.length).toStrictEqual(4)
+    expect('signatures' in array1[2]).toStrictEqual(false)
+    expect(array1[2]).toStrictEqual(event3)
+
+    // Unsigned event should be replaced with signed event
+    // because merging is enabled by default
+    appendToArrayIfEventIsUnique(
+      array1, copyOf(event3signed))
+    expect(array1.length).toStrictEqual(4)
+    expect('signatures' in array1[2]).toStrictEqual(true)
+    expect(array1[2]).toStrictEqual(event3signed)
+    expect(array1[2]).not.toEqual(event3)
+
+    // Final result
+    expect(array1[0]).toStrictEqual(event1)
+    expect(array1[1]).toStrictEqual(event2)
+    expect(array1[2]).toStrictEqual(event3signed)
+    expect(array1[3]).toStrictEqual(convertToSpasm(event4))
   });
 });
 

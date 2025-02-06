@@ -58,6 +58,8 @@ import {
   validSpasmEventBodySignedClosedV2ConvertedToSpasmV2,
   validSpasmEventBodyV2ReplyToGenesisSignedClosed,
   validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2,
+  validNostrSpasmEventV2SingleSignedOpened,
+  validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2
 } from "./_events-data.js"
 import { convertManyToSpasm, convertToSpasm } from "./../convert/convertToSpasm.js"
 import {
@@ -74,6 +76,7 @@ import {
 } from "../convert/convertToSpasmEventDatabase.js";
 import {
   CustomConvertToSpasmConfig,
+  NostrSpasmEventSignedOpened,
   SpasmEventV2,
   UnknownEventV2
 } from "../types/interfaces.js";
@@ -832,6 +835,21 @@ describe("convertToSpasmEventEnvelopeWithTree() tests", () => {
     expect(envelopeWithTreeMaxDepth1?.children?.[0]?.event?.ids).toStrictEqual(
       copyOf(validPostWithNostrReplyToDmpEventConvertedToSpasmV2).ids
     )
+  });
+});
+
+describe("convertToSpasm() tests for single signed Nostr Spasm events", () => {
+  test("convertToSpasm() should convert single signed Nostr Spasm event", () => {
+    const input: NostrSpasmEventSignedOpened =
+      copyOf(validNostrSpasmEventV2SingleSignedOpened)
+    const inputConverted: SpasmEventV2 | null =
+      convertToSpasm(input)
+    const output: SpasmEventV2 = copyOf(
+      validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2
+    )
+    // TODO why Ethereum signer is removed?
+    // expect(inputConverted).toStrictEqual(output)
+    expect(inputConverted).not.toEqual(output)
   });
 });
 

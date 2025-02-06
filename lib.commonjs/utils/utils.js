@@ -24,8 +24,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeNostrTimestamp = exports.toBeStandardTimestamp = exports.toBeStandardizedTimestamp = exports.toBeFullTimestamp = exports.toBeLongTimestamp = exports.toBeShortTimestamp = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers = exports.isArrayOfNumbers = exports.isArrayOfStrings = exports.isArrayWithValues = exports.isObjectWithValues = exports.ifNumberOrString = exports.ifStringOrNumber = exports.isNumberOrString = exports.isStringOrNumber = exports.hasValue = void 0;
-exports.getRootIdByFormat = exports.extractParentSpasmId01 = exports.extractParentIdByFormat = exports.getParentIdByFormat = exports.extractSpasmId01 = exports.extractIdByFormat = exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedNostrSigners = exports.getVerifiedEthereumSigners = exports.getVerifiedSpasmSigners = exports.getVerifiedSigners = exports.getAllNostrSigners = exports.getAllEthereumSigners = exports.getAllSpasmSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeEvent = void 0;
-exports.isHex = exports.assignFormats = exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addEventsToTree = exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.extractRootSpasmId01 = exports.extractRootIdByFormat = void 0;
+exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedNostrSigners = exports.getVerifiedEthereumSigners = exports.getVerifiedSpasmSigners = exports.getVerifiedSigners = exports.getAllNostrSigners = exports.getAllEthereumSigners = exports.getAllSpasmSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.extractNostrEvents = exports.extractSignedNostrEvents = exports.extractSignedNostrEvent = exports.extractNostrEvent = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeAnything = exports.sanitizeArray = exports.sanitizeEvent = void 0;
+exports.isHex = exports.assignFormats = exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addEventsToTree = exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.prependToArrayIfEventIsUnique = exports.unshiftToArrayIfEventIsUnique = exports.appendToArrayIfEventIsUnique = exports.pushToArrayIfEventIsUnique = exports.insertIntoArrayIfEventIsUnique = exports.mergeEventIntoArray = exports.checkIfArrayHasThisEvent = exports.checkIfArrayHasThisSpasmEventV2 = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.extractRootSpasmId01 = exports.extractRootIdByFormat = exports.getRootIdByFormat = exports.extractParentSpasmId01 = exports.extractParentIdByFormat = exports.getParentIdByFormat = exports.extractSpasmId01 = exports.extractIdByFormat = void 0;
 /*
  * Using sha256 from 'js-sha256' npm package, because
  * built-in 'crypto' module works only in a server-side
@@ -991,6 +991,8 @@ const sanitizeEventWithDompurify = (originalItem, config) => {
 };
 exports.sanitizeEventWithDompurify = sanitizeEventWithDompurify;
 exports.sanitizeEvent = exports.sanitizeEventWithDompurify;
+exports.sanitizeArray = exports.sanitizeEventWithDompurify;
+exports.sanitizeAnything = exports.sanitizeEventWithDompurify;
 const clearArray = (arr) => {
     arr.length = 0; // This clears the array
 };
@@ -1080,6 +1082,69 @@ const hasSignatureNostr = (spasmEvent) => {
     return (0, exports.hasSignatureOfFormat)(spasmEvent, "nostr");
 };
 exports.hasSignatureNostr = hasSignatureNostr;
+const extractNostrEvent = (spasmEvent, onlySigned = false) => {
+    const nostrEvents = (0, exports.extractNostrEvents)(spasmEvent, onlySigned);
+    if (nostrEvents && Array.isArray(nostrEvents) && nostrEvents[0]) {
+        return nostrEvents[0];
+    }
+    else {
+        return null;
+    }
+};
+exports.extractNostrEvent = extractNostrEvent;
+const extractSignedNostrEvent = (spasmEvent) => {
+    return (0, exports.extractNostrEvent)(spasmEvent, true);
+};
+exports.extractSignedNostrEvent = extractSignedNostrEvent;
+const extractSignedNostrEvents = (spasmEvent) => {
+    return (0, exports.extractNostrEvents)(spasmEvent, true);
+};
+exports.extractSignedNostrEvents = extractSignedNostrEvents;
+const extractNostrEvents = (unknownEvent, onlySigned = false) => {
+    const spasmEvent = (0, exports.toBeSpasmEventV2)(unknownEvent);
+    if (!spasmEvent)
+        return null;
+    if (!(0, exports.isObjectWithValues)(spasmEvent))
+        return null;
+    if (!spasmEvent.siblings)
+        return null;
+    if (!Array.isArray(spasmEvent.siblings))
+        return null;
+    const nostrEvents = [];
+    spasmEvent.siblings.forEach(sibling => {
+        if ((0, exports.isObjectWithValues)(sibling) &&
+            sibling.protocol &&
+            (0, exports.isObjectWithValues)(sibling.protocol) &&
+            sibling.protocol.name &&
+            typeof (sibling.protocol.name) === "string" &&
+            sibling.protocol.name === "nostr" ||
+            sibling.type) {
+            if (onlySigned) {
+                if (sibling.type === "SiblingNostrSignedV2" ||
+                    sibling.type === "SiblingNostrSpasmSignedV2") {
+                    if ("originalObject" in sibling && sibling.originalObject) {
+                        nostrEvents.push(sibling.originalObject);
+                    }
+                }
+            }
+            else if (!onlySigned) {
+                if (sibling.type === "SiblingNostrV2" ||
+                    sibling.type === "SiblingNostrSpasmV2" ||
+                    sibling.type === "SiblingNostrSignedV2" ||
+                    sibling.type === "SiblingNostrSpasmSignedV2") {
+                    if ("originalObject" in sibling && sibling.originalObject) {
+                        nostrEvents.push(sibling.originalObject);
+                    }
+                }
+            }
+        }
+    });
+    if ((0, exports.isArrayWithValues)(nostrEvents)) {
+        return nostrEvents;
+    }
+    return null;
+};
+exports.extractNostrEvents = extractNostrEvents;
 const hasSiblingOfProtocol = (spasmEvent, eventProtocol) => {
     if (!spasmEvent)
         return false;
@@ -1562,6 +1627,176 @@ const areAllSignersListedIn = (unknownEvent, list) => {
 };
 exports.areAllSignersListedIn = areAllSignersListedIn;
 exports.areAllPubkeysListedIn = exports.areAllSignersListedIn;
+// TODO use getAllSigners() instead
+// export const getAuthorsAddressesByFormat = (
+//   unknownEvent: UnknownEventV2,
+//   customAddressFormat?: SpasmEventAddressFormatV2,
+//   from?: "authors" | "mentions",
+//   onlyVerifiedFlag?: boolean
+// ): (string | number)[] | null => {
+//   const defaultAddressFormat: SpasmEventAddressFormatV2 =
+//     { name: "spasmer" }
+//   const addressFormat =
+//     customAddressFormat || defaultAddressFormat
+//
+//   const addressFormatName = addressFormat?.name
+//     ? addressFormat?.name : "spasmer"
+//   const addressFormatVersion = addressFormat?.version
+//     ? addressFormat?.version : ""
+//
+//   const spasmEvent = toBeSpasmEventV2(unknownEvent)
+//
+//   if (
+//     !spasmEvent ||
+//     !isObjectWithValues(spasmEvent) ||
+//     !hasValue(spasmEvent)
+//   ) return null
+//
+//   let authors: SpasmEventAuthorV2[] | null = null
+//
+//   // Authors
+//   if (!from || from === "authors") {
+//     if (
+//       "authors" in spasmEvent && spasmEvent.authors &&
+//       isArrayWithValues(spasmEvent.authors)
+//     ) { authors = spasmEvent.authors }
+//
+//   // Mentions
+//   } else if (from === "mentions") {
+//     if (
+//       "mentions" in spasmEvent && spasmEvent.mentions &&
+//       isArrayWithValues(spasmEvent.mentions)
+//     ) { authors = spasmEvent.mentions }
+//   }
+//
+//   if (!authors || !isArrayWithValues(authors)) { return null }
+//
+//   let addressesValue: (string | number)[] = []
+//
+//   authors.forEach(author => {
+//     if (
+//       !author || typeof(author) !== "object" ||
+//       Array.isArray(author) || !isObjectWithValues(author)
+//     ) { return }
+//
+//     // Addresses
+//     if (
+//       "addresses" in author && author.addresses &&
+//       isArrayWithValues(author.addresses)
+//     ) {
+//       author.addresses.forEach(address => {
+//         if (
+//           !address || typeof(address) !== "object" ||
+//           Array.isArray(address) || !isObjectWithValues(address)
+//         ) { return }
+//
+//         if (!('value' in address) || !address.value ||
+//           (
+//             typeof(address.value) !== "string" &&
+//             typeof(address.value) !== "number"
+//           )
+//         ) { return }
+//
+//         if (!('format' in address) || !address.format) { return }
+//
+//         const { format } = address
+//
+//         if (
+//           format && typeof(format) === "object" &&
+//           !Array.isArray(format) &&
+//           isObjectWithValues(format)
+//         ) {
+//           // Match format name
+//           if (
+//             format.name && typeof(format.name) === "string" &&
+//             addressFormatName &&
+//             format.name === addressFormatName
+//           ) {
+//             // No version was specified, so returning address
+//             // which only matched the specified format name.
+//             if (!addressFormatVersion) {
+//               if (onlyVerifiedFlag && address.verified) {
+//                 addressesValue.push(address.value)
+//               } else if (!onlyVerifiedFlag) {
+//                 addressesValue.push(address.value)
+//               }
+//             }
+//
+//             // Match format version (if specified)
+//             if (
+//               format.version &&
+//               typeof(format.version) === "string" &&
+//               addressFormatVersion &&
+//               format.version === addressFormatVersion
+//             ) {
+//               if (onlyVerifiedFlag && address.verified) {
+//                 addressesValue.push(address.value)
+//               } else if (!onlyVerifiedFlag) {
+//                 addressesValue.push(address.value)
+//               }
+//             }
+//           }
+//         }
+//       })
+//     }
+//
+//     return
+//   })
+//
+//   if (addressesValue && isArrayWithValues(addressesValue)) {
+//     return addressesValue
+//   } else { return null }
+// }
+//
+// export const getSignersByFormat =
+//   getAuthorsAddressesByFormat
+//
+// export const extractAuthorsAddressesByFormat =
+//   getAuthorsAddressesByFormat
+//
+// export const extractSignersByFormat =
+//   getAuthorsAddressesByFormat
+//
+// export const extractEthereumSigners = (
+//   unknownEvent: UnknownEventV2,
+//   onlyVerifiedFlag: boolean = false
+// ): (string | number)[] | null => {
+//   return getAuthorsAddressesByFormat(
+//     unknownEvent, { name: "ethereum-pubkey" }, "authors",
+//     onlyVerifiedFlag
+//   )
+// }
+//
+// export const extractVerifiedEthereumSigners = (
+//   unknownEvent: UnknownEventV2
+// ): (string | number)[] | null => {
+//   return extractEthereumSigners(unknownEvent, true)
+// }
+//
+// export const extractNostrSigners = (
+//   unknownEvent: UnknownEventV2,
+//   onlyVerifiedFlag: boolean = false
+// ): (string | number)[] | null => {
+//   const authorsAddressesHex = getAuthorsAddressesByFormat(
+//     unknownEvent, { name: "nostr-hex" }, "authors",
+//     onlyVerifiedFlag
+//   )
+//   if (authorsAddressesHex) { return authorsAddressesHex }
+//
+//   const authorsAddressesNpub = getAuthorsAddressesByFormat(
+//     unknownEvent, { name: "nostr-npub" }, "authors",
+//     onlyVerifiedFlag
+//   )
+//   if (authorsAddressesNpub) { return authorsAddressesNpub }
+//
+//   return null
+// }
+//
+// export const extractVerifiedNostrSigners = (
+//   unknownEvent: UnknownEventV2
+// ): (string | number)[] | null => {
+//   return extractNostrSigners(unknownEvent, true)
+// }
 const getIdByFormat = (unknownEvent, customIdFormat, from) => {
     const defaultIdFormat = {
         name: "spasmid",
@@ -2237,6 +2472,93 @@ const mergeDifferentSpasmEventsV2 = (unknownEvents, depth = 0) => {
     }
 };
 exports.mergeDifferentSpasmEventsV2 = mergeDifferentSpasmEventsV2;
+const checkIfArrayHasThisSpasmEventV2 = (array, event) => {
+    if (!event)
+        return false;
+    if (!array)
+        return false;
+    if (!Array.isArray(array))
+        return false;
+    const allEventIds = (0, exports.getAllEventIds)(event);
+    if (!(0, exports.isArrayWithValues)(allEventIds))
+        return false;
+    const found = array.some((item) => {
+        const itemIds = (0, exports.getAllEventIds)(item);
+        if ((0, exports.isArrayWithValues)(itemIds)) {
+            return allEventIds.some(id => itemIds.includes(id));
+        }
+        return false;
+    });
+    return found;
+};
+exports.checkIfArrayHasThisSpasmEventV2 = checkIfArrayHasThisSpasmEventV2;
+exports.checkIfArrayHasThisEvent = exports.checkIfArrayHasThisSpasmEventV2;
+const mergeEventIntoArray = (array, event) => {
+    if (!event || !array)
+        return;
+    if (!Array.isArray(array))
+        return;
+    const allEventIds = (0, exports.getAllEventIds)(event);
+    if (!(0, exports.isArrayWithValues)(allEventIds))
+        return;
+    array.forEach((item, index) => {
+        const itemIds = (0, exports.getAllEventIds)(item);
+        if ((0, exports.isArrayWithValues)(itemIds)) {
+            const ifMatch = allEventIds.some(id => itemIds.includes(id));
+            if (ifMatch) {
+                const mergedEvent = (0, exports.mergeSpasmEventsV2)([item, event]);
+                if (mergedEvent) {
+                    array[index] = mergedEvent;
+                }
+            }
+        }
+    });
+};
+exports.mergeEventIntoArray = mergeEventIntoArray;
+const insertIntoArrayIfEventIsUnique = (array, originalEvent, method = "push", ifMergeWhenAvailable = true, ifConvertToSpasm = true, convertToSpasmVersion = "2.0.0") => {
+    let event = null;
+    if (ifConvertToSpasm) {
+        const customConfig = {
+            to: { spasm: { version: convertToSpasmVersion } }
+        };
+        event = (0, convertToSpasm_js_1.convertToSpasm)(originalEvent, customConfig);
+    }
+    else {
+        event = originalEvent;
+    }
+    if (!event || !array)
+        return;
+    if (!Array.isArray(array))
+        return;
+    // Event is already in the array
+    if ((0, exports.checkIfArrayHasThisEvent)(array, event)) {
+        // Don't use mergeDifferentSpasmEventsV2, it's too costly
+        if (ifMergeWhenAvailable) {
+            (0, exports.mergeEventIntoArray)(array, event);
+        }
+        return;
+        // Event is not in the array
+    }
+    else {
+        if (method === "unshift") {
+            array.unshift(event);
+        }
+        else if (method === "push") {
+            array.push(event);
+        }
+    }
+};
+exports.insertIntoArrayIfEventIsUnique = insertIntoArrayIfEventIsUnique;
+const pushToArrayIfEventIsUnique = (array, event, ifMergeWhenAvailable = true, ifConvertToSpasm = true, convertToSpasmVersion = "2.0.0") => {
+    return (0, exports.insertIntoArrayIfEventIsUnique)(array, event, "push", ifMergeWhenAvailable, ifConvertToSpasm, convertToSpasmVersion);
+};
+exports.pushToArrayIfEventIsUnique = pushToArrayIfEventIsUnique;
+exports.appendToArrayIfEventIsUnique = exports.pushToArrayIfEventIsUnique;
+const unshiftToArrayIfEventIsUnique = (array, event, ifMergeWhenAvailable = true, ifConvertToSpasm = true, convertToSpasmVersion = "2.0.0") => {
+    return (0, exports.insertIntoArrayIfEventIsUnique)(array, event, "unshift", ifMergeWhenAvailable, ifConvertToSpasm, convertToSpasmVersion);
+};
+exports.unshiftToArrayIfEventIsUnique = unshiftToArrayIfEventIsUnique;
+exports.prependToArrayIfEventIsUnique = exports.unshiftToArrayIfEventIsUnique;
 const sortSpasmEventsV2ByDbAddedTimestamp = (unknownEvents, order = "desc") => {
     const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
     if (!spasmEvents || !spasmEvents[0] ||

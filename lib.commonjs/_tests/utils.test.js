@@ -1147,6 +1147,19 @@ describe("hasSiblingSpasm() function tests", () => {
         expect((0, index_js_1.hasSignatureNostr)(inputWeb2)).toEqual(false);
     });
 });
+describe("extractNostrEvents() function tests", () => {
+    test("extractNostrEvents() should extract valid Nostr event from Spasm event", () => {
+        expect((0, index_js_1.extractNostrEvent)(_events_data_js_1.validDmpEventConvertedToSpasmEventV2)).toStrictEqual(null);
+        expect((0, index_js_1.extractNostrEvent)(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2)).toStrictEqual(null);
+        expect((0, index_js_1.extractNostrEvent)(_events_data_js_1.validNostrEventConvertedToSpasmV2)).toStrictEqual(_events_data_js_1.validNostrEvent);
+        expect((0, index_js_1.extractSignedNostrEvent)(_events_data_js_1.validNostrEventConvertedToSpasmV2)).toStrictEqual(null);
+        expect((0, index_js_1.extractSignedNostrEvent)(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2)).toStrictEqual(_events_data_js_1.validNostrEventSignedOpened);
+        expect((0, index_js_1.extractSignedNostrEvent)(_events_data_js_1.validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2)).toStrictEqual(_events_data_js_1.validNostrSpasmEventV2SingleSignedOpened);
+        expect((0, index_js_1.extractNostrEvents)(_events_data_js_1.validNostrEventConvertedToSpasmV2)).toStrictEqual([_events_data_js_1.validNostrEvent]);
+        expect((0, index_js_1.extractSignedNostrEvents)(_events_data_js_1.validNostrEventConvertedToSpasmV2)).toStrictEqual(null);
+        expect((0, index_js_1.extractSignedNostrEvents)(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2)).toStrictEqual([_events_data_js_1.validNostrEventSignedOpened]);
+    });
+});
 // getAllSigners()
 describe("getAllSigners() function tests", () => {
     test("getAllSigners() should return an array of author addresses", () => {
@@ -2371,6 +2384,91 @@ describe("mergeDifferentSpasmEventsV2() tests", () => {
         ])).toStrictEqual([
             (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
         ]);
+    });
+});
+// checkIfArrayHasThisEvent()
+describe("checkIfArrayHasThisEvent() function tests", () => {
+    test("checkIfArrayHasThisEvent()", () => {
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+        ], (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2))).toStrictEqual(true);
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+        ], (0, index_js_1.copyOf)(null))).toStrictEqual(false);
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([], (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2))).toStrictEqual(false);
+        // Should return true because it's the same event, but one
+        // is signed, while another one is unsigned
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+        ], (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2))).toStrictEqual(true);
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+        ], (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2))).toStrictEqual(true);
+        expect((0, index_js_1.checkIfArrayHasThisEvent)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2),
+        ], (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2))).toStrictEqual(true);
+    });
+});
+// appendToArrayIfEventIsUnique()
+// prependToArrayIfEventIsUnique()
+describe("appendToArrayIfEventIsUnique() function tests", () => {
+    test("appendToArrayIfEventIsUnique() should push to array", () => {
+        const event1 = (0, index_js_1.copyOf)(_events_data_js_1.validRssItemWithEmojiConvertedToSpasmEvent2);
+        const event2 = (0, index_js_1.copyOf)(_events_data_js_1.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2);
+        const event3 = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventConvertedToSpasmV2);
+        const event3signed = (0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2);
+        const event4 = (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventBodySignedClosedV2);
+        const array1 = [(0, index_js_1.copyOf)(event2), (0, index_js_1.copyOf)(event3)];
+        expect(array1.length).toStrictEqual(2);
+        (0, index_js_1.prependToArrayIfEventIsUnique)(array1, event1);
+        expect(array1.length).toStrictEqual(3);
+        expect(array1[0].content).toStrictEqual(event1.content);
+        expect(array1[1].content).toStrictEqual(event2.content);
+        expect(array1[2].content).toStrictEqual(event3.content);
+        expect(array1[0]).toStrictEqual(event1);
+        // Append without converting to SpasmEvent
+        (0, index_js_1.appendToArrayIfEventIsUnique)(array1, event4, false, false);
+        expect(array1.length).toStrictEqual(4);
+        expect(array1[0].content).toStrictEqual(event1.content);
+        expect(array1[1].content).toStrictEqual(event2.content);
+        expect(array1[2].content).toStrictEqual(event3.content);
+        // Event is unchanged
+        expect(array1[3].type).toStrictEqual(event4.type);
+        expect('content' in array1[3]).toStrictEqual(false);
+        expect(array1[3]).toStrictEqual(event4);
+        // Nothing happens when appending duplicate without merging
+        (0, index_js_1.appendToArrayIfEventIsUnique)(array1, (0, index_js_1.copyOf)(event4), false, false);
+        expect(array1.length).toStrictEqual(4);
+        expect(array1[3].type).toStrictEqual(event4.type);
+        expect('content' in array1[3]).toStrictEqual(false);
+        expect(array1[3]).toStrictEqual(event4);
+        // Re-inserting the same event, but converted to SpasmEvent
+        array1.pop();
+        expect(array1.length).toStrictEqual(3);
+        (0, index_js_1.appendToArrayIfEventIsUnique)(array1, (0, index_js_1.copyOf)(event4));
+        expect(array1.length).toStrictEqual(4);
+        expect(array1[3]).toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(event4));
+        // Nothing happens when inserting signed event without merging
+        (0, index_js_1.appendToArrayIfEventIsUnique)(array1, (0, index_js_1.copyOf)(event3signed), false, false);
+        expect(array1.length).toStrictEqual(4);
+        expect('signatures' in array1[2]).toStrictEqual(false);
+        expect(array1[2]).toStrictEqual(event3);
+        // Unsigned event should be replaced with signed event
+        // because merging is enabled by default
+        (0, index_js_1.appendToArrayIfEventIsUnique)(array1, (0, index_js_1.copyOf)(event3signed));
+        expect(array1.length).toStrictEqual(4);
+        expect('signatures' in array1[2]).toStrictEqual(true);
+        expect(array1[2]).toStrictEqual(event3signed);
+        expect(array1[2]).not.toEqual(event3);
+        // Final result
+        expect(array1[0]).toStrictEqual(event1);
+        expect(array1[1]).toStrictEqual(event2);
+        expect(array1[2]).toStrictEqual(event3signed);
+        expect(array1[3]).toStrictEqual((0, convertToSpasm_js_1.convertToSpasm)(event4));
     });
 });
 // mergeStatsV2()
