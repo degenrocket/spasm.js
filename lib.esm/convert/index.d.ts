@@ -1,4 +1,4 @@
-export { convertToSpasm, convertManyToSpasm } from "./convertToSpasm.js";
+export { convertToSpasm, convertManyToSpasm, isMappedTag, getTagMappedDetails, getOriginalFromValueAndMethod, getOriginalValueFromTagMappedDetails } from "./convertToSpasm.js";
 export { convertToNostr } from "./convertToNostr.js";
 export { convertToSpasmEventDatabase, convertManyToSpasmEventDatabase } from "./convertToSpasmEventDatabase.js";
 export { convertToSpasmEventEnvelope, convertManyToSpasmEventEnvelope } from "./convertToSpasmEventEnvelope.js";

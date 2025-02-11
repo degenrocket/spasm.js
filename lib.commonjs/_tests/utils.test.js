@@ -218,6 +218,32 @@ describe("getFormatFromValue() function tests", () => {
         });
     });
 });
+// extractIdFormatNameFromSpasmEventIdV2
+describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
+    test("should extract ID format name", () => {
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventConvertedToSpasmEventV2.ids[0]))).toStrictEqual("spasmid");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2.ids[0]))).toStrictEqual("spasmid");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2.ids[1]))).toStrictEqual("ethereum-sig");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2.ids[0]))).toStrictEqual("spasmid");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2.ids[1]))).toStrictEqual("nostr-hex");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2.ids[2]))).toStrictEqual("nostr-sig");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(true))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[0]))).toStrictEqual("spasmid");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[1]))).toStrictEqual("url");
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[2]))).toStrictEqual("guid");
+    });
+});
+// extractAllIdFormatNamesFromSpasmEventV2
+// getAllFormatNamesFromSpasmEventV2
+// getAllFormatNamesFromEvent
+describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
+    test("should extract all ID format names", () => {
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventConvertedToSpasmEventV2))).toStrictEqual(["spasmid"]);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2))).toStrictEqual(["spasmid", "ethereum-sig"]);
+        expect((0, index_js_1.getAllFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2))).toStrictEqual(["spasmid", "nostr-hex", "nostr-sig"]);
+        expect((0, index_js_1.getAllFormatNamesFromEvent)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2))).toStrictEqual(["spasmid", "url", "guid"]);
+    });
+});
 // getHashOfString()
 describe("getHashOfString() function tests", () => {
     test("should return valid hash", () => {
@@ -2621,6 +2647,163 @@ describe("addEventsToTree() function tests", () => {
             (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2)
         ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent));
     });
+    test("addEventsToTree() should add two comments to an event without any children", () => {
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            // No events should be attached because maxDepth is 0
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ], 0 // maxDepth
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            // No events should be attached, depth is already max
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ], 10, // maxDepth
+        true, // ifRecursively
+        10 // depth (current)
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            // No events should be attached because direction is up
+            // so only parent or root can be attached.
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ], 10, // maxDepth
+        true, // ifRecursively
+        0, // depth (current)
+        "up")).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            // Depth2 should not be attached because maxDepth is 1
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ], 1 // maxDepth
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            // Depth2 should not be attached since recursion disabled
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ], 10, // maxDepth
+        false // ifRecursively
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            // No events merged because merge is disabled
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus4),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1),
+        ], 10, // maxDepth
+        true, // ifRecursively
+        0, // depth (current)
+        "any", // direction
+        false // ifMerge
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2));
+        // Try to add many duplicate relatives
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2));
+        // Try many related and unrelated events
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed),
+            (0, index_js_1.copyOf)(_events_data_js_1.validPostWithRssItemTitleHasSpecialChars),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply2Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1React1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply2),
+            false,
+            null,
+            [],
+            { id: 18081 },
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2));
+        // Add the same event
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus2), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus2),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus2));
+        // Merge if events have the same ID
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2));
+        // Merge if events have the same ID
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus4),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus4));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus2), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus4));
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1),
+        ]
+        // No events should be added because depth 2 is missing
+        )).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth0_Plus1));
+        // Add parent and children any direction (up and down)
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus1));
+        // Add parent and children any direction (up and down)
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1), [
+            // order matters
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth0_Post1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus2));
+        // Test direction to avoid adding
+        // parent to child to parent to child to parent
+        expect((0, index_js_1.addEventsToTree)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1), [
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth1_Post1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1),
+            (0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventV2TreeDepth2_Post1Reply1Reply1),
+        ])).toStrictEqual((0, index_js_1.copyOf)(_events_data_js_1.validSpasmTreeV2Depth2_Plus1));
+    });
 });
 // assignFormats()
 describe("assignFormats() function tests", () => {
@@ -2642,6 +2825,44 @@ describe("toBeShortTimestamp() function tests", () => {
             .toStrictEqual(1641074686);
         expect((0, index_js_1.toBeNostrTimestamp)("1641074686"))
             .toStrictEqual(1641074686);
+    });
+});
+// isHex()
+// isNostrHex()
+describe("isHex() and isNostrHex() function tests", () => {
+    test("isHex() tests", () => {
+        expect((0, index_js_1.isHex)(null)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)(undefined)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)(true)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)(false)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)([1, 2, 3])).toStrictEqual(false);
+        expect((0, index_js_1.isHex)(123)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)(0)).toStrictEqual(false);
+        expect((0, index_js_1.isHex)({ id: 1 })).toStrictEqual(false);
+        expect((0, index_js_1.isHex)("")).toStrictEqual(false);
+        expect((0, index_js_1.isHex)("0")).toStrictEqual(true);
+        expect((0, index_js_1.isHex)("0123456789abcdef")).toStrictEqual(true);
+        expect((0, index_js_1.isHex)("0123456789abcdefg")).toStrictEqual(false);
+        expect((0, index_js_1.isHex)("https://degenrocket.space")).toStrictEqual(false);
+        expect((0, index_js_1.isHex)("2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42")).toStrictEqual(true);
+        expect((0, index_js_1.isHex)("db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651")).toStrictEqual(true);
+    });
+    test("isNostrHex() tests", () => {
+        expect((0, index_js_1.isNostrHex)(null)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)(undefined)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)(true)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)(false)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)([1, 2, 3])).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)(123)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)(0)).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)({ id: 1 })).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("")).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("0")).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("0123456789abcdef")).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("0123456789abcdefg")).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("https://degenrocket.space")).toStrictEqual(false);
+        expect((0, index_js_1.isNostrHex)("2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42")).toStrictEqual(true);
+        expect((0, index_js_1.isNostrHex)("db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651")).toStrictEqual(true);
     });
 });
 // template()

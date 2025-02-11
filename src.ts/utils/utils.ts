@@ -37,7 +37,8 @@ import {
   SpasmEventChildV2,
   SpasmEventAddressFormatNameV2,
   NostrEventSignedOpened,
-  NostrEvent
+  NostrEvent,
+  SpasmEventIdFormatNameV2
 } from "./../types/interfaces.js"
 
 import { convertToSpasm } from "./../convert/convertToSpasm.js"
@@ -83,11 +84,14 @@ export const hasValue = (el?: any) => {
   // Recursively check for at least one value inside an array
   if (Array.isArray(el) && el?.length) {
     let hasAtLeastOneValue: boolean = false
-    el.forEach(function (e) {
+    // For of is used instead of forEach to break from
+    // the loop once at least one element has value.
+    for (const e of el) {
       if (hasValue(e)) {
         hasAtLeastOneValue = true
+        break
       }
-    })
+    }
 
     if (hasAtLeastOneValue) {
       return true
@@ -518,6 +522,51 @@ export const getFormatFromSignature = (
 ): SpasmEventSignatureFormatV2 => {
   return getFormatFromValue(address) as SpasmEventSignatureFormatV2
 }
+
+export const extractIdFormatNameFromSpasmEventIdV2 = (
+  id: SpasmEventIdV2
+): SpasmEventIdFormatNameV2 | null => {
+  if (!id) return null
+  if (typeof(id) !== "object") return null
+  if (
+    id &&
+    'format' in id && id.format &&
+    'name' in id.format && id.format.name &&
+    typeof(id.format.name) === "string"
+  ) { return id.format.name }
+  return null
+}
+
+export const extractAllIdFormatNamesFromSpasmEventV2 = (
+  originalEvent: SpasmEventV2
+): (SpasmEventIdFormatNameV2)[] | null => {
+  const spasmEventV2: SpasmEventV2 | null =
+    toBeSpasmEventV2(originalEvent)
+  if (!spasmEventV2 || !isObjectWithValues(spasmEventV2)) {
+    return null
+  }
+  if (
+    'ids' in spasmEventV2 && spasmEventV2.ids &&
+    isArrayWithValues(spasmEventV2.ids)
+  ) {
+    const formatNames: SpasmEventIdFormatNameV2[] = []
+    spasmEventV2.ids?.forEach(id => {
+      const formatName =
+        extractIdFormatNameFromSpasmEventIdV2(id)
+      if (formatName && typeof(formatName) === "string") {
+        formatNames.push(formatName)
+      }
+    })
+    return formatNames
+  }
+  return null
+}
+
+export const getAllFormatNamesFromSpasmEventV2 =
+  extractAllIdFormatNamesFromSpasmEventV2
+
+export const getAllFormatNamesFromEvent =
+  getAllFormatNamesFromSpasmEventV2
 
 export const getHashOfString = (
   string: string,
@@ -1331,12 +1380,12 @@ export const clearObject = (obj: Record<string, any>): void => {
   })
 }
 
-type mergeObjectsHandleArrays = "overwriteArrays" | "mergeArrays"
+type MergeObjectsHandleArrays = "overwriteArrays" | "mergeArrays"
 
 export const mergeObjects = (
   defaultObject: Object,
   customObject: Object,
-  handleArrays: mergeObjectsHandleArrays = "overwriteArrays",
+  handleArrays: MergeObjectsHandleArrays = "overwriteArrays",
   depth: number = 0
 ): Object => {
   const maxRecursionDepth = 50
@@ -1391,7 +1440,7 @@ export const mergeObjects = (
 export const mergeConfigs = (
   defaultConfig: ConvertToSpasmConfig,
   customConfig: CustomConvertToSpasmConfig,
-  handleArrays: mergeObjectsHandleArrays = "overwriteArrays"
+  handleArrays: MergeObjectsHandleArrays = "overwriteArrays"
 ): ConvertToSpasmConfig => {
   const newConfig =
     mergeObjects(defaultConfig, customConfig, handleArrays)
@@ -1401,7 +1450,7 @@ export const mergeConfigs = (
 export const mergeSanitizationConfigs = (
   defaultConfig: SanitizationConfig,
   customConfig: CustomSanitizationConfig,
-  handleArrays: mergeObjectsHandleArrays = "overwriteArrays"
+  handleArrays: MergeObjectsHandleArrays = "overwriteArrays"
 ): SanitizationConfig => {
   const newConfig =
     mergeObjects(defaultConfig, customConfig, handleArrays)
@@ -3765,7 +3814,12 @@ export const mergeChildrenV2 = (
 
 export const addEventsToTree = (
   unknownEvent: UnknownEventV2,
-  unknownEvents: UnknownEventV2[]
+  unknownEvents: UnknownEventV2[],
+  maxDepth: number = 10,
+  ifRecursively: boolean = true,
+  depth: number = 0,
+  destination: "any" | "up" | "down" = "any",
+  ifMerge: boolean = true
 ): SpasmEventV2 | null => {
   if (!unknownEvent) return null
   let treeEventV2: SpasmEventV2 | null  =
@@ -3773,6 +3827,9 @@ export const addEventsToTree = (
   if (
     !treeEventV2 || !isObjectWithValues(treeEventV2)
   ) return null
+
+  const maxRecursionDepth = maxDepth ?? 10
+  if (depth >= maxRecursionDepth) { return treeEventV2 }
 
   if (!unknownEvents) return treeEventV2
   const spasmEvents: SpasmEventV2[] | null =
@@ -3787,24 +3844,79 @@ export const addEventsToTree = (
   const treeIds = getAllEventIds(treeEventV2)
 
   spasmEvents.forEach(event => {
+    if (!treeEventV2) return // break from forEach iteration
     if (event && isObjectWithValues(event)) {
       // const eventRootIds = getAllRootIds(event)
       const eventParentIds = getAllParentIds(event)
       const eventIds = getAllEventIds(event)
+      // Merge if events have the same ID
+      if (ifArraysHaveCommonId(treeIds, eventIds)) {
+        if (ifMerge) {
+          treeEventV2 = mergeSpasmEventsV2([treeEventV2, event])
+        }
       // Attach to tree as a root event
-      if (ifArraysHaveCommonId(treeRootIds, eventIds)) {
-        if (treeEventV2) {
+      } else if (ifArraysHaveCommonId(treeRootIds, eventIds)) {
+        if (destination === "any" || destination === "up") {
           treeEventV2 = attachEventAsRoot(treeEventV2, event)
         }
       // Attach to tree as a parent event
       } else if (ifArraysHaveCommonId(treeParentIds, eventIds)) {
-        if (treeEventV2) {
+        if (destination === "any" || destination === "up") {
           treeEventV2 = attachEventAsParent(treeEventV2, event)
         }
       // Attach to tree as a child event
       } else if (ifArraysHaveCommonId(treeIds, eventParentIds)) {
-        if (treeEventV2) {
+        if (destination === "any" || destination === "down") {
           treeEventV2 = attachEventAsChild(treeEventV2, event)
+        }
+      // Check if event should be attached to depth + 1
+      } else if (ifRecursively) {
+        // Root
+        if (treeEventV2?.root?.event) {
+          if (destination === "any" || destination === "up") {
+            const eventWithAddedRelative =
+              addEventsToTree(
+                treeEventV2?.root?.event, [event],
+                maxDepth, ifRecursively, depth + 1, "up"
+            )
+            if (eventWithAddedRelative) {
+              treeEventV2.root.event = eventWithAddedRelative
+            }
+          }
+        }
+        // Parent
+        if (treeEventV2?.parent?.event) {
+          if (destination === "any" || destination === "up") {
+            const eventWithAddedRelative =
+              addEventsToTree(
+                treeEventV2?.parent?.event, [event],
+                maxDepth, ifRecursively, depth + 1, "up"
+            )
+            if (eventWithAddedRelative) {
+              treeEventV2.parent.event = eventWithAddedRelative
+            }
+          }
+        }
+        // Children
+        if (
+          treeEventV2?.children &&
+          isArrayWithValues(treeEventV2.children)
+        ) {
+          if (destination === "any" || destination === "down") {
+            treeEventV2.children.forEach(child => {
+              // Child
+              if (child?.event) {
+                const eventWithAddedRelative =
+                  addEventsToTree(
+                    child?.event, [event],
+                    maxDepth, ifRecursively, depth + 1, "down"
+                )
+                if (eventWithAddedRelative) {
+                  child.event = eventWithAddedRelative
+                }
+              }
+            })
+          }
         }
       }
     }
@@ -3818,6 +3930,17 @@ export const addEventsToTree = (
     return null
   }
 }
+
+// TODO set directions and maxDepth
+export const addParentToTree = addEventsToTree
+export const addParentToEvent = addEventsToTree
+
+export const addRootToTree = addEventsToTree
+export const addRootToEvent = addEventsToTree
+
+export const addChildrenToTree = addEventsToTree
+export const addCommentsToEvent = addEventsToTree
+export const addRepliesToEvent = addEventsToTree
 
 export const ifArraysHaveCommonId = (
   array1: (string | number)[],
@@ -4145,7 +4268,7 @@ export const assignFormats = (
 }
 
 export const isHex = (
-  value: string
+  value: any
 ): boolean => {
   if (!value) return false
   if (typeof(value) !== "string") return false
@@ -4155,4 +4278,14 @@ export const isHex = (
   ]
   const valueArray = value.toLowerCase().split("")
   return valueArray.every(char => hexChars.includes(char))
+}
+
+export const isNostrHex = (
+  value: any
+): boolean => {
+  if (!value) return false
+  if (!isHex(value)) return false
+  if (typeof(value) !== "string") return false
+  if (value.length !== 64) return false
+  return true
 }

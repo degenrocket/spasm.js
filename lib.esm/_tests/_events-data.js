@@ -4070,4 +4070,962 @@ export const validRssItemWithEmoji = {
     "latest_action_added_time": null
 };
 export const validRssItemWithEmojiConvertedToSpasmEvent2 = { "type": "SpasmEventV2", "action": "post", "title": "Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi", "timestamp": 1715609494000, "content": "[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...", "keywords": ["OSMO"], "ids": [{ "value": "spasmid01fc9080487349b7fc6d298d7df02e29d7d39617dd38913dfda515556eee3e156c", "format": { "name": "spasmid", "version": "01" } }, { "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "format": { "name": "url" } }, { "value": "https://medium.com/p/5b93a387639c", "format": { "name": "guid" } }], "links": [{ "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "protocol": "https", "origin": "https://medium.com", "host": "medium.com", "pathname": "/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "originalProtocolKey": "url" }, { "value": "https://medium.com/p/5b93a387639c", "protocol": "https", "origin": "https://medium.com", "host": "medium.com", "pathname": "/p/5b93a387639c", "originalProtocolKey": "guid" }], "siblings": [{ "type": "SiblingWeb2V2", "protocol": { "name": "web2" }, "ids": [{ "value": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "format": { "name": "url" } }, { "value": "https://medium.com/p/5b93a387639c", "format": { "name": "guid" } }], "originalObject": { "id": 936756, "guid": "https://medium.com/p/5b93a387639c", "source": "osmosis-medium", "category": "defi", "tickers": "OSMO", "title": "Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi", "url": "https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c", "description": "[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...", "pubdate": "2024-05-13T14:11:34.000Z", "tags": null, "upvote": null, "downvote": null, "bullish": null, "bearish": null, "important": null, "scam": null, "comments_count": null, "latest_action_added_time": null } }], "db": { "key": 936756 }, "source": { "name": "osmosis-medium" }, "categories": [{ "name": "defi" }] };
+// Testing event tree (relatives)
+// validSpasmEventV2TreeDepth0_Post1
+// validSpasmEventV2TreeDepth1_Post1React1
+// validSpasmEventV2TreeDepth1_Post1Reply1
+// validSpasmEventV2TreeDepth1_Post1Reply2
+// validSpasmEventV2TreeDepth2_Post1Reply1Reply1
+// validSpasmEventV2TreeDepth2_Post1Reply2React1
+// validSpasmEventV2TreeDepth2_Post1Reply2Reply1
+// validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1
+// validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1
+// validSpasmEventV2TreeDepth0_Post1
+export const validSpasmEventV2TreeDepth0_Post1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"post\",\"content\":\"validSpasmEventV2TreeDepth0_Post1\",\"title\":\"Depth0_Post1 title\",\"timestamp\":1739126601242,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0xd4739c15de36243645841d99137f7a625a2aa6a0557ba0c5b5d6c9ffb45aaf3865dc8db92706ec7d942231b211b08402be603748240af082860df872830a15981c",
+                    "pubkey": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "action": "post",
+    "title": "Depth0_Post1 title",
+    "content": "validSpasmEventV2TreeDepth0_Post1",
+    "timestamp": 1739126601242,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0xd4739c15de36243645841d99137f7a625a2aa6a0557ba0c5b5d6c9ffb45aaf3865dc8db92706ec7d942231b211b08402be603748240af082860df872830a15981c",
+            "pubkey": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth1_Post1React1
+export const validSpasmEventV2TreeDepth1_Post1React1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"react\",\"content\":\"upvote\",\"parent\":{\"ids\":[{\"value\":\"spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739126741045,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0xa145a31fde5a73a3259764da166da5af03b1e43d\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0xc44bd98cd4e8f95adfc0d3ab068e1c3880969086281df083f2d573d5a31910ff21b567426aaec3447bf94e0fc25f182d8086b0973de5eef8fe8823af4eede9231b",
+                    "pubkey": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "react",
+    "content": "upvote",
+    "timestamp": 1739126741045,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0xc44bd98cd4e8f95adfc0d3ab068e1c3880969086281df083f2d573d5a31910ff21b567426aaec3447bf94e0fc25f182d8086b0973de5eef8fe8823af4eede9231b",
+            "pubkey": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid015d5feb857692488dd1e55e9f50315af81af2ba2ecc9267907a0e4d2b5ed74790",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth1_Post1Reply1
+export const validSpasmEventV2TreeDepth1_Post1Reply1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth1_Post1Reply1\",\"parent\":{\"ids\":[{\"value\":\"spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739126881083,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0xa145a31fde5a73a3259764da166da5af03b1e43d\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x6632713506f965ea9d1a9ae961c35c164ceefb79d74036da603b6e3f281d83b615e0c740ee0e7ac1940a311cc214ffb78411a443872b4daf8015ee341f6d50af1b",
+                    "pubkey": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth1_Post1Reply1",
+    "timestamp": 1739126881083,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x6632713506f965ea9d1a9ae961c35c164ceefb79d74036da603b6e3f281d83b615e0c740ee0e7ac1940a311cc214ffb78411a443872b4daf8015ee341f6d50af1b",
+            "pubkey": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid011ef9f8a77b030ba0217aeb60e43b06332a4ffcb95772d50dd3771f57d08923fa",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth1_Post1Reply2
+export const validSpasmEventV2TreeDepth1_Post1Reply2 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth1_Post1Reply2\",\"parent\":{\"ids\":[{\"value\":\"spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739126964427,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x779d750879ffe8e1694edbe64336a9cbb8795d30\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x3e084d5823000d26e13ea029652be13ea7d5c6ffa49ef26a163102d99a8d4d420c10bf5913d852d69422d13237f722d44e5e7f1132eac73598777a2091b78cc11b",
+                    "pubkey": "0x779d750879ffe8e1694edbe64336a9cbb8795d30",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid0141f35fbfc8391a8f560e99ff6f7b728f670c2216fd15c581bdd0dda84fcd0b7f",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth1_Post1Reply2",
+    "timestamp": 1739126964427,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x779d750879ffe8e1694edbe64336a9cbb8795d30",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x3e084d5823000d26e13ea029652be13ea7d5c6ffa49ef26a163102d99a8d4d420c10bf5913d852d69422d13237f722d44e5e7f1132eac73598777a2091b78cc11b",
+            "pubkey": "0x779d750879ffe8e1694edbe64336a9cbb8795d30",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid01a80271c545afc3fe2426cc5de39d35ec832f925f08ee5fa6c479273cf939580d",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth2_Post1Reply1Reply1
+export const validSpasmEventV2TreeDepth2_Post1Reply1Reply1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth2_Post1Reply1Reply1\",\"parent\":{\"ids\":[{\"value\":\"spasmid011ef9f8a77b030ba0217aeb60e43b06332a4ffcb95772d50dd3771f57d08923fa\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0xa145a31fde5a73a3259764da166da5af03b1e43d\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739127035261,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x92d31890d8326f9d43790a051c2217a5b579f805\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x0b21b67a51d3bba3323a1cc58ce19d5d3b77363a250b5ee77ba54d63c262fa950586e4a7f8efdc4ca4caf10f019f6fa6240c04433115c61635fcbe6f9688ebf91c",
+                    "pubkey": "0x92d31890d8326f9d43790a051c2217a5b579f805",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid011ef9f8a77b030ba0217aeb60e43b06332a4ffcb95772d50dd3771f57d08923fa",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth2_Post1Reply1Reply1",
+    "timestamp": 1739127035261,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x92d31890d8326f9d43790a051c2217a5b579f805",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x0b21b67a51d3bba3323a1cc58ce19d5d3b77363a250b5ee77ba54d63c262fa950586e4a7f8efdc4ca4caf10f019f6fa6240c04433115c61635fcbe6f9688ebf91c",
+            "pubkey": "0x92d31890d8326f9d43790a051c2217a5b579f805",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid012f36f4703baf70ebb856f762dafac239159e2a7c68ef63ca926354ca8b55a024",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth2_Post1Reply2React1
+export const validSpasmEventV2TreeDepth2_Post1Reply2React1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"react\",\"content\":\"downvote\",\"parent\":{\"ids\":[{\"value\":\"spasmid01a80271c545afc3fe2426cc5de39d35ec832f925f08ee5fa6c479273cf939580d\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x779d750879ffe8e1694edbe64336a9cbb8795d30\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739138296751,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x220fa46c79c181f63a6d6fd4acfaf14b29002ac8\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x257d38f625843e11b6597d3713b03ccea72da5841fff3d334d6b8ff78ca2608a5029547d5ba1d45f26daced4b8b52ca3dd8e7c9f67905b86a3486e26239eade91c",
+                    "pubkey": "0x220fa46c79c181f63a6d6fd4acfaf14b29002ac8",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid01a80271c545afc3fe2426cc5de39d35ec832f925f08ee5fa6c479273cf939580d",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "react",
+    "content": "downvote",
+    "timestamp": 1739138296751,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x220fa46c79c181f63a6d6fd4acfaf14b29002ac8",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x779d750879ffe8e1694edbe64336a9cbb8795d30",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x257d38f625843e11b6597d3713b03ccea72da5841fff3d334d6b8ff78ca2608a5029547d5ba1d45f26daced4b8b52ca3dd8e7c9f67905b86a3486e26239eade91c",
+            "pubkey": "0x220fa46c79c181f63a6d6fd4acfaf14b29002ac8",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid014e800c0a192d4158c2a18d1f3c9ac876d9aa6803092688068f3250cb872dd5ff",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth2_Post1Reply2Reply1
+export const validSpasmEventV2TreeDepth2_Post1Reply2Reply1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth2_Post1Reply2Reply1\",\"parent\":{\"ids\":[{\"value\":\"spasmid01a80271c545afc3fe2426cc5de39d35ec832f925f08ee5fa6c479273cf939580d\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x779d750879ffe8e1694edbe64336a9cbb8795d30\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739138387982,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x2f411d4b20e160b1e62ca2cd427b56a2ea1e8ddf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x8ebf97ae17493eaa7b5d7bd5c95e7c4d8080527653f76e0117118b464c1897602902354acf1e12d58c31a5060ac6266176bbbb97d8b5366b6fb1cbeee28d5f801c",
+                    "pubkey": "0x2f411d4b20e160b1e62ca2cd427b56a2ea1e8ddf",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid01a80271c545afc3fe2426cc5de39d35ec832f925f08ee5fa6c479273cf939580d",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth2_Post1Reply2Reply1",
+    "timestamp": 1739138387982,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x2f411d4b20e160b1e62ca2cd427b56a2ea1e8ddf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x779d750879ffe8e1694edbe64336a9cbb8795d30",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x8ebf97ae17493eaa7b5d7bd5c95e7c4d8080527653f76e0117118b464c1897602902354acf1e12d58c31a5060ac6266176bbbb97d8b5366b6fb1cbeee28d5f801c",
+            "pubkey": "0x2f411d4b20e160b1e62ca2cd427b56a2ea1e8ddf",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid0115f5c9d46a451129dacb31bbee917e9ab41f4f8021dd5c0fff899a20e67436bd",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1
+export const validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1\",\"parent\":{\"ids\":[{\"value\":\"spasmid012f36f4703baf70ebb856f762dafac239159e2a7c68ef63ca926354ca8b55a024\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0x92d31890d8326f9d43790a051c2217a5b579f805\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0xa145a31fde5a73a3259764da166da5af03b1e43d\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739138464237,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x1bdbdc29b86c5cfd5ab4689329537db6088eb880\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x663b1e807f76eac5e74438d698289ab11d99874dbec92b5e3042b397e6a61770620d75f648bc421414b766516c4e7657add08d0f8e08a298484b3c94395d64cd1c",
+                    "pubkey": "0x1bdbdc29b86c5cfd5ab4689329537db6088eb880",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid012f36f4703baf70ebb856f762dafac239159e2a7c68ef63ca926354ca8b55a024",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1",
+    "timestamp": 1739138464237,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x1bdbdc29b86c5cfd5ab4689329537db6088eb880",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0x92d31890d8326f9d43790a051c2217a5b579f805",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x663b1e807f76eac5e74438d698289ab11d99874dbec92b5e3042b397e6a61770620d75f648bc421414b766516c4e7657add08d0f8e08a298484b3c94395d64cd1c",
+            "pubkey": "0x1bdbdc29b86c5cfd5ab4689329537db6088eb880",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid01e7030bbdedd1a19a9d924d2106f8a7f128887586afe261b4a87e13f476d4f08a",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+// validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1
+export const validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1 = {
+    "type": "SpasmEventV2",
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1\",\"parent\":{\"ids\":[{\"value\":\"spasmid01e7030bbdedd1a19a9d924d2106f8a7f128887586afe261b4a87e13f476d4f08a\"}]},\"mentions\":[{\"addresses\":[{\"value\":\"0x1bdbdc29b86c5cfd5ab4689329537db6088eb880\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0x91def065c0476500751f459ed84e8932bf88a8bf\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0x92d31890d8326f9d43790a051c2217a5b579f805\",\"format\":{\"name\":\"ethereum-pubkey\"}}]},{\"addresses\":[{\"value\":\"0xa145a31fde5a73a3259764da166da5af03b1e43d\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}],\"timestamp\":1739138551911,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0xd4a2b4e99b7d180233dcad516b0a05b44fb88b40\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x786f696856468c860a22dc2d03333ae53ef27a40b65045667141678d75807b1f603e731ca304dc774df5272bb0383d3c821a6d012b7534d186686596d94fb04e1c",
+                    "pubkey": "0xd4a2b4e99b7d180233dcad516b0a05b44fb88b40",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid01e7030bbdedd1a19a9d924d2106f8a7f128887586afe261b4a87e13f476d4f08a",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            }
+        ]
+    },
+    "action": "reply",
+    "content": "validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1",
+    "timestamp": 1739138551911,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0xd4a2b4e99b7d180233dcad516b0a05b44fb88b40",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "mentions": [
+        {
+            "addresses": [
+                {
+                    "value": "0x1bdbdc29b86c5cfd5ab4689329537db6088eb880",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0x91def065c0476500751f459ed84e8932bf88a8bf",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0x92d31890d8326f9d43790a051c2217a5b579f805",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "addresses": [
+                {
+                    "value": "0xa145a31fde5a73a3259764da166da5af03b1e43d",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    }
+                }
+            ]
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x786f696856468c860a22dc2d03333ae53ef27a40b65045667141678d75807b1f603e731ca304dc774df5272bb0383d3c821a6d012b7534d186686596d94fb04e1c",
+            "pubkey": "0xd4a2b4e99b7d180233dcad516b0a05b44fb88b40",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid0135e25a90290cef965d923dd2a4df4812887cb4e0afbd37ff4f7fb4a5cf2baf62",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ]
+};
+export const validSpasmTreeV2Depth0_Plus1 = {
+    ...validSpasmEventV2TreeDepth0_Post1,
+    children: [
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1React1.ids,
+            event: validSpasmEventV2TreeDepth1_Post1React1
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply1.ids,
+            event: validSpasmEventV2TreeDepth1_Post1Reply1
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply2.ids,
+            event: validSpasmEventV2TreeDepth1_Post1Reply2
+        }
+    ]
+};
+export const validSpasmTreeV2Depth0_Plus2 = {
+    // Depth 0
+    ...validSpasmEventV2TreeDepth0_Post1,
+    // Depth 1
+    children: [
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1React1.ids,
+            event: validSpasmEventV2TreeDepth1_Post1React1
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply1.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth1_Post1Reply1,
+                // Depth 2
+                children: [
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply1Reply1.ids,
+                        event: validSpasmEventV2TreeDepth2_Post1Reply1Reply1
+                    }
+                ]
+            }
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply2.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth1_Post1Reply2,
+                // Depth 2
+                children: [
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply2React1.ids,
+                        event: validSpasmEventV2TreeDepth2_Post1Reply2React1
+                    },
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply2Reply1.ids,
+                        event: validSpasmEventV2TreeDepth2_Post1Reply2Reply1
+                    }
+                ]
+            }
+        }
+    ]
+};
+export const validSpasmTreeV2Depth0_Plus4 = {
+    // Depth 0
+    ...validSpasmEventV2TreeDepth0_Post1,
+    // Depth 1
+    children: [
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1React1.ids,
+            event: validSpasmEventV2TreeDepth1_Post1React1
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply1.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth1_Post1Reply1,
+                // Depth 2
+                children: [
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply1Reply1.ids,
+                        event: {
+                            ...validSpasmEventV2TreeDepth2_Post1Reply1Reply1,
+                            // Depth 3
+                            children: [
+                                {
+                                    ids: validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1.ids,
+                                    event: {
+                                        ...validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1,
+                                        // Depth 4
+                                        children: [
+                                            {
+                                                ids: validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1.ids,
+                                                event: validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            ids: validSpasmEventV2TreeDepth1_Post1Reply2.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth1_Post1Reply2,
+                // Depth 2
+                children: [
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply2React1.ids,
+                        event: validSpasmEventV2TreeDepth2_Post1Reply2React1
+                    },
+                    {
+                        ids: validSpasmEventV2TreeDepth2_Post1Reply2Reply1.ids,
+                        event: validSpasmEventV2TreeDepth2_Post1Reply2Reply1
+                    }
+                ]
+            }
+        }
+    ]
+};
+export const validSpasmTreeV2Depth2_Plus1 = {
+    // Depth 2 (zero)
+    ...validSpasmEventV2TreeDepth2_Post1Reply1Reply1,
+    // Depth 1 (+1 up)
+    parent: {
+        ...validSpasmEventV2TreeDepth2_Post1Reply1Reply1.parent,
+        event: validSpasmEventV2TreeDepth1_Post1Reply1
+    },
+    // Depth 3 (+1 down)
+    children: [
+        {
+            ids: validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1
+            }
+        }
+    ]
+};
+export const validSpasmTreeV2Depth2_Plus2 = {
+    // Depth 2 (zero)
+    ...validSpasmEventV2TreeDepth2_Post1Reply1Reply1,
+    // Depth 1 (+1 up)
+    parent: {
+        ...validSpasmEventV2TreeDepth2_Post1Reply1Reply1.parent,
+        event: {
+            ...validSpasmEventV2TreeDepth1_Post1Reply1,
+            // Depth 0 (+2 up)
+            parent: {
+                ...validSpasmEventV2TreeDepth1_Post1Reply1.parent,
+                event: {
+                    ...validSpasmEventV2TreeDepth0_Post1
+                }
+            }
+        }
+    },
+    // Depth 3 (+1 down)
+    children: [
+        {
+            ids: validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1.ids,
+            event: {
+                ...validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1,
+                // Depth 4 (+2 down)
+                children: [
+                    {
+                        ids: validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1.ids,
+                        event: {
+                            ...validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+};
 //# sourceMappingURL=_events-data.js.map

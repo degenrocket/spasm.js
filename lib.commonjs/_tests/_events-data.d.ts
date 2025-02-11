@@ -317,4 +317,1969 @@ export declare const validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEve
 export declare const validNostrSpasmEventSpasmV0WithInvalidHtmlTags: SpasmEventV0;
 export declare const validRssItemWithEmoji: SpasmEventV0;
 export declare const validRssItemWithEmojiConvertedToSpasmEvent2: SpasmEventV2;
+export declare const validSpasmEventV2TreeDepth0_Post1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    title: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth1_Post1React1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth1_Post1Reply1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth1_Post1Reply2: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth2_Post1Reply1Reply1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth2_Post1Reply2React1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth2_Post1Reply2Reply1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1: {
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    parent: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmTreeV2Depth0_Plus1: {
+    children: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    }[];
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    title: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmTreeV2Depth0_Plus2: {
+    children: ({
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    } | {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            children: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+                event: {
+                    type: string;
+                    siblings: {
+                        type: string;
+                        protocol: {
+                            name: string;
+                            version: string;
+                        };
+                        signedString: string;
+                        signatures: {
+                            value: string;
+                            pubkey: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    parent: {
+                        ids: {
+                            value: string;
+                            format: {
+                                name: string;
+                                version: string;
+                            };
+                        }[];
+                    };
+                    action: string;
+                    content: string;
+                    timestamp: number;
+                    license: string;
+                    authors: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                            verified: boolean;
+                        }[];
+                    }[];
+                    mentions: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    signatures: {
+                        value: string;
+                        pubkey: string;
+                        format: {
+                            name: string;
+                        };
+                    }[];
+                    ids: {
+                        value: string;
+                        format: {
+                            name: string;
+                            version: string;
+                        };
+                    }[];
+                };
+            }[];
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    })[];
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    title: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmTreeV2Depth0_Plus4: {
+    children: ({
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    } | {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            children: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+                event: {
+                    children: {
+                        ids: {
+                            value: string;
+                            format: {
+                                name: string;
+                                version: string;
+                            };
+                        }[];
+                        event: {
+                            children: {
+                                ids: {
+                                    value: string;
+                                    format: {
+                                        name: string;
+                                        version: string;
+                                    };
+                                }[];
+                                event: {
+                                    type: string;
+                                    siblings: {
+                                        type: string;
+                                        protocol: {
+                                            name: string;
+                                            version: string;
+                                        };
+                                        signedString: string;
+                                        signatures: {
+                                            value: string;
+                                            pubkey: string;
+                                            format: {
+                                                name: string;
+                                            };
+                                        }[];
+                                    }[];
+                                    parent: {
+                                        ids: {
+                                            value: string;
+                                            format: {
+                                                name: string;
+                                                version: string;
+                                            };
+                                        }[];
+                                    };
+                                    action: string;
+                                    content: string;
+                                    timestamp: number;
+                                    license: string;
+                                    authors: {
+                                        addresses: {
+                                            value: string;
+                                            format: {
+                                                name: string;
+                                            };
+                                            verified: boolean;
+                                        }[];
+                                    }[];
+                                    mentions: {
+                                        addresses: {
+                                            value: string;
+                                            format: {
+                                                name: string;
+                                            };
+                                        }[];
+                                    }[];
+                                    signatures: {
+                                        value: string;
+                                        pubkey: string;
+                                        format: {
+                                            name: string;
+                                        };
+                                    }[];
+                                    ids: {
+                                        value: string;
+                                        format: {
+                                            name: string;
+                                            version: string;
+                                        };
+                                    }[];
+                                };
+                            }[];
+                            type: string;
+                            siblings: {
+                                type: string;
+                                protocol: {
+                                    name: string;
+                                    version: string;
+                                };
+                                signedString: string;
+                                signatures: {
+                                    value: string;
+                                    pubkey: string;
+                                    format: {
+                                        name: string;
+                                    };
+                                }[];
+                            }[];
+                            parent: {
+                                ids: {
+                                    value: string;
+                                    format: {
+                                        name: string;
+                                        version: string;
+                                    };
+                                }[];
+                            };
+                            action: string;
+                            content: string;
+                            timestamp: number;
+                            license: string;
+                            authors: {
+                                addresses: {
+                                    value: string;
+                                    format: {
+                                        name: string;
+                                    };
+                                    verified: boolean;
+                                }[];
+                            }[];
+                            mentions: {
+                                addresses: {
+                                    value: string;
+                                    format: {
+                                        name: string;
+                                    };
+                                }[];
+                            }[];
+                            signatures: {
+                                value: string;
+                                pubkey: string;
+                                format: {
+                                    name: string;
+                                };
+                            }[];
+                            ids: {
+                                value: string;
+                                format: {
+                                    name: string;
+                                    version: string;
+                                };
+                            }[];
+                        };
+                    }[];
+                    type: string;
+                    siblings: {
+                        type: string;
+                        protocol: {
+                            name: string;
+                            version: string;
+                        };
+                        signedString: string;
+                        signatures: {
+                            value: string;
+                            pubkey: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    parent: {
+                        ids: {
+                            value: string;
+                            format: {
+                                name: string;
+                                version: string;
+                            };
+                        }[];
+                    };
+                    action: string;
+                    content: string;
+                    timestamp: number;
+                    license: string;
+                    authors: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                            verified: boolean;
+                        }[];
+                    }[];
+                    mentions: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    signatures: {
+                        value: string;
+                        pubkey: string;
+                        format: {
+                            name: string;
+                        };
+                    }[];
+                    ids: {
+                        value: string;
+                        format: {
+                            name: string;
+                            version: string;
+                        };
+                    }[];
+                };
+            }[];
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    } | {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            children: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+                event: {
+                    type: string;
+                    siblings: {
+                        type: string;
+                        protocol: {
+                            name: string;
+                            version: string;
+                        };
+                        signedString: string;
+                        signatures: {
+                            value: string;
+                            pubkey: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    parent: {
+                        ids: {
+                            value: string;
+                            format: {
+                                name: string;
+                                version: string;
+                            };
+                        }[];
+                    };
+                    action: string;
+                    content: string;
+                    timestamp: number;
+                    license: string;
+                    authors: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                            verified: boolean;
+                        }[];
+                    }[];
+                    mentions: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    signatures: {
+                        value: string;
+                        pubkey: string;
+                        format: {
+                            name: string;
+                        };
+                    }[];
+                    ids: {
+                        value: string;
+                        format: {
+                            name: string;
+                            version: string;
+                        };
+                    }[];
+                };
+            }[];
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    })[];
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    title: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmTreeV2Depth2_Plus1: {
+    parent: {
+        event: {
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    children: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    }[];
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
+export declare const validSpasmTreeV2Depth2_Plus2: {
+    parent: {
+        event: {
+            parent: {
+                event: {
+                    type: string;
+                    siblings: {
+                        type: string;
+                        protocol: {
+                            name: string;
+                            version: string;
+                        };
+                        signedString: string;
+                        signatures: {
+                            value: string;
+                            pubkey: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    action: string;
+                    title: string;
+                    content: string;
+                    timestamp: number;
+                    license: string;
+                    authors: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                            verified: boolean;
+                        }[];
+                    }[];
+                    signatures: {
+                        value: string;
+                        pubkey: string;
+                        format: {
+                            name: string;
+                        };
+                    }[];
+                    ids: {
+                        value: string;
+                        format: {
+                            name: string;
+                            version: string;
+                        };
+                    }[];
+                };
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+    };
+    children: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+                version: string;
+            };
+        }[];
+        event: {
+            children: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+                event: {
+                    type: string;
+                    siblings: {
+                        type: string;
+                        protocol: {
+                            name: string;
+                            version: string;
+                        };
+                        signedString: string;
+                        signatures: {
+                            value: string;
+                            pubkey: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    parent: {
+                        ids: {
+                            value: string;
+                            format: {
+                                name: string;
+                                version: string;
+                            };
+                        }[];
+                    };
+                    action: string;
+                    content: string;
+                    timestamp: number;
+                    license: string;
+                    authors: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                            verified: boolean;
+                        }[];
+                    }[];
+                    mentions: {
+                        addresses: {
+                            value: string;
+                            format: {
+                                name: string;
+                            };
+                        }[];
+                    }[];
+                    signatures: {
+                        value: string;
+                        pubkey: string;
+                        format: {
+                            name: string;
+                        };
+                    }[];
+                    ids: {
+                        value: string;
+                        format: {
+                            name: string;
+                            version: string;
+                        };
+                    }[];
+                };
+            }[];
+            type: string;
+            siblings: {
+                type: string;
+                protocol: {
+                    name: string;
+                    version: string;
+                };
+                signedString: string;
+                signatures: {
+                    value: string;
+                    pubkey: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            parent: {
+                ids: {
+                    value: string;
+                    format: {
+                        name: string;
+                        version: string;
+                    };
+                }[];
+            };
+            action: string;
+            content: string;
+            timestamp: number;
+            license: string;
+            authors: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                    verified: boolean;
+                }[];
+            }[];
+            mentions: {
+                addresses: {
+                    value: string;
+                    format: {
+                        name: string;
+                    };
+                }[];
+            }[];
+            signatures: {
+                value: string;
+                pubkey: string;
+                format: {
+                    name: string;
+                };
+            }[];
+            ids: {
+                value: string;
+                format: {
+                    name: string;
+                    version: string;
+                };
+            }[];
+        };
+    }[];
+    type: string;
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+            version: string;
+        };
+        signedString: string;
+        signatures: {
+            value: string;
+            pubkey: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    action: string;
+    content: string;
+    timestamp: number;
+    license: string;
+    authors: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+            verified: boolean;
+        }[];
+    }[];
+    mentions: {
+        addresses: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+    }[];
+    signatures: {
+        value: string;
+        pubkey: string;
+        format: {
+            name: string;
+        };
+    }[];
+    ids: {
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    }[];
+};
 //# sourceMappingURL=_events-data.d.ts.map

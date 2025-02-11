@@ -13,4 +13,10 @@ export declare const toBeNpub: (addressNpubOrHex: string) => string;
 export declare const toBeNpubs: (addressesNpubOrHex: string | string[]) => string[];
 export declare const toBeNote: (id: string) => string;
 export declare const toBeNotes: (idsHexNoteNevent: string | string[]) => string[];
+export declare const convertValueToNostrTagsMapping: (value: string, algorithm?: string) => {
+    newValue: string;
+    method: string;
+    original: string;
+};
+export declare const toBeNostrHex: (value: string, algorithm?: string, length?: number | "any") => string | null;
 //# sourceMappingURL=nostrUtils.d.ts.map

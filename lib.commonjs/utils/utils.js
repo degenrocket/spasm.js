@@ -23,9 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeNostrTimestamp = exports.toBeStandardTimestamp = exports.toBeStandardizedTimestamp = exports.toBeFullTimestamp = exports.toBeLongTimestamp = exports.toBeShortTimestamp = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers = exports.isArrayOfNumbers = exports.isArrayOfStrings = exports.isArrayWithValues = exports.isObjectWithValues = exports.ifNumberOrString = exports.ifStringOrNumber = exports.isNumberOrString = exports.isStringOrNumber = exports.hasValue = void 0;
-exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedNostrSigners = exports.getVerifiedEthereumSigners = exports.getVerifiedSpasmSigners = exports.getVerifiedSigners = exports.getAllNostrSigners = exports.getAllEthereumSigners = exports.getAllSpasmSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.extractNostrEvents = exports.extractSignedNostrEvents = exports.extractSignedNostrEvent = exports.extractNostrEvent = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeAnything = exports.sanitizeArray = exports.sanitizeEvent = void 0;
-exports.isHex = exports.assignFormats = exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addEventsToTree = exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.prependToArrayIfEventIsUnique = exports.unshiftToArrayIfEventIsUnique = exports.appendToArrayIfEventIsUnique = exports.pushToArrayIfEventIsUnique = exports.insertIntoArrayIfEventIsUnique = exports.mergeEventIntoArray = exports.checkIfArrayHasThisEvent = exports.checkIfArrayHasThisSpasmEventV2 = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.extractRootSpasmId01 = exports.extractRootIdByFormat = exports.getRootIdByFormat = exports.extractParentSpasmId01 = exports.extractParentIdByFormat = exports.getParentIdByFormat = exports.extractSpasmId01 = exports.extractIdByFormat = void 0;
+exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getAllFormatNamesFromEvent = exports.getAllFormatNamesFromSpasmEventV2 = exports.extractAllIdFormatNamesFromSpasmEventV2 = exports.extractIdFormatNameFromSpasmEventIdV2 = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeNostrTimestamp = exports.toBeStandardTimestamp = exports.toBeStandardizedTimestamp = exports.toBeFullTimestamp = exports.toBeLongTimestamp = exports.toBeShortTimestamp = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers = exports.isArrayOfNumbers = exports.isArrayOfStrings = exports.isArrayWithValues = exports.isObjectWithValues = exports.ifNumberOrString = exports.ifStringOrNumber = exports.isNumberOrString = exports.isStringOrNumber = exports.hasValue = void 0;
+exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedNostrSigners = exports.getVerifiedEthereumSigners = exports.getVerifiedSpasmSigners = exports.getVerifiedSigners = exports.getAllNostrSigners = exports.getAllEthereumSigners = exports.getAllSpasmSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.extractNostrEvents = exports.extractSignedNostrEvents = exports.extractSignedNostrEvent = exports.extractNostrEvent = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeAnything = exports.sanitizeArray = exports.sanitizeEvent = exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = void 0;
+exports.isHex = exports.assignFormats = exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addRepliesToEvent = exports.addCommentsToEvent = exports.addChildrenToTree = exports.addRootToEvent = exports.addRootToTree = exports.addParentToEvent = exports.addParentToTree = exports.addEventsToTree = exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.prependToArrayIfEventIsUnique = exports.unshiftToArrayIfEventIsUnique = exports.appendToArrayIfEventIsUnique = exports.pushToArrayIfEventIsUnique = exports.insertIntoArrayIfEventIsUnique = exports.mergeEventIntoArray = exports.checkIfArrayHasThisEvent = exports.checkIfArrayHasThisSpasmEventV2 = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.extractRootSpasmId01 = exports.extractRootIdByFormat = exports.getRootIdByFormat = exports.extractParentSpasmId01 = exports.extractParentIdByFormat = exports.getParentIdByFormat = exports.extractSpasmId01 = exports.extractIdByFormat = exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = void 0;
+exports.isNostrHex = void 0;
 /*
  * Using sha256 from 'js-sha256' npm package, because
  * built-in 'crypto' module works only in a server-side
@@ -78,11 +79,14 @@ const hasValue = (el) => {
     // Recursively check for at least one value inside an array
     if (Array.isArray(el) && el?.length) {
         let hasAtLeastOneValue = false;
-        el.forEach(function (e) {
+        // For of is used instead of forEach to break from
+        // the loop once at least one element has value.
+        for (const e of el) {
             if ((0, exports.hasValue)(e)) {
                 hasAtLeastOneValue = true;
+                break;
             }
-        });
+        }
         if (hasAtLeastOneValue) {
             return true;
         }
@@ -447,6 +451,41 @@ const getFormatFromSignature = (address) => {
     return (0, exports.getFormatFromValue)(address);
 };
 exports.getFormatFromSignature = getFormatFromSignature;
+const extractIdFormatNameFromSpasmEventIdV2 = (id) => {
+    if (!id)
+        return null;
+    if (typeof (id) !== "object")
+        return null;
+    if (id &&
+        'format' in id && id.format &&
+        'name' in id.format && id.format.name &&
+        typeof (id.format.name) === "string") {
+        return id.format.name;
+    }
+    return null;
+};
+exports.extractIdFormatNameFromSpasmEventIdV2 = extractIdFormatNameFromSpasmEventIdV2;
+const extractAllIdFormatNamesFromSpasmEventV2 = (originalEvent) => {
+    const spasmEventV2 = (0, exports.toBeSpasmEventV2)(originalEvent);
+    if (!spasmEventV2 || !(0, exports.isObjectWithValues)(spasmEventV2)) {
+        return null;
+    }
+    if ('ids' in spasmEventV2 && spasmEventV2.ids &&
+        (0, exports.isArrayWithValues)(spasmEventV2.ids)) {
+        const formatNames = [];
+        spasmEventV2.ids?.forEach(id => {
+            const formatName = (0, exports.extractIdFormatNameFromSpasmEventIdV2)(id);
+            if (formatName && typeof (formatName) === "string") {
+                formatNames.push(formatName);
+            }
+        });
+        return formatNames;
+    }
+    return null;
+};
+exports.extractAllIdFormatNamesFromSpasmEventV2 = extractAllIdFormatNamesFromSpasmEventV2;
+exports.getAllFormatNamesFromSpasmEventV2 = exports.extractAllIdFormatNamesFromSpasmEventV2;
+exports.getAllFormatNamesFromEvent = exports.getAllFormatNamesFromSpasmEventV2;
 const getHashOfString = (string, algorithm = "sha256") => {
     if (typeof (string) !== "string")
         return "";
@@ -2851,12 +2890,16 @@ const mergeChildrenV2 = (allChildren, depth = 0) => {
     return mainChildren;
 };
 exports.mergeChildrenV2 = mergeChildrenV2;
-const addEventsToTree = (unknownEvent, unknownEvents) => {
+const addEventsToTree = (unknownEvent, unknownEvents, maxDepth = 10, ifRecursively = true, depth = 0, destination = "any", ifMerge = true) => {
     if (!unknownEvent)
         return null;
     let treeEventV2 = (0, exports.toBeSpasmEventV2)(unknownEvent);
     if (!treeEventV2 || !(0, exports.isObjectWithValues)(treeEventV2))
         return null;
+    const maxRecursionDepth = maxDepth ?? 10;
+    if (depth >= maxRecursionDepth) {
+        return treeEventV2;
+    }
     if (!unknownEvents)
         return treeEventV2;
     const spasmEvents = (0, exports.toBeSpasmEventsV2)(unknownEvents);
@@ -2867,26 +2910,70 @@ const addEventsToTree = (unknownEvent, unknownEvents) => {
     const treeParentIds = (0, exports.getAllParentIds)(treeEventV2);
     const treeIds = (0, exports.getAllEventIds)(treeEventV2);
     spasmEvents.forEach(event => {
+        if (!treeEventV2)
+            return; // break from forEach iteration
         if (event && (0, exports.isObjectWithValues)(event)) {
             // const eventRootIds = getAllRootIds(event)
             const eventParentIds = (0, exports.getAllParentIds)(event);
             const eventIds = (0, exports.getAllEventIds)(event);
-            // Attach to tree as a root event
-            if ((0, exports.ifArraysHaveCommonId)(treeRootIds, eventIds)) {
-                if (treeEventV2) {
+            // Merge if events have the same ID
+            if ((0, exports.ifArraysHaveCommonId)(treeIds, eventIds)) {
+                if (ifMerge) {
+                    treeEventV2 = (0, exports.mergeSpasmEventsV2)([treeEventV2, event]);
+                }
+                // Attach to tree as a root event
+            }
+            else if ((0, exports.ifArraysHaveCommonId)(treeRootIds, eventIds)) {
+                if (destination === "any" || destination === "up") {
                     treeEventV2 = (0, exports.attachEventAsRoot)(treeEventV2, event);
                 }
                 // Attach to tree as a parent event
             }
             else if ((0, exports.ifArraysHaveCommonId)(treeParentIds, eventIds)) {
-                if (treeEventV2) {
+                if (destination === "any" || destination === "up") {
                     treeEventV2 = (0, exports.attachEventAsParent)(treeEventV2, event);
                 }
                 // Attach to tree as a child event
             }
             else if ((0, exports.ifArraysHaveCommonId)(treeIds, eventParentIds)) {
-                if (treeEventV2) {
+                if (destination === "any" || destination === "down") {
                     treeEventV2 = (0, exports.attachEventAsChild)(treeEventV2, event);
+                }
+                // Check if event should be attached to depth + 1
+            }
+            else if (ifRecursively) {
+                // Root
+                if (treeEventV2?.root?.event) {
+                    if (destination === "any" || destination === "up") {
+                        const eventWithAddedRelative = (0, exports.addEventsToTree)(treeEventV2?.root?.event, [event], maxDepth, ifRecursively, depth + 1, "up");
+                        if (eventWithAddedRelative) {
+                            treeEventV2.root.event = eventWithAddedRelative;
+                        }
+                    }
+                }
+                // Parent
+                if (treeEventV2?.parent?.event) {
+                    if (destination === "any" || destination === "up") {
+                        const eventWithAddedRelative = (0, exports.addEventsToTree)(treeEventV2?.parent?.event, [event], maxDepth, ifRecursively, depth + 1, "up");
+                        if (eventWithAddedRelative) {
+                            treeEventV2.parent.event = eventWithAddedRelative;
+                        }
+                    }
+                }
+                // Children
+                if (treeEventV2?.children &&
+                    (0, exports.isArrayWithValues)(treeEventV2.children)) {
+                    if (destination === "any" || destination === "down") {
+                        treeEventV2.children.forEach(child => {
+                            // Child
+                            if (child?.event) {
+                                const eventWithAddedRelative = (0, exports.addEventsToTree)(child?.event, [event], maxDepth, ifRecursively, depth + 1, "down");
+                                if (eventWithAddedRelative) {
+                                    child.event = eventWithAddedRelative;
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -2899,6 +2986,14 @@ const addEventsToTree = (unknownEvent, unknownEvents) => {
     }
 };
 exports.addEventsToTree = addEventsToTree;
+// TODO set directions and maxDepth
+exports.addParentToTree = exports.addEventsToTree;
+exports.addParentToEvent = exports.addEventsToTree;
+exports.addRootToTree = exports.addEventsToTree;
+exports.addRootToEvent = exports.addEventsToTree;
+exports.addChildrenToTree = exports.addEventsToTree;
+exports.addCommentsToEvent = exports.addEventsToTree;
+exports.addRepliesToEvent = exports.addEventsToTree;
 const ifArraysHaveCommonId = (array1, array2) => {
     if (!array1 || !(0, exports.isArrayOfStringsOrNumbers)(array1))
         return false;
@@ -3152,4 +3247,16 @@ const isHex = (value) => {
     return valueArray.every(char => hexChars.includes(char));
 };
 exports.isHex = isHex;
+const isNostrHex = (value) => {
+    if (!value)
+        return false;
+    if (!(0, exports.isHex)(value))
+        return false;
+    if (typeof (value) !== "string")
+        return false;
+    if (value.length !== 64)
+        return false;
+    return true;
+};
+exports.isNostrHex = isNostrHex;
 //# sourceMappingURL=utils.js.map

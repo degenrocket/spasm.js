@@ -1,4 +1,3 @@
-import { sha256 } from "js-sha256-v0"
 import {
   isNostrEvent,
   // isNostrEventSignedOpened,
@@ -20,7 +19,10 @@ import {
   SpasmEventV2,
   UnknownEventV2
 } from "../types/interfaces.js"
-import {toBeHex} from "../utils/nostrUtils.js"
+import {
+  toBeHex,
+  convertValueToNostrTagsMapping
+} from "../utils/nostrUtils.js"
 import {
   getAllNostrSigners,
   isArrayOfStrings,
@@ -31,7 +33,8 @@ import {
   isStringOrNumber,
   toBeLongTimestamp,
   toBeShortTimestamp,
-  toBeSpasmEventV2
+  toBeSpasmEventV2,
+  extractIdFormatNameFromSpasmEventIdV2
 } from "../utils/utils.js"
 
 // TODO convertManyToNostr()
@@ -275,16 +278,31 @@ export const convertSpasmEventV2ToNostrSpasmV2 = (
 }
 
 const assembleAndPushIdTagMapped = (
-  ids: SpasmEventIdV2[],
+  unsortedIds: SpasmEventIdV2[],
   tags: string[][],
   flag: string = "parent.ids",
   eventIndex: string = "0"
 ): void => {
-  if (!ids || !isArrayWithValues(ids)) { return }
+  if (!unsortedIds || !isArrayWithValues(unsortedIds)) { return }
   if (!tags || !Array.isArray(tags)) { return }
   if (!flag) { return }
   if (!String(eventIndex)) { return }
 
+  // Sort IDs so parent nostr-hex ID will be at the start of the
+  // array and at the top of the Nostr tags to provide better UX
+  // on native Nostr apps, which often use Nostr hex ID from the
+  // first #e tag as 'in reply to' event.
+  const nostrIds: SpasmEventIdV2[] = []
+  const otherIds: SpasmEventIdV2[] = []
+  unsortedIds.forEach((id) => {
+    const formatName = extractIdFormatNameFromSpasmEventIdV2(id)
+    if (formatName === "nostr-hex") {
+      nostrIds.push(id)
+    } else { otherIds.push(id) }
+  })
+
+  const ids: SpasmEventIdV2[] = nostrIds.concat(otherIds)
+  if (!ids || !isArrayWithValues(ids)) { return }
   ids.forEach((id, idIndex) => {
     if (id.value && typeof(id.value) === "string") {
       let value = id.value // original value
@@ -520,86 +538,86 @@ const assembleAndPushAddressesTagMapped = (
   })
 }
 
-const convertValueToNostrTagsMapping = (
-  value: string,
-  algorithm?: string
-): {
-  newValue: string,
-  method: string,
-  original: string
-} => {
-  let newValue = ""
-  let method = ""
-  let original = ""
-  if (!value) return {newValue, method, original}
-  const str = String(value)
-  if (!str) return {newValue, method, original}
-  if (typeof(str) !== "string") {
-    return {newValue, method, original}
-  }
-
-  // spasm_author
-  if (algorithm === "spasm_aadd_1") {
-    method = "slice.13"
-    newValue = "spasm_author:" + str
-    original = ""
-
-  // Nostr hex
-  } else if (
-  str.length === 64 && isHex(str)) {
-    method = "full"
-    newValue = str
-    original = ""
-
-  // Ethereum pubkey
-  } else if (
-    str.length === 42 && str.startsWith("0x") &&
-    isHex(str.slice(2))
-  ) {
-    method = "hex_to_eth_pub_1"
-    newValue = str.slice(2) + "657468657265756d2d707562"
-    original = ""
-
-  // spasmid01
-  } else if (
-    str.length === 73 && str.startsWith("spasmid01") &&
-    isHex(str.slice(9))
-  ) {
-    method = "hex_to_spasmid01_1"
-    newValue = str.slice(9)
-    original = ""
-
-  // Nostr signature 
-  } else if (
-    str.length === 128 && isHex(str)
-  ) {
-    method = "slice064"
-    newValue = str.slice(0,64)
-    original = str
-
-  // Ethereum signature 
-  } else if (
-    str.length === 132 && str.startsWith("0x") &&
-    isHex(str.slice(2))
-  ) {
-    method = "slice266"
-    newValue = str.slice(2,66)
-    original = str
-
-  } else {
-    const hashed = sha256(str)
-    if (
-      hashed && hashed.length === 64 &&
-      typeof(hashed) === "string"
-    ) {
-      method = "sha256"
-      newValue = sha256(str)
-      original = str
-    }
-  }
-
-  return {newValue, method, original}
-}
+// const convertValueToNostrTagsMapping = (
+//   value: string,
+//   algorithm?: string
+// ): {
+//   newValue: string,
+//   method: string,
+//   original: string
+// } => {
+//   let newValue = ""
+//   let method = ""
+//   let original = ""
+//   if (!value) return {newValue, method, original}
+//   const str = String(value)
+//   if (!str) return {newValue, method, original}
+//   if (typeof(str) !== "string") {
+//     return {newValue, method, original}
+//   }
+//
+//   // spasm_author
+//   if (algorithm === "spasm_aadd_1") {
+//     method = "slice.13"
+//     newValue = "spasm_author:" + str
+//     original = ""
+//
+//   // Nostr hex
+//   } else if (
+//   str.length === 64 && isHex(str)) {
+//     method = "full"
+//     newValue = str
+//     original = ""
+//
+//   // Ethereum pubkey
+//   } else if (
+//     str.length === 42 && str.startsWith("0x") &&
+//     isHex(str.slice(2))
+//   ) {
+//     method = "hex_to_eth_pub_1"
+//     newValue = str.slice(2) + "657468657265756d2d707562"
+//     original = ""
+//
+//   // spasmid01
+//   } else if (
+//     str.length === 73 && str.startsWith("spasmid01") &&
+//     isHex(str.slice(9))
+//   ) {
+//     method = "hex_to_spasmid01_1"
+//     newValue = str.slice(9)
+//     original = ""
+//
+//   // Nostr signature
+//   } else if (
+//     str.length === 128 && isHex(str)
+//   ) {
+//     method = "slice064"
+//     newValue = str.slice(0,64)
+//     original = str
+//
+//   // Ethereum signature
+//   } else if (
+//     str.length === 132 && str.startsWith("0x") &&
+//     isHex(str.slice(2))
+//   ) {
+//     method = "slice266"
+//     newValue = str.slice(2,66)
+//     original = str
+//
+//   } else {
+//     const hashed = sha256(str)
+//     if (
+//       hashed && hashed.length === 64 &&
+//       typeof(hashed) === "string"
+//     ) {
+//       method = "sha256"
+//       newValue = sha256(str)
+//       original = str
+//     }
+//   }
+//
+//   return {newValue, method, original}
+// }
 
 
 

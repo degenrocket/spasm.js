@@ -50,11 +50,14 @@ export const hasValue = (el) => {
     // Recursively check for at least one value inside an array
     if (Array.isArray(el) && el?.length) {
         let hasAtLeastOneValue = false;
-        el.forEach(function (e) {
+        // For of is used instead of forEach to break from
+        // the loop once at least one element has value.
+        for (const e of el) {
             if (hasValue(e)) {
                 hasAtLeastOneValue = true;
+                break;
             }
-        });
+        }
         if (hasAtLeastOneValue) {
             return true;
         }
@@ -400,6 +403,39 @@ export const getFormatFromAddress = (address) => {
 export const getFormatFromSignature = (address) => {
     return getFormatFromValue(address);
 };
+export const extractIdFormatNameFromSpasmEventIdV2 = (id) => {
+    if (!id)
+        return null;
+    if (typeof (id) !== "object")
+        return null;
+    if (id &&
+        'format' in id && id.format &&
+        'name' in id.format && id.format.name &&
+        typeof (id.format.name) === "string") {
+        return id.format.name;
+    }
+    return null;
+};
+export const extractAllIdFormatNamesFromSpasmEventV2 = (originalEvent) => {
+    const spasmEventV2 = toBeSpasmEventV2(originalEvent);
+    if (!spasmEventV2 || !isObjectWithValues(spasmEventV2)) {
+        return null;
+    }
+    if ('ids' in spasmEventV2 && spasmEventV2.ids &&
+        isArrayWithValues(spasmEventV2.ids)) {
+        const formatNames = [];
+        spasmEventV2.ids?.forEach(id => {
+            const formatName = extractIdFormatNameFromSpasmEventIdV2(id);
+            if (formatName && typeof (formatName) === "string") {
+                formatNames.push(formatName);
+            }
+        });
+        return formatNames;
+    }
+    return null;
+};
+export const getAllFormatNamesFromSpasmEventV2 = extractAllIdFormatNamesFromSpasmEventV2;
+export const getAllFormatNamesFromEvent = getAllFormatNamesFromSpasmEventV2;
 export const getHashOfString = (string, algorithm = "sha256") => {
     if (typeof (string) !== "string")
         return "";
@@ -2721,12 +2757,16 @@ export const mergeChildrenV2 = (allChildren, depth = 0) => {
     });
     return mainChildren;
 };
-export const addEventsToTree = (unknownEvent, unknownEvents) => {
+export const addEventsToTree = (unknownEvent, unknownEvents, maxDepth = 10, ifRecursively = true, depth = 0, destination = "any", ifMerge = true) => {
     if (!unknownEvent)
         return null;
     let treeEventV2 = toBeSpasmEventV2(unknownEvent);
     if (!treeEventV2 || !isObjectWithValues(treeEventV2))
         return null;
+    const maxRecursionDepth = maxDepth ?? 10;
+    if (depth >= maxRecursionDepth) {
+        return treeEventV2;
+    }
     if (!unknownEvents)
         return treeEventV2;
     const spasmEvents = toBeSpasmEventsV2(unknownEvents);
@@ -2737,26 +2777,70 @@ export const addEventsToTree = (unknownEvent, unknownEvents) => {
     const treeParentIds = getAllParentIds(treeEventV2);
     const treeIds = getAllEventIds(treeEventV2);
     spasmEvents.forEach(event => {
+        if (!treeEventV2)
+            return; // break from forEach iteration
         if (event && isObjectWithValues(event)) {
             // const eventRootIds = getAllRootIds(event)
             const eventParentIds = getAllParentIds(event);
             const eventIds = getAllEventIds(event);
-            // Attach to tree as a root event
-            if (ifArraysHaveCommonId(treeRootIds, eventIds)) {
-                if (treeEventV2) {
+            // Merge if events have the same ID
+            if (ifArraysHaveCommonId(treeIds, eventIds)) {
+                if (ifMerge) {
+                    treeEventV2 = mergeSpasmEventsV2([treeEventV2, event]);
+                }
+                // Attach to tree as a root event
+            }
+            else if (ifArraysHaveCommonId(treeRootIds, eventIds)) {
+                if (destination === "any" || destination === "up") {
                     treeEventV2 = attachEventAsRoot(treeEventV2, event);
                 }
                 // Attach to tree as a parent event
             }
             else if (ifArraysHaveCommonId(treeParentIds, eventIds)) {
-                if (treeEventV2) {
+                if (destination === "any" || destination === "up") {
                     treeEventV2 = attachEventAsParent(treeEventV2, event);
                 }
                 // Attach to tree as a child event
             }
             else if (ifArraysHaveCommonId(treeIds, eventParentIds)) {
-                if (treeEventV2) {
+                if (destination === "any" || destination === "down") {
                     treeEventV2 = attachEventAsChild(treeEventV2, event);
+                }
+                // Check if event should be attached to depth + 1
+            }
+            else if (ifRecursively) {
+                // Root
+                if (treeEventV2?.root?.event) {
+                    if (destination === "any" || destination === "up") {
+                        const eventWithAddedRelative = addEventsToTree(treeEventV2?.root?.event, [event], maxDepth, ifRecursively, depth + 1, "up");
+                        if (eventWithAddedRelative) {
+                            treeEventV2.root.event = eventWithAddedRelative;
+                        }
+                    }
+                }
+                // Parent
+                if (treeEventV2?.parent?.event) {
+                    if (destination === "any" || destination === "up") {
+                        const eventWithAddedRelative = addEventsToTree(treeEventV2?.parent?.event, [event], maxDepth, ifRecursively, depth + 1, "up");
+                        if (eventWithAddedRelative) {
+                            treeEventV2.parent.event = eventWithAddedRelative;
+                        }
+                    }
+                }
+                // Children
+                if (treeEventV2?.children &&
+                    isArrayWithValues(treeEventV2.children)) {
+                    if (destination === "any" || destination === "down") {
+                        treeEventV2.children.forEach(child => {
+                            // Child
+                            if (child?.event) {
+                                const eventWithAddedRelative = addEventsToTree(child?.event, [event], maxDepth, ifRecursively, depth + 1, "down");
+                                if (eventWithAddedRelative) {
+                                    child.event = eventWithAddedRelative;
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -2768,6 +2852,14 @@ export const addEventsToTree = (unknownEvent, unknownEvents) => {
         return null;
     }
 };
+// TODO set directions and maxDepth
+export const addParentToTree = addEventsToTree;
+export const addParentToEvent = addEventsToTree;
+export const addRootToTree = addEventsToTree;
+export const addRootToEvent = addEventsToTree;
+export const addChildrenToTree = addEventsToTree;
+export const addCommentsToEvent = addEventsToTree;
+export const addRepliesToEvent = addEventsToTree;
 export const ifArraysHaveCommonId = (array1, array2) => {
     if (!array1 || !isArrayOfStringsOrNumbers(array1))
         return false;
@@ -3014,5 +3106,16 @@ export const isHex = (value) => {
     ];
     const valueArray = value.toLowerCase().split("");
     return valueArray.every(char => hexChars.includes(char));
+};
+export const isNostrHex = (value) => {
+    if (!value)
+        return false;
+    if (!isHex(value))
+        return false;
+    if (typeof (value) !== "string")
+        return false;
+    if (value.length !== 64)
+        return false;
+    return true;
 };
 //# sourceMappingURL=utils.js.map

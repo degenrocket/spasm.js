@@ -1,6 +1,10 @@
 export {
   convertToSpasm,
-  convertManyToSpasm
+  convertManyToSpasm,
+  isMappedTag,
+  getTagMappedDetails,
+  getOriginalFromValueAndMethod,
+  getOriginalValueFromTagMappedDetails
 } from "./convertToSpasm.js"
 export {
   convertToNostr

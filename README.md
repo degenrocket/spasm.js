@@ -465,6 +465,16 @@ const spasmId = spasm.getSpasmId(event)
 ```
 
 ```js
+const idFormatName = extractIdFormatNameFromSpasmEventIdV2(event)
+
+const ifFormatNames = extractAllIdFormatNamesFromSpasmEventV2(event)
+
+// aliases
+const ifFormatNames = getAllFormatNamesFromSpasmEventV2(event)
+const ifFormatNames = getAllFormatNamesFromEvent(event)
+```
+
+```js
 const ifEventHasThisId = spasm.checkIfEventHasThisId(
   event, "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f"
 )
@@ -505,7 +515,7 @@ const mergedChildren = mergedChildrenV2(children1, children2)
 ```
 
 ```js
-// Add events (root, parent, children) to event's tree
+// Add events (root, parent, children) to event's tree recursively
 const eventWithTree = addEventsToTree(mainEvent, relatives)
 
 // Attaching events as relatives to event's tree
@@ -528,6 +538,12 @@ if (ifArraysHaveCommonId(event1RootIds, event2Ids)) {
 ```
 
 ```js
+// Check if an array already has this event
+checkIfArrayHasThisEvent(array, event)
+
+// alias
+checkIfArrayHasThisSpasmEventV2
+
 // Insert or merge an event into array
 insertIntoArrayIfEventIsUnique(array, event)
 
