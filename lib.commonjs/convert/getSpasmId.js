@@ -19,7 +19,9 @@ const getSpasmId01 = (spasmEvent) => {
     if (!eventForSpasmid)
         return null;
     const stringForId = JSON.stringify(eventForSpasmid);
-    const hash = (0, utils_js_1.getHashOfString)(stringForId);
+    const normalizedStringForId = (0, utils_js_1.normalizeText)(stringForId);
+    // const hash = getHashOfString(stringForId)
+    const hash = (0, utils_js_1.getHashOfString)(normalizedStringForId);
     const spasmId = "spasmid01" + hash;
     // TODO write test for double-signed events
     return spasmId;

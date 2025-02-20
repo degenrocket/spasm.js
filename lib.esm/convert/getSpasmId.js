@@ -1,4 +1,4 @@
-import { isObjectWithValues, getHashOfString, } from "./../utils/utils.js";
+import { isObjectWithValues, getHashOfString, normalizeText } from "./../utils/utils.js";
 import { convertToEventForSpasmid } from "./../convert/convertToEventForSpasmid.js";
 export const getSpasmId = (spasmEvent, idVersion = "01") => {
     if (idVersion === "01") {
@@ -15,7 +15,9 @@ export const getSpasmId01 = (spasmEvent) => {
     if (!eventForSpasmid)
         return null;
     const stringForId = JSON.stringify(eventForSpasmid);
-    const hash = getHashOfString(stringForId);
+    const normalizedStringForId = normalizeText(stringForId);
+    // const hash = getHashOfString(stringForId)
+    const hash = getHashOfString(normalizedStringForId);
     const spasmId = "spasmid01" + hash;
     // TODO write test for double-signed events
     return spasmId;

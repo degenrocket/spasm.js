@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.utilsStatus = exports.verifyEthereumSignature = exports.markSpasmEventAddressAsVerified = exports.sortTagsForSpasmid01 = exports.sortParentForSpasmid01 = exports.sortReferencesForSpasmid01 = exports.sortMediasForSpasmid01 = exports.sortLinksForSpasmid01 = exports.sortLinksForSpasmEventV2 = exports.sortHostsForSpasmid01 = exports.sortHostsForSpasmEventV2 = exports.sortArrayOfObjectsByKeyValue = exports.sortAuthorsForSpasmid01 = exports.sortAuthorsForSpasmEventV2 = exports.sortArrayOfObjects = exports.sortArrayOfStringsAndNumbers = exports.keepTheseKeysInObjectsInArray = exports.keepTheseKeysInObject = exports.getHashOfString = exports.getAllFormatNamesFromEvent = exports.getAllFormatNamesFromSpasmEventV2 = exports.extractAllIdFormatNamesFromSpasmEventV2 = exports.extractIdFormatNameFromSpasmEventIdV2 = exports.getFormatFromSignature = exports.getFormatFromAddress = exports.getFormatFromId = exports.getFormatFromValue = exports.createLinkObjectFromUrl = exports.isValidUrl = exports.getNostrSpasmVersion = exports.toBeNostrTimestamp = exports.toBeStandardTimestamp = exports.toBeStandardizedTimestamp = exports.toBeFullTimestamp = exports.toBeLongTimestamp = exports.toBeShortTimestamp = exports.toBeTimestamp = exports.extractSealedEvent = exports.extractVersion = exports.isArrayOfNumbersOrStrings = exports.isArrayOfStringsOrNumbers = exports.isArrayOfNumbers = exports.isArrayOfStrings = exports.isArrayWithValues = exports.isObjectWithValues = exports.ifNumberOrString = exports.ifStringOrNumber = exports.isNumberOrString = exports.isStringOrNumber = exports.hasValue = void 0;
 exports.isAnySignerListedIn = exports.getTotalOfActionReact = exports.getTotalOfReactAction = exports.getTotalOfReact = exports.getTotalOfActionReply = exports.getTotalOfReplyAction = exports.getTotalOfReply = exports.getTotalOfAction = exports.getTotalOfMostPopularReaction = exports.getTotalOfReaction = exports.getStatByAction = exports.getPubkeysListedIn = exports.getSignersListedIn = exports.getAllSignatures = exports.getAllRootIds = exports.getAllParentIds = exports.getAllEventIds = exports.getAllIdsFromArrayOfIdObjects = exports.getVerifiedNostrSigners = exports.getVerifiedEthereumSigners = exports.getVerifiedSpasmSigners = exports.getVerifiedSigners = exports.getAllNostrSigners = exports.getAllEthereumSigners = exports.getAllSpasmSigners = exports.getAllSigners = exports.hasSiblingWeb2 = exports.hasSiblingNostr = exports.hasSiblingDmp = exports.hasSiblingSpasm = exports.hasSiblingOfProtocol = exports.extractNostrEvents = exports.extractSignedNostrEvents = exports.extractSignedNostrEvent = exports.extractNostrEvent = exports.hasSignatureNostr = exports.hasSignatureEthereum = exports.hasSignatureOfFormat = exports.mergeSanitizationConfigs = exports.mergeConfigs = exports.mergeObjects = exports.clearObject = exports.clearArray = exports.sanitizeAnything = exports.sanitizeArray = exports.sanitizeEvent = exports.sanitizeEventWithDompurify = exports.sanitizeStringWithDompurify = exports.sanitizeEventWith = exports.executeFunctionForAllNestedValuesOfType = void 0;
 exports.isHex = exports.assignFormats = exports.attachEventAsParent = exports.attachEventAsRoot = exports.attachEventAsChild = exports.ifArraysHaveCommonId = exports.addRepliesToEvent = exports.addCommentsToEvent = exports.addChildrenToTree = exports.addRootToEvent = exports.addRootToTree = exports.addParentToEvent = exports.addParentToTree = exports.addEventsToTree = exports.mergeChildrenV2 = exports.mergeStatsV2 = exports.cleanSpasmEventV2 = exports.copyOf = exports.deepCopyOfObject = exports.ifEventsHaveSameSpasmId01 = exports.sortSpasmEventsV2 = exports.sortSpasmEventsV2ByDbAddedTimestamp = exports.prependToArrayIfEventIsUnique = exports.unshiftToArrayIfEventIsUnique = exports.appendToArrayIfEventIsUnique = exports.pushToArrayIfEventIsUnique = exports.insertIntoArrayIfEventIsUnique = exports.mergeEventIntoArray = exports.checkIfArrayHasThisEvent = exports.checkIfArrayHasThisSpasmEventV2 = exports.mergeDifferentSpasmEventsV2 = exports.mergeSpasmEventsV2 = exports.extractSignerFromEthereumSignature = exports.toBeSpasmEventsV2 = exports.toBeSpasmEventV2 = exports.getEventsByIds = exports.getEventById = exports.checkIfEventHasThisId = exports.extractRootSpasmId01 = exports.extractRootIdByFormat = exports.getRootIdByFormat = exports.extractParentSpasmId01 = exports.extractParentIdByFormat = exports.getParentIdByFormat = exports.extractSpasmId01 = exports.extractIdByFormat = exports.getIdByFormat = exports.areAllPubkeysListedIn = exports.areAllSignersListedIn = exports.isAnyPubkeyListedIn = void 0;
-exports.isNostrHex = void 0;
+exports.removeNbsp = exports.normalizeText = exports.isNostrHex = void 0;
 /*
  * Using sha256 from 'js-sha256' npm package, because
  * built-in 'crypto' module works only in a server-side
@@ -202,29 +202,92 @@ const extractSealedEvent = (unknownPostOrEvent) => {
     return signedObject;
 };
 exports.extractSealedEvent = extractSealedEvent;
-const toBeTimestamp = (time) => {
-    let date = new Date(time);
-    let timestamp = date.getTime();
-    // Check if the timestamp is NaN, indicating an invalid date
-    if (Number.isNaN(timestamp)) {
-        if (Number(time)) {
-            date = new Date(Number(time));
-            timestamp = date.getTime();
-            if (Number(timestamp)) {
-                return timestamp;
+/**
+ * Converts value to a consistent timestamp across all platforms.
+ * Input time value can be string, number, or Date object.
+ * returns Consistent timestamp in milliseconds or undefined.
+ */
+const toBeTimestamp = (originalTime) => {
+    if (!originalTime)
+        return undefined;
+    let time = Number(originalTime)
+        ? Number(originalTime)
+        : originalTime;
+    // First, normalize the input to a Date object
+    let date;
+    // Handle numeric inputs (timestamps or years)
+    if (typeof time === 'number' &&
+        !isNaN(time) &&
+        Number.isSafeInteger(time)) {
+        date = new Date(time);
+        if (!isValidDate(date)) {
+            return undefined;
+        }
+    }
+    // Handle string inputs
+    else if (typeof time === 'string') {
+        try {
+            // Try parsing with timezone specification
+            date = new Date(`${time} GMT`);
+            // Fallback to standard parsing if needed
+            if (!isValidDate(date)) {
+                date = new Date(time);
+                if (!isValidDate(date)) {
+                    return undefined;
+                }
             }
         }
+        catch (err) {
+            return undefined;
+        }
+    }
+    // Handle Date objects
+    else if (time instanceof Date) {
+        date = time;
+        if (!isValidDate(date)) {
+            return undefined;
+        }
+    }
+    // Invalid input type
+    else {
         return undefined;
     }
-    // Optional
-    // Standardize the timestamp to 10 characters (seconds)
-    // by rounding down the timestamp to the nearest second.
-    // if (timestamp.toString().length > 10) {
-    //   timestamp = Math.floor(timestamp / 1000) * 1000;
-    // }
-    return timestamp;
+    // Always use UTC for consistency
+    return isValidDate(date) ? date.getTime() : undefined;
 };
 exports.toBeTimestamp = toBeTimestamp;
+const isValidDate = (date) => {
+    return (date instanceof Date &&
+        !isNaN(date.getTime()) &&
+        Number.isFinite(date.getTime()));
+};
+/*
+export const toBeTimestamp = (time: any): number | undefined => {
+ let date = new Date(time);
+ let timestamp = date.getTime();
+
+  // Check if the timestamp is NaN, indicating an invalid date
+  if (Number.isNaN(timestamp)) {
+    if (Number(time)) {
+      date = new Date(Number(time))
+      timestamp = date.getTime()
+      if (Number(timestamp)) {
+        return timestamp
+      }
+    }
+    return undefined;
+  }
+
+  // Optional
+  // Standardize the timestamp to 10 characters (seconds)
+  // by rounding down the timestamp to the nearest second.
+  // if (timestamp.toString().length > 10) {
+  //   timestamp = Math.floor(timestamp / 1000) * 1000;
+  // }
+
+ return timestamp;
+}
+*/
 // Nostr relays only accept 10 digits long timestamps
 const toBeShortTimestamp = (value) => {
     if (!value || !exports.isStringOrNumber)
@@ -1836,7 +1899,7 @@ exports.areAllPubkeysListedIn = exports.areAllSignersListedIn;
 // ): (string | number)[] | null => {
 //   return extractNostrSigners(unknownEvent, true)
 // }
-const getIdByFormat = (unknownEvent, customIdFormat, from) => {
+const getIdByFormat = (unknownEvent, customIdFormat, from = "event") => {
     const defaultIdFormat = {
         name: "spasmid",
         version: "01"
@@ -3259,4 +3322,47 @@ const isNostrHex = (value) => {
     return true;
 };
 exports.isNostrHex = isNostrHex;
+const normalizeText = (val) => {
+    try {
+        if (!val)
+            return '';
+        if (!String(val))
+            return '';
+        let str = String(val);
+        // str = removeNbsp(str)
+        // if (!str) return ''
+        str = str.normalize('NFC');
+        if (!str)
+            return '';
+        return str;
+    }
+    catch (err) {
+        // console.error(err);
+        return '';
+    }
+};
+exports.normalizeText = normalizeText;
+const removeNbsp = (val) => {
+    try {
+        if (!val)
+            return '';
+        if (typeof (val) !== "string")
+            return '';
+        // ` ` - NBSP \u00A0 U+00A0 &nbsp; &#160; (non-breaking space)
+        // ` ` - SSP  \u0020 U+0020 (standard space)
+        const nbsp = '\u00A0';
+        let result = '';
+        for (let i = 0; i < val.length; i++) {
+            const char = val[i];
+            // result += char === nbsp ? ' ' : char
+            result += char === nbsp ? ' ' : char;
+        }
+        return result;
+    }
+    catch (err) {
+        // console.error(err);
+        return '';
+    }
+};
+exports.removeNbsp = removeNbsp;
 //# sourceMappingURL=utils.js.map

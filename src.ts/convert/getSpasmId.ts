@@ -6,6 +6,7 @@ import {
 import {
   isObjectWithValues,
   getHashOfString,
+  normalizeText
 } from "./../utils/utils.js";
 
 import {
@@ -37,7 +38,11 @@ export const getSpasmId01 = (
 
   const stringForId = JSON.stringify(eventForSpasmid)
 
-  const hash = getHashOfString(stringForId)
+  const normalizedStringForId =
+    normalizeText(stringForId)
+
+  // const hash = getHashOfString(stringForId)
+  const hash = getHashOfString(normalizedStringForId)
 
   const spasmId = "spasmid01" + hash
 

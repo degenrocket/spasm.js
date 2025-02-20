@@ -217,6 +217,77 @@ export const extractSealedEvent = (
   return signedObject
 }
 
+/**
+ * Converts value to a consistent timestamp across all platforms.
+ * Input time value can be string, number, or Date object.
+ * returns Consistent timestamp in milliseconds or undefined.
+ */
+export const toBeTimestamp = (
+  originalTime: any
+): number | undefined => {
+  if (!originalTime) return undefined
+  let time = Number(originalTime)
+    ? Number(originalTime)
+    : originalTime
+
+  // First, normalize the input to a Date object
+  let date: Date
+
+  // Handle numeric inputs (timestamps or years)
+  if (
+    typeof time === 'number' &&
+    !isNaN(time) &&
+    Number.isSafeInteger(time)
+  ) {
+    date = new Date(time);
+    
+    if (!isValidDate(date)) {
+      return undefined
+    }
+  } 
+  // Handle string inputs
+  else if (typeof time === 'string') {
+    try {
+      // Try parsing with timezone specification
+      date = new Date(`${time} GMT`)
+      
+      // Fallback to standard parsing if needed
+      if (!isValidDate(date)) {
+        date = new Date(time)
+        if (!isValidDate(date)) {
+          return undefined
+        }
+      }
+    } catch (err) {
+      return undefined
+    }
+  } 
+  // Handle Date objects
+  else if (time instanceof Date) {
+    date = time
+    
+    if (!isValidDate(date)) {
+      return undefined
+    }
+  } 
+  // Invalid input type
+  else {
+    return undefined
+  }
+
+  // Always use UTC for consistency
+  return isValidDate(date) ? date.getTime() : undefined
+}
+
+const isValidDate = (date: Date): boolean => {
+  return (
+    date instanceof Date &&
+    !isNaN(date.getTime()) &&
+    Number.isFinite(date.getTime())
+  )
+}
+
+/*
 export const toBeTimestamp = (time: any): number | undefined => {
  let date = new Date(time);
  let timestamp = date.getTime();
@@ -242,6 +313,7 @@ export const toBeTimestamp = (time: any): number | undefined => {
 
  return timestamp;
 }
+*/
 
 // Nostr relays only accept 10 digits long timestamps
 export const toBeShortTimestamp = (
@@ -2417,7 +2489,7 @@ export const areAllPubkeysListedIn = areAllSignersListedIn
 export const getIdByFormat = (
   unknownEvent: UnknownEventV2,
   customIdFormat?: SpasmEventIdFormatV2,
-  from?: "event" | "parent" | "root"
+  from: "event" | "parent" | "root" = "event"
 ): string | number | null => {
   const defaultIdFormat = {
     name: "spasmid",
@@ -4288,4 +4360,43 @@ export const isNostrHex = (
   if (typeof(value) !== "string") return false
   if (value.length !== 64) return false
   return true
+}
+
+export const normalizeText = (val: string): string => {
+  try {
+    if (!val) return ''
+    if (!String(val)) return ''
+    let str = String(val)
+
+    // str = removeNbsp(str)
+    // if (!str) return ''
+
+    str = str.normalize('NFC');
+    if (!str) return ''
+
+    return str
+  } catch (err) {
+    // console.error(err);
+    return ''
+  }
+}
+
+export const removeNbsp = (val: string): string => {
+  try {
+    if (!val) return ''
+    if (typeof(val) !== "string") return ''
+    // ` ` - NBSP \u00A0 U+00A0 &nbsp; &#160; (non-breaking space)
+    // ` ` - SSP  \u0020 U+0020 (standard space)
+    const nbsp = '\u00A0'
+    let result = '';
+    for (let i = 0; i < val.length; i++) {
+      const char = val[i]
+      // result += char === nbsp ? ' ' : char
+      result += char === nbsp ? ' ' : char
+    }
+    return result
+  } catch (err) {
+    // console.error(err);
+    return ''
+  }
 }

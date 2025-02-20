@@ -164,28 +164,91 @@ export const extractSealedEvent = (unknownPostOrEvent) => {
     }
     return signedObject;
 };
-export const toBeTimestamp = (time) => {
-    let date = new Date(time);
-    let timestamp = date.getTime();
-    // Check if the timestamp is NaN, indicating an invalid date
-    if (Number.isNaN(timestamp)) {
-        if (Number(time)) {
-            date = new Date(Number(time));
-            timestamp = date.getTime();
-            if (Number(timestamp)) {
-                return timestamp;
+/**
+ * Converts value to a consistent timestamp across all platforms.
+ * Input time value can be string, number, or Date object.
+ * returns Consistent timestamp in milliseconds or undefined.
+ */
+export const toBeTimestamp = (originalTime) => {
+    if (!originalTime)
+        return undefined;
+    let time = Number(originalTime)
+        ? Number(originalTime)
+        : originalTime;
+    // First, normalize the input to a Date object
+    let date;
+    // Handle numeric inputs (timestamps or years)
+    if (typeof time === 'number' &&
+        !isNaN(time) &&
+        Number.isSafeInteger(time)) {
+        date = new Date(time);
+        if (!isValidDate(date)) {
+            return undefined;
+        }
+    }
+    // Handle string inputs
+    else if (typeof time === 'string') {
+        try {
+            // Try parsing with timezone specification
+            date = new Date(`${time} GMT`);
+            // Fallback to standard parsing if needed
+            if (!isValidDate(date)) {
+                date = new Date(time);
+                if (!isValidDate(date)) {
+                    return undefined;
+                }
             }
         }
+        catch (err) {
+            return undefined;
+        }
+    }
+    // Handle Date objects
+    else if (time instanceof Date) {
+        date = time;
+        if (!isValidDate(date)) {
+            return undefined;
+        }
+    }
+    // Invalid input type
+    else {
         return undefined;
     }
-    // Optional
-    // Standardize the timestamp to 10 characters (seconds)
-    // by rounding down the timestamp to the nearest second.
-    // if (timestamp.toString().length > 10) {
-    //   timestamp = Math.floor(timestamp / 1000) * 1000;
-    // }
-    return timestamp;
+    // Always use UTC for consistency
+    return isValidDate(date) ? date.getTime() : undefined;
 };
+const isValidDate = (date) => {
+    return (date instanceof Date &&
+        !isNaN(date.getTime()) &&
+        Number.isFinite(date.getTime()));
+};
+/*
+export const toBeTimestamp = (time: any): number | undefined => {
+ let date = new Date(time);
+ let timestamp = date.getTime();
+
+  // Check if the timestamp is NaN, indicating an invalid date
+  if (Number.isNaN(timestamp)) {
+    if (Number(time)) {
+      date = new Date(Number(time))
+      timestamp = date.getTime()
+      if (Number(timestamp)) {
+        return timestamp
+      }
+    }
+    return undefined;
+  }
+
+  // Optional
+  // Standardize the timestamp to 10 characters (seconds)
+  // by rounding down the timestamp to the nearest second.
+  // if (timestamp.toString().length > 10) {
+  //   timestamp = Math.floor(timestamp / 1000) * 1000;
+  // }
+
+ return timestamp;
+}
+*/
 // Nostr relays only accept 10 digits long timestamps
 export const toBeShortTimestamp = (value) => {
     if (!value || !isStringOrNumber)
@@ -1728,7 +1791,7 @@ export const areAllPubkeysListedIn = areAllSignersListedIn;
 // ): (string | number)[] | null => {
 //   return extractNostrSigners(unknownEvent, true)
 // }
-export const getIdByFormat = (unknownEvent, customIdFormat, from) => {
+export const getIdByFormat = (unknownEvent, customIdFormat, from = "event") => {
     const defaultIdFormat = {
         name: "spasmid",
         version: "01"
@@ -3117,5 +3180,46 @@ export const isNostrHex = (value) => {
     if (value.length !== 64)
         return false;
     return true;
+};
+export const normalizeText = (val) => {
+    try {
+        if (!val)
+            return '';
+        if (!String(val))
+            return '';
+        let str = String(val);
+        // str = removeNbsp(str)
+        // if (!str) return ''
+        str = str.normalize('NFC');
+        if (!str)
+            return '';
+        return str;
+    }
+    catch (err) {
+        // console.error(err);
+        return '';
+    }
+};
+export const removeNbsp = (val) => {
+    try {
+        if (!val)
+            return '';
+        if (typeof (val) !== "string")
+            return '';
+        // ` ` - NBSP \u00A0 U+00A0 &nbsp; &#160; (non-breaking space)
+        // ` ` - SSP  \u0020 U+0020 (standard space)
+        const nbsp = '\u00A0';
+        let result = '';
+        for (let i = 0; i < val.length; i++) {
+            const char = val[i];
+            // result += char === nbsp ? ' ' : char
+            result += char === nbsp ? ' ' : char;
+        }
+        return result;
+    }
+    catch (err) {
+        // console.error(err);
+        return '';
+    }
 };
 //# sourceMappingURL=utils.js.map

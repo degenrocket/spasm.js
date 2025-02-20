@@ -2282,4 +2282,114 @@ export declare const validSpasmTreeV2Depth2_Plus2: {
         };
     }[];
 };
+export declare const validSpasmEventV2SourceMoneroObserverNbsp: {
+    type: string;
+    action: string;
+    title: string;
+    timestamp: number;
+    content: string;
+    keywords: string[];
+    ids: ({
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    } | {
+        value: string;
+        format: {
+            name: string;
+            version?: undefined;
+        };
+    })[];
+    links: {
+        value: string;
+        protocol: string;
+        origin: string;
+        host: string;
+        pathname: string;
+        originalProtocolKey: string;
+    }[];
+    siblings: {
+        type: string;
+        protocol: {
+            name: string;
+        };
+        ids: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+        originalObject: {
+            url: string;
+            guid: string;
+            title: string;
+            source: string;
+            pubdate: string;
+            tickers: string;
+            category: string;
+            description: string;
+        };
+    }[];
+    source: {
+        name: string;
+    };
+    categories: {
+        name: string;
+    }[];
+    db: {
+        key: number;
+        addedTimestamp: number;
+        updatedTimestamp: number;
+        table: string;
+    };
+};
+export declare const validSpasmEnvelopeV2SourceMoneroObserverSsp: {
+    type: string;
+    ids: ({
+        value: string;
+        format: {
+            name: string;
+            version: string;
+        };
+    } | {
+        value: string;
+        format: {
+            name: string;
+            version?: undefined;
+        };
+    })[];
+    siblings: {
+        ids: {
+            value: string;
+            format: {
+                name: string;
+            };
+        }[];
+        type: string;
+        protocol: {
+            name: string;
+        };
+        originalObject: {
+            url: string;
+            guid: string;
+            title: string;
+            source: string;
+            pubdate: string;
+            tickers: string;
+            category: string;
+            description: string;
+        };
+    }[];
+    db: {
+        key: number;
+        addedTimestamp: number;
+        updatedTimestamp: number;
+        table: string;
+    };
+    source: {
+        name: string;
+    };
+};
 //# sourceMappingURL=_events-data.d.ts.map

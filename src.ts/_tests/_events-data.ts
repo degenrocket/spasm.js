@@ -4108,7 +4108,10 @@ export const validPostWithRssItemSpecialChars = {
   "latest_action_added_time": null
 }
 
-export const validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = {"action": "post", "categories": [{"name": "privacy"}], "content": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "db": {"key": 7830}, "ids": [{"format": {"name": "spasmid", "version": "01"}, "value": "spasmid012231bee2002f36b0fe99f10aa0f9bbd62b4c6240779e7a77457a5cc37498ce92"}, {"format": {"name": "url"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"format": {"name": "guid"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "keywords": ["XMR"], "links": [{"host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "url", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "guid", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "siblings": [{"ids": [{"format": {"name": "url"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"format": {"name": "guid"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "originalObject": {"bearish": null, "bullish": null, "category": "privacy", "comments_count": null, "description": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "downvote": null, "guid": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/", "id": 7830, "important": null, "latest_action_added_time": null, "pubdate": "2023-11-26T23:00:00.000Z", "scam": null, "source": "moneroobserver-feed", "tags": null, "tickers": "XMR", "title": "hinto-janai releases Gupax v1.3.3", "upvote": null, "url": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, "protocol": {"name": "web2"}, "type": "SiblingWeb2V2"}], "source": {"name": "moneroobserver-feed"}, "timestamp": 1701039600000, "title": "hinto-janai releases Gupax v1.3.3", "type": "SpasmEventV2"}
+export const validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = {"action": "post", "categories": [{"name": "privacy"}], "content": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "db": {"key": 7830}, "ids": [{"format": {"name": "spasmid", "version": "01"},
+  // "value": "spasmid01caafe2d603fe08302bd8abf5ce499d5c0adcae24790f1cf9c73e8b7012e6781c"
+  "value": "spasmid012231bee2002f36b0fe99f10aa0f9bbd62b4c6240779e7a77457a5cc37498ce92"
+}, {"format": {"name": "url"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"format": {"name": "guid"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "keywords": ["XMR"], "links": [{"host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "url", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"host": "monero.observer", "origin": "https://monero.observer", "originalProtocolKey": "guid", "pathname": "/hinto-janaiyo-releases-gupax-v1.3.3/", "protocol": "https", "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "siblings": [{"ids": [{"format": {"name": "url"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, {"format": {"name": "guid"}, "value": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}], "originalObject": {"bearish": null, "bullish": null, "category": "privacy", "comments_count": null, "description": "hinto-janai1 has released Gupax2 version 1.3.33 with several fixes and a few other changes. Changes overview Fixes: -P2Pool [Simple]'s backup hosts option will only include green/yellow nodes (<300ms ping) (#65) -P2Pool ping now verifies node is synchronized (#63) -XMRig [Simple] tab slider overflow (#60) -P2Pool [Simple] tab height overflow (b4a4e83) Changes: -Crashes will now create a file on disk with debug information (#59) -Remote Node changes: Removed xmr.theuplink.net The full changelog, sources, SHA256SUM and .asc files can be found on Github3 and on the gupax.io website4. Consult hinto-janai’s CCS proposal5 to learn more about the project. https://github.com/hinto-janai ↩ https://github.com/hinto-janai/gupax/ ↩ https://github.com/hinto-janai/gupax/releases/tag/v1.3.3 ↩ ↩2 https://gupax.io/ ↩ /hinto-janaiyo-submits-ccs-proposal-gupax/ ↩...", "downvote": null, "guid": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/", "id": 7830, "important": null, "latest_action_added_time": null, "pubdate": "2023-11-26T23:00:00.000Z", "scam": null, "source": "moneroobserver-feed", "tags": null, "tickers": "XMR", "title": "hinto-janai releases Gupax v1.3.3", "upvote": null, "url": "https://monero.observer/hinto-janaiyo-releases-gupax-v1.3.3/"}, "protocol": {"name": "web2"}, "type": "SiblingWeb2V2"}], "source": {"name": "moneroobserver-feed"}, "timestamp": 1701039600000, "title": "hinto-janai releases Gupax v1.3.3", "type": "SpasmEventV2"}
 
 
 export const validPostWithRssItemTitleHasSpecialChars = {
@@ -4177,7 +4180,10 @@ export const validRssItemWithEmoji: SpasmEventV0 = {
   "latest_action_added_time": null
 }
 
-export const validRssItemWithEmojiConvertedToSpasmEvent2: SpasmEventV2 = {"type":"SpasmEventV2","action":"post","title":"Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi","timestamp":1715609494000,"content":"[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...","keywords":["OSMO"],"ids":[{"value":"spasmid01fc9080487349b7fc6d298d7df02e29d7d39617dd38913dfda515556eee3e156c","format":{"name":"spasmid","version":"01"}},{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","format":{"name":"url"}},{"value":"https://medium.com/p/5b93a387639c","format":{"name":"guid"}}],"links":[{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","protocol":"https","origin":"https://medium.com","host":"medium.com","pathname":"/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","originalProtocolKey":"url"},{"value":"https://medium.com/p/5b93a387639c","protocol":"https","origin":"https://medium.com","host":"medium.com","pathname":"/p/5b93a387639c","originalProtocolKey":"guid"}],"siblings":[{"type":"SiblingWeb2V2","protocol":{"name":"web2"},"ids":[{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","format":{"name":"url"}},{"value":"https://medium.com/p/5b93a387639c","format":{"name":"guid"}}],"originalObject":{"id":936756,"guid":"https://medium.com/p/5b93a387639c","source":"osmosis-medium","category":"defi","tickers":"OSMO","title":"Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi","url":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","description":"[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...","pubdate":"2024-05-13T14:11:34.000Z","tags":null,"upvote":null,"downvote":null,"bullish":null,"bearish":null,"important":null,"scam":null,"comments_count":null,"latest_action_added_time":null}}],"db":{"key":936756},"source":{"name":"osmosis-medium"},"categories":[{"name":"defi"}]}
+export const validRssItemWithEmojiConvertedToSpasmEvent2: SpasmEventV2 = {"type":"SpasmEventV2","action":"post","title":"Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi","timestamp":1715609494000,"content":"[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...","keywords":["OSMO"],"ids":[{
+  // "value":"spasmid01da7c2f4ece8599315be56b8a7cdb870187dba0ec5c024af947e59cc631262076",
+  "value":"spasmid01fc9080487349b7fc6d298d7df02e29d7d39617dd38913dfda515556eee3e156c",
+  "format":{"name":"spasmid","version":"01"}},{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","format":{"name":"url"}},{"value":"https://medium.com/p/5b93a387639c","format":{"name":"guid"}}],"links":[{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","protocol":"https","origin":"https://medium.com","host":"medium.com","pathname":"/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","originalProtocolKey":"url"},{"value":"https://medium.com/p/5b93a387639c","protocol":"https","origin":"https://medium.com","host":"medium.com","pathname":"/p/5b93a387639c","originalProtocolKey":"guid"}],"siblings":[{"type":"SiblingWeb2V2","protocol":{"name":"web2"},"ids":[{"value":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","format":{"name":"url"}},{"value":"https://medium.com/p/5b93a387639c","format":{"name":"guid"}}],"originalObject":{"id":936756,"guid":"https://medium.com/p/5b93a387639c","source":"osmosis-medium","category":"defi","tickers":"OSMO","title":"Smart Accounts on Osmosis: Redefining UX and Account Management in DeFi","url":"https://medium.com/osmosis/smart-accounts-on-osmosis-redefining-ux-and-account-management-in-defi-5b93a387639c","description":"[https://cdn-images-1.medium.com/max/1024/1*GVLRlJ-vnJppv710dva-xA.png]\n\nTHE CRYPTO ECOSYSTEM ADVANCES QUICKLY WHILE THE USER EXPERIENCE (UX) OFTEN LAGS BEHIND. OSMOSIS AIMS TO BRIDGE THIS GAP WITH SMART ACCOUNTS, AN INNOVATIVE ACCOUNT AND ASSET MANAGEMENT FEATURE THAT ENHANCES USABILITY, FLEXIBILITY, AND SECURITY, WITH ROBUST MULTI-DEVICE SUPPORT FOR ON-THE-GO TRADING.\n\n\nTHE VISION FOR SMART ACCOUNTS ON OSMOSIS\n\nThe vision for Osmosis Smart Accounts is to revolutionize crypto account UX by addressing common user challenges with a solution that: streamlines user onboarding and account recovery, simplifies account management, and provides a seamless and intuitive trading experience for newcomers and experienced users alike.\n\n\nSMART ACCOUNTS: KEY FEATURES AND FUNCTIONALITIES\n\nOsmosis Smart Accounts boast several key features and functionalities:\n🧪 Automation + 1-click Trading\n🧪 Multi-Key + Multi-Device Support\n🧪 Easier Onboarding + Account Recovery\n🧪 Advanced Security Protocols\n🧪 Extensible + Composable\n\n�...","pubdate":"2024-05-13T14:11:34.000Z","tags":null,"upvote":null,"downvote":null,"bullish":null,"bearish":null,"important":null,"scam":null,"comments_count":null,"latest_action_added_time":null}}],"db":{"key":936756},"source":{"name":"osmosis-medium"},"categories":[{"name":"defi"}]}
 
 // Testing event tree (relatives)
 // validSpasmEventV2TreeDepth0_Post1
@@ -5153,6 +5159,166 @@ export const validSpasmTreeV2Depth2_Plus2 = {
   ]
 }
 
+export const validSpasmEventV2SourceMoneroObserverNbsp = {
+    "type": "SpasmEventV2",
+    "action": "post",
+    "title": "rottenwheel publishes 'Revuo Monero' Issue #227",
+    "timestamp": 1739746800000,
+    "content": "rottenwheel1 has published Issue #2272’3 of the weekly Revuo Monero audience-funded newsletter, which covers February 9 - 16 2025 news: Recent News Upcoming Events CCS Proposals Price & Blockchain Stats Volunteer Opportunities Support To support Revuo Monero, you can contribute XMR to the address listed in the footer of each issue and on the Support4 page. Join the Revuo XMPP MUC5 and Matrix room6 to get involved with the project. Suggestions and comments can be sent directly to rotten via email7. https://farside.link/nitter/rottenwheel1, https://rottenwheel.com/ ↩ https://www.revuo-xmr.com/weekly/issue-227/ ↩ (onion) http://revuo75joezkbeitqmas4ab6spbrkr4vzbhjmeuv75ovrfqfp47mtjid.onion/weekly/issue-227/, (eepsite) http://qve7i3ke5h2mbbyphd7agmh5awzcwulvrvghjvhndkagdbi4mkcq.b32.i2p/ ↩ https://revuo-xmr.com/support/ ↩ (XMPP MUC) xmpp:revuo-monero@conference.jabbers.one?join ↩ (Matrix) https://matrix.to/#/#revuo:monero.social ↩ rotten (at) revuo-xmr (dot) com ↩...",
+    "keywords": [
+        "XMR"
+    ],
+    "ids": [
+        {
+            // "value": "spasmid019b42eab1a04ee1c26c083f3ca6b0c428c5e6a8df7c600c75e624b6580969db24",
+            "value": "spasmid0150ff53944b6f7dcc0610ce160a41793cd192b67fe5c4a1076e99f410fc474cb4",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        },
+        {
+            "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+            "format": {
+                "name": "url"
+            }
+        },
+        {
+            "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+            "format": {
+                "name": "guid"
+            }
+        }
+    ],
+    "links": [
+        {
+            "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+            "protocol": "https",
+            "origin": "https://monero.observer",
+            "host": "monero.observer",
+            "pathname": "/rottenwheel-publishes-revuo-monero-issue-227/",
+            "originalProtocolKey": "url"
+        },
+        {
+            "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+            "protocol": "https",
+            "origin": "https://monero.observer",
+            "host": "monero.observer",
+            "pathname": "/rottenwheel-publishes-revuo-monero-issue-227/",
+            "originalProtocolKey": "guid"
+        }
+    ],
+    "siblings": [
+        {
+            "type": "SiblingWeb2V2",
+            "protocol": {
+                "name": "web2"
+            },
+            "ids": [
+                {
+                    "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+                    "format": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+                    "format": {
+                        "name": "guid"
+                    }
+                }
+            ],
+            "originalObject": {
+                "url": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+                "guid": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+                "title": "rottenwheel publishes 'Revuo Monero' Issue #227",
+                "source": "moneroobserver-feed",
+                "pubdate": "Mon, 17 Feb 2025",
+                "tickers": "XMR",
+                "category": "privacy",
+                "description": "rottenwheel1 has published Issue #2272’3 of the weekly Revuo Monero audience-funded newsletter, which covers February 9 - 16 2025 news: Recent News Upcoming Events CCS Proposals Price & Blockchain Stats Volunteer Opportunities Support To support Revuo Monero, you can contribute XMR to the address listed in the footer of each issue and on the Support4 page. Join the Revuo XMPP MUC5 and Matrix room6 to get involved with the project. Suggestions and comments can be sent directly to rotten via email7. https://farside.link/nitter/rottenwheel1, https://rottenwheel.com/ ↩ https://www.revuo-xmr.com/weekly/issue-227/ ↩ (onion) http://revuo75joezkbeitqmas4ab6spbrkr4vzbhjmeuv75ovrfqfp47mtjid.onion/weekly/issue-227/, (eepsite) http://qve7i3ke5h2mbbyphd7agmh5awzcwulvrvghjvhndkagdbi4mkcq.b32.i2p/ ↩ https://revuo-xmr.com/support/ ↩ (XMPP MUC) xmpp:revuo-monero@conference.jabbers.one?join ↩ (Matrix) https://matrix.to/#/#revuo:monero.social ↩ rotten (at) revuo-xmr (dot) com ↩..."
+            }
+        }
+    ],
+    "source": {
+        "name": "moneroobserver-feed"
+    },
+    "categories": [
+        {
+            "name": "privacy"
+        }
+    ],
+    "db": {
+        "key": 36327,
+        "addedTimestamp": 1739828609589,
+        "updatedTimestamp": 1739828609589,
+        "table": "spasm_events"
+    }
+}
 
-
-
+export const validSpasmEnvelopeV2SourceMoneroObserverSsp = {
+  "type": "SpasmEventEnvelopeV2",
+  "ids": [
+    {
+      // "value": "spasmid01fd8f03f8ba71eb4d71c2a3b1f695b7bc0e3858582e83a6a6d98de9e39788c572",
+      "value": "spasmid0150ff53944b6f7dcc0610ce160a41793cd192b67fe5c4a1076e99f410fc474cb4",
+      "format": {
+        "name": "spasmid",
+        "version": "01"
+      }
+    },
+    {
+      "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+      "format": {
+        "name": "url"
+      }
+    },
+    {
+      "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+      "format": {
+        "name": "guid"
+      }
+    }
+  ],
+  "siblings": [
+    {
+      "ids": [
+        {
+          "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+          "format": {
+            "name": "url"
+          }
+        },
+        {
+          "value": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+          "format": {
+            "name": "guid"
+          }
+        }
+      ],
+      "type": "SiblingWeb2V2",
+      "protocol": {
+        "name": "web2"
+      },
+      "originalObject": {
+        "url": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+        "guid": "https://monero.observer/rottenwheel-publishes-revuo-monero-issue-227/",
+        "title": "rottenwheel publishes 'Revuo Monero' Issue #227",
+        "source": "moneroobserver-feed",
+        "pubdate": "Mon, 17 Feb 2025",
+        "tickers": "XMR",
+        "category": "privacy",
+        "description": "rottenwheel1 has published Issue #2272’3 of the weekly Revuo Monero audience-funded newsletter, which covers February 9 - 16 2025 news: Recent News Upcoming Events CCS Proposals Price & Blockchain Stats Volunteer Opportunities Support To support Revuo Monero, you can contribute XMR to the address listed in the footer of each issue and on the Support4 page. Join the Revuo XMPP MUC5 and Matrix room6 to get involved with the project. Suggestions and comments can be sent directly to rotten via email7. https://farside.link/nitter/rottenwheel1, https://rottenwheel.com/ ↩ https://www.revuo-xmr.com/weekly/issue-227/ ↩ (onion) http://revuo75joezkbeitqmas4ab6spbrkr4vzbhjmeuv75ovrfqfp47mtjid.onion/weekly/issue-227/, (eepsite) http://qve7i3ke5h2mbbyphd7agmh5awzcwulvrvghjvhndkagdbi4mkcq.b32.i2p/ ↩ https://revuo-xmr.com/support/ ↩ (XMPP MUC) xmpp:revuo-monero@conference.jabbers.one?join ↩ (Matrix) https://matrix.to/#/#revuo:monero.social ↩ rotten (at) revuo-xmr (dot) com ↩..."
+      }
+    }
+  ],
+  "db": {
+    "key": 36327,
+    "addedTimestamp": 1739828609589,
+    "updatedTimestamp": 1739828609589,
+    "table": "spasm_events"
+  },
+  "source": {
+    "name": "moneroobserver-feed"
+  }
+}

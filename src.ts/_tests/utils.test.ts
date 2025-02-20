@@ -1,8 +1,10 @@
 // import {SpasmEventAuthorV2} from '../types/interfaces';
 import {convertToSpasm} from '../convert/convertToSpasm.js';
+// import {getSpasmId01} from '../convert/getSpasmId.js';
 import {
   ConvertToSpasmConfig,
   CustomConvertToSpasmConfig,
+  SpasmEventEnvelopeV2,
   SpasmEventIdV2,
   SpasmEventStatV2,
   SpasmEventV2,
@@ -70,6 +72,7 @@ import {
   extractParentSpasmId01,
   extractParentIdByFormat,
   toBeShortTimestamp,
+  toBeTimestamp,
   toBeNostrTimestamp,
   extractNostrEvent,
   extractSignedNostrEvent,
@@ -83,7 +86,8 @@ import {
   getAllFormatNamesFromSpasmEventV2,
   getAllFormatNamesFromEvent,
   isHex,
-  isNostrHex
+  isNostrHex,
+  isValidUrl
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -138,7 +142,9 @@ import {
   validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1,
   validSpasmTreeV2Depth2_Plus1,
   validSpasmTreeV2Depth2_Plus2,
-  validPostWithRssItemTitleHasSpecialChars
+  validPostWithRssItemTitleHasSpecialChars,
+  validSpasmEventV2SourceMoneroObserverNbsp,
+  validSpasmEnvelopeV2SourceMoneroObserverSsp
 } from "./_events-data.js"
 
 import {
@@ -310,6 +316,23 @@ describe("ifArraysHaveCommonId() function tests", () => {
     const input1 = [ 1, 2, "four" ]
     const input2 = [ 1, 2, "four" ]
     expect(ifArraysHaveCommonId(input1,input2)).toBe(true);
+  });
+});
+
+// isValidUrl
+describe("isValidUrl() function tests", () => {
+  test("should return true if URL is valid, else false", () => {
+    expect(isValidUrl(false)).toStrictEqual(false)
+    expect(isValidUrl(null)).toStrictEqual(false)
+    expect(isValidUrl(123)).toStrictEqual(false)
+    expect(isValidUrl('hellow world')).toStrictEqual(false)
+    expect(isValidUrl('degenrocket.space')).toStrictEqual(false)
+    expect(isValidUrl('ftp://degenrocket.space')).toStrictEqual(true)
+    expect(isValidUrl('https://degenrocket.space')).toStrictEqual(true)
+    expect(isValidUrl('https://thedefiant.io')).toStrictEqual(true)
+    expect(isValidUrl('https://thedefiant.io/news/123')).toStrictEqual(true)
+    expect(isValidUrl('https://monero.observer')).toStrictEqual(true)
+    expect(isValidUrl('mailto:monero.observer')).toStrictEqual(true)
   });
 });
 
@@ -3847,6 +3870,16 @@ describe("toBeShortTimestamp() function tests", () => {
       .toStrictEqual(1641074686);
     expect(toBeShortTimestamp("1641074686178"))
       .toStrictEqual(1641074686);
+    expect(toBeTimestamp("2024-04-27T00:00:00+00:00"))
+      .toStrictEqual(1714176000000);
+    expect(toBeShortTimestamp("2024-04-27T00:00:00+00:00"))
+      .toStrictEqual(1714176000);
+    expect(toBeTimestamp("Mon, 19 Feb 2025"))
+      .toStrictEqual(1739923200000);
+    expect(toBeShortTimestamp("Mon, 19 Feb 2025"))
+      .toStrictEqual(1739923200);
+    expect(toBeTimestamp("Wed, 19 Feb 2025 22:00:39 GMT"))
+      .toStrictEqual(1740002439000);
     expect(toBeNostrTimestamp(1641074686))
       .toStrictEqual(1641074686);
     expect(toBeNostrTimestamp("1641074686"))
@@ -3902,6 +3935,31 @@ describe("isHex() and isNostrHex() function tests", () => {
     expect(isNostrHex(
       "db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651"
     )).toStrictEqual(true);
+  });
+});
+
+// Troubled events from monero.observer
+describe("troubled events from monero.observer tests", () => {
+  test("template() should return true if true", () => {
+    const spasmEvent: SpasmEventV2 =
+      validSpasmEventV2SourceMoneroObserverNbsp as SpasmEventV2;
+    const spasmEnvelope: SpasmEventEnvelopeV2 =
+      validSpasmEnvelopeV2SourceMoneroObserverSsp as SpasmEventEnvelopeV2;
+    expect(
+      getAllSigners(spasmEvent)
+    ).toStrictEqual(
+      getAllSigners(spasmEnvelope)
+    );
+    // expect(
+    //   getAllEventIds(spasmEvent)
+    // ).toStrictEqual(
+    //   getAllEventIds(spasmEnvelope)
+    // );
+    // expect(
+    //   getSpasmId01(spasmEvent)
+    // ).toStrictEqual(
+    //   getSpasmId01(convertToSpasm(spasmEnvelope)!)
+    // );
   });
 });
 

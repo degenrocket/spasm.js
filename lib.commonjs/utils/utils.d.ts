@@ -12,7 +12,12 @@ export declare const isArrayOfStringsOrNumbers: (array: any) => boolean;
 export declare const isArrayOfNumbersOrStrings: (array: any) => boolean;
 export declare const extractVersion: (versionString: string) => string;
 export declare const extractSealedEvent: (unknownPostOrEvent: UnknownPostOrEvent) => UnknownEvent | false;
-export declare const toBeTimestamp: (time: any) => number | undefined;
+/**
+ * Converts value to a consistent timestamp across all platforms.
+ * Input time value can be string, number, or Date object.
+ * returns Consistent timestamp in milliseconds or undefined.
+ */
+export declare const toBeTimestamp: (originalTime: any) => number | undefined;
 export declare const toBeShortTimestamp: (value: string | number) => number | undefined;
 export declare const toBeLongTimestamp: (value: string | number) => number | null;
 export declare const toBeFullTimestamp: (value: string | number) => number | null;
@@ -151,5 +156,7 @@ export declare const attachEventAsParent: (unknownMainEvent: UnknownEventV2, unk
 export declare const assignFormats: (event: SpasmEventV2) => void;
 export declare const isHex: (value: any) => boolean;
 export declare const isNostrHex: (value: any) => boolean;
+export declare const normalizeText: (val: string) => string;
+export declare const removeNbsp: (val: string) => string;
 export {};
 //# sourceMappingURL=utils.d.ts.map

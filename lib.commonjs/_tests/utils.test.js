@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {SpasmEventAuthorV2} from '../types/interfaces';
 const convertToSpasm_js_1 = require("../convert/convertToSpasm.js");
+// import {getSpasmId01} from '../convert/getSpasmId.js';
 const interfaces_js_1 = require("../types/interfaces.js");
 const index_js_1 = require("./../utils/index.js");
 const _events_data_js_1 = require("./_events-data.js");
@@ -147,6 +148,22 @@ describe("ifArraysHaveCommonId() function tests", () => {
         const input1 = [1, 2, "four"];
         const input2 = [1, 2, "four"];
         expect((0, index_js_1.ifArraysHaveCommonId)(input1, input2)).toBe(true);
+    });
+});
+// isValidUrl
+describe("isValidUrl() function tests", () => {
+    test("should return true if URL is valid, else false", () => {
+        expect((0, index_js_1.isValidUrl)(false)).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)(null)).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)(123)).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)('hellow world')).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)('degenrocket.space')).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)('ftp://degenrocket.space')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://degenrocket.space')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://thedefiant.io')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://thedefiant.io/news/123')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://monero.observer')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('mailto:monero.observer')).toStrictEqual(true);
     });
 });
 // getFormatFromId
@@ -2821,6 +2838,16 @@ describe("toBeShortTimestamp() function tests", () => {
             .toStrictEqual(1641074686);
         expect((0, index_js_1.toBeShortTimestamp)("1641074686178"))
             .toStrictEqual(1641074686);
+        expect((0, index_js_1.toBeTimestamp)("2024-04-27T00:00:00+00:00"))
+            .toStrictEqual(1714176000000);
+        expect((0, index_js_1.toBeShortTimestamp)("2024-04-27T00:00:00+00:00"))
+            .toStrictEqual(1714176000);
+        expect((0, index_js_1.toBeTimestamp)("Mon, 19 Feb 2025"))
+            .toStrictEqual(1739923200000);
+        expect((0, index_js_1.toBeShortTimestamp)("Mon, 19 Feb 2025"))
+            .toStrictEqual(1739923200);
+        expect((0, index_js_1.toBeTimestamp)("Wed, 19 Feb 2025 22:00:39 GMT"))
+            .toStrictEqual(1740002439000);
         expect((0, index_js_1.toBeNostrTimestamp)(1641074686))
             .toStrictEqual(1641074686);
         expect((0, index_js_1.toBeNostrTimestamp)("1641074686"))
@@ -2863,6 +2890,24 @@ describe("isHex() and isNostrHex() function tests", () => {
         expect((0, index_js_1.isNostrHex)("https://degenrocket.space")).toStrictEqual(false);
         expect((0, index_js_1.isNostrHex)("2d2d9f19a98e533c27500e5f056a2a56db8fe92393e7a2135db63ad300486f42")).toStrictEqual(true);
         expect((0, index_js_1.isNostrHex)("db300d320853b25b57fa03c586d18f69ad9786ec5e21114253fc3762b22a5651")).toStrictEqual(true);
+    });
+});
+// Troubled events from monero.observer
+describe("troubled events from monero.observer tests", () => {
+    test("template() should return true if true", () => {
+        const spasmEvent = _events_data_js_1.validSpasmEventV2SourceMoneroObserverNbsp;
+        const spasmEnvelope = _events_data_js_1.validSpasmEnvelopeV2SourceMoneroObserverSsp;
+        expect((0, index_js_1.getAllSigners)(spasmEvent)).toStrictEqual((0, index_js_1.getAllSigners)(spasmEnvelope));
+        // expect(
+        //   getAllEventIds(spasmEvent)
+        // ).toStrictEqual(
+        //   getAllEventIds(spasmEnvelope)
+        // );
+        // expect(
+        //   getSpasmId01(spasmEvent)
+        // ).toStrictEqual(
+        //   getSpasmId01(convertToSpasm(spasmEnvelope)!)
+        // );
     });
 });
 // template()
