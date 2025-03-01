@@ -1530,14 +1530,49 @@ describe("getIdByFormat() tests", () => {
         expect((0, index_js_1.getIdByFormat)(inputDmp, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
         expect((0, index_js_1.getIdByFormat)(inputNostr, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
         expect((0, index_js_1.getIdByFormat)(inputNostrSpasm, { name: "nostr-sig", version: "99" })).toStrictEqual(null);
+        // url
+        expect((0, index_js_1.getIdByFormat)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2, { name: "url" })).toStrictEqual("https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack");
+        // guid
+        expect((0, index_js_1.getIdByFormat)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2, { name: "guid" })).toStrictEqual("https://forum.degenrocket.space/?l=terraforming");
     });
 });
-describe("getIdByFormat() tests", () => {
-    test("getIdByFormat() get ID by format", () => {
+describe("getParentIdByFormat() tests", () => {
+    test("getParentIdByFormat() get ID by format", () => {
         expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "nostr-hex" })).toStrictEqual(null);
         expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "nostr-sig" })).toStrictEqual(null);
         expect((0, index_js_1.extractParentSpasmId01)(_events_data_js_1.validNostrReplyToDmpEvent)).toStrictEqual(null);
         expect((0, index_js_1.extractParentIdByFormat)(_events_data_js_1.validNostrReplyToDmpEvent, { name: "ethereum-sig" })).toStrictEqual("0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b");
+        // event with two parent url ids
+        expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validSpasmEventV2WithTwoParentUrlIds, { name: "url" })).toStrictEqual("https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/"
+        // "https://reason.com/?p=8317331"
+        );
+        expect((0, index_js_1.getParentIdByFormat)(_events_data_js_1.validSpasmEventV2WithTwoParentUrlIds, { name: "guid" })).toStrictEqual(null);
+    });
+});
+// findMostLikelyUrl
+// findMostLikelyGuid
+describe("findMostLikelyUrl and findMostLikelyGuid tests", () => {
+    test("findMostLikelyUrl()", () => {
+        expect((0, index_js_1.findMostLikelyUrl)([
+            "123abc",
+            "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+            "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+            "https://reason.com/?p=8317331",
+            "https://reason.com/?p=8317331",
+            "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+            "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f123456789"
+        ])).toStrictEqual("https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/");
+    });
+    test("findMostLikelyGuid()", () => {
+        expect((0, index_js_1.findMostLikelyGuid)([
+            "123abc",
+            "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+            "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+            "https://reason.com/?p=8317331",
+            "https://reason.com/?p=8317331",
+            "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+            "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f123456789"
+        ])).toStrictEqual("https://reason.com/?p=8317331");
     });
 });
 describe("checkIfEventHasThisId() tests", () => {

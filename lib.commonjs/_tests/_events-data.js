@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDbNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithDb = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsNew = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStatsOld = exports.validDmpEventConvertedToSpasmEventV2 = exports.validSpasmDmpEventSignedClosedV0 = exports.validPostWithDmpEventSignedClosed = exports.validDmpEventSignedClosedConvertedToSpasmEventEnvelopeWithTreeV2WithTwoChildren = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmEventEnvelopeWithTreeV2WithoutRelatives = exports.validDmpEventSignedClosedConvertedToSpasmV2WithoutFormats = exports.validDmpEventSignedClosedConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEvent = exports.validNostrReplyToDmpEvent = exports.validSpasmWithDmpReplyToDmpEventV0ConvertedToSpasmEventV2 = exports.validSpasmWithDmpReplyToDmpEventV0 = exports.validDmpEventSignedClosedWithInvalidSignature = exports.validDmpEventSignedClosedWithInvalidSigner = exports.validDmpEventSignedClosedWithInvalidSignedString = exports.validDmpEventSignedOpened = exports.validDmpEventSignedClosed = exports.validDmpEvent = exports.validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2 = exports.validSpasmEventBodyV2ReplyToGenesisSignedClosed = exports.validSpasmEventBodyV2ReplyToGenesis = exports.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2 = exports.validSpasmEventBodySignedClosedV2 = exports.validSpasmEventBodyV2ConvertedToSpasmV2 = exports.validSpasmEventBodyV2 = exports.validId0Spasmid01 = exports.invalidId2Note = exports.validId2Hex = exports.validId2Nevent = exports.validId2Note = exports.invalidId1Note = exports.validId1Hex = exports.validId1Nevent = exports.validId1Note = exports.invalidNpubAddress2 = exports.invalidNpubAddress1 = exports.validHexAddress2 = exports.validHexAddress1 = exports.validNpubAddress2 = exports.validNpubAddress1 = exports.invalidEthereumSignature1 = exports.validEthereumSignature1 = exports.invalidEthereumAddress1 = exports.validEthereumAddress1 = void 0;
-exports.validSpasmEventV2TreeDepth0_Post1 = exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmEventBodyV2ReplyWithTwoSignersConvertedToNostrSpasmEventV2 = exports.validSpasmEventBodyV2ReplyWithTwoSigners = exports.validSpasmEventBodyV2WithOneNostrSignerConvertedToNostrSpasmEventV2 = exports.validSpasmEventBodyV2WithOneNostrSigner = exports.validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventV2SingleSignedOpened = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = exports.validNostrSpasmEventSignedOpenedWithInvalidContent = exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = void 0;
-exports.validSpasmEnvelopeV2SourceMoneroObserverSsp = exports.validSpasmEventV2SourceMoneroObserverNbsp = exports.validSpasmTreeV2Depth2_Plus2 = exports.validSpasmTreeV2Depth2_Plus1 = exports.validSpasmTreeV2Depth0_Plus4 = exports.validSpasmTreeV2Depth0_Plus2 = exports.validSpasmTreeV2Depth0_Plus1 = exports.validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1 = exports.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1 = exports.validSpasmEventV2TreeDepth2_Post1Reply2Reply1 = exports.validSpasmEventV2TreeDepth2_Post1Reply2React1 = exports.validSpasmEventV2TreeDepth2_Post1Reply1Reply1 = exports.validSpasmEventV2TreeDepth1_Post1Reply2 = exports.validSpasmEventV2TreeDepth1_Post1Reply1 = exports.validSpasmEventV2TreeDepth1_Post1React1 = void 0;
+exports.validRssItemWithEmojiConvertedToSpasmEvent2 = exports.validRssItemWithEmoji = exports.validNostrSpasmEventSpasmV0WithInvalidHtmlTags = exports.validPostWithRssItemTitleHasSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemTitleHasSpecialChars = exports.validPostWithRssItemSpecialCharsConvertedToSpasmEventV2 = exports.validPostWithRssItemSpecialChars = exports.SpasmEventV2ConvertedToSpasmid01 = exports.SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys = exports.SpasmEventV2ToTestSpasmid01 = exports.validSpasmEventV2WithTwoParentUrlIds = exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = exports.validSpasmEventRssItemV0 = exports.validPostWithRssItemReverseTags = exports.validPostWithRssItem = exports.validSpasmEventBodyV2ReplyWithTwoSignersConvertedToNostrSpasmEventV2 = exports.validSpasmEventBodyV2ReplyWithTwoSigners = exports.validSpasmEventBodyV2WithOneNostrSignerConvertedToNostrSpasmEventV2 = exports.validSpasmEventBodyV2WithOneNostrSigner = exports.validNostrSpasmEventV2SingleSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventV2SingleSignedOpened = exports.validSpasmNostrSpasmEventSignedOpenedV0ConvertedToSpasmV2 = exports.validSpasmNostrEventSignedOpenedV0ConvertedToSpasmV2 = exports.validNostrSpasmEventSignedOpenedConvertedToSpasmV2 = exports.validNostrEventSignedOpenedConvertedToSpasmV2 = exports.validNostrSpasmEventConvertedToSpasmV2 = exports.validNostrEventConvertedToSpasmV2 = exports.validSpasmNostrSpasmEventSignedOpenedV0 = exports.validPostWithNostrSpasmEventSignedOpened = exports.validSpasmNostrEventSignedOpenedV0 = exports.validPostWithNostrEventSignedOpened = exports.validNostrSpasmEventSignedOpenedWithInvalidSigner = exports.validNostrSpasmEventSignedOpenedWithInvalidContent = exports.validNostrSpasmEventSignedOpenedWithInvalidSignature = exports.validNostrSpasmEventSignedOpened = exports.validNostrEventSignedOpened = exports.validNostrSpasmEvent = exports.validNostrEvent = exports.validSpasmDmpEventSignedClosedV0ConvertedToSpasmV2 = exports.validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent = exports.validPostWithDmpEventSignedClosedConvertedToSpasmEventEnvelopeV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2DifferentSource = exports.validDmpEventSignedOpenedConvertedToSpasmV2 = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildrenReverse = exports.validDmpEventSignedClosedConvertedToSpasmV2WithTwoChildren = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChild = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmDmpChildWithoutEvent = exports.validDmpEventSignedClosedConvertedToSpasmV2WithSpasmNostrChild = exports.validPostWithDmpEventSignedClosedConvertedToSpasmV2 = void 0;
+exports.validSpasmEnvelopeV2SourceMoneroObserverSsp = exports.validSpasmEventV2SourceMoneroObserverNbsp = exports.validSpasmTreeV2Depth2_Plus2 = exports.validSpasmTreeV2Depth2_Plus1 = exports.validSpasmTreeV2Depth0_Plus4 = exports.validSpasmTreeV2Depth0_Plus2 = exports.validSpasmTreeV2Depth0_Plus1 = exports.validSpasmEventV2TreeDepth4_Post1Reply1Reply1Reply1Reply1 = exports.validSpasmEventV2TreeDepth3_Post1Reply1Reply1Reply1 = exports.validSpasmEventV2TreeDepth2_Post1Reply2Reply1 = exports.validSpasmEventV2TreeDepth2_Post1Reply2React1 = exports.validSpasmEventV2TreeDepth2_Post1Reply1Reply1 = exports.validSpasmEventV2TreeDepth1_Post1Reply2 = exports.validSpasmEventV2TreeDepth1_Post1Reply1 = exports.validSpasmEventV2TreeDepth1_Post1React1 = exports.validSpasmEventV2TreeDepth0_Post1 = void 0;
 const index_js_1 = require("./../utils/index.js");
 const index_js_2 = require("./../utils/index.js");
 // import { convertToSpasm } from "./../convert/convertToSpasm"
@@ -2856,6 +2856,91 @@ exports.validSpasmEventRssItemV0ConvertedToSpasmV2 = {
 exports.validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2 = {
     ...exports.validSpasmEventRssItemV0ConvertedToSpasmV2,
     keywords: ["forest", "dark", "cookies"]
+};
+exports.validSpasmEventV2WithTwoParentUrlIds = {
+    "type": "SpasmEventV2",
+    "parent": {
+        "ids": [
+            {
+                "value": "spasmid01fb7dd2d6c12af436069bcf6addeecb7da78a97136c5b492c67c22d8df3c3fcfc",
+                "format": {
+                    "name": "spasmid",
+                    "version": "01"
+                }
+            },
+            {
+                "value": "https://reason.com/?p=8317331",
+                "format": {
+                    "name": "url"
+                }
+            },
+            {
+                "value": "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+                "format": {
+                    "name": "url"
+                }
+            },
+        ]
+    },
+    "action": "reply",
+    "content": "wen?",
+    "timestamp": 1740089703936,
+    "license": "SPDX-License-Identifier: CC0-1.0",
+    "authors": [
+        {
+            "addresses": [
+                {
+                    "value": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+                    "format": {
+                        "name": "ethereum-pubkey"
+                    },
+                    "verified": true
+                }
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "name": "politics"
+        }
+    ],
+    "signatures": [
+        {
+            "value": "0x063540a7408bd6af4245a94f397c7313c811f95694a0777cc756c0a32605a1b1590712dad195c6209d65bd6e3de69d3d135bfa9bc1d175c6e6316ef410a4d24c1c",
+            "pubkey": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+            "format": {
+                "name": "ethereum-sig"
+            }
+        }
+    ],
+    "ids": [
+        {
+            "value": "spasmid014aaafc4a35cac58b87850b4a8489d23db29e5ee34439ceb2ee1ae4155048e223",
+            "format": {
+                "name": "spasmid",
+                "version": "01"
+            }
+        }
+    ],
+    "siblings": [
+        {
+            "type": "SiblingSpasmSignedV2",
+            "protocol": {
+                "name": "spasm",
+                "version": "2.0.0"
+            },
+            "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"wen?\",\"parent\":{\"ids\":[{\"value\":\"spasmid01fb7dd2d6c12af436069bcf6addeecb7da78a97136c5b492c67c22d8df3c3fcfc\"},{\"value\":\"https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/\"},{\"value\":\"https://reason.com/?p=8317331\"}]},\"categories\":[{\"name\":\"politics\"}],\"timestamp\":1740089703936,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x153cd0873c96a4a164d723bafb6ffde81d6011b8\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+            "signatures": [
+                {
+                    "value": "0x063540a7408bd6af4245a94f397c7313c811f95694a0777cc756c0a32605a1b1590712dad195c6209d65bd6e3de69d3d135bfa9bc1d175c6e6316ef410a4d24c1c",
+                    "pubkey": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+                    "format": {
+                        "name": "ethereum-sig"
+                    }
+                }
+            ]
+        }
+    ],
 };
 exports.SpasmEventV2ToTestSpasmid01 = {
     type: "SpasmEventV2",

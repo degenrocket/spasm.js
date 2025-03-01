@@ -132,6 +132,7 @@ export declare const validPostWithRssItemReverseTags: Post;
 export declare const validSpasmEventRssItemV0: SpasmEventV0;
 export declare const validSpasmEventRssItemV0ConvertedToSpasmV2: SpasmEventV2;
 export declare const validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2: SpasmEventV2;
+export declare const validSpasmEventV2WithTwoParentUrlIds: SpasmEventV2;
 export declare const SpasmEventV2ToTestSpasmid01: SpasmEventV2;
 export declare const SpasmEventV2ToTestSpasmid01_ChangedNotImportantKeys: SpasmEventV2;
 export declare const SpasmEventV2ConvertedToSpasmid01: EventForSpasmid01;

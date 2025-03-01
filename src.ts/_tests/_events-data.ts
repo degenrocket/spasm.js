@@ -2952,6 +2952,92 @@ export const validSpasmEventRssItemReverseTagsV0ConvertedToSpasmV2: SpasmEventV2
   keywords: ["forest", "dark", "cookies"]
 }
 
+export const validSpasmEventV2WithTwoParentUrlIds: SpasmEventV2 = {
+  "type": "SpasmEventV2",
+  "parent": {
+    "ids": [
+      {
+        "value": "spasmid01fb7dd2d6c12af436069bcf6addeecb7da78a97136c5b492c67c22d8df3c3fcfc",
+        "format": {
+          "name": "spasmid",
+          "version": "01"
+        }
+      },
+      {
+        "value": "https://reason.com/?p=8317331",
+        "format": {
+          "name": "url"
+        }
+      },
+      {
+        "value": "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+        "format": {
+          "name": "url"
+        }
+      },
+    ]
+  },
+  "action": "reply",
+  "content": "wen?",
+  "timestamp": 1740089703936,
+  "license": "SPDX-License-Identifier: CC0-1.0",
+  "authors": [
+    {
+      "addresses": [
+        {
+          "value": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+          "format": {
+            "name": "ethereum-pubkey"
+          },
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "name": "politics"
+    }
+  ],
+  "signatures": [
+    {
+      "value": "0x063540a7408bd6af4245a94f397c7313c811f95694a0777cc756c0a32605a1b1590712dad195c6209d65bd6e3de69d3d135bfa9bc1d175c6e6316ef410a4d24c1c",
+      "pubkey": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+      "format": {
+        "name": "ethereum-sig"
+      }
+    }
+  ],
+  "ids": [
+    {
+      "value": "spasmid014aaafc4a35cac58b87850b4a8489d23db29e5ee34439ceb2ee1ae4155048e223",
+      "format": {
+        "name": "spasmid",
+        "version": "01"
+      }
+    }
+  ],
+  "siblings": [
+    {
+      "type": "SiblingSpasmSignedV2",
+      "protocol": {
+        "name": "spasm",
+        "version": "2.0.0"
+      },
+      "signedString": "{\"type\":\"SpasmEventBodyV2\",\"action\":\"reply\",\"content\":\"wen?\",\"parent\":{\"ids\":[{\"value\":\"spasmid01fb7dd2d6c12af436069bcf6addeecb7da78a97136c5b492c67c22d8df3c3fcfc\"},{\"value\":\"https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/\"},{\"value\":\"https://reason.com/?p=8317331\"}]},\"categories\":[{\"name\":\"politics\"}],\"timestamp\":1740089703936,\"license\":\"SPDX-License-Identifier: CC0-1.0\",\"protocol\":{\"name\":\"spasm\",\"version\":\"2.0.0\"},\"authors\":[{\"addresses\":[{\"value\":\"0x153cd0873c96a4a164d723bafb6ffde81d6011b8\",\"format\":{\"name\":\"ethereum-pubkey\"}}]}]}",
+      "signatures": [
+        {
+          "value": "0x063540a7408bd6af4245a94f397c7313c811f95694a0777cc756c0a32605a1b1590712dad195c6209d65bd6e3de69d3d135bfa9bc1d175c6e6316ef410a4d24c1c",
+          "pubkey": "0x153cd0873c96a4a164d723bafb6ffde81d6011b8",
+          "format": {
+            "name": "ethereum-sig"
+          }
+        }
+      ]
+    }
+  ],
+}
+
 export const SpasmEventV2ToTestSpasmid01: SpasmEventV2 = {
   type: "SpasmEventV2",
   root: {

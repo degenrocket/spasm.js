@@ -2539,7 +2539,7 @@ export const getIdByFormat = (
 
   if (!ids || !isArrayWithValues(ids)) { return null }
 
-  let idValue: string | number | null = null
+  let idValues: (string | number)[] = []
 
   ids.forEach(id => {
     if (
@@ -2571,7 +2571,8 @@ export const getIdByFormat = (
         // No version was specified, so returning an ID value
         // which only matched the specified ID format name.
         if (!idFormatVersion) {
-          idValue = id.value
+          // idValues = id.value
+          idValues.push(id.value)
         }
 
         // Match format version (if specified)
@@ -2580,14 +2581,67 @@ export const getIdByFormat = (
           typeof(format.version) === "string" &&
           idFormatVersion && format.version === idFormatVersion
         ) {
-          idValue = id.value
+          // idValues = id.value
+          idValues.push(id.value)
         }
       }
     }
     return
   })
 
-  return idValue
+  if (idValues.length > 1 && idFormatName === "url") {
+    return findMostLikelyUrl(idValues)
+  }
+
+  if (idValues[0]) {
+    return idValues[0]
+  } else {
+    return null
+  }
+}
+
+export const findMostLikelyUrl = (
+  arr: (string | number)[]
+): string | null => {
+  if (!arr) { return null }
+  if (!Array.isArray(arr)) { return null }
+  const arrayOfStrings: string[] = []
+  arr.forEach(val => {
+    if (val && String(val)) { arrayOfStrings.push(String(val)) }
+  })
+  const allValidUrls = arrayOfStrings.filter(isValidUrl)
+  const validUrls =
+    removeDuplicatesFromArrayOfStrings(allValidUrls)
+  if (validUrls.length > 1) {
+    // assume the longest URL is more likely to be a URL
+    return validUrls.reduce((a, b) => a.length > b.length ? a : b)
+  } else if (validUrls.length === 1) {
+    return validUrls[0];
+  } else {
+    return null
+  }
+}
+
+export const findMostLikelyGuid = (
+  arr: string[]
+): string | null => {
+  if (!arr) { return null }
+  if (!Array.isArray(arr)) { return null }
+  const arrayOfStrings: string[] = []
+  arr.forEach(val => {
+    if (val && String(val)) { arrayOfStrings.push(String(val)) }
+  })
+  const allValidUrls = arrayOfStrings.filter(isValidUrl)
+  const validUrls =
+    removeDuplicatesFromArrayOfStrings(allValidUrls)
+  if (validUrls.length > 1) {
+    // assume the shortest URL is more likely to be a GUID
+    return validUrls.reduce((a, b) => a.length < b.length ? a : b)
+  } else if (validUrls.length === 1) {
+    return validUrls[0];
+  } else {
+    return null
+  }
 }
 
 export const extractIdByFormat = getIdByFormat
@@ -2636,6 +2690,28 @@ export const extractRootSpasmId01 = (
   return extractRootIdByFormat(
     unknownEvent, { name: "spasmid", version: "01" }
   )
+}
+
+// The Set data structure only stores unique values.
+// When the array is converted into a Set, any duplicate values
+// are automatically removed. Then, the spread operator (...)
+// is used to convert the Set back into an array 1.
+export const removeDuplicatesFromArray = (
+  array: (string | number)[]
+): (string | number)[] => {
+  if (!Array.isArray(array)) {
+    return []
+  }
+  return [...new Set(array)];
+}
+
+export const removeDuplicatesFromArrayOfStrings = (
+  array: string[]
+): string[] => {
+  if (!Array.isArray(array)) {
+    return []
+  }
+  return [...new Set(array)];
 }
 
 export const checkIfEventHasThisId = (

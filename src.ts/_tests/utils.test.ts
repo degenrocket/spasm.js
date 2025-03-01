@@ -87,7 +87,9 @@ import {
   getAllFormatNamesFromEvent,
   isHex,
   isNostrHex,
-  isValidUrl
+  isValidUrl,
+  findMostLikelyUrl,
+  findMostLikelyGuid
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -144,7 +146,8 @@ import {
   validSpasmTreeV2Depth2_Plus2,
   validPostWithRssItemTitleHasSpecialChars,
   validSpasmEventV2SourceMoneroObserverNbsp,
-  validSpasmEnvelopeV2SourceMoneroObserverSsp
+  validSpasmEnvelopeV2SourceMoneroObserverSsp,
+  validSpasmEventV2WithTwoParentUrlIds
 } from "./_events-data.js"
 
 import {
@@ -2207,11 +2210,28 @@ describe("getIdByFormat() tests", () => {
     expect(
       getIdByFormat(inputNostrSpasm, { name: "nostr-sig", version: "99" } )
     ).toStrictEqual(null);
+
+    // url
+    expect(
+      getIdByFormat(
+        validSpasmEventRssItemV0ConvertedToSpasmV2,
+        { name: "url" } )
+    ).toStrictEqual("https://forum.degenrocket.space/?b=21&t=fog&c=samourai&h=hijack");
+
+    // guid
+    expect(
+      getIdByFormat(
+        validSpasmEventRssItemV0ConvertedToSpasmV2,
+        { name: "guid" } )
+    ).toStrictEqual(
+      "https://forum.degenrocket.space/?l=terraforming"
+    );
+
   });
 });
 
-describe("getIdByFormat() tests", () => {
-  test("getIdByFormat() get ID by format", () => {
+describe("getParentIdByFormat() tests", () => {
+  test("getParentIdByFormat() get ID by format", () => {
     expect(getParentIdByFormat(
       validNostrReplyToDmpEvent, { name: "nostr-hex" }
     )).toStrictEqual(null)
@@ -2225,6 +2245,55 @@ describe("getIdByFormat() tests", () => {
         validNostrReplyToDmpEvent, { name: "ethereum-sig" }
     )).toStrictEqual(
       "0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b"
+    )
+    // event with two parent url ids
+    expect(
+      getParentIdByFormat(
+        validSpasmEventV2WithTwoParentUrlIds,
+        { name: "url" } )
+    ).toStrictEqual(
+      "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/"
+      // "https://reason.com/?p=8317331"
+    );
+    expect(
+      getParentIdByFormat(
+        validSpasmEventV2WithTwoParentUrlIds,
+        { name: "guid" } )
+    ).toStrictEqual(null);
+  });
+});
+
+// findMostLikelyUrl
+// findMostLikelyGuid
+describe("findMostLikelyUrl and findMostLikelyGuid tests", () => {
+  test("findMostLikelyUrl()", () => {
+    expect(
+      findMostLikelyUrl([
+        "123abc",
+        "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+        "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+        "https://reason.com/?p=8317331",
+        "https://reason.com/?p=8317331",
+        "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+        "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f123456789"
+      ])
+    ).toStrictEqual(
+        "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/"
+    )
+  });
+  test("findMostLikelyGuid()", () => {
+    expect(
+      findMostLikelyGuid([
+        "123abc",
+        "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+        "https://reason.com/2025/02/18/supersonic-commercial-air-travel-is-on-its-way/",
+        "https://reason.com/?p=8317331",
+        "https://reason.com/?p=8317331",
+        "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f",
+        "spasmid01192d1f9994bf436f50841459d0a43c0de13ef4aaa5233827bdfe2ea2bc030d6f123456789"
+      ])
+    ).toStrictEqual(
+        "https://reason.com/?p=8317331"
     )
   });
 });

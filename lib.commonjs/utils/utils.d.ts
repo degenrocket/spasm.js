@@ -109,6 +109,8 @@ export declare const isAnyPubkeyListedIn: (unknownEvent: UnknownEventV2, list: (
 export declare const areAllSignersListedIn: (unknownEvent: UnknownEventV2, list: (string | number)[]) => boolean;
 export declare const areAllPubkeysListedIn: (unknownEvent: UnknownEventV2, list: (string | number)[]) => boolean;
 export declare const getIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2, from?: "event" | "parent" | "root") => string | number | null;
+export declare const findMostLikelyUrl: (arr: (string | number)[]) => string | null;
+export declare const findMostLikelyGuid: (arr: string[]) => string | null;
 export declare const extractIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2, from?: "event" | "parent" | "root") => string | number | null;
 export declare const extractSpasmId01: (unknownEvent: UnknownEventV2) => string | number;
 export declare const getParentIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2) => string | number | null;
@@ -117,6 +119,8 @@ export declare const extractParentSpasmId01: (unknownEvent: UnknownEventV2) => s
 export declare const getRootIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2) => string | number | null;
 export declare const extractRootIdByFormat: (unknownEvent: UnknownEventV2, customIdFormat?: SpasmEventIdFormatV2) => string | number | null;
 export declare const extractRootSpasmId01: (unknownEvent: UnknownEventV2) => string | number;
+export declare const removeDuplicatesFromArray: (array: (string | number)[]) => (string | number)[];
+export declare const removeDuplicatesFromArrayOfStrings: (array: string[]) => string[];
 export declare const checkIfEventHasThisId: (unknownEvent: UnknownEventV2, id: (string | number), shortIdLength?: number) => Boolean;
 export declare const getEventById: (unknownEvents: UnknownEventV2[], id: (string | number), shortIdLength?: number) => SpasmEventV2 | null;
 export declare const getEventsByIds: (unknownEvents: UnknownEventV2[], ids: (string | number)[], shortIdLength?: number) => SpasmEventV2[] | null;
