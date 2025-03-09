@@ -5,11 +5,11 @@ Signer and Protocol Agnostic Social Media (Spasm)
 
 The future of social media is agnostic to signing keys, messaging formats, transport protocols and storage infrastructure. However, such design places significant burden on developers, who must maintain a myriad of protocols, formats, and architectures.
 
-This library simplifies the process by encapsulating the complexities of various messaging formats into a single, standardized JSON object. By abstracting the underlying differences between these formats, it provides a unified interface for developers to work with, ensuring consistency and reducing the need for custom handling of each format.
+This library simplifies the process by encapsulating the complexities of various messaging formats into a single, standardized JSON object called `SpasmEvent`. By abstracting the underlying differences between these formats, it provides a unified interface for developers to work with, ensuring consistency and reducing the need for custom handling of each format.
 
 For instance, instead of maintaining three distinct versions of the frontend (UI) and three separate database tables for three different messaging formats, developers can leverage this library to standardize all messages into a single format. This approach simplifies the architecture by consolidating the database tables into one and requiring only a single version of the UI, with minor adjustments as needed.
 
-This library also introduces an innovative concept of signing the same message with multiple protocols and different private keys, while still sharing the same Spasm event ID, allowing not only the distribution of the message across different networks, but also chaining of all the replies back to the original message. 
+This library also introduces an innovative concept of signing the same message with multiple protocols and different private keys, while still sharing the same deterministic Spasm event ID, allowing not only the distribution of the message across different networks, but also chaining of all replies and reactions back to the original message. 
 
 TypeScript interfaces of JSON objects of messaging formats that can be standardized with this library can be found at `./src.ts/types/interfaces.ts`.
 
@@ -27,10 +27,11 @@ export type UnknownEventV2 =
   SpasmEventBodyV2 |
   SpasmEventEnvelopeV2 |
   SpasmEventEnvelopeWithTreeV2 |
-  SpasmEventDatabaseV2
+  SpasmEventDatabaseV2 |
+  SpasmEventBodySignedClosedV2
 ```
 
-After converting an unknown event to the Spasm event, you can now easily access common properties across most public messaging formats such as:
+After converting an unknown event to a Spasm event, you can easily access common properties across most public messaging formats such as:
 - `spasmEvent.action`
 - `spasmEvent.content`
 - `spasmEvent.timestamp`
@@ -48,7 +49,7 @@ After converting an unknown event to the Spasm event, you can now easily access 
 - `spasmEvent.signatures[0].pubkey`
 - `spasmEvent.signatures[0].format.name`
 
-The Spasm event can be signed with different protocols (e.g., Spasm, Dmp, Nostr), so the original signed events are stored at:
+Any Spasm event can be signed with different protocols (e.g., Spasm, Dmp, Nostr), so all the original (un)signed event objects/strings are stored at:
 - `spasmEvent.siblings`
 
 See the full list of properties of `SpasmEventV2` at `./src.ts/types/interfaces.ts`.
