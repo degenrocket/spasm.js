@@ -277,8 +277,13 @@ const event = {
 // Identify the event
 const info = identifyObject(event)
 
-// Convert to Spasm
+// Convert to Spasm (the latest version)
 const spasmEvent = convertToSpasm(event)
+
+// Convert to Spasm (specify version)
+const spasmEvent = convertToSpasm(
+  event, { to: { spasm: { version: "2.0.0" } } }
+)
 
 // Merge events into one event
 const spasmEvent = mergeSpasmEventsV2([
@@ -463,6 +468,16 @@ const spasmId = spasm.extractIdByFormat(event, {
 // If you want to calculate a Spasm ID (e.g., to verify it),
 // then you must use another function, for example:
 const spasmId = spasm.getSpasmId(event)
+```
+
+```js
+// Extract Nostr event(s) from a Spasm event.
+const nostrEvent = extractNostrEvent(spasmEvent)
+const nostrSignedEvent = extractSignedNostrEvent(spasmEvent)
+const nostrEvents = extractNostrEvents(spasmEvent)
+const nostrSignedEvents = extractSignedNostrEvents(spasmEvent)
+
+// Note: Spasm event can have multiple siblings of Nostr event type
 ```
 
 ```js
