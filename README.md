@@ -369,6 +369,13 @@ const signers = spasm.getAllSigners(event)
 // Get an array of signers/pubkeys which have
 // been verified against attached signatures
 const verifiedSigners = spasm.getVerifiedSigners(event)
+
+const spasmSigners = getAllSpasmSigners(event)
+const ethereumSigners = getAllEthereumSigners(event)
+const nostrSigners = getAllNostrSigners(event)
+const verifiedSpasmSigners = getVerifiedSpasmSigners(event)
+const verifiedEthereumSigners = getVerifiedEthereumSigners(event)
+const verifiedNostrSigners = getVerifiedNostrSigners(event)
 ```
 
 ```js
@@ -478,6 +485,15 @@ const nostrEvents = extractNostrEvents(spasmEvent)
 const nostrSignedEvents = extractSignedNostrEvents(spasmEvent)
 
 // Note: Spasm event can have multiple siblings of Nostr event type
+```
+
+```js
+// Check if Spasm event has any sibling of protocol type
+const ifHasSiblingOfProtocol = hasSiblingOfProtocol(event, "spasm")
+const ifHasSiblingSpasm = hasSiblingSpasm(event)
+const ifHasSiblingDmp = hasSiblingDmp(event)
+const ifHasSiblingNostr = hasSiblingNostr(event)
+const ifHasSiblingWeb2 = hasSiblingWeb2(event)
 ```
 
 ```js
