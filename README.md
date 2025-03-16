@@ -534,6 +534,10 @@ const events = spasm.getEventsByIds(
 // it's not SpasmEventV2 yet.
 const spasmEventV2 = toBeSpasmEventV2(event)
 
+// Convert each event of an array of events to SpasmEventV2 only
+// if event is not SpasmEventV2 yet.
+const spasmEventsV2 = toBeSpasmEventsV2(events)
+
 // Note: you must use convertToSpasm() at least one time
 // upon receiving an event, because by default it will
 // verify all the signatures and sanitize nested strings.
@@ -589,6 +593,28 @@ unshiftToArrayIfEventIsUnique(array, event)
 
 // Merge event into array (only if not unique)
 mergeEventIntoArray(array, event)
+```
+
+```js
+// Sort events by added timestamp ascending
+const asc = sortSpasmEventsV2ByDbAddedTimestamp(events, "asc")
+
+// Sort events by added timestamp descending
+const desc = sortSpasmEventsV2ByDbAddedTimestamp(events, "desc")
+
+// alias
+const sortDesc = sortSpasmEventsV2()
+```
+
+```js
+// Check if two events have the same Spasm ID version 01
+const ifSameEvent = ifEventsHaveSameSpasmId01(event1, event2)
+```
+
+```js
+// Remove siblings without signatures if signed siblings
+// of the same protocol and protocol version are attached.
+cleanSpasmEventV2(spasmEventV2)
 ```
 
 ## Examples
