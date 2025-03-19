@@ -554,6 +554,15 @@ const mergedChildren = mergedChildrenV2(children1, children2)
 // Add events (root, parent, children) to event's tree recursively
 const eventWithTree = addEventsToTree(mainEvent, relatives)
 
+// Aliases
+// addParentToTree()
+// addParentToEvent()
+// addRootToTree()
+// addRootToEvent()
+// addChildrenToTree()
+// addCommentsToEvent()
+// addRepliesToEvent()
+
 // Attaching events as relatives to event's tree
 const eventWithRoot = attachEventAsRoot(mainEvent, root)
 const eventWithParent = attachEventAsParent(mainEvent, parent)
@@ -612,9 +621,23 @@ const ifSameEvent = ifEventsHaveSameSpasmId01(event1, event2)
 ```
 
 ```js
+// Merge stats
+const mergedStats = mergeStatsV2(arrayOfStats)
+```
+
+```js
+const mergedChildren = mergeChildrenV2(arrayOfChildren)
+```
+
+```js
 // Remove siblings without signatures if signed siblings
 // of the same protocol and protocol version are attached.
 cleanSpasmEventV2(spasmEventV2)
+```
+
+```js
+// Assign formats for IDs, signatures, addresses if don't exist
+assignFormats(event)
 ```
 
 ## Examples
