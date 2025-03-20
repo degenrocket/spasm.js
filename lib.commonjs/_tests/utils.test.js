@@ -1443,9 +1443,24 @@ describe("getAllEventIds() tests", () => {
 });
 // getAllParentIds()
 describe("getAllParentIds() tests", () => {
-    test("getAllParentIds() should return array of IDs", () => {
+    test("getAllParentIds() should return array with parent ID", () => {
         const input = _events_data_js_1.validSpasmWithDmpReplyToDmpEventV0;
         const output = [input.target];
+        expect((0, index_js_1.getAllParentIds)(input, true)).toStrictEqual(output);
+    });
+    test("getAllParentIds() should return array with genesis IDs", () => {
+        const input = _events_data_js_1.validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2;
+        const output = [input.parent?.ids[0].value, input.parent?.ids[1].value];
+        expect((0, index_js_1.getAllParentIds)(input, true)).toStrictEqual(output);
+    });
+    test("getAllParentIds() should return empty array", () => {
+        const input = _events_data_js_1.validPostWithRssItem;
+        const output = [];
+        expect((0, index_js_1.getAllParentIds)(input, true)).toStrictEqual(output);
+    });
+    test("getAllParentIds() should return an array with DMP ID", () => {
+        const input = _events_data_js_1.validNostrReplyToDmpEvent;
+        const output = [input.tags[3][1]];
         expect((0, index_js_1.getAllParentIds)(input, true)).toStrictEqual(output);
     });
 });

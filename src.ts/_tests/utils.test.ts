@@ -147,7 +147,9 @@ import {
   validPostWithRssItemTitleHasSpecialChars,
   validSpasmEventV2SourceMoneroObserverNbsp,
   validSpasmEnvelopeV2SourceMoneroObserverSsp,
-  validSpasmEventV2WithTwoParentUrlIds
+  validSpasmEventV2WithTwoParentUrlIds,
+  validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2,
+  validPostWithRssItem
 } from "./_events-data.js"
 
 import {
@@ -1989,9 +1991,30 @@ describe("getAllEventIds() tests", () => {
 
 // getAllParentIds()
 describe("getAllParentIds() tests", () => {
-  test("getAllParentIds() should return array of IDs", () => {
+  test("getAllParentIds() should return array with parent ID", () => {
     const input = validSpasmWithDmpReplyToDmpEventV0;
     const output = [ input.target ]
+    expect(getAllParentIds(
+      input, true
+    )).toStrictEqual(output);
+  });
+  test("getAllParentIds() should return array with genesis IDs", () => {
+    const input = validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2
+    const output = [ input.parent?.ids[0].value, input.parent?.ids[1].value ]
+    expect(getAllParentIds(
+      input, true
+    )).toStrictEqual(output);
+  });
+  test("getAllParentIds() should return empty array", () => {
+    const input = validPostWithRssItem;
+    const output = []
+    expect(getAllParentIds(
+      input, true
+    )).toStrictEqual(output);
+  });
+  test("getAllParentIds() should return an array with DMP ID", () => {
+    const input = validNostrReplyToDmpEvent;
+    const output = [ input.tags[3][1] ]
     expect(getAllParentIds(
       input, true
     )).toStrictEqual(output);
