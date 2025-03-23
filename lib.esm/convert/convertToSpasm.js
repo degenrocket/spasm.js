@@ -1,9 +1,6 @@
 import { sha256 } from "js-sha256-v0";
 import { ConvertToSpasmConfig, SanitizationConfig, } from "./../types/interfaces.js";
-import { 
-// toBeNpub,
-// toBeNote,
-toBeHex } from "./../utils/nostrUtils.js";
+import { toBeHex } from "./../utils/nostrUtils.js";
 import { isObjectWithValues, extractVersion, toBeTimestamp, extractSealedEvent, getNostrSpasmVersion, createLinkObjectFromUrl, hasValue, getFormatFromId, getFormatFromAddress, getFormatFromSignature, markSpasmEventAddressAsVerified, verifyEthereumSignature, sanitizeEvent, mergeConfigs, extractSignerFromEthereumSignature, extractIdByFormat, mergeSanitizationConfigs, mergeSpasmEventsV2, isArrayWithValues, isStringOrNumber, assignFormats, isArrayOfStrings } from "./../utils/utils.js";
 import { identifyPostOrEvent, isDmpEvent, isDmpEventSignedClosed, isDmpEventSignedOpened, isNostrEvent, isNostrEventSignedOpened, isNostrSpasmEvent, isNostrSpasmEventSignedOpened } from "./../identify/identifyEvent.js";
 import { getSpasmId } from "./getSpasmId.js";

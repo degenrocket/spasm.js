@@ -1,6 +1,4 @@
-// import {SpasmEventAuthorV2} from '../types/interfaces';
 import {convertToSpasm} from '../convert/convertToSpasm.js';
-// import {getSpasmId01} from '../convert/getSpasmId.js';
 import {
   ConvertToSpasmConfig,
   CustomConvertToSpasmConfig,

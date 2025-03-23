@@ -9,7 +9,6 @@ import {
   SpasmEventBodyReferenceV2,
   SpasmEventBodyParentV2,
   CustomConvertToSpasmConfig,
-  // SpasmEventIdV2,
 } from "./../types/interfaces.js";
 
 import { convertToSpasm } from "./convertToSpasm.js"
@@ -23,7 +22,6 @@ import {
   sortAuthorsForSpasmid01,
   sortHostsForSpasmid01,
   sortLinksForSpasmid01,
-  // sortArrayOfObjectsByKeyValue,
   sortMediasForSpasmid01,
   sortParentForSpasmid01,
   sortReferencesForSpasmid01,

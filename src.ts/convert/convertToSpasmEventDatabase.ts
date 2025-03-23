@@ -1,16 +1,10 @@
 import {
   UnknownEventV2,
-  // EventForSpasmid01,
   SpasmEventV2,
-  // SpasmEventBodyAuthorV2,
-  // SpasmEventBodyHostV2,
-  // SpasmEventBodyLinkV2,
-  // SpasmEventMentionV2,
   SpasmEventBodyReferenceV2,
   SpasmEventBodyParentV2,
   SpasmEventDatabaseV2,
   CustomConvertToSpasmConfig,
-  // SpasmEventIdV2,
 } from "./../types/interfaces.js";
 
 import { convertToSpasm } from "./convertToSpasm.js"

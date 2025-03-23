@@ -1,7 +1,5 @@
 import { convertToSpasm } from "./convertToSpasm.js";
-import { isObjectWithValues, sortArrayOfStringsAndNumbers, sortArrayOfObjects, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, sortAuthorsForSpasmid01, sortHostsForSpasmid01, sortLinksForSpasmid01, 
-// sortArrayOfObjectsByKeyValue,
-sortMediasForSpasmid01, sortParentForSpasmid01, sortReferencesForSpasmid01, sortTagsForSpasmid01 } from "./../utils/utils.js";
+import { isObjectWithValues, sortArrayOfStringsAndNumbers, sortArrayOfObjects, keepTheseKeysInObject, keepTheseKeysInObjectsInArray, sortAuthorsForSpasmid01, sortHostsForSpasmid01, sortLinksForSpasmid01, sortMediasForSpasmid01, sortParentForSpasmid01, sortReferencesForSpasmid01, sortTagsForSpasmid01 } from "./../utils/utils.js";
 // Spasm V2
 export const convertToEventForSpasmid = (unknownEvent, idVersion = "01") => {
     let spasmEventV2 = {

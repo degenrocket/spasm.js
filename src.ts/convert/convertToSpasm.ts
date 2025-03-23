@@ -12,16 +12,9 @@ import {
   // V2
   UnknownEventV2,
   SpasmEventV2,
-  // TODO
-  // SpasmEventBodyV2,
-  // SpasmEventEnvelopeV2,
-  // SpasmEventEnvelopeWithTreeV2,
-  // SpasmEventDatabaseV2,
   SpasmEventSiblingV2,
   SiblingDmpSignedV2,
-  // SiblingNostrV2,
   SiblingNostrSignedV2,
-  // SpasmEventReferenceV2,
   SpasmEventLicenseV2,
   SpasmEventActionV2,
   DmpVersion,
@@ -57,8 +50,6 @@ import {
   SpasmEventCategoryV2,
 } from "./../types/interfaces.js";
 import {
-  // toBeNpub,
-  // toBeNote,
   toBeHex
 } from "./../utils/nostrUtils.js";
 import {

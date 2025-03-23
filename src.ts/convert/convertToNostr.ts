@@ -1,8 +1,5 @@
 import {
   isNostrEvent,
-  // isNostrEventSignedOpened,
-  // isNostrSpasmEvent,
-  // isNostrSpasmEventSignedOpened
 } from "../identify/identifyEvent.js"
 import {
   NostrEvent,
@@ -11,11 +8,6 @@ import {
   NostrSpasmEventSignedOpened,
   SpasmEventAddressV2,
   SpasmEventIdV2,
-  // CustomConvertToSpasmConfig,
-  // SpasmEventChildV2,
-  // SpasmEventEnvelopeV2,
-  // SpasmEventEnvelopeWithTreeChildV2,
-  // SpasmEventEnvelopeWithTreeV2,
   SpasmEventV2,
   UnknownEventV2
 } from "../types/interfaces.js"
@@ -26,10 +18,8 @@ import {
 import {
   getAllNostrSigners,
   isArrayOfStrings,
-  // hasValue,
   isArrayWithValues,
   isHex,
-  // isObjectWithValues,
   isStringOrNumber,
   toBeLongTimestamp,
   toBeShortTimestamp,

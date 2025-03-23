@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import {SpasmEventAuthorV2} from '../types/interfaces';
 const convertToSpasm_js_1 = require("../convert/convertToSpasm.js");
-// import {getSpasmId01} from '../convert/getSpasmId.js';
 const interfaces_js_1 = require("../types/interfaces.js");
 const index_js_1 = require("./../utils/index.js");
 const _events_data_js_1 = require("./_events-data.js");

@@ -1,14 +1,6 @@
-import { isNostrEvent,
-// isNostrEventSignedOpened,
-// isNostrSpasmEvent,
-// isNostrSpasmEventSignedOpened
- } from "../identify/identifyEvent.js";
+import { isNostrEvent, } from "../identify/identifyEvent.js";
 import { toBeHex, convertValueToNostrTagsMapping } from "../utils/nostrUtils.js";
-import { getAllNostrSigners, isArrayOfStrings, 
-// hasValue,
-isArrayWithValues, isHex, 
-// isObjectWithValues,
-isStringOrNumber, toBeLongTimestamp, toBeShortTimestamp, toBeSpasmEventV2, extractIdFormatNameFromSpasmEventIdV2 } from "../utils/utils.js";
+import { getAllNostrSigners, isArrayOfStrings, isArrayWithValues, isHex, isStringOrNumber, toBeLongTimestamp, toBeShortTimestamp, toBeSpasmEventV2, extractIdFormatNameFromSpasmEventIdV2 } from "../utils/utils.js";
 // TODO convertManyToNostr()
 export const convertToNostr = (unknownEvent, nostrSpasmVersion = "2.0.0") => {
     // Already Nostr event
