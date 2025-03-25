@@ -162,15 +162,6 @@ describe("identifyLicense() function tests", () => {
         expect((0, identifyEvent_js_1.identifyLicense)(input)).toBe("SPDX-License-Identifier: CC0-1.0");
     });
 });
-// TODO:
-// SpasmEventV2,
-// SpasmEventBodyV2,
-// SpasmEventEnvelopeV2,
-// SpasmEventEnvelopeWithTreeV2,
-// SpasmEventDatabaseV2,
-// isDmpEvent (deprecated in favor of SpasmEventBodyV2)
-// isDmpEventSignedClosed (deprecated in favor of SpasmEventEnvelopeV2)
-// isDmpEventSignedOpened (deprecated in favor of SpasmEventEnvelopeV2)
 // isNostrEvent()
 // isNostrEventSignedOpened()
 // isNostrSpasmEvent()
@@ -386,9 +377,6 @@ describe("identifyPostOrEvent() tests for Posts with DMP events", () => {
         };
         expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
-    // TODO:
-    // test("should identify a Post with DmpEvent", () => {
-    // test("should identify a Post with DmpEventSignedOpened", () => {
 });
 // identifyPostOrEvent() for Nostr events
 describe("identifyPostOrEvent() tests for Nostr events", () => {
@@ -499,14 +487,4 @@ describe("identifyPostOrEvent() tests for Posts with Nostr events", () => {
         expect((0, identifyEvent_js_1.identifyPostOrEvent)(input)).toEqual(output);
     });
 });
-// describe("another function tests", () => {
-//   test("should identify DMP event", () => {
-//     const input = {
-//       signer: '0xf8553015220a857eda377a1e903c9e5afb3ac2fa',
-//       signature: '0xbd934a01dc3bd9bb183bda807d35e61accf7396c527b8a3d029c20c00b294cf029997be953772da32483b077eea856e6bafcae7a2aff95ae572af25dd3e204a71b',
-//       signedString: '{"version":"dmp_v0.0.1","time":"2022-01-01T22:04:46.178Z","action":"post","target":"","title":"genesis","text":"not your keys, not your words","license":"MIT"}'
-//     };
-//     expect(identifyPostOrEvent(input)).toBe(false);
-//   });
-// });
 //# sourceMappingURL=identifyEvent.test.js.map
