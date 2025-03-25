@@ -19,9 +19,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
         expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validHexAddress1)).toBe(_events_data_js_1.validHexAddress1);
     });
     it("should return '' when a too long invalid npub is passed", () => {
-        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validNpubAddress1 + "1234")
-        // convertNpubOrHexAddressToHex("hello")
-        ).toBe('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validNpubAddress1 + "1234")).toBe('');
     });
     it("should return '' when an invalid npub with valid length is passed", () => {
         // Hide console errors for invalid addresses during tests
@@ -76,26 +74,14 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     it("should return '' when a too long invalid hex is passed", () => {
         expect((0, index_js_1.convertHexOrNpubAddressToNpub)(_events_data_js_1.validHexAddress1 + "1234")).toBe('');
     });
-    // Looks like any invalid npub can be converted to npub
-    // it(
-    //   "should return '' when an invalid npub with valid length is passed",
-    //   () => {
-    //   expect(
-    //     convertHexOrNpubAddressToNpub(invalidNpubAddress1)
-    //   ).toBe(
-    //   ''
-    //   );
-    // });
-    // Looks like any invalid hex can be converted to npub
-    // it(
-    //   "should return '' when an invalid hex with valid length is passed",
-    //   () => {
-    //   expect(
-    //     convertHexOrNpubAddressToNpub(invalidHexAddress1)
-    //   ).toBe(
-    //   ''
-    //   );
-    // });
+    // Invalid npub with valid length can be converted to npub
+    it("should return npub when an invalid npub with valid length is passed", () => {
+        expect((0, index_js_1.convertHexOrNpubAddressToNpub)(_events_data_js_1.invalidNpubAddress1)).toBe(_events_data_js_1.invalidNpubAddress1);
+    });
+    // Invalid hex address can be converted to npub if it's a valid hex string
+    it("should return npub when an invalid hex address is passed", () => {
+        expect((0, index_js_1.convertHexOrNpubAddressToNpub)(_events_data_js_1.invalidHexAddress1)).toBe('npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h');
+    });
     it("should return '' when an array of valid npub addresses is passed", () => {
         expect((0, index_js_1.convertHexOrNpubAddressToNpub)([_events_data_js_1.validHexAddress1, _events_data_js_1.validHexAddress2])).toBe('');
     });
@@ -120,28 +106,22 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
         expect((0, index_js_1.convertHexAddressesToNpub)([_events_data_js_1.validNpubAddress1, _events_data_js_1.validNpubAddress2])).toStrictEqual([_events_data_js_1.validNpubAddress1, _events_data_js_1.validNpubAddress2]);
         expect((0, index_js_1.toBeNpubs)([_events_data_js_1.validNpubAddress1, _events_data_js_1.validNpubAddress2])).toStrictEqual([_events_data_js_1.validNpubAddress1, _events_data_js_1.validNpubAddress2]);
     });
-    // it(
-    //   "should return an array with a valid npub if an array of valid and invalid hex is passed",
-    //   () => {
-    //   expect(
-    //     convertHexAddressesToNpub([validHexAddress1, invalidHexAddress2])
-    //   ).toStrictEqual(
-    //     [validNpubAddress1]
-    //   );
-    // });
+    it("should return an array of valid npubs if an array of valid and invalid hex is passed", () => {
+        expect((0, index_js_1.convertHexAddressesToNpub)([_events_data_js_1.validHexAddress1, _events_data_js_1.invalidHexAddress1])).toStrictEqual([
+            _events_data_js_1.validNpubAddress1,
+            'npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h'
+        ]);
+    });
     it("should return an array with a valid npub if an array of valid and invalid hex is passed", () => {
         expect((0, index_js_1.convertHexAddressesToNpub)([_events_data_js_1.validHexAddress1, _events_data_js_1.validHexAddress2 + "12345"])).toStrictEqual([_events_data_js_1.validNpubAddress1]);
         expect((0, index_js_1.toBeNpubs)([_events_data_js_1.validHexAddress1, _events_data_js_1.validHexAddress2 + "12345"])).toStrictEqual([_events_data_js_1.validNpubAddress1]);
     });
-    // it(
-    //   "should return an empty array if an array with two invalid hex is passed",
-    //   () => {
-    //   expect(
-    //     convertHexAddressesToNpub([invalidHexAddress1, invalidHexAddress2])
-    //   ).toStrictEqual(
-    //     []
-    //   );
-    // });
+    it("should return an array of npubs if an array of two invalid hex is passed", () => {
+        expect((0, index_js_1.convertHexAddressesToNpub)([_events_data_js_1.invalidHexAddress1, _events_data_js_1.invalidHexAddress2])).toStrictEqual([
+            'npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h',
+            'npub14slk4lshtylkrqg9z0dvng09gn58h88frvnax7uga3v0h25szk4q26x6jp'
+        ]);
+    });
     it("should return an empty array if an array with two invalid hex is passed", () => {
         expect((0, index_js_1.convertHexAddressesToNpub)([_events_data_js_1.validHexAddress1 + "abc", _events_data_js_1.validHexAddress2 + "12345"])).toStrictEqual([]);
         expect((0, index_js_1.toBeNpubs)([_events_data_js_1.validHexAddress1 + "abc", _events_data_js_1.validHexAddress2 + "12345"])).toStrictEqual([]);

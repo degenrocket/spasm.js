@@ -1,6 +1,4 @@
 import {
-  // convertBech32ToHex,
-  // convertHexToBech32,
   convertHexAddressesToNpub,
   convertNpubOrHexAddressToHex,
   convertHexOrNpubAddressToNpub,
@@ -11,12 +9,12 @@ import {
   toBeNpubs,
   toBeNote,
   toBeNotes,
-  // toBeNevent
 } from './../utils/index.js';
 
 import {
   validNpubAddress1, validNpubAddress2,
   validHexAddress1, validHexAddress2,
+  invalidHexAddress1, invalidHexAddress2,
   invalidNpubAddress1, invalidNpubAddress2,
   validId1Note, validId1Nevent, validId1Hex, invalidId1Note,
   validId2Note, validId2Nevent, validId2Hex, invalidId2Note,
@@ -38,9 +36,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressToHex(validNpubAddress1)
-    ).toBe(
-    validHexAddress1
-    );
+    ).toBe(validHexAddress1);
   });
 
   it(
@@ -48,9 +44,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressToHex(validHexAddress1)
-    ).toBe(
-    validHexAddress1
-    );
+    ).toBe(validHexAddress1);
   });
 
   it(
@@ -58,10 +52,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressToHex(validNpubAddress1 + "1234")
-      // convertNpubOrHexAddressToHex("hello")
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 
   it(
@@ -71,9 +62,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressToHex(invalidNpubAddress1)
-    ).toBe(
-    ''
-    );
+    ).toBe('');
     // Restore console errors
     jest.restoreAllMocks();
   });
@@ -83,9 +72,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressToHex([validNpubAddress1, validNpubAddress2] as any)
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 
   it(
@@ -93,9 +80,7 @@ describe('convertNpubOrHexAddressToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressToHex({valid: validHexAddress1} as any)
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 });
 
@@ -105,9 +90,7 @@ describe('convertNpubOrHexAddressesToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressesToHex(validNpubAddress1)
-    ).toStrictEqual(
-      [validHexAddress1]
-    );
+    ).toStrictEqual([validHexAddress1]);
   });
 
   it(
@@ -115,9 +98,7 @@ describe('convertNpubOrHexAddressesToHex function', () => {
     () => {
     expect(
       convertNpubOrHexAddressesToHex(validHexAddress1)
-    ).toStrictEqual(
-      [validHexAddress1]
-    );
+    ).toStrictEqual([validHexAddress1]);
   });
 
   it(
@@ -158,9 +139,7 @@ describe('convertNpubOrHexAddressesToHex function', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
       convertNpubOrHexAddressesToHex([invalidNpubAddress1, invalidNpubAddress2])
-    ).toStrictEqual(
-      []
-    );
+    ).toStrictEqual([]);
     jest.restoreAllMocks();
   });
 });
@@ -171,14 +150,10 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub(validHexAddress1)
-    ).toBe(
-    validNpubAddress1
-    );
+    ).toBe(validNpubAddress1);
     expect(
       toBeNpub(validHexAddress1)
-    ).toBe(
-    validNpubAddress1
-    );
+    ).toBe(validNpubAddress1);
   });
 
   it(
@@ -186,14 +161,10 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub(validNpubAddress1)
-    ).toBe(
-    validNpubAddress1
-    );
+    ).toBe(validNpubAddress1);
     expect(
       toBeNpub(validNpubAddress1)
-    ).toBe(
-    validNpubAddress1
-    );
+    ).toBe(validNpubAddress1);
   });
 
   it(
@@ -201,9 +172,7 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub(validNpubAddress1 + "1234")
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 
   it(
@@ -211,41 +180,35 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub(validHexAddress1 + "1234")
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 
-  // Looks like any invalid npub can be converted to npub
-  // it(
-  //   "should return '' when an invalid npub with valid length is passed",
-  //   () => {
-  //   expect(
-  //     convertHexOrNpubAddressToNpub(invalidNpubAddress1)
-  //   ).toBe(
-  //   ''
-  //   );
-  // });
+  // Invalid npub with valid length can be converted to npub
+  it(
+    "should return npub when an invalid npub with valid length is passed",
+    () => {
+    expect(
+      convertHexOrNpubAddressToNpub(invalidNpubAddress1)
+    ).toBe(invalidNpubAddress1);
+  });
 
-  // Looks like any invalid hex can be converted to npub
-  // it(
-  //   "should return '' when an invalid hex with valid length is passed",
-  //   () => {
-  //   expect(
-  //     convertHexOrNpubAddressToNpub(invalidHexAddress1)
-  //   ).toBe(
-  //   ''
-  //   );
-  // });
+  // Invalid hex address can be converted to npub if it's a valid hex string
+  it(
+    "should return npub when an invalid hex address is passed",
+    () => {
+    expect(
+      convertHexOrNpubAddressToNpub(invalidHexAddress1)
+    ).toBe(
+    'npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h'
+    );
+  });
 
   it(
     "should return '' when an array of valid npub addresses is passed",
     () => {
     expect(
       convertHexOrNpubAddressToNpub([validHexAddress1, validHexAddress2] as any)
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 
   it(
@@ -253,9 +216,7 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     () => {
     expect(
       convertHexOrNpubAddressToNpub({valid: validHexAddress1} as any)
-    ).toBe(
-    ''
-    );
+    ).toBe('');
   });
 });
 
@@ -265,14 +226,10 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     () => {
     expect(
       convertHexAddressesToNpub(validHexAddress1)
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+    ).toStrictEqual([validNpubAddress1]);
     expect(
       toBeNpubs(validHexAddress1)
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+    ).toStrictEqual([validNpubAddress1]);
   });
 
   it(
@@ -280,14 +237,10 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     () => {
     expect(
       convertHexAddressesToNpub(validNpubAddress1)
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+    ).toStrictEqual([validNpubAddress1]);
     expect(
       toBeNpubs(validNpubAddress1)
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+    ).toStrictEqual([validNpubAddress1]);
   });
 
   it(
@@ -320,15 +273,16 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     );
   });
 
-  // it(
-  //   "should return an array with a valid npub if an array of valid and invalid hex is passed",
-  //   () => {
-  //   expect(
-  //     convertHexAddressesToNpub([validHexAddress1, invalidHexAddress2])
-  //   ).toStrictEqual(
-  //     [validNpubAddress1]
-  //   );
-  // });
+  it(
+    "should return an array of valid npubs if an array of valid and invalid hex is passed",
+    () => {
+    expect(
+      convertHexAddressesToNpub([validHexAddress1, invalidHexAddress1])
+    ).toStrictEqual([
+      validNpubAddress1,
+      'npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h'
+    ]);
+  });
 
   it(
     "should return an array with a valid npub if an array of valid and invalid hex is passed",
@@ -340,20 +294,19 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     );
     expect(
       toBeNpubs([validHexAddress1, validHexAddress2 + "12345"])
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+    ).toStrictEqual([validNpubAddress1]);
   });
 
-  // it(
-  //   "should return an empty array if an array with two invalid hex is passed",
-  //   () => {
-  //   expect(
-  //     convertHexAddressesToNpub([invalidHexAddress1, invalidHexAddress2])
-  //   ).toStrictEqual(
-  //     []
-  //   );
-  // });
+  it(
+    "should return an array of npubs if an array of two invalid hex is passed",
+    () => {
+    expect(
+      convertHexAddressesToNpub([invalidHexAddress1, invalidHexAddress2])
+    ).toStrictEqual([
+      'npub1kwnsd0xwkw03j0d92088vf2a66a9kztsq8ywlp0lrwfwn9yffjpqmyup3h',
+      'npub14slk4lshtylkrqg9z0dvng09gn58h88frvnax7uga3v0h25szk4q26x6jp'
+    ]);
+  });
 
   it(
     "should return an empty array if an array with two invalid hex is passed",
@@ -365,9 +318,7 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     );
     expect(
       toBeNpubs([validHexAddress1 + "abc", validHexAddress2 + "12345"])
-    ).toStrictEqual(
-      []
-    );
+    ).toStrictEqual([]);
   });
 });
 
