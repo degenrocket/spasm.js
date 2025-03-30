@@ -87,7 +87,8 @@ import {
   isNostrHex,
   isValidUrl,
   findMostLikelyUrl,
-  findMostLikelyGuid
+  findMostLikelyGuid,
+  hasSiblingSpasm
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -102,7 +103,6 @@ import {
   validSpasmEventRssItemV0,
   validSpasmWithDmpReplyToDmpEventV0,
   validDmpEventSignedClosedConvertedToSpasmV2,
-  // validNostrReplyToDmpEvent,
   validPostWithNostrReplyToDmpEventConvertedToSpasmV2WithSpasmParentEvent,
   validPostWithNostrReplyToDmpEvent,
   validPostWithDmpEventSignedClosedConvertedToSpasmV2WithStats,
@@ -147,7 +147,9 @@ import {
   validSpasmEnvelopeV2SourceMoneroObserverSsp,
   validSpasmEventV2WithTwoParentUrlIds,
   validSpasmEventBodyV2ReplyToGenesisSignedClosedConvertToSpasmV2,
-  validPostWithRssItem
+  validPostWithRssItem,
+  validSpasmEventBodyV2ConvertedToSpasmV2,
+  validSpasmEventBodySignedClosedV2ConvertedToSpasmV2
 } from "./_events-data.js"
 
 import {
@@ -156,12 +158,7 @@ import {
   validEthereumSignature1,
   invalidEthereumSignature1,
   validNpubAddress1,
-  // validNpubAddress2,
-  // validHexAddress1, validHexAddress2,
-  // invalidNpubAddress1, invalidNpubAddress2,
   validId1Note, validId1Nevent, validId1Hex,
-  // invalidId1Note,
-  // validId2Note, validId2Nevent, validId2Hex, invalidId2Note,
   validId0Spasmid01
 } from "./_events-data.js"
 
@@ -617,10 +614,6 @@ describe("sortArrayOfObjects() function tests", () => {
       ["invalid", 0], undefined, null,
       {a:69, b:420, c: {d: "invalid again"}},
     ];
-    // expect(sortArrayOfObjects(input, ["id"])).toStrictEqual(output);
-    // expect(sortArrayOfObjects(input)).toStrictEqual("");
-    // expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual("");
-    // expect(sortArrayOfObjects(input, ["category", "title", "value", "id"])).toStrictEqual("");
     expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual(output);
   });
 });
@@ -847,7 +840,6 @@ describe("sortMediasForSpasmid01() function tests", () => {
     ];
       
     expect(sortMediasForSpasmid01(input)).toStrictEqual(output);
-    // expect(sortMediasForSpasmid01(input)).toStrictEqual([]);
   });
 });
 
@@ -1421,32 +1413,44 @@ describe("hasSiblingSpasm() function tests", () => {
     const inputNostr = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
     const inputNostrSpasm = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
     const inputWeb2 = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
-    // TODO
-    // const inputSpasm =
-    // hasSiblingSpasm()
+    const inputSpasm = JSON.parse(JSON.stringify(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
+    const inputSpasmUnsigned = JSON.parse(JSON.stringify(validSpasmEventBodyV2ConvertedToSpasmV2));
 
+    // hasSiblingSpasm()
+    expect(hasSiblingSpasm(inputSpasm)).toEqual(true);
+    expect(hasSiblingSpasm(inputDmp)).toEqual(false);
+    expect(hasSiblingSpasm(inputNostr)).toEqual(false);
+    expect(hasSiblingSpasm(inputNostrSpasm)).toEqual(false);
+    expect(hasSiblingSpasm(inputWeb2)).toEqual(false);
     // hasSiblingDmp()
+    expect(hasSiblingDmp(inputSpasm)).toEqual(false);
     expect(hasSiblingDmp(inputDmp)).toEqual(true);
     expect(hasSiblingDmp(inputNostr)).toEqual(false);
     expect(hasSiblingDmp(inputNostrSpasm)).toEqual(false);
     expect(hasSiblingDmp(inputWeb2)).toEqual(false);
     // hasSiblingNostr()
+    expect(hasSiblingNostr(inputSpasm)).toEqual(false);
     expect(hasSiblingNostr(inputDmp)).toEqual(false);
     expect(hasSiblingNostr(inputNostr)).toEqual(true);
     expect(hasSiblingNostr(inputNostrSpasm)).toEqual(true);
     expect(hasSiblingNostr(inputWeb2)).toEqual(false);
     // hasSiblingWeb2()
+    expect(hasSiblingWeb2(inputSpasm)).toEqual(false);
     expect(hasSiblingWeb2(inputDmp)).toEqual(false);
     expect(hasSiblingWeb2(inputNostr)).toEqual(false);
     expect(hasSiblingWeb2(inputNostrSpasm)).toEqual(false);
     expect(hasSiblingWeb2(inputWeb2)).toEqual(true);
 
     // hasSignatureEthereum()
+    expect(hasSignatureEthereum(inputSpasmUnsigned)).toEqual(false);
+    expect(hasSignatureEthereum(inputSpasm)).toEqual(true);
     expect(hasSignatureEthereum(inputDmp)).toEqual(true);
     expect(hasSignatureEthereum(inputNostr)).toEqual(false);
     expect(hasSignatureEthereum(inputNostrSpasm)).toEqual(false);
     expect(hasSignatureEthereum(inputWeb2)).toEqual(false);
     // hasSignatureNostr()
+    expect(hasSignatureNostr(inputSpasmUnsigned)).toEqual(false);
+    expect(hasSignatureNostr(inputSpasm)).toEqual(false);
     expect(hasSignatureNostr(inputDmp)).toEqual(false);
     expect(hasSignatureNostr(inputNostr)).toEqual(true);
     expect(hasSignatureNostr(inputNostrSpasm)).toEqual(true);

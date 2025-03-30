@@ -406,10 +406,6 @@ describe("sortArrayOfObjects() function tests", () => {
             ["invalid", 0], undefined, null,
             { a: 69, b: 420, c: { d: "invalid again" } },
         ];
-        // expect(sortArrayOfObjects(input, ["id"])).toStrictEqual(output);
-        // expect(sortArrayOfObjects(input)).toStrictEqual("");
-        // expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual("");
-        // expect(sortArrayOfObjects(input, ["category", "title", "value", "id"])).toStrictEqual("");
         expect((0, index_js_1.sortArrayOfObjects)(input, ["id", "value", "title"])).toStrictEqual(output);
     });
 });
@@ -630,7 +626,6 @@ describe("sortMediasForSpasmid01() function tests", () => {
                     { value: "extra1" }] }
         ];
         expect((0, index_js_1.sortMediasForSpasmid01)(input)).toStrictEqual(output);
-        // expect(sortMediasForSpasmid01(input)).toStrictEqual([]);
     });
 });
 // sortParentForSpasmid01()
@@ -1158,30 +1153,42 @@ describe("hasSiblingSpasm() function tests", () => {
         const inputNostr = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
         const inputNostrSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
         const inputWeb2 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2));
-        // TODO
-        // const inputSpasm =
+        const inputSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
+        const inputSpasmUnsigned = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodyV2ConvertedToSpasmV2));
         // hasSiblingSpasm()
+        expect((0, index_js_1.hasSiblingSpasm)(inputSpasm)).toEqual(true);
+        expect((0, index_js_1.hasSiblingSpasm)(inputDmp)).toEqual(false);
+        expect((0, index_js_1.hasSiblingSpasm)(inputNostr)).toEqual(false);
+        expect((0, index_js_1.hasSiblingSpasm)(inputNostrSpasm)).toEqual(false);
+        expect((0, index_js_1.hasSiblingSpasm)(inputWeb2)).toEqual(false);
         // hasSiblingDmp()
+        expect((0, index_js_1.hasSiblingDmp)(inputSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingDmp)(inputDmp)).toEqual(true);
         expect((0, index_js_1.hasSiblingDmp)(inputNostr)).toEqual(false);
         expect((0, index_js_1.hasSiblingDmp)(inputNostrSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingDmp)(inputWeb2)).toEqual(false);
         // hasSiblingNostr()
+        expect((0, index_js_1.hasSiblingNostr)(inputSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingNostr)(inputDmp)).toEqual(false);
         expect((0, index_js_1.hasSiblingNostr)(inputNostr)).toEqual(true);
         expect((0, index_js_1.hasSiblingNostr)(inputNostrSpasm)).toEqual(true);
         expect((0, index_js_1.hasSiblingNostr)(inputWeb2)).toEqual(false);
         // hasSiblingWeb2()
+        expect((0, index_js_1.hasSiblingWeb2)(inputSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputDmp)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputNostr)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputNostrSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputWeb2)).toEqual(true);
         // hasSignatureEthereum()
+        expect((0, index_js_1.hasSignatureEthereum)(inputSpasmUnsigned)).toEqual(false);
+        expect((0, index_js_1.hasSignatureEthereum)(inputSpasm)).toEqual(true);
         expect((0, index_js_1.hasSignatureEthereum)(inputDmp)).toEqual(true);
         expect((0, index_js_1.hasSignatureEthereum)(inputNostr)).toEqual(false);
         expect((0, index_js_1.hasSignatureEthereum)(inputNostrSpasm)).toEqual(false);
         expect((0, index_js_1.hasSignatureEthereum)(inputWeb2)).toEqual(false);
         // hasSignatureNostr()
+        expect((0, index_js_1.hasSignatureNostr)(inputSpasmUnsigned)).toEqual(false);
+        expect((0, index_js_1.hasSignatureNostr)(inputSpasm)).toEqual(false);
         expect((0, index_js_1.hasSignatureNostr)(inputDmp)).toEqual(false);
         expect((0, index_js_1.hasSignatureNostr)(inputNostr)).toEqual(true);
         expect((0, index_js_1.hasSignatureNostr)(inputNostrSpasm)).toEqual(true);

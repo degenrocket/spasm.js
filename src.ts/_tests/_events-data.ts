@@ -10,9 +10,6 @@ import {
   SpasmEventEnvelopeWithTreeV2,
   SpasmEventBodyV2,
   SpasmEventBodySignedClosedV2,
-  // SpasmEventBodyV2,
-  // SpasmEventEnvelopeV2,
-  // SpasmEventEnvelopeWithTreeV2,
   // SpasmEventDatabaseV2
 } from "./../types/interfaces.js";
 import { toBeNpub } from "./../utils/index.js"
