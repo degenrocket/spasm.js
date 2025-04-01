@@ -341,7 +341,7 @@ SpasmEventEnvelopeV2
 
 SpasmEventEnvelopeWithTreeV2
 - ...SpasmEventEnvelopeV2
-- children, parent.event, root.event, reference.event
+- children[n].event, parent.event, root.event, references[n].event
 
 ---
 

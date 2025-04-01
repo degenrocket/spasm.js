@@ -2953,6 +2953,7 @@ describe("troubled events from monero.observer tests", () => {
         const spasmEvent = _events_data_js_1.validSpasmEventV2SourceMoneroObserverNbsp;
         const spasmEnvelope = _events_data_js_1.validSpasmEnvelopeV2SourceMoneroObserverSsp;
         expect((0, index_js_1.getAllSigners)(spasmEvent)).toStrictEqual((0, index_js_1.getAllSigners)(spasmEnvelope));
+        // TODO
         // expect(
         //   getAllEventIds(spasmEvent)
         // ).toStrictEqual(

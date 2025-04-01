@@ -51,11 +51,6 @@ export class SanitizationConfig {
             this.maxDepth = 100;
     }
 }
-// export type PartialConvertToSpasmConfig =
-//   Partial<Omit<ConvertToSpasmConfig, 'sanitizationConfig'>> &
-//   { sanitizationConfig?: Partial<SanitizationConfig> };
-//
-// export type PartialSanitizationConfig = Partial<SanitizationConfig>;
 // Ideas:
 // - Short names? SE2 SE2Body SE2Envelope SE2EnvelopeWithTree
 //# sourceMappingURL=interfaces.js.map

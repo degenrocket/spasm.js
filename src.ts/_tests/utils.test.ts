@@ -4044,6 +4044,7 @@ describe("troubled events from monero.observer tests", () => {
     ).toStrictEqual(
       getAllSigners(spasmEnvelope)
     );
+    // TODO
     // expect(
     //   getAllEventIds(spasmEvent)
     // ).toStrictEqual(

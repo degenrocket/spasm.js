@@ -307,6 +307,7 @@ export interface SpasmEventEnvelopeWithTreeV2 extends Omit<SpasmEventEnvelopeV2,
     root?: SpasmEventEnvelopeWithTreeRootV2;
     parent?: SpasmEventEnvelopeWithTreeParentV2;
     references?: SpasmEventEnvelopeWithTreeReferenceV2[];
+    previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2;
     children?: SpasmEventEnvelopeWithTreeChildV2[];
 }
 export type SpasmEventEnvelopeWithTreeChildEventV2 = SpasmEventV2 | SpasmEventEnvelopeV2 | SpasmEventEnvelopeWithTreeV2;
@@ -314,8 +315,10 @@ export interface SpasmEventV2 extends Omit<SpasmEventBodyV2, 'type' | 'protocol'
     type: "SpasmEventV2";
     /**
      * Protocol, sequence, previousEvent shouldn't be a part
-     * of SpasmEvent. Instead, these fields can be found in
-     * Body and in Siblings.
+     * of SpasmEvent because an event can be signed with different
+     * protocols as different siblings some of which might have
+     * a sequence number or previous event attached.
+     * Thus, these fields can be found in Body and in Siblings.
      */
     authors?: SpasmEventAuthorV2[];
     root?: SpasmEventRootV2;
@@ -467,6 +470,9 @@ export interface SpasmEventEnvelopeWithTreeRootV2 extends SpasmEventEnvelopeWith
     depth?: number;
 }
 export interface SpasmEventEnvelopeWithTreeParentV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
+    depth?: number;
+}
+export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends SpasmEventEnvelopeWithTreeReferenceV2 {
     depth?: number;
 }
 export interface SpasmEventEnvelopeWithTreeChildV2 {

@@ -260,46 +260,6 @@ export type SpasmEventReactionNameV2 =
   | "scam" | "toxic" | "sad" | "laugh" | "clown" | "love"
   | "facepalm" | "mushroom" | "moon" | "rocket"
 
-// export interface EventSharedBy {
-//   ids?: string[] | number[]
-//   spasmIds?: string[] | number[]
-//   authors?: string[]
-//   spasmAuthors?: string[]
-//   dbIds?: number[] | string[]
-// }
-//
-// export interface SpasmEventMeta {
-//   spasmId?: string | number
-//   spasmAuthor?: string
-//   baseProtocol?: EventBaseProtocol
-//   baseProtocolId?: string | number
-//   baseProtocolAuthor?: string
-//   baseProtocolVersion?: EventBaseProtocolVersion
-//   hasExtraSpasmFields?: boolean
-//   extraSpasmFieldsVersion?: ExtraSpasmFieldsVersion
-//   convertedFrom?: EventType
-//   privateKeyType?: EventPrivateKeyType
-//   cryptography?: EventProtocolCryptography
-//   // rootDepth?: number
-//   // recommendedRelays?: string[]
-//   // rootRecommendedRelays?: string[]
-//   // targetRecommendedRelays?: string[]
-//   // Previous event of the author, don't confuse with target
-//   previousEvent?: string | number
-//   sequence?: number
-//   powNonce?: string
-//   powWords?: string[]
-//   license?: string
-//   language?: string
-//   extra?: any
-//   // hashes?: HashObject[]
-// }
-//
-// export interface SpasmEventMetaSigned extends SpasmEventMeta {
-//   privateKeyType: EventPrivateKeyType
-//   // cryptography is a bit unclear, so for now it's optional
-//   cryptography?: EventProtocolCryptography
-// }
 export interface StandardizedEvent {
   signedString?: string
   signature?: string
@@ -514,7 +474,6 @@ export interface SpasmEventDbV2 {
 }
 
 export interface EventSharedByV2 {
-  // ids?: string[] | number[]
   ids?: SpasmEventIdV2[]
 }
 
@@ -524,7 +483,7 @@ export interface SpasmEventEnvelopeWithTreeV2 extends
   root?: SpasmEventEnvelopeWithTreeRootV2
   parent?: SpasmEventEnvelopeWithTreeParentV2
   references?: SpasmEventEnvelopeWithTreeReferenceV2[]
-  // previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2
+  previousEvent?: SpasmEventEnvelopeWithTreePreviousEventV2
   children?: SpasmEventEnvelopeWithTreeChildV2[]
 }
 
@@ -542,11 +501,11 @@ export interface SpasmEventV2 extends
   type: "SpasmEventV2"
   /**
    * Protocol, sequence, previousEvent shouldn't be a part
-   * of SpasmEvent. Instead, these fields can be found in
-   * Body and in Siblings.
+   * of SpasmEvent because an event can be signed with different
+   * protocols as different siblings some of which might have
+   * a sequence number or previous event attached.
+   * Thus, these fields can be found in Body and in Siblings.
    */
-  // protocol: SpasmEventProtocolV2
-  // previousEvent?: SpasmEventPreviousEventV2
   authors?: SpasmEventAuthorV2[]
   root?: SpasmEventRootV2
   parent?: SpasmEventParentV2
@@ -570,6 +529,7 @@ export interface SpasmEventDatabaseV2 extends
     signatures?: SpasmEventSignatureV2[]
   }
 
+// Example:
 // root.ids
 // spasmid01abc
 //      id.value // spasmid01abc
@@ -725,8 +685,6 @@ export interface SpasmEventLinkV2 {
 
 export interface SpasmEventSignatureV2 {
   value: string | number
-  // type?: SpasmEventSignatureTypeV2 // "ethereum", "nostr"
-  // version?: string | number // "secp256k1" for Ethereum
   pubkey?: string | number
   format?: SpasmEventSignatureFormatV2
 }
@@ -787,10 +745,10 @@ export interface SpasmEventEnvelopeWithTreeParentV2 extends
     depth?: number
 }
 
-// export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends
-//   SpasmEventEnvelopeWithTreeReferenceV2 {
-//     depth?: number
-// }
+export interface SpasmEventEnvelopeWithTreePreviousEventV2 extends
+  SpasmEventEnvelopeWithTreeReferenceV2 {
+    depth?: number
+}
 
 export interface SpasmEventEnvelopeWithTreeChildV2 {
   ids?: SpasmEventIdV2[]
@@ -804,12 +762,6 @@ export interface SpasmEventChildV2 extends
     event?: SpasmEventV2
 }
 
-// Using partial because SpasmEvent might not have reference.event
-// or depth, but it should always have ids.
-// export interface SpasmEventReferenceV2 extends
-//   Partial<SpasmEventEnvelopeWithTreeReferenceV2> {
-//   ids: SpasmEventIdV2[]
-// }
 export interface SpasmEventReferenceV2 {
   ids: SpasmEventIdV2[]
   marker?: string | number
@@ -863,8 +815,6 @@ export type SpasmEventActionV2 = "post" | "react" | "reply" | "share" | "shared"
 export type SpasmEventLicense = "MIT" | "CC0" | "CC0-1.0" | "SPDX-License-Identifier: CC0-1.0" | "SPDX-License-Identifier: MIT"
 
 export type SpasmEventLicenseV2 = SpasmEventLicense
-
-// export type SpasmEventSignatureTypeV2 = "ethereum" | "nostr"
 
 export type SpasmEventAddressTypeV2 =
   "ethereum" | "nostr-npub" | "nostr-hex"
@@ -1068,12 +1018,6 @@ export type CustomConvertToSpasmConfig =
 
 export type CustomSanitizationConfig =
   MakeOptional<SanitizationConfig>
-
-// export type PartialConvertToSpasmConfig =
-//   Partial<Omit<ConvertToSpasmConfig, 'sanitizationConfig'>> &
-//   { sanitizationConfig?: Partial<SanitizationConfig> };
-//
-// export type PartialSanitizationConfig = Partial<SanitizationConfig>;
 
 // Ideas:
 // - Short names? SE2 SE2Body SE2Envelope SE2EnvelopeWithTree
