@@ -3682,6 +3682,11 @@ export const deepCopyOfObject = (obj: any) => {
 
 export const copyOf = deepCopyOfObject
 
+// Used for tests to bypass TypeScript type checks
+export const fakeAsString = (val: any): string => {
+  return val as string
+}
+
 export const cleanSpasmEventV2 = (
   spasmEvent: SpasmEventV2
 ): void => {

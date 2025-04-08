@@ -2966,6 +2966,18 @@ describe("troubled events from monero.observer tests", () => {
         // );
     });
 });
+// fakeAsString()
+describe("fakeAsString() function tests", () => {
+    test("fakeAsString() should return original value", () => {
+        expect((0, index_js_1.fakeAsString)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsString)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsString)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsString)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsString)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsString)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsString)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
 // template()
 describe("template() function tests", () => {
     test("template() should return true if true", () => {

@@ -88,7 +88,8 @@ import {
   isValidUrl,
   findMostLikelyUrl,
   findMostLikelyGuid,
-  hasSiblingSpasm
+  hasSiblingSpasm,
+  fakeAsString
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -4055,6 +4056,19 @@ describe("troubled events from monero.observer tests", () => {
     // ).toStrictEqual(
     //   getSpasmId01(convertToSpasm(spasmEnvelope)!)
     // );
+  });
+});
+
+// fakeAsString()
+describe("fakeAsString() function tests", () => {
+  test("fakeAsString() should return original value", () => {
+    expect(fakeAsString('')).toStrictEqual('');
+    expect(fakeAsString('0')).toStrictEqual('0');
+    expect(fakeAsString(0)).toStrictEqual(0);
+    expect(fakeAsString('0123')).toStrictEqual('0123');
+    expect(fakeAsString(null)).toStrictEqual(null);
+    expect(fakeAsString([null])).toStrictEqual([null]);
+    expect(fakeAsString({a:1})).toStrictEqual({a:1});
   });
 });
 
