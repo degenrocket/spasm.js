@@ -9,6 +9,7 @@ import {
   toBeNpubs,
   toBeNote,
   toBeNotes,
+  fakeAsString,
 } from './../utils/index.js';
 
 import {
@@ -376,6 +377,16 @@ describe('toBeHex function', () => {
     expect(toBeHex(validNpubAddress2)).toStrictEqual(validHexAddress2);
     expect(toBeHex(validNpubAddress2)).not.toEqual(null);
     expect(toBeHex(validHexAddress1)).toStrictEqual(validHexAddress1);
+  });
+  it(
+    "should return '' if invalid value is passed",
+    () => {
+    expect(toBeHex('')).toStrictEqual('');
+    expect(toBeHex(fakeAsString(null))).toStrictEqual('');
+    expect(toBeHex(fakeAsString(undefined))).toStrictEqual('');
+    expect(toBeHex(fakeAsString([1,2,3]))).toStrictEqual('');
+    expect(toBeHex(fakeAsString([0]))).toStrictEqual('');
+    expect(toBeHex(fakeAsString({a:1}))).toStrictEqual('');
   });
 });
 
