@@ -173,6 +173,13 @@ describe('toBeHex function', () => {
         expect((0, index_js_1.toBeHex)((0, index_js_1.fakeAsString)([0]))).toStrictEqual('');
         expect((0, index_js_1.toBeHex)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
     });
+    it("should return '' if valid type of invalid length is passed", () => {
+        expect((0, index_js_1.toBeHex)('')).toStrictEqual('');
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validId1Note.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validId1Nevent.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validNpubAddress1.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeHex)(_events_data_js_1.validId1Note.slice(0, _events_data_js_1.validId1Note.length))).toStrictEqual(_events_data_js_1.validId1Hex);
+    });
 });
 describe('toBeHexes function', () => {
     it("should return an array of valid hexes if valid notes and npubs and nevents are passed", () => {

@@ -388,6 +388,15 @@ describe('toBeHex function', () => {
     expect(toBeHex(fakeAsString([0]))).toStrictEqual('');
     expect(toBeHex(fakeAsString({a:1}))).toStrictEqual('');
   });
+  it(
+    "should return '' if valid type of invalid length is passed",
+    () => {
+    expect(toBeHex('')).toStrictEqual('');
+    expect(toBeHex(validId1Note.slice(0,-1))).toStrictEqual('');
+    expect(toBeHex(validId1Nevent.slice(0,-1))).toStrictEqual('');
+    expect(toBeHex(validNpubAddress1.slice(0,-1))).toStrictEqual('');
+    expect(toBeHex(validId1Note.slice(0,validId1Note.length))).toStrictEqual(validId1Hex);
+  });
 });
 
 describe('toBeHexes function', () => {
