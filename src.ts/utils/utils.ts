@@ -3687,6 +3687,11 @@ export const fakeAsString = (val: any): string => {
   return val as string
 }
 
+// Used for tests to bypass TypeScript type checks
+export const fakeAsNumber = (val: any): number => {
+  return val as number
+}
+
 export const cleanSpasmEventV2 = (
   spasmEvent: SpasmEventV2
 ): void => {

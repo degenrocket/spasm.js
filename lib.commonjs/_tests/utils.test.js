@@ -2978,6 +2978,18 @@ describe("fakeAsString() function tests", () => {
         expect((0, index_js_1.fakeAsString)({ a: 1 })).toStrictEqual({ a: 1 });
     });
 });
+// fakeAsNumber()
+describe("fakeAsNumber() function tests", () => {
+    test("fakeAsNumber() should return original value", () => {
+        expect((0, index_js_1.fakeAsNumber)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsNumber)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsNumber)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsNumber)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsNumber)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsNumber)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsNumber)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
 // template()
 describe("template() function tests", () => {
     test("template() should return true if true", () => {
