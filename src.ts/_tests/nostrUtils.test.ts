@@ -411,7 +411,13 @@ describe('toBeHexes function', () => {
           validId1Hex, validId1Note, validId1Nevent,
           validId2Hex, validId2Note, validId2Nevent,
           // Invalid ids will be removed
-          invalidId1Note, invalidId2Note
+          invalidId1Note, invalidId2Note,
+          '', fakeAsString(null), fakeAsString(undefined),
+          fakeAsString([1,2,3]), fakeAsString({a:1}),
+          validNpubAddress1.slice(0,-1),
+          validId1Hex.slice(0,-1),
+          validId1Note.slice(0,-1),
+          validId1Nevent.slice(0,-1)
         ]
       )
     ).toStrictEqual(

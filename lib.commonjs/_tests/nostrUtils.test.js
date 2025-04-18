@@ -189,7 +189,13 @@ describe('toBeHexes function', () => {
             _events_data_js_1.validId1Hex, _events_data_js_1.validId1Note, _events_data_js_1.validId1Nevent,
             _events_data_js_1.validId2Hex, _events_data_js_1.validId2Note, _events_data_js_1.validId2Nevent,
             // Invalid ids will be removed
-            _events_data_js_1.invalidId1Note, _events_data_js_1.invalidId2Note
+            _events_data_js_1.invalidId1Note, _events_data_js_1.invalidId2Note,
+            '', (0, index_js_1.fakeAsString)(null), (0, index_js_1.fakeAsString)(undefined),
+            (0, index_js_1.fakeAsString)([1, 2, 3]), (0, index_js_1.fakeAsString)({ a: 1 }),
+            _events_data_js_1.validNpubAddress1.slice(0, -1),
+            _events_data_js_1.validId1Hex.slice(0, -1),
+            _events_data_js_1.validId1Note.slice(0, -1),
+            _events_data_js_1.validId1Nevent.slice(0, -1)
         ])).toStrictEqual([
             _events_data_js_1.validHexAddress1, _events_data_js_1.validHexAddress2,
             _events_data_js_1.validId1Hex, _events_data_js_1.validId1Hex, _events_data_js_1.validId1Hex,
