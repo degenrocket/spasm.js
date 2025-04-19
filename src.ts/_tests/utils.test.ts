@@ -90,7 +90,8 @@ import {
   findMostLikelyGuid,
   hasSiblingSpasm,
   fakeAsString,
-  fakeAsNumber
+  fakeAsNumber,
+  fakeAsArray
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -4083,6 +4084,19 @@ describe("fakeAsNumber() function tests", () => {
     expect(fakeAsNumber(null)).toStrictEqual(null);
     expect(fakeAsNumber([null])).toStrictEqual([null]);
     expect(fakeAsNumber({a:1})).toStrictEqual({a:1});
+  });
+});
+
+// fakeAsArray()
+describe("fakeAsArray() function tests", () => {
+  test("fakeAsArray() should return original value", () => {
+    expect(fakeAsArray('')).toStrictEqual('');
+    expect(fakeAsArray('0')).toStrictEqual('0');
+    expect(fakeAsArray(0)).toStrictEqual(0);
+    expect(fakeAsArray('0123')).toStrictEqual('0123');
+    expect(fakeAsArray(null)).toStrictEqual(null);
+    expect(fakeAsArray([null])).toStrictEqual([null]);
+    expect(fakeAsArray({a:1})).toStrictEqual({a:1});
   });
 });
 

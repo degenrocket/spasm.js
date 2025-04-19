@@ -2990,6 +2990,18 @@ describe("fakeAsNumber() function tests", () => {
         expect((0, index_js_1.fakeAsNumber)({ a: 1 })).toStrictEqual({ a: 1 });
     });
 });
+// fakeAsArray()
+describe("fakeAsArray() function tests", () => {
+    test("fakeAsArray() should return original value", () => {
+        expect((0, index_js_1.fakeAsArray)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsArray)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsArray)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsArray)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsArray)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsArray)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsArray)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
 // template()
 describe("template() function tests", () => {
     test("template() should return true if true", () => {
