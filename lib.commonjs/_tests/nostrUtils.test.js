@@ -34,6 +34,21 @@ describe('convertNpubOrHexAddressToHex function', () => {
     it("should return '' when an object with a valid npub address is passed", () => {
         expect((0, index_js_1.convertNpubOrHexAddressToHex)({ valid: _events_data_js_1.validHexAddress1 })).toBe('');
     });
+    it("should return '' if invalid value is passed", () => {
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)('')).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)((0, index_js_1.fakeAsString)(null))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)((0, index_js_1.fakeAsString)(undefined))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)((0, index_js_1.fakeAsString)([1, 2, 3]))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)((0, index_js_1.fakeAsString)([0]))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
+    });
+    it("should return '' if valid type of invalid length is passed", () => {
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)('')).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validId1Note.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validId1Nevent.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validNpubAddress1.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.convertNpubOrHexAddressToHex)(_events_data_js_1.validId1Note.slice(0, _events_data_js_1.validId1Note.length))).toStrictEqual(_events_data_js_1.validId1Hex);
+    });
 });
 describe('convertNpubOrHexAddressesToHex function', () => {
     it("should return an array with one valid hex if one valid npub is passed", () => {

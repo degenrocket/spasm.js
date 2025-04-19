@@ -83,6 +83,27 @@ describe('convertNpubOrHexAddressToHex function', () => {
       convertNpubOrHexAddressToHex({valid: validHexAddress1} as any)
     ).toBe('');
   });
+
+  it(
+    "should return '' if invalid value is passed",
+    () => {
+    expect(convertNpubOrHexAddressToHex('')).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(fakeAsString(null))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(fakeAsString(undefined))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(fakeAsString([1,2,3]))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(fakeAsString([0]))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(fakeAsString({a:1}))).toStrictEqual('');
+  });
+
+  it(
+    "should return '' if valid type of invalid length is passed",
+    () => {
+    expect(convertNpubOrHexAddressToHex('')).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(validId1Note.slice(0,-1))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(validId1Nevent.slice(0,-1))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(validNpubAddress1.slice(0,-1))).toStrictEqual('');
+    expect(convertNpubOrHexAddressToHex(validId1Note.slice(0,validId1Note.length))).toStrictEqual(validId1Hex);
+  });
 });
 
 describe('convertNpubOrHexAddressesToHex function', () => {
