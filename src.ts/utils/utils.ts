@@ -3683,19 +3683,19 @@ export const deepCopyOfObject = (obj: any) => {
 export const copyOf = deepCopyOfObject
 
 // Used for tests to bypass TypeScript string type checks
-export const fakeAsString = (val: any): string => {
-  return val as string
-}
+export const fakeAsString = (val: any): string => val as string
 
 // Used for tests to bypass TypeScript number type checks
-export const fakeAsNumber = (val: any): number => {
-  return val as number
-}
+export const fakeAsNumber = (val: any): number => val as number
 
 // Used for tests to bypass TypeScript arrray type checks
-export const fakeAsArray = (val: any): any[] => {
-  return val as any[]
-}
+export const fakeAsArray = (val: any): any[] => val as any[]
+
+// Used for tests to bypass TypeScript null type checks
+export const fakeAsNull = (val: any): null => val as null
+
+// Used for tests to bypass TypeScript any type checks
+export const fakeAsAny = (val: any): any => val as any
 
 export const cleanSpasmEventV2 = (
   spasmEvent: SpasmEventV2
