@@ -65,12 +65,28 @@ describe('convertNpubOrHexAddressesToHex function', () => {
     });
     it("should return an array with a valid hex if an array of valid and invalid hex is passed", () => {
         jest.spyOn(console, 'error').mockImplementation(() => { });
-        expect((0, index_js_1.convertNpubOrHexAddressesToHex)([_events_data_js_1.validHexAddress1, _events_data_js_1.invalidNpubAddress1])).toStrictEqual([_events_data_js_1.validHexAddress1]);
+        expect((0, index_js_1.convertNpubOrHexAddressesToHex)([
+            _events_data_js_1.validHexAddress1, _events_data_js_1.invalidNpubAddress1,
+            '', (0, index_js_1.fakeAsString)(null), (0, index_js_1.fakeAsString)(undefined),
+            (0, index_js_1.fakeAsString)([1, 2, 3]), (0, index_js_1.fakeAsString)({ a: 1 }),
+            _events_data_js_1.validNpubAddress1.slice(0, -1),
+            _events_data_js_1.validId1Hex.slice(0, -1),
+            _events_data_js_1.validId1Note.slice(0, -1),
+            _events_data_js_1.validId1Nevent.slice(0, -1)
+        ])).toStrictEqual([_events_data_js_1.validHexAddress1]);
         jest.restoreAllMocks();
     });
-    it("should return an empty array if an array with two invalid hex is passed", () => {
+    it("should return an empty array if an array with invalid hexes is passed", () => {
         jest.spyOn(console, 'error').mockImplementation(() => { });
-        expect((0, index_js_1.convertNpubOrHexAddressesToHex)([_events_data_js_1.invalidNpubAddress1, _events_data_js_1.invalidNpubAddress2])).toStrictEqual([]);
+        expect((0, index_js_1.convertNpubOrHexAddressesToHex)([
+            _events_data_js_1.invalidNpubAddress1, _events_data_js_1.invalidNpubAddress2,
+            '', (0, index_js_1.fakeAsString)(null), (0, index_js_1.fakeAsString)(undefined),
+            (0, index_js_1.fakeAsString)([1, 2, 3]), (0, index_js_1.fakeAsString)({ a: 1 }),
+            _events_data_js_1.validNpubAddress1.slice(0, -1),
+            _events_data_js_1.validId1Hex.slice(0, -1),
+            _events_data_js_1.validId1Note.slice(0, -1),
+            _events_data_js_1.validId1Nevent.slice(0, -1)
+        ])).toStrictEqual([]);
         jest.restoreAllMocks();
     });
 });

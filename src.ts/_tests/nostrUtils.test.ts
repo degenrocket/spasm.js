@@ -148,19 +148,33 @@ describe('convertNpubOrHexAddressesToHex function', () => {
     () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
-      convertNpubOrHexAddressesToHex([validHexAddress1, invalidNpubAddress1])
-    ).toStrictEqual(
-      [validHexAddress1]
-    );
+      convertNpubOrHexAddressesToHex([
+        validHexAddress1, invalidNpubAddress1,
+        '', fakeAsString(null), fakeAsString(undefined),
+        fakeAsString([1,2,3]), fakeAsString({a:1}),
+        validNpubAddress1.slice(0,-1),
+        validId1Hex.slice(0,-1),
+        validId1Note.slice(0,-1),
+        validId1Nevent.slice(0,-1)
+      ])
+    ).toStrictEqual([validHexAddress1]);
     jest.restoreAllMocks();
   });
 
   it(
-    "should return an empty array if an array with two invalid hex is passed",
+    "should return an empty array if an array with invalid hexes is passed",
     () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(
-      convertNpubOrHexAddressesToHex([invalidNpubAddress1, invalidNpubAddress2])
+      convertNpubOrHexAddressesToHex([
+        invalidNpubAddress1, invalidNpubAddress2,
+        '', fakeAsString(null), fakeAsString(undefined),
+        fakeAsString([1,2,3]), fakeAsString({a:1}),
+        validNpubAddress1.slice(0,-1),
+        validId1Hex.slice(0,-1),
+        validId1Note.slice(0,-1),
+        validId1Nevent.slice(0,-1)
+      ])
     ).toStrictEqual([]);
     jest.restoreAllMocks();
   });
