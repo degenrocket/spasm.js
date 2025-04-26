@@ -379,6 +379,16 @@ describe('toBeNote function', () => {
     expect(toBeNote(fakeAsString([1,2,3]))).toStrictEqual('');
     expect(toBeNote(fakeAsString({a:1}))).toStrictEqual('');
   });
+  it(
+    "should return '' if valid type of invalid length is passed",
+    () => {
+    expect(toBeNote(validId1Hex.slice(0,-1))).toStrictEqual('');
+    expect(toBeNote(validId2Hex.slice(0,-1))).toStrictEqual('');
+    expect(toBeNote(validId1Note.slice(0,-1))).toStrictEqual('');
+    expect(toBeNote(validId2Note.slice(0,-1))).toStrictEqual('');
+    expect(toBeNote(validId1Nevent.slice(0,-1))).toStrictEqual('');
+    expect(toBeNote(validId2Nevent.slice(0,-1))).toStrictEqual('');
+  });
 });
 
 describe('toBeNotes function', () => {

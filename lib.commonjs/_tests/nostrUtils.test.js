@@ -175,6 +175,14 @@ describe('toBeNote function', () => {
         expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)([1, 2, 3]))).toStrictEqual('');
         expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
     });
+    it("should return '' if valid type of invalid length is passed", () => {
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId1Hex.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId2Hex.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId1Note.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId2Note.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId1Nevent.slice(0, -1))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)(_events_data_js_1.validId2Nevent.slice(0, -1))).toStrictEqual('');
+    });
 });
 describe('toBeNotes function', () => {
     it("should return an array of valid notes if valid hexesand nevents and notes are passed", () => {
