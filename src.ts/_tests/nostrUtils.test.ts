@@ -369,6 +369,16 @@ describe('toBeNote function', () => {
     expect(toBeNote(validId1Nevent)).toStrictEqual(validId1Note);
     expect(toBeNote(validId2Nevent)).toStrictEqual(validId2Note);
   });
+  it(
+    "should return '' if invalid value type is passed",
+    () => {
+    expect(toBeNote('')).toStrictEqual('');
+    expect(toBeNote(fakeAsString(12345))).toStrictEqual('');
+    expect(toBeNote(fakeAsString(null))).toStrictEqual('');
+    expect(toBeNote(fakeAsString(undefined))).toStrictEqual('');
+    expect(toBeNote(fakeAsString([1,2,3]))).toStrictEqual('');
+    expect(toBeNote(fakeAsString({a:1}))).toStrictEqual('');
+  });
 });
 
 describe('toBeNotes function', () => {

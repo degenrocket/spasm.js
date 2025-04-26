@@ -167,6 +167,14 @@ describe('toBeNote function', () => {
         expect((0, index_js_1.toBeNote)(_events_data_js_1.validId1Nevent)).toStrictEqual(_events_data_js_1.validId1Note);
         expect((0, index_js_1.toBeNote)(_events_data_js_1.validId2Nevent)).toStrictEqual(_events_data_js_1.validId2Note);
     });
+    it("should return '' if invalid value type is passed", () => {
+        expect((0, index_js_1.toBeNote)('')).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)(12345))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)(null))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)(undefined))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)([1, 2, 3]))).toStrictEqual('');
+        expect((0, index_js_1.toBeNote)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
+    });
 });
 describe('toBeNotes function', () => {
     it("should return an array of valid notes if valid hexesand nevents and notes are passed", () => {
