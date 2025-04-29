@@ -187,10 +187,21 @@ describe('toBeNote function', () => {
 describe('toBeNotes function', () => {
     it("should return an array of valid notes if valid hexesand nevents and notes are passed", () => {
         expect((0, index_js_1.toBeNotes)([
-            // Npubs will be removed
+            // invalid values (Npubs will be removed)
             _events_data_js_1.validNpubAddress1, _events_data_js_1.validNpubAddress2, "123xyz",
+            // valid values
             _events_data_js_1.validId1Hex, _events_data_js_1.validId1Note, _events_data_js_1.validId1Nevent,
-            _events_data_js_1.validId2Hex, _events_data_js_1.validId2Note, _events_data_js_1.validId2Nevent
+            _events_data_js_1.validId2Hex, _events_data_js_1.validId2Note, _events_data_js_1.validId2Nevent,
+            // invalid values (will be removed)
+            (0, index_js_1.fakeAsString)(12345), (0, index_js_1.fakeAsString)(null),
+            (0, index_js_1.fakeAsString)(undefined), (0, index_js_1.fakeAsString)([1, 2, 3]),
+            (0, index_js_1.fakeAsString)({ a: 1 }), '',
+            _events_data_js_1.validId1Hex.slice(0, -1),
+            _events_data_js_1.validId1Note.slice(0, -1),
+            _events_data_js_1.validId1Nevent.slice(0, -1),
+            _events_data_js_1.validId2Hex.slice(0, -1),
+            _events_data_js_1.validId2Note.slice(0, -1),
+            _events_data_js_1.validId2Nevent.slice(0, -1),
         ])).toStrictEqual([
             _events_data_js_1.validId1Note, _events_data_js_1.validId1Note, _events_data_js_1.validId1Note,
             _events_data_js_1.validId2Note, _events_data_js_1.validId2Note, _events_data_js_1.validId2Note

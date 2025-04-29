@@ -398,10 +398,21 @@ describe('toBeNotes function', () => {
     expect(
       toBeNotes(
         [
-          // Npubs will be removed
+          // invalid values (Npubs will be removed)
           validNpubAddress1, validNpubAddress2, "123xyz",
+          // valid values
           validId1Hex, validId1Note, validId1Nevent,
-          validId2Hex, validId2Note, validId2Nevent
+          validId2Hex, validId2Note, validId2Nevent,
+          // invalid values (will be removed)
+          fakeAsString(12345), fakeAsString(null),
+          fakeAsString(undefined), fakeAsString([1,2,3]),
+          fakeAsString({a:1}), '',
+          validId1Hex.slice(0,-1),
+          validId1Note.slice(0,-1),
+          validId1Nevent.slice(0,-1),
+          validId2Hex.slice(0,-1),
+          validId2Note.slice(0,-1),
+          validId2Nevent.slice(0,-1),
         ]
       )
     ).toStrictEqual(
