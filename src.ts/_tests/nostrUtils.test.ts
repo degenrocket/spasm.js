@@ -180,6 +180,8 @@ describe('convertNpubOrHexAddressesToHex function', () => {
   });
 });
 
+// toBeNpub()
+// convertHexOrNpubAddressToNpub()
 describe('convertHexOrNpubAddressToNpub function', () => {
   it(
     "should return a valid npub address when a valid hex is passed",
@@ -187,9 +189,7 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     expect(
       convertHexOrNpubAddressToNpub(validHexAddress1)
     ).toBe(validNpubAddress1);
-    expect(
-      toBeNpub(validHexAddress1)
-    ).toBe(validNpubAddress1);
+    expect(toBeNpub(validHexAddress1)).toBe(validNpubAddress1);
   });
 
   it(
@@ -198,9 +198,7 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     expect(
       convertHexOrNpubAddressToNpub(validNpubAddress1)
     ).toBe(validNpubAddress1);
-    expect(
-      toBeNpub(validNpubAddress1)
-    ).toBe(validNpubAddress1);
+    expect(toBeNpub(validNpubAddress1)).toBe(validNpubAddress1);
   });
 
   it(
@@ -253,6 +251,17 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     expect(
       convertHexOrNpubAddressToNpub({valid: validHexAddress1} as any)
     ).toBe('');
+  });
+
+  it(
+    "should return '' invalid type is passed",
+    () => {
+    expect(toBeNpub('')).toStrictEqual('');
+    expect(toBeNpub(fakeAsString(12345))).toStrictEqual('');
+    expect(toBeNpub(fakeAsString(null))).toStrictEqual('');
+    expect(toBeNpub(fakeAsString(undefined))).toStrictEqual('');
+    expect(toBeNpub(fakeAsString([1,2,3]))).toStrictEqual('');
+    expect(toBeNpub(fakeAsString({a:1}))).toStrictEqual('');
   });
 });
 
@@ -415,12 +424,10 @@ describe('toBeNotes function', () => {
           validId2Nevent.slice(0,-1),
         ]
       )
-    ).toStrictEqual(
-        [
-          validId1Note, validId1Note, validId1Note,
-          validId2Note, validId2Note, validId2Note
-        ]
-    );
+    ).toStrictEqual([
+      validId1Note, validId1Note, validId1Note,
+      validId2Note, validId2Note, validId2Note
+    ]);
   });
 });
 describe('toBeHex function', () => {

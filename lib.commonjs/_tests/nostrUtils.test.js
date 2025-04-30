@@ -90,6 +90,8 @@ describe('convertNpubOrHexAddressesToHex function', () => {
         jest.restoreAllMocks();
     });
 });
+// toBeNpub()
+// convertHexOrNpubAddressToNpub()
 describe('convertHexOrNpubAddressToNpub function', () => {
     it("should return a valid npub address when a valid hex is passed", () => {
         expect((0, index_js_1.convertHexOrNpubAddressToNpub)(_events_data_js_1.validHexAddress1)).toBe(_events_data_js_1.validNpubAddress1);
@@ -118,6 +120,14 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     });
     it("should return '' when an object with a valid npub address is passed", () => {
         expect((0, index_js_1.convertHexOrNpubAddressToNpub)({ valid: _events_data_js_1.validHexAddress1 })).toBe('');
+    });
+    it("should return '' invalid type is passed", () => {
+        expect((0, index_js_1.toBeNpub)('')).toStrictEqual('');
+        expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)(12345))).toStrictEqual('');
+        expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)(null))).toStrictEqual('');
+        expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)(undefined))).toStrictEqual('');
+        expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)([1, 2, 3]))).toStrictEqual('');
+        expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
     });
 });
 describe('convertHexAddressesToNpub & toBeNpubs function', () => {
