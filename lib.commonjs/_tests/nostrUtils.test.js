@@ -129,6 +129,12 @@ describe('convertHexOrNpubAddressToNpub function', () => {
         expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)([1, 2, 3]))).toStrictEqual('');
         expect((0, index_js_1.toBeNpub)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual('');
     });
+    it("should return '' if valid type of invalid length is passed", () => {
+        expect((0, index_js_1.toBeNpub)(_events_data_js_1.validHexAddress1.slice(0, -1))).toBe('');
+        expect((0, index_js_1.toBeNpub)(_events_data_js_1.validHexAddress2.slice(0, -1))).toBe('');
+        expect((0, index_js_1.toBeNpub)(_events_data_js_1.validNpubAddress1.slice(0, -1))).toBe('');
+        expect((0, index_js_1.toBeNpub)(_events_data_js_1.validNpubAddress2.slice(0, -1))).toBe('');
+    });
 });
 describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     it("should return an array with one valid npub if one valid hex is passed", () => {

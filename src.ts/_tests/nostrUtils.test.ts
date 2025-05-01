@@ -263,6 +263,15 @@ describe('convertHexOrNpubAddressToNpub function', () => {
     expect(toBeNpub(fakeAsString([1,2,3]))).toStrictEqual('');
     expect(toBeNpub(fakeAsString({a:1}))).toStrictEqual('');
   });
+
+  it(
+    "should return '' if valid type of invalid length is passed",
+    () => {
+    expect(toBeNpub(validHexAddress1.slice(0,-1))).toBe('');
+    expect(toBeNpub(validHexAddress2.slice(0,-1))).toBe('');
+    expect(toBeNpub(validNpubAddress1.slice(0,-1))).toBe('');
+    expect(toBeNpub(validNpubAddress2.slice(0,-1))).toBe('');
+  });
 });
 
 describe('convertHexAddressesToNpub & toBeNpubs function', () => {
