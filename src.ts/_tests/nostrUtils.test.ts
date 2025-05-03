@@ -342,10 +342,18 @@ describe('convertHexAddressesToNpub & toBeNpubs function', () => {
     "should return an array with a valid npub if an array of valid and invalid hex is passed",
     () => {
     expect(
-      convertHexAddressesToNpub([validHexAddress1, validHexAddress2 + "12345"])
-    ).toStrictEqual(
-      [validNpubAddress1]
-    );
+      convertHexAddressesToNpub([
+        // invalid
+        validHexAddress2 + "12345",
+        // valid
+        validHexAddress1,
+        // invalid
+        '', fakeAsString(12345), fakeAsString(null),
+        fakeAsString(undefined), fakeAsString([1,2,3]),
+        fakeAsString({a:1}),
+        validHexAddress1.slice(0,-1)
+      ])
+    ).toStrictEqual([validNpubAddress1]);
     expect(
       toBeNpubs([validHexAddress1, validHexAddress2 + "12345"])
     ).toStrictEqual([validNpubAddress1]);
