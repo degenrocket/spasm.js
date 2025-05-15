@@ -3002,6 +3002,30 @@ describe("fakeAsArray() function tests", () => {
         expect((0, index_js_1.fakeAsArray)({ a: 1 })).toStrictEqual({ a: 1 });
     });
 });
+// fakeAsNull()
+describe("fakeAsNull() function tests", () => {
+    test("fakeAsNull() should return original value", () => {
+        expect((0, index_js_1.fakeAsNull)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsNull)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsNull)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsNull)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsNull)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsNull)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsNull)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
+// fakeAsAny()
+describe("fakeAsAny() function tests", () => {
+    test("fakeAsAny() should return original value", () => {
+        expect((0, index_js_1.fakeAsAny)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsAny)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsAny)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsAny)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsAny)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsAny)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsAny)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
 // template()
 describe("template() function tests", () => {
     test("template() should return true if true", () => {

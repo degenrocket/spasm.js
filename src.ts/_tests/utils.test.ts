@@ -91,7 +91,9 @@ import {
   hasSiblingSpasm,
   fakeAsString,
   fakeAsNumber,
-  fakeAsArray
+  fakeAsArray,
+  fakeAsNull,
+  fakeAsAny
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -4097,6 +4099,32 @@ describe("fakeAsArray() function tests", () => {
     expect(fakeAsArray(null)).toStrictEqual(null);
     expect(fakeAsArray([null])).toStrictEqual([null]);
     expect(fakeAsArray({a:1})).toStrictEqual({a:1});
+  });
+});
+
+// fakeAsNull()
+describe("fakeAsNull() function tests", () => {
+  test("fakeAsNull() should return original value", () => {
+    expect(fakeAsNull('')).toStrictEqual('');
+    expect(fakeAsNull('0')).toStrictEqual('0');
+    expect(fakeAsNull(0)).toStrictEqual(0);
+    expect(fakeAsNull('0123')).toStrictEqual('0123');
+    expect(fakeAsNull(null)).toStrictEqual(null);
+    expect(fakeAsNull([null])).toStrictEqual([null]);
+    expect(fakeAsNull({a:1})).toStrictEqual({a:1});
+  });
+});
+
+// fakeAsAny()
+describe("fakeAsAny() function tests", () => {
+  test("fakeAsAny() should return original value", () => {
+    expect(fakeAsAny('')).toStrictEqual('');
+    expect(fakeAsAny('0')).toStrictEqual('0');
+    expect(fakeAsAny(0)).toStrictEqual(0);
+    expect(fakeAsAny('0123')).toStrictEqual('0123');
+    expect(fakeAsAny(null)).toStrictEqual(null);
+    expect(fakeAsAny([null])).toStrictEqual([null]);
+    expect(fakeAsAny({a:1})).toStrictEqual({a:1});
   });
 });
 
