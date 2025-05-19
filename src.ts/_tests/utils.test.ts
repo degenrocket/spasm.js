@@ -93,7 +93,8 @@ import {
   fakeAsNumber,
   fakeAsArray,
   fakeAsNull,
-  fakeAsAny
+  fakeAsAny,
+  fakeAsObject
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -4125,6 +4126,19 @@ describe("fakeAsAny() function tests", () => {
     expect(fakeAsAny(null)).toStrictEqual(null);
     expect(fakeAsAny([null])).toStrictEqual([null]);
     expect(fakeAsAny({a:1})).toStrictEqual({a:1});
+  });
+});
+
+// fakeAsObject()
+describe("fakeAsObject() function tests", () => {
+  test("fakeAsObject() should return original value", () => {
+    expect(fakeAsObject('')).toStrictEqual('');
+    expect(fakeAsObject('0')).toStrictEqual('0');
+    expect(fakeAsObject(0)).toStrictEqual(0);
+    expect(fakeAsObject('0123')).toStrictEqual('0123');
+    expect(fakeAsObject(null)).toStrictEqual(null);
+    expect(fakeAsObject([null])).toStrictEqual([null]);
+    expect(fakeAsObject({a:1})).toStrictEqual({a:1});
   });
 });
 

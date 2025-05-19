@@ -3026,6 +3026,18 @@ describe("fakeAsAny() function tests", () => {
         expect((0, index_js_1.fakeAsAny)({ a: 1 })).toStrictEqual({ a: 1 });
     });
 });
+// fakeAsObject()
+describe("fakeAsObject() function tests", () => {
+    test("fakeAsObject() should return original value", () => {
+        expect((0, index_js_1.fakeAsObject)('')).toStrictEqual('');
+        expect((0, index_js_1.fakeAsObject)('0')).toStrictEqual('0');
+        expect((0, index_js_1.fakeAsObject)(0)).toStrictEqual(0);
+        expect((0, index_js_1.fakeAsObject)('0123')).toStrictEqual('0123');
+        expect((0, index_js_1.fakeAsObject)(null)).toStrictEqual(null);
+        expect((0, index_js_1.fakeAsObject)([null])).toStrictEqual([null]);
+        expect((0, index_js_1.fakeAsObject)({ a: 1 })).toStrictEqual({ a: 1 });
+    });
+});
 // template()
 describe("template() function tests", () => {
     test("template() should return true if true", () => {

@@ -3697,6 +3697,11 @@ export const fakeAsNull = (val: any): null => val as null
 // Used for tests to bypass TypeScript any type checks
 export const fakeAsAny = (val: any): any => val as any
 
+// Used for tests to bypass TypeScript any type checks
+export const fakeAsObject = (val: any): Record<any, any> =>  { 
+  return val as Record<any, any>
+}
+
 export const cleanSpasmEventV2 = (
   spasmEvent: SpasmEventV2
 ): void => {
