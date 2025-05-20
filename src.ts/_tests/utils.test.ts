@@ -233,6 +233,18 @@ describe("isObjectWithValues() function tests", () => {
     const input = JSON.stringify(validNostrEventSignedOpened);
     expect(isObjectWithValues(input)).toBe(false);
   });
+
+  test("should return false if input is not an object", () => {
+    expect(isObjectWithValues('')).toBe(false);
+    expect(isObjectWithValues('abc')).toBe(false);
+    expect(isObjectWithValues(null)).toBe(false);
+    expect(isObjectWithValues(undefined)).toBe(false);
+    expect(isObjectWithValues(0)).toBe(false);
+    expect(isObjectWithValues(123)).toBe(false);
+    expect(isObjectWithValues(true)).toBe(false);
+    expect(isObjectWithValues(false)).toBe(false);
+    expect(isObjectWithValues([1,2,3])).toBe(false);
+  });
 });
 
 // isArrayOfStringsOrNumbers

@@ -142,6 +142,12 @@ export declare const sortSpasmEventsV2: (unknownEvents: any[], order?: "asc" | "
 export declare const ifEventsHaveSameSpasmId01: (event1: UnknownEventV2, event2: UnknownEventV2) => Boolean;
 export declare const deepCopyOfObject: (obj: any) => any;
 export declare const copyOf: (obj: any) => any;
+export declare const fakeAsString: (val: any) => string;
+export declare const fakeAsNumber: (val: any) => number;
+export declare const fakeAsArray: (val: any) => any[];
+export declare const fakeAsNull: (val: any) => null;
+export declare const fakeAsAny: (val: any) => any;
+export declare const fakeAsObject: (val: any) => Record<any, any>;
 export declare const cleanSpasmEventV2: (spasmEvent: SpasmEventV2) => void;
 export declare const mergeStatsV2: (allStats: SpasmEventStatV2[][]) => SpasmEventStatV2[] | null;
 export declare const mergeChildrenV2: (allChildren: SpasmEventChildV2[][], depth?: number) => SpasmEventChildV2[] | null;

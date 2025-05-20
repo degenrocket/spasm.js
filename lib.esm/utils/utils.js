@@ -2692,6 +2692,20 @@ export const deepCopyOfObject = (obj) => {
     return JSON.parse(JSON.stringify(obj));
 };
 export const copyOf = deepCopyOfObject;
+// Used for tests to bypass TypeScript string type checks
+export const fakeAsString = (val) => val;
+// Used for tests to bypass TypeScript number type checks
+export const fakeAsNumber = (val) => val;
+// Used for tests to bypass TypeScript arrray type checks
+export const fakeAsArray = (val) => val;
+// Used for tests to bypass TypeScript null type checks
+export const fakeAsNull = (val) => val;
+// Used for tests to bypass TypeScript any type checks
+export const fakeAsAny = (val) => val;
+// Used for tests to bypass TypeScript any type checks
+export const fakeAsObject = (val) => {
+    return val;
+};
 export const cleanSpasmEventV2 = (spasmEvent) => {
     if (!spasmEvent)
         return;

@@ -3698,7 +3698,7 @@ export const fakeAsNull = (val: any): null => val as null
 export const fakeAsAny = (val: any): any => val as any
 
 // Used for tests to bypass TypeScript any type checks
-export const fakeAsObject = (val: any): Record<any, any> =>  { 
+export const fakeAsObject = (val: any): Record<any, any> => { 
   return val as Record<any, any>
 }
 
