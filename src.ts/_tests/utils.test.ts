@@ -276,6 +276,17 @@ describe("isArrayOfStringsOrNumbers() function tests", () => {
     const input = []
     expect(isArrayOfStringsOrNumbers(input)).toBe(false);
   });
+  test("should return false if input is not an array", () => {
+    expect(isArrayOfStringsOrNumbers('')).toBe(false);
+    expect(isArrayOfStringsOrNumbers('abc')).toBe(false);
+    expect(isArrayOfStringsOrNumbers(null)).toBe(false);
+    expect(isArrayOfStringsOrNumbers(undefined)).toBe(false);
+    expect(isArrayOfStringsOrNumbers(0)).toBe(false);
+    expect(isArrayOfStringsOrNumbers(123)).toBe(false);
+    expect(isArrayOfStringsOrNumbers(true)).toBe(false);
+    expect(isArrayOfStringsOrNumbers(false)).toBe(false);
+    expect(isArrayOfStringsOrNumbers({a:1,b:2})).toBe(false);
+  });
 });
 
 // ifArraysHaveCommonId
@@ -334,6 +345,24 @@ describe("ifArraysHaveCommonId() function tests", () => {
     const input1 = [ 1, 2, "four" ]
     const input2 = [ 1, 2, "four" ]
     expect(ifArraysHaveCommonId(input1,input2)).toBe(true);
+  });
+  test("should return false if one input is not an array", () => {
+    expect(ifArraysHaveCommonId([1],fakeAsArray(null))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray(''))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray('1'))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray(false))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray(true))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray(0))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray(123))).toBe(false);
+    expect(ifArraysHaveCommonId([1],fakeAsArray({a:1}))).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(null),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(''),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray('1'),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(false),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(true),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(0),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray(123),[1])).toBe(false);
+    expect(ifArraysHaveCommonId(fakeAsArray({a:1}),[1])).toBe(false);
   });
 });
 

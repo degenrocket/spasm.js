@@ -100,6 +100,17 @@ describe("isArrayOfStringsOrNumbers() function tests", () => {
         const input = [];
         expect((0, index_js_1.isArrayOfStringsOrNumbers)(input)).toBe(false);
     });
+    test("should return false if input is not an array", () => {
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)('')).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)('abc')).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(null)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(undefined)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(0)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(123)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(true)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)(false)).toBe(false);
+        expect((0, index_js_1.isArrayOfStringsOrNumbers)({ a: 1, b: 2 })).toBe(false);
+    });
 });
 // ifArraysHaveCommonId
 describe("ifArraysHaveCommonId() function tests", () => {
@@ -157,6 +168,24 @@ describe("ifArraysHaveCommonId() function tests", () => {
         const input1 = [1, 2, "four"];
         const input2 = [1, 2, "four"];
         expect((0, index_js_1.ifArraysHaveCommonId)(input1, input2)).toBe(true);
+    });
+    test("should return false if one input is not an array", () => {
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(null))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(''))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)('1'))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(false))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(true))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(0))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)(123))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)([1], (0, index_js_1.fakeAsArray)({ a: 1 }))).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(null), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(''), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)('1'), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(false), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(true), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(0), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)(123), [1])).toBe(false);
+        expect((0, index_js_1.ifArraysHaveCommonId)((0, index_js_1.fakeAsArray)({ a: 1 }), [1])).toBe(false);
     });
 });
 // isValidUrl
