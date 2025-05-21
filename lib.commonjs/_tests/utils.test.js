@@ -194,14 +194,21 @@ describe("isValidUrl() function tests", () => {
         expect((0, index_js_1.isValidUrl)(false)).toStrictEqual(false);
         expect((0, index_js_1.isValidUrl)(null)).toStrictEqual(false);
         expect((0, index_js_1.isValidUrl)(123)).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)(0)).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)([1])).toStrictEqual(false);
+        expect((0, index_js_1.isValidUrl)({ url: 'https://spasm.network' })).toStrictEqual(false);
         expect((0, index_js_1.isValidUrl)('hellow world')).toStrictEqual(false);
         expect((0, index_js_1.isValidUrl)('degenrocket.space')).toStrictEqual(false);
         expect((0, index_js_1.isValidUrl)('ftp://degenrocket.space')).toStrictEqual(true);
         expect((0, index_js_1.isValidUrl)('https://degenrocket.space')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://forum.spasm.network')).toStrictEqual(true);
+        expect((0, index_js_1.isValidUrl)('https://one.two.three.four.com')).toStrictEqual(true);
         expect((0, index_js_1.isValidUrl)('https://thedefiant.io')).toStrictEqual(true);
         expect((0, index_js_1.isValidUrl)('https://thedefiant.io/news/123')).toStrictEqual(true);
         expect((0, index_js_1.isValidUrl)('https://monero.observer')).toStrictEqual(true);
         expect((0, index_js_1.isValidUrl)('mailto:monero.observer')).toStrictEqual(true);
+        // TODO URL inside array returns true. Is it safe to change that?
+        // expect(isValidUrl(['https://spasm.network'])).toStrictEqual(false)
     });
 });
 // getFormatFromId

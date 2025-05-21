@@ -372,14 +372,21 @@ describe("isValidUrl() function tests", () => {
     expect(isValidUrl(false)).toStrictEqual(false)
     expect(isValidUrl(null)).toStrictEqual(false)
     expect(isValidUrl(123)).toStrictEqual(false)
+    expect(isValidUrl(0)).toStrictEqual(false)
+    expect(isValidUrl([1])).toStrictEqual(false)
+    expect(isValidUrl({url:'https://spasm.network'})).toStrictEqual(false)
     expect(isValidUrl('hellow world')).toStrictEqual(false)
     expect(isValidUrl('degenrocket.space')).toStrictEqual(false)
     expect(isValidUrl('ftp://degenrocket.space')).toStrictEqual(true)
     expect(isValidUrl('https://degenrocket.space')).toStrictEqual(true)
+    expect(isValidUrl('https://forum.spasm.network')).toStrictEqual(true)
+    expect(isValidUrl('https://one.two.three.four.com')).toStrictEqual(true)
     expect(isValidUrl('https://thedefiant.io')).toStrictEqual(true)
     expect(isValidUrl('https://thedefiant.io/news/123')).toStrictEqual(true)
     expect(isValidUrl('https://monero.observer')).toStrictEqual(true)
     expect(isValidUrl('mailto:monero.observer')).toStrictEqual(true)
+    // TODO URL inside array returns true. Is it safe to change that?
+    // expect(isValidUrl(['https://spasm.network'])).toStrictEqual(false)
   });
 });
 
