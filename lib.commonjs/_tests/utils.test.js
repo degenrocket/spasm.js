@@ -228,6 +228,20 @@ describe("getFormatFromId() function tests", () => {
             name: "spasmid",
             version: "01"
         });
+        expect((0, index_js_1.getFormatFromId)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2.ids[0].value)).toStrictEqual({
+            name: "spasmid",
+            version: "01"
+        });
+        expect((0, index_js_1.getFormatFromId)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2.ids[1].value)).toStrictEqual({
+            name: "ethereum-sig",
+        });
+        expect((0, index_js_1.getFormatFromId)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[0].value)).toStrictEqual({
+            name: "spasmid",
+            version: "01"
+        });
+        expect((0, index_js_1.getFormatFromId)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[1].value)).toStrictEqual({
+            name: "url"
+        });
     });
 });
 // getFormatFromAddress

@@ -407,6 +407,20 @@ describe("getFormatFromId() function tests", () => {
       name: "spasmid",
       version: "01"
     });
+    expect(getFormatFromId(validDmpEventSignedClosedConvertedToSpasmV2.ids![0].value)).toStrictEqual({
+      name: "spasmid",
+      version: "01"
+    });
+    expect(getFormatFromId(validDmpEventSignedClosedConvertedToSpasmV2.ids![1].value)).toStrictEqual({
+      name: "ethereum-sig",
+    });
+    expect(getFormatFromId(validSpasmEventRssItemV0ConvertedToSpasmV2.ids![0].value)).toStrictEqual({
+      name: "spasmid",
+      version: "01"
+    });
+    expect(getFormatFromId(validSpasmEventRssItemV0ConvertedToSpasmV2.ids![1].value)).toStrictEqual({
+      name: "url"
+    });
   });
 });
 
