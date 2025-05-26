@@ -482,13 +482,13 @@ export const createLinkObjectFromUrl = (
 
 export const getFormatFromValue = (
   value?: string | number
-): SpasmEventIdFormatV2 | SpasmEventSignatureFormatV2 | undefined => {
+): SpasmEventIdFormatV2 | SpasmEventSignatureFormatV2 | null => {
   let format: SpasmEventIdFormatV2 | undefined =
     undefined
 
-  if (!value) return format
+  if (!value) return null
   if (typeof(value) !== "string" && typeof(value) !== "number") {
-    return format
+    return null
   }
 
   if (typeof(value) === "number") {
@@ -573,25 +573,26 @@ export const getFormatFromValue = (
     return format = { name: "string" }
   }
 
+  if (!format) return null
   return format
 }
 
 export const getFormatFromId = (
   id: string | number
-): SpasmEventIdFormatV2 => {
-  return getFormatFromValue(id) as SpasmEventIdFormatV2
+): SpasmEventIdFormatV2 | null => {
+  return getFormatFromValue(id) as SpasmEventIdFormatV2 | null
 }
 
 export const getFormatFromAddress = (
   address: string | number
-): SpasmEventAddressFormatV2 => {
-  return getFormatFromValue(address) as SpasmEventAddressFormatV2
+): SpasmEventAddressFormatV2 | null => {
+  return getFormatFromValue(address) as SpasmEventAddressFormatV2 | null
 }
 
 export const getFormatFromSignature = (
   address: string | number
-): SpasmEventSignatureFormatV2 => {
-  return getFormatFromValue(address) as SpasmEventSignatureFormatV2
+): SpasmEventSignatureFormatV2 | null => {
+  return getFormatFromValue(address) as SpasmEventSignatureFormatV2 | null
 }
 
 export const extractIdFormatNameFromSpasmEventIdV2 = (

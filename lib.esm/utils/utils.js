@@ -389,9 +389,9 @@ export const createLinkObjectFromUrl = (url, key) => {
 export const getFormatFromValue = (value) => {
     let format = undefined;
     if (!value)
-        return format;
+        return null;
     if (typeof (value) !== "string" && typeof (value) !== "number") {
-        return format;
+        return null;
     }
     if (typeof (value) === "number") {
         return format = { name: "number" };
@@ -455,6 +455,8 @@ export const getFormatFromValue = (value) => {
     if (typeof (value) === "string") {
         return format = { name: "string" };
     }
+    if (!format)
+        return null;
     return format;
 };
 export const getFormatFromId = (id) => {

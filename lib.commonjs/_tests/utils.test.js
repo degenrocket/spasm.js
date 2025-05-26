@@ -254,6 +254,19 @@ describe("getFormatFromAddress() function tests", () => {
         expect((0, index_js_1.getFormatFromAddress)(_events_data_js_2.validEthereumAddress1)).toStrictEqual({
             name: "ethereum-pubkey"
         });
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)('abc'))).toStrictEqual({
+            name: "string"
+        });
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(123))).toStrictEqual({
+            name: "number"
+        });
+        expect((0, index_js_1.getFormatFromAddress)('')).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(null))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(0))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(true))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(false))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)([1]))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual(null);
     });
 });
 // getFormatFromValue

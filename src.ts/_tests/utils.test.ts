@@ -434,6 +434,19 @@ describe("getFormatFromAddress() function tests", () => {
     expect(getFormatFromAddress(validEthereumAddress1)).toStrictEqual({
       name: "ethereum-pubkey"
     });
+    expect(getFormatFromAddress(fakeAsString('abc'))).toStrictEqual({
+      name: "string"
+    });
+    expect(getFormatFromAddress(fakeAsString(123))).toStrictEqual({
+      name: "number"
+    });
+    expect(getFormatFromAddress('')).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString(null))).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString(0))).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString(true))).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString(false))).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString([1]))).toStrictEqual(null);
+    expect(getFormatFromAddress(fakeAsString({a:1}))).toStrictEqual(null);
   });
 });
 
