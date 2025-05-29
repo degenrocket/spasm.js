@@ -243,6 +243,15 @@ describe("getFormatFromId() function tests", () => {
             name: "url"
         });
     });
+    test("should return null if cannot identify format", () => {
+        expect((0, index_js_1.getFormatFromId)('')).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)(null))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)(0))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)(true))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)(false))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)([1]))).toStrictEqual(null);
+        expect((0, index_js_1.getFormatFromId)((0, index_js_1.fakeAsString)({ a: 1 }))).toStrictEqual(null);
+    });
 });
 // getFormatFromAddress
 describe("getFormatFromAddress() function tests", () => {
@@ -260,6 +269,8 @@ describe("getFormatFromAddress() function tests", () => {
         expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(123))).toStrictEqual({
             name: "number"
         });
+    });
+    test("should return null if cannot identify format", () => {
         expect((0, index_js_1.getFormatFromAddress)('')).toStrictEqual(null);
         expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(null))).toStrictEqual(null);
         expect((0, index_js_1.getFormatFromAddress)((0, index_js_1.fakeAsString)(0))).toStrictEqual(null);

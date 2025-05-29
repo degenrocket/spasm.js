@@ -422,6 +422,15 @@ describe("getFormatFromId() function tests", () => {
       name: "url"
     });
   });
+  test("should return null if cannot identify format", () => {
+    expect(getFormatFromId('')).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString(null))).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString(0))).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString(true))).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString(false))).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString([1]))).toStrictEqual(null);
+    expect(getFormatFromId(fakeAsString({a:1}))).toStrictEqual(null);
+  });
 });
 
 // getFormatFromAddress
@@ -440,6 +449,8 @@ describe("getFormatFromAddress() function tests", () => {
     expect(getFormatFromAddress(fakeAsString(123))).toStrictEqual({
       name: "number"
     });
+  });
+  test("should return null if cannot identify format", () => {
     expect(getFormatFromAddress('')).toStrictEqual(null);
     expect(getFormatFromAddress(fakeAsString(null))).toStrictEqual(null);
     expect(getFormatFromAddress(fakeAsString(0))).toStrictEqual(null);
