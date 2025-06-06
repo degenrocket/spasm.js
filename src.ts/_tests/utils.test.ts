@@ -498,6 +498,15 @@ describe("getFormatFromValue() function tests", () => {
       name: "number"
     });
   });
+  test("should return null if cannot identify format", () => {
+    expect(getFormatFromValue('')).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString(null))).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString(0))).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString(true))).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString(false))).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString([1]))).toStrictEqual(null);
+    expect(getFormatFromValue(fakeAsString({a:1}))).toStrictEqual(null);
+  });
 });
 
 // extractIdFormatNameFromSpasmEventIdV2
