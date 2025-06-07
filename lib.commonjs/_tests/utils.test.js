@@ -341,6 +341,16 @@ describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
         expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[1]))).toStrictEqual("url");
         expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2.ids[2]))).toStrictEqual("guid");
     });
+    test("should return null if cannot identify format", () => {
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(''))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(null))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(0))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(true))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(false))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)([1]))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)({ a: 1 }))).toStrictEqual(null);
+        expect((0, index_js_1.extractIdFormatNameFromSpasmEventIdV2)((0, index_js_1.fakeAsObject)(undefined))).toStrictEqual(null);
+    });
 });
 // extractAllIdFormatNamesFromSpasmEventV2
 // getAllFormatNamesFromSpasmEventV2

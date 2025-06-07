@@ -542,6 +542,24 @@ describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
       validSpasmEventRssItemV0ConvertedToSpasmV2.ids![2]
     ))).toStrictEqual("guid")
   });
+  test("should return null if cannot identify format", () => {
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject('') as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject(null) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject(0) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject(true) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject(false) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject([1]) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject({a:1}) as SpasmEventIdV2)).toStrictEqual(null);
+    expect(extractIdFormatNameFromSpasmEventIdV2(
+      fakeAsObject(undefined) as SpasmEventIdV2)).toStrictEqual(null);
+  });
 });
 
 // extractAllIdFormatNamesFromSpasmEventV2
