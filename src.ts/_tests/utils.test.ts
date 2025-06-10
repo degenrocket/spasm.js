@@ -565,7 +565,7 @@ describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
 // extractAllIdFormatNamesFromSpasmEventV2
 // getAllFormatNamesFromSpasmEventV2
 // getAllFormatNamesFromEvent
-describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
+describe("extractAllIdFormatNamesFromSpasmEventV2() tests", () => {
   test("should extract all ID format names", () => {
     expect(extractAllIdFormatNamesFromSpasmEventV2(copyOf(
       validDmpEventConvertedToSpasmEventV2
@@ -579,6 +579,25 @@ describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
     expect(getAllFormatNamesFromEvent(copyOf(
       validSpasmEventRssItemV0ConvertedToSpasmV2
     ))).toStrictEqual(["spasmid","url", "guid"])
+  });
+  test("should return null if cannot identify any format", () => {
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject('') as SpasmEventV2)).toStrictEqual(null);
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject(null) as SpasmEventV2)).toStrictEqual(null);
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject(0) as SpasmEventV2)).toStrictEqual(null);
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject(true) as SpasmEventV2)).toStrictEqual(null);
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject(false) as SpasmEventV2)).toStrictEqual(null);
+    // TODO arrays and objects have Spasm ID, is that OK?
+    // expect(extractAllIdFormatNamesFromSpasmEventV2(
+    //   fakeAsObject([1]) as SpasmEventV2)).toStrictEqual(null);
+    // expect(extractAllIdFormatNamesFromSpasmEventV2(
+    //   fakeAsObject({a:1}) as SpasmEventV2)).toStrictEqual(null);
+    expect(extractAllIdFormatNamesFromSpasmEventV2(
+      fakeAsObject(undefined) as SpasmEventV2)).toStrictEqual(null);
   });
 });
 

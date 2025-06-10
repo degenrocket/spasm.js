@@ -355,12 +355,25 @@ describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
 // extractAllIdFormatNamesFromSpasmEventV2
 // getAllFormatNamesFromSpasmEventV2
 // getAllFormatNamesFromEvent
-describe("extractIdFormatNameFromSpasmEventIdV2() tests", () => {
+describe("extractAllIdFormatNamesFromSpasmEventV2() tests", () => {
     test("should extract all ID format names", () => {
         expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventConvertedToSpasmEventV2))).toStrictEqual(["spasmid"]);
         expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2))).toStrictEqual(["spasmid", "ethereum-sig"]);
         expect((0, index_js_1.getAllFormatNamesFromSpasmEventV2)((0, index_js_1.copyOf)(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2))).toStrictEqual(["spasmid", "nostr-hex", "nostr-sig"]);
         expect((0, index_js_1.getAllFormatNamesFromEvent)((0, index_js_1.copyOf)(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2))).toStrictEqual(["spasmid", "url", "guid"]);
+    });
+    test("should return null if cannot identify any format", () => {
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(''))).toStrictEqual(null);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(null))).toStrictEqual(null);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(0))).toStrictEqual(null);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(true))).toStrictEqual(null);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(false))).toStrictEqual(null);
+        // TODO arrays and objects have Spasm ID, is that OK?
+        // expect(extractAllIdFormatNamesFromSpasmEventV2(
+        //   fakeAsObject([1]) as SpasmEventV2)).toStrictEqual(null);
+        // expect(extractAllIdFormatNamesFromSpasmEventV2(
+        //   fakeAsObject({a:1}) as SpasmEventV2)).toStrictEqual(null);
+        expect((0, index_js_1.extractAllIdFormatNamesFromSpasmEventV2)((0, index_js_1.fakeAsObject)(undefined))).toStrictEqual(null);
     });
 });
 // getHashOfString()
