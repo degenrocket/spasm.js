@@ -612,6 +612,12 @@ describe("getHashOfString() function tests", () => {
     expect(getHashOfString("<br>line<div class='main'>Main text</div>")).toBe("6f7c80389ac8d9e6a5ce20539c569fcf7ab20b056f4b41cacfab391200472ec4");
     // Japanese
     expect(getHashOfString("ハローワールド")).toBe("9b58f66ce16f8efa41f9ea5fcc767ae639bb1ee83849efc1400da3832c6bff90");
+    expect(getHashOfString(fakeAsString(null))).toStrictEqual("");
+    expect(getHashOfString(fakeAsString(0))).toStrictEqual("");
+    expect(getHashOfString(fakeAsString(true))).toStrictEqual("");
+    expect(getHashOfString(fakeAsString(false))).toStrictEqual("");
+    expect(getHashOfString(fakeAsString([1]))).toStrictEqual("");
+    expect(getHashOfString(fakeAsString({a:1}))).toStrictEqual("");
   });
 });
 
