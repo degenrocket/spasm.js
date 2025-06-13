@@ -511,6 +511,12 @@ export const getHashOfString = (string, algorithm = "sha256") => {
 };
 // Keep only specified keys in an object.
 export const keepTheseKeysInObject = (obj, keys) => {
+    if (!obj)
+        return null;
+    if (typeof (obj) !== "object")
+        return null;
+    if (Array.isArray(obj))
+        return null;
     return keys.reduce((acc, key) => {
         if (obj.hasOwnProperty(key)) {
             acc[key] = obj[key];

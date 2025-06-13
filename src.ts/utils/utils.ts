@@ -656,7 +656,10 @@ export const getHashOfString = (
 // Keep only specified keys in an object.
 export const keepTheseKeysInObject = (
   obj: Record<string, any>, keys: string[]
-): Partial<Record<string, any>> => {
+): Partial<Record<string, any>> | null => {
+  if (!obj) return null
+  if (typeof(obj) !== "object") return null
+  if (Array.isArray(obj)) return null
   return keys.reduce((acc, key) => {
     if (obj.hasOwnProperty(key)) {
       acc[key] = obj[key];

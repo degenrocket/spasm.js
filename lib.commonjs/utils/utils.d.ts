@@ -36,7 +36,7 @@ export declare const extractAllIdFormatNamesFromSpasmEventV2: (originalEvent: Sp
 export declare const getAllFormatNamesFromSpasmEventV2: (originalEvent: SpasmEventV2) => (SpasmEventIdFormatNameV2)[] | null;
 export declare const getAllFormatNamesFromEvent: (originalEvent: SpasmEventV2) => (SpasmEventIdFormatNameV2)[] | null;
 export declare const getHashOfString: (string: string, algorithm?: string) => string;
-export declare const keepTheseKeysInObject: (obj: Record<string, any>, keys: string[]) => Partial<Record<string, any>>;
+export declare const keepTheseKeysInObject: (obj: Record<string, any>, keys: string[]) => Partial<Record<string, any>> | null;
 export declare const keepTheseKeysInObjectsInArray: (array: Record<string, any>[], keys: string[]) => Partial<Record<string, any>[]>;
 export declare const sortArrayOfStringsAndNumbers: (array: any[]) => any[];
 export declare const sortArrayOfObjects: (objects: any[], sortBy?: string | string[]) => any[];

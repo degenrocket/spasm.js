@@ -433,6 +433,22 @@ describe("keepTheseKeysOnly() function tests", () => {
         expect((0, index_js_1.keepTheseKeysInObject)(input, ["id"])).toStrictEqual(output1);
         expect((0, index_js_1.keepTheseKeysInObject)(input, ["addresses", "usernames"])).toStrictEqual(output2);
         expect((0, index_js_1.keepTheseKeysInObject)(input, ["version", "invalid"])).toStrictEqual(output3);
+        expect((0, index_js_1.keepTheseKeysInObject)(input, ["invalid"])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [""])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)(null)])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)(0)])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)(false)])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)(true)])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)([1])])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)(input, [(0, index_js_1.fakeAsString)({ a: 1 })])).toStrictEqual({});
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(null), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(undefined), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(0), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(123), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)("123"), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(true), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)(false), ["id"])).toStrictEqual(null);
+        expect((0, index_js_1.keepTheseKeysInObject)((0, index_js_1.fakeAsObject)([1]), ["id"])).toStrictEqual(null);
     });
 });
 // keepTheseKeysInObjectsInArray
