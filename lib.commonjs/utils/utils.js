@@ -578,6 +578,8 @@ const keepTheseKeysInObject = (obj, keys) => {
 exports.keepTheseKeysInObject = keepTheseKeysInObject;
 // Keep only specified keys in each object of an array.
 const keepTheseKeysInObjectsInArray = (array, keys) => {
+    if (!Array.isArray(array))
+        return null;
     return array.map(obj => (0, exports.keepTheseKeysInObject)(obj, keys));
 };
 exports.keepTheseKeysInObjectsInArray = keepTheseKeysInObjectsInArray;

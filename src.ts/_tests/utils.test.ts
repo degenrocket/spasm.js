@@ -735,6 +735,21 @@ describe("keepTheseKeysInObjectsInArray() function tests", () => {
     expect(keepTheseKeysInObjectsInArray(input, ["id"])).toStrictEqual(output1);
     expect(keepTheseKeysInObjectsInArray(input, ["addresses", "usernames"])).toStrictEqual(output2);
     expect(keepTheseKeysInObjectsInArray(input, ["version", "invalid"])).toStrictEqual(output3);
+    expect(keepTheseKeysInObjectsInArray(input, ["version", "invalid", fakeAsString(null)])).toStrictEqual(output3);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString(null)])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString(undefined)])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString(0)])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString(false)])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString(true)])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString([1])])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(input, [fakeAsString({a:1})])).toStrictEqual([{},{}]);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray(null), ["id"])).toStrictEqual(null);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray(undefined), ["id"])).toStrictEqual(null);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray(0), ["id"])).toStrictEqual(null);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray(false), ["id"])).toStrictEqual(null);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray(true), ["id"])).toStrictEqual(null);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray([1]), ["id"])).toStrictEqual([null]);
+    expect(keepTheseKeysInObjectsInArray(fakeAsArray({a:1}), ["id"])).toStrictEqual(null);
   });
 });
 

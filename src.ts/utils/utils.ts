@@ -671,7 +671,8 @@ export const keepTheseKeysInObject = (
 // Keep only specified keys in each object of an array.
 export const keepTheseKeysInObjectsInArray = (
   array: Record<string, any>[], keys: string[]
-): Partial<Record<string, any>[]> => {
+): Partial<(Record<string, any> | null)[]> | null => {
+  if (!Array.isArray(array)) return null
   return array.map(obj => keepTheseKeysInObject(obj, keys));
 }
 

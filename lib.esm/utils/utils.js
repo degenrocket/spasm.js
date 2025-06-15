@@ -526,6 +526,8 @@ export const keepTheseKeysInObject = (obj, keys) => {
 };
 // Keep only specified keys in each object of an array.
 export const keepTheseKeysInObjectsInArray = (array, keys) => {
+    if (!Array.isArray(array))
+        return null;
     return array.map(obj => keepTheseKeysInObject(obj, keys));
 };
 // This function only sorts string and number values.
