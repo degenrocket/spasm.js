@@ -532,6 +532,11 @@ export const keepTheseKeysInObjectsInArray = (array, keys) => {
 };
 // This function only sorts string and number values.
 export const sortArrayOfStringsAndNumbers = (array) => {
+    if (!array ||
+        !Array.isArray(array) ||
+        !array[0]) {
+        return [];
+    }
     // Separate values into valid and invalid categories.
     const { validValues, invalidValues } = array.reduce((acc, value) => {
         if (typeof value === 'string' ||
