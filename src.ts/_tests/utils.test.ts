@@ -759,6 +759,13 @@ describe("sortArrayOfStringsAndNumbers() function tests", () => {
     const input = ["1", 3, ["invalid", 0], undefined, null, {a:69, b:420, c: {d: "invalid again"}}, 2, "abc2", "abc1", "abcd", "3ab", "3a", "5", "4"];
     const output = ["1", 2, 3, "3a", "3ab", "4", "5", "abc1", "abc2", "abcd", ["invalid", 0], undefined, null,{a:69, b:420, c: {d: "invalid again"}}];
     expect(sortArrayOfStringsAndNumbers(input)).toStrictEqual(output);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(null))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(undefined))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(0))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(123))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(false))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray(true))).toStrictEqual(null);
+    expect(sortArrayOfStringsAndNumbers(fakeAsArray({a:1}))).toStrictEqual(null);
   });
 });
 

@@ -531,6 +531,13 @@ describe("sortArrayOfStringsAndNumbers() function tests", () => {
         const input = ["1", 3, ["invalid", 0], undefined, null, { a: 69, b: 420, c: { d: "invalid again" } }, 2, "abc2", "abc1", "abcd", "3ab", "3a", "5", "4"];
         const output = ["1", 2, 3, "3a", "3ab", "4", "5", "abc1", "abc2", "abcd", ["invalid", 0], undefined, null, { a: 69, b: 420, c: { d: "invalid again" } }];
         expect((0, index_js_1.sortArrayOfStringsAndNumbers)(input)).toStrictEqual(output);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(null))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(undefined))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(0))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(123))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(false))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)(true))).toStrictEqual(null);
+        expect((0, index_js_1.sortArrayOfStringsAndNumbers)((0, index_js_1.fakeAsArray)({ a: 1 }))).toStrictEqual(null);
     });
 });
 // sortArrayOfObjects()

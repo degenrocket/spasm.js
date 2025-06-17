@@ -679,7 +679,8 @@ export const keepTheseKeysInObjectsInArray = (
 // This function only sorts string and number values.
 export const sortArrayOfStringsAndNumbers = (
   array: any[]
-): any[] => {
+): any[] | null => {
+  if (!Array.isArray(array)) return null
   // Separate values into valid and invalid categories.
   const {
     validValues, invalidValues
