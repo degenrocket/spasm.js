@@ -568,6 +568,13 @@ describe("sortArrayOfObjects() function tests", () => {
             { a: 69, b: 420, c: { d: "invalid again" } },
         ];
         expect((0, index_js_1.sortArrayOfObjects)(input, ["id", "value", "title"])).toStrictEqual(output);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(null), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(undefined), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(0), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(123), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(false), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)(true), ["id", "value", "title"])).toStrictEqual([]);
+        expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)({ a: 1 }), ["id", "value", "title"])).toStrictEqual([]);
     });
 });
 describe("sortAuthorsForSpasmEventV2() function tests", () => {

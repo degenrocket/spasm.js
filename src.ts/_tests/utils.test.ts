@@ -797,6 +797,13 @@ describe("sortArrayOfObjects() function tests", () => {
       {a:69, b:420, c: {d: "invalid again"}},
     ];
     expect(sortArrayOfObjects(input, ["id", "value", "title"])).toStrictEqual(output);
+    expect(sortArrayOfObjects(fakeAsArray(null), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray(undefined), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray(0), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray(123), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray(false), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray(true), ["id", "value", "title"])).toStrictEqual([]);
+    expect(sortArrayOfObjects(fakeAsArray({a:1}), ["id", "value", "title"])).toStrictEqual([]);
   });
 });
 
