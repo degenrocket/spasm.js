@@ -808,8 +808,13 @@ describe("sortArrayOfObjects() function tests", () => {
 });
 
 
-describe("sortAuthorsForSpasmEventV2() function tests", () => {
+describe("sortSpasmEventsV2ByDbAddedTimestamp() tests", () => {
   test("should return sorted array", () => {
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      copyOf(validDmpEventSignedClosed),
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
+    ]);
     expect(sortSpasmEventsV2ByDbAddedTimestamp([
       copyOf(validDmpEventSignedClosed),
       copyOf(validNostrEventSignedOpened)
@@ -863,6 +868,37 @@ describe("sortAuthorsForSpasmEventV2() function tests", () => {
       copyOf(validDmpEventSignedClosedConvertedToSpasmV2),
       copyOf(validNostrEventSignedOpenedConvertedToSpasmV2)
     ]);
+  });
+  // invalid types
+  test("should handle wrong types when sorting array", () => {
+    expect(sortSpasmEventsV2ByDbAddedTimestamp([
+      null,
+      copyOf(validDmpEventSignedClosed),
+      undefined,
+      0,
+      123,
+      "abc",
+      [1,2,3]
+    ])).toStrictEqual([
+      copyOf(validDmpEventSignedClosedConvertedToSpasmV2)
+    ]);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray(null)))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(
+      fakeAsArray(undefined)
+    )).toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray(0)))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray(123)))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray(false)))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray(true)))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray("123")))
+      .toStrictEqual(null);
+    expect(sortSpasmEventsV2ByDbAddedTimestamp(fakeAsArray({a:1})))
+      .toStrictEqual(null);
   });
 });
 

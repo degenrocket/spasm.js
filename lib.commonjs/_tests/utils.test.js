@@ -577,8 +577,13 @@ describe("sortArrayOfObjects() function tests", () => {
         expect((0, index_js_1.sortArrayOfObjects)((0, index_js_1.fakeAsArray)({ a: 1 }), ["id", "value", "title"])).toStrictEqual([]);
     });
 });
-describe("sortAuthorsForSpasmEventV2() function tests", () => {
+describe("sortSpasmEventsV2ByDbAddedTimestamp() tests", () => {
     test("should return sorted array", () => {
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)([
+            (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed),
+        ])).toStrictEqual([
+            (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2),
+        ]);
         expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)([
             (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed),
             (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpened)
@@ -632,6 +637,35 @@ describe("sortAuthorsForSpasmEventV2() function tests", () => {
             (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2),
             (0, index_js_1.copyOf)(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2)
         ]);
+    });
+    // invalid types
+    test("should handle wrong types when sorting array", () => {
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)([
+            null,
+            (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosed),
+            undefined,
+            0,
+            123,
+            "abc",
+            [1, 2, 3]
+        ])).toStrictEqual([
+            (0, index_js_1.copyOf)(_events_data_js_1.validDmpEventSignedClosedConvertedToSpasmV2)
+        ]);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(null)))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(undefined))).toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(0)))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(123)))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(false)))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)(true)))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)("123")))
+            .toStrictEqual(null);
+        expect((0, index_js_1.sortSpasmEventsV2ByDbAddedTimestamp)((0, index_js_1.fakeAsArray)({ a: 1 })))
+            .toStrictEqual(null);
     });
 });
 // sortAuthorsForSpasmEventV2()
