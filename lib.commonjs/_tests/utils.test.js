@@ -773,6 +773,24 @@ describe("sortAuthorsForSpasmEventV2() function tests", () => {
         ];
         expect((0, index_js_1.sortAuthorsForSpasmEventV2)(input)).toStrictEqual(output);
     });
+    test("should handle invalid types when sorting authors", () => {
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(null)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(undefined)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(0)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(123)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(false)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)(true)))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)("123")))
+            .toStrictEqual([]);
+        expect((0, index_js_1.sortAuthorsForSpasmEventV2)((0, index_js_1.fakeAsArray)({ a: 1 })))
+            .toStrictEqual([]);
+    });
 });
 // sortMediasForSpasmid01
 describe("sortMediasForSpasmid01() function tests", () => {

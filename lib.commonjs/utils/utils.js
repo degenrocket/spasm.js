@@ -657,6 +657,11 @@ const sortArrayOfObjects = (objects, sortBy = ["id"]) => {
 };
 exports.sortArrayOfObjects = sortArrayOfObjects;
 const sortAuthorsForSpasmEventV2 = (authors) => {
+    if (!authors ||
+        !Array.isArray(authors) ||
+        !authors[0]) {
+        return [];
+    }
     // Clean and sort addresses
     authors.forEach(author => {
         if (author && typeof (author) === "object" &&

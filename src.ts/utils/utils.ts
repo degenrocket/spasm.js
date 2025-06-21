@@ -684,9 +684,7 @@ export const sortArrayOfStringsAndNumbers = (
     !array ||
     !Array.isArray(array) ||
     !array[0]
-  ) {
-    return []
-  }
+  ) { return [] }
   // Separate values into valid and invalid categories.
   const {
     validValues, invalidValues
@@ -795,6 +793,11 @@ export const sortArrayOfObjects = (
 export const sortAuthorsForSpasmEventV2 = (
   authors: SpasmEventAuthorV2[],
 ): SpasmEventAuthorV2[] => {
+  if (
+    !authors ||
+    !Array.isArray(authors) ||
+    !authors[0]
+  ) { return [] }
 
   // Clean and sort addresses
   authors.forEach(author => {

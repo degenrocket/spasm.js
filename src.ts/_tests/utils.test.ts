@@ -1007,6 +1007,24 @@ describe("sortAuthorsForSpasmEventV2() function tests", () => {
     ];
     expect(sortAuthorsForSpasmEventV2(input)).toStrictEqual(output);
   });
+  test("should handle invalid types when sorting authors", () => {
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(null)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(undefined)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(0)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(123)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(false)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray(true)))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray("123")))
+      .toStrictEqual([]);
+    expect(sortAuthorsForSpasmEventV2(fakeAsArray({a:1})))
+      .toStrictEqual([]);
+  });
 });
 
 // sortMediasForSpasmid01
