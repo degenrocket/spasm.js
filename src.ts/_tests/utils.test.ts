@@ -1084,6 +1084,24 @@ describe("sortMediasForSpasmid01() function tests", () => {
       
     expect(sortMediasForSpasmid01(input)).toStrictEqual(output);
   });
+  test("should handle invalid types when sorting media", () => {
+    expect(sortMediasForSpasmid01(fakeAsArray(null)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray(undefined)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray(0)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray(123)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray(false)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray(true)))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray("123")))
+      .toStrictEqual([]);
+    expect(sortMediasForSpasmid01(fakeAsArray({a:1})))
+      .toStrictEqual([]);
+  });
 });
 
 // sortParentForSpasmid01()
