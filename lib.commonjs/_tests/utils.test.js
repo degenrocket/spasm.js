@@ -883,6 +883,16 @@ describe("sortParentForSpasmid01() function tests", () => {
             marker: "parent-marker1" };
         expect((0, index_js_1.sortParentForSpasmid01)(input)).toStrictEqual(output);
     });
+    test("sortParentForSpasmid01() should handle invalid types", () => {
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(null))).toStrictEqual(null);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(undefined))).toStrictEqual(undefined);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(0))).toStrictEqual(0);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(123))).toStrictEqual(123);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(true))).toStrictEqual(true);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)(false))).toStrictEqual(false);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)([1]))).toStrictEqual([1]);
+        expect((0, index_js_1.sortParentForSpasmid01)((0, index_js_1.fakeAsObject)({ a: 1 }))).toStrictEqual({ a: 1 });
+    });
 });
 // sortReferencesForSpasmid01()
 describe("sortReferencesForSpasmid01() function tests", () => {

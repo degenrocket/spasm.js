@@ -2,6 +2,7 @@ import {convertToSpasm} from '../convert/convertToSpasm.js';
 import {
   ConvertToSpasmConfig,
   CustomConvertToSpasmConfig,
+  SpasmEventBodyParentV2,
   SpasmEventEnvelopeV2,
   SpasmEventIdV2,
   SpasmEventStatV2,
@@ -1122,6 +1123,32 @@ describe("sortParentForSpasmid01() function tests", () => {
                      marker: "parent-marker1" };
 
     expect(sortParentForSpasmid01(input)).toStrictEqual(output);
+  });
+  test("sortParentForSpasmid01() should handle invalid types", () => {
+    expect(sortParentForSpasmid01(
+      fakeAsObject(null) as SpasmEventBodyParentV2)
+    ).toStrictEqual(null);
+    expect(sortParentForSpasmid01(
+      fakeAsObject(undefined) as SpasmEventBodyParentV2)
+    ).toStrictEqual(undefined);
+    expect(sortParentForSpasmid01(
+      fakeAsObject(0) as SpasmEventBodyParentV2)
+    ).toStrictEqual(0);
+    expect(sortParentForSpasmid01(
+      fakeAsObject(123) as SpasmEventBodyParentV2)
+    ).toStrictEqual(123);
+    expect(sortParentForSpasmid01(
+      fakeAsObject(true) as SpasmEventBodyParentV2)
+    ).toStrictEqual(true);
+    expect(sortParentForSpasmid01(
+      fakeAsObject(false) as SpasmEventBodyParentV2)
+    ).toStrictEqual(false);
+    expect(sortParentForSpasmid01(
+      fakeAsObject([1]) as SpasmEventBodyParentV2)
+    ).toStrictEqual([1]);
+    expect(sortParentForSpasmid01(
+      fakeAsObject({a:1}) as SpasmEventBodyParentV2)
+    ).toStrictEqual({a:1});
   });
 });
 
