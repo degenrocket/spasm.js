@@ -1177,6 +1177,24 @@ describe("sortReferencesForSpasmid01() function tests", () => {
     ];
     expect(sortReferencesForSpasmid01(input)).toStrictEqual(output);
   });
+  test("should handle invalid types when sorting references", () => {
+    expect(sortReferencesForSpasmid01(fakeAsArray(null)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray(undefined)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray(0)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray(123)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray(false)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray(true)))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray("123")))
+      .toStrictEqual([]);
+    expect(sortReferencesForSpasmid01(fakeAsArray({a:1})))
+      .toStrictEqual([]);
+  });
 });
 
 // sortTagsForSpasmid01()
