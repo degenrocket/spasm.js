@@ -1228,6 +1228,24 @@ describe("sortTagsForSpasmid01() function tests", () => {
     ];
     expect(sortTagsForSpasmid01(input)).toStrictEqual(output);
   });
+  test("should handle invalid types when sorting tags", () => {
+    expect(sortTagsForSpasmid01(fakeAsArray(null)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray(undefined)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray(0)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray(123)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray(false)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray(true)))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray("123")))
+      .toStrictEqual([[]]);
+    expect(sortTagsForSpasmid01(fakeAsArray({a:1})))
+      .toStrictEqual([[]]);
+  });
 });
 
 // executeFunctionForAllNestedValuesOfType()

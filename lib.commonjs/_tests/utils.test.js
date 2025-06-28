@@ -969,6 +969,24 @@ describe("sortTagsForSpasmid01() function tests", () => {
         ];
         expect((0, index_js_1.sortTagsForSpasmid01)(input)).toStrictEqual(output);
     });
+    test("should handle invalid types when sorting tags", () => {
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(null)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(undefined)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(0)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(123)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(false)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)(true)))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)("123")))
+            .toStrictEqual([[]]);
+        expect((0, index_js_1.sortTagsForSpasmid01)((0, index_js_1.fakeAsArray)({ a: 1 })))
+            .toStrictEqual([[]]);
+    });
 });
 // executeFunctionForAllNestedValuesOfType()
 describe("executeFunctionForNestedValues() function tests", () => {
