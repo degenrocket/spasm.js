@@ -44,10 +44,28 @@ import {
 import { convertToSpasm } from "./../convert/convertToSpasm.js"
 import { getSpasmId } from "./../convert/getSpasmId.js"
 import { SpasmEventV2 } from "../types/interfaces.js";
+import { fakeAsObject } from "../utils/index.js";
 
 describe("getSpasmId tests", () => {
   test("should return true if true", () => {
     expect(true).toBe(true);
+  });
+});
+
+// getSpasmId() for invalid data types
+describe("getSpasmId() tests invalid data types", () => {
+  test("should return null for invalid data types", () => {
+    expect(getSpasmId(fakeAsObject(null) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject(undefined) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject(0) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject(1) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject(true) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject(false) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject("") as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject("hello") as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject([1,2,3]) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject({a:"hello"}) as SpasmEventV2)).toEqual(null);
+    expect(getSpasmId(fakeAsObject({type:"hello"}) as SpasmEventV2)).toEqual(null);
   });
 });
 

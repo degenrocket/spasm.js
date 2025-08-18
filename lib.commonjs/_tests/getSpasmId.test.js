@@ -3,9 +3,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const _events_data_js_1 = require("./_events-data.js");
 const convertToSpasm_js_1 = require("./../convert/convertToSpasm.js");
 const getSpasmId_js_1 = require("./../convert/getSpasmId.js");
+const index_js_1 = require("../utils/index.js");
 describe("getSpasmId tests", () => {
     test("should return true if true", () => {
         expect(true).toBe(true);
+    });
+});
+// getSpasmId() for invalid data types
+describe("getSpasmId() tests invalid data types", () => {
+    test("should return null for invalid data types", () => {
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(null))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(undefined))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(0))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(1))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(true))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(false))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)(""))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)("hello"))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)([1, 2, 3]))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)({ a: "hello" }))).toEqual(null);
+        expect((0, getSpasmId_js_1.getSpasmId)((0, index_js_1.fakeAsObject)({ type: "hello" }))).toEqual(null);
     });
 });
 // getSpasmId() for DMP events
