@@ -1777,6 +1777,37 @@ describe("hasSiblingSpasm() function tests", () => {
     const inputSpasm = JSON.parse(JSON.stringify(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
     const inputSpasmUnsigned = JSON.parse(JSON.stringify(validSpasmEventBodyV2ConvertedToSpasmV2));
 
+    // hasSignatureOfFormat for invalid signature format
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(null) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(undefined) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(true) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(false) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(0) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString(1) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString("abc") as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString([1,2,3]) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, fakeAsString({a:1}) as "ethereum")).toEqual(false);
+
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(null) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(undefined) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(true) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(false) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(0) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString(1) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString("abc") as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString([1,2,3]) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, fakeAsString({a:1}) as "ethereum")).toEqual(false);
+
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(null) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(undefined) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(true) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(false) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(0) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString(1) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString("abc") as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString([1,2,3]) as "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, fakeAsString({a:1}) as "ethereum")).toEqual(false);
+
     // hasSignatureOfFormat for ethereum
     expect(hasSignatureOfFormat(inputSpasmUnsigned, "ethereum")).toEqual(false);
     expect(hasSignatureOfFormat(inputSpasm, "ethereum")).toEqual(true);

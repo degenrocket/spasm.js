@@ -1473,6 +1473,34 @@ describe("hasSiblingSpasm() function tests", () => {
         const inputWeb2 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2));
         const inputSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
         const inputSpasmUnsigned = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodyV2ConvertedToSpasmV2));
+        // hasSignatureOfFormat for invalid signature format
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(null))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(undefined))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(true))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(false))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(0))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)(1))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)("abc"))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)([1, 2, 3]))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, (0, index_js_1.fakeAsString)({ a: 1 }))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(null))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(undefined))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(true))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(false))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(0))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)(1))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)("abc"))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)([1, 2, 3]))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputNostr, (0, index_js_1.fakeAsString)({ a: 1 }))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(null))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(undefined))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(true))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(false))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(0))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)(1))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)("abc"))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)([1, 2, 3]))).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)(inputWeb2, (0, index_js_1.fakeAsString)({ a: 1 }))).toEqual(false);
         // hasSignatureOfFormat for ethereum
         expect((0, index_js_1.hasSignatureOfFormat)(inputSpasmUnsigned, "ethereum")).toEqual(false);
         expect((0, index_js_1.hasSignatureOfFormat)(inputSpasm, "ethereum")).toEqual(true);
