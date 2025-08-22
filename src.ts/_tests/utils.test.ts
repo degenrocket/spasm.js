@@ -95,7 +95,8 @@ import {
   fakeAsArray,
   fakeAsNull,
   fakeAsAny,
-  fakeAsObject
+  fakeAsObject,
+  hasSignatureOfFormat
 } from './../utils/index.js';
 import {
   validDmpEvent, validDmpEventSignedClosed,
@@ -1764,6 +1765,7 @@ describe("hasSiblingSpasm() function tests", () => {
   });
 });
 
+// hasSignatureOfFormat
 // hasSignatureEthereum()
 // hasSignatureNostr()
 describe("hasSiblingSpasm() function tests", () => {
@@ -1775,6 +1777,22 @@ describe("hasSiblingSpasm() function tests", () => {
     const inputSpasm = JSON.parse(JSON.stringify(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
     const inputSpasmUnsigned = JSON.parse(JSON.stringify(validSpasmEventBodyV2ConvertedToSpasmV2));
 
+    // hasSignatureOfFormat for ethereum
+    expect(hasSignatureOfFormat(inputSpasmUnsigned, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, "ethereum")).toEqual(true);
+    expect(hasSignatureOfFormat(inputDmp, "ethereum")).toEqual(true);
+    expect(hasSignatureOfFormat(inputNostr, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostrSpasm, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(inputWeb2, "ethereum")).toEqual(false);
+
+    // hasSignatureOfFormat for nostr
+    expect(hasSignatureOfFormat(inputSpasmUnsigned, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(inputSpasm, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(inputDmp, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(inputNostr, "nostr")).toEqual(true);
+    expect(hasSignatureOfFormat(inputNostrSpasm, "nostr")).toEqual(true);
+    expect(hasSignatureOfFormat(inputWeb2, "nostr")).toEqual(false);
+
     // hasSignatureEthereum()
     expect(hasSignatureEthereum(inputSpasmUnsigned)).toEqual(false);
     expect(hasSignatureEthereum(inputSpasm)).toEqual(true);
@@ -1782,6 +1800,7 @@ describe("hasSiblingSpasm() function tests", () => {
     expect(hasSignatureEthereum(inputNostr)).toEqual(false);
     expect(hasSignatureEthereum(inputNostrSpasm)).toEqual(false);
     expect(hasSignatureEthereum(inputWeb2)).toEqual(false);
+
     // hasSignatureNostr()
     expect(hasSignatureNostr(inputSpasmUnsigned)).toEqual(false);
     expect(hasSignatureNostr(inputSpasm)).toEqual(false);
