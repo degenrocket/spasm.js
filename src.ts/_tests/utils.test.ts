@@ -1729,8 +1729,6 @@ describe("mergeConfigs() function tests", () => {
 // hasSiblingNostr()
 // hasSiblingWeb2()
 // hasSiblingSpasm()
-// hasSignatureEthereum()
-// hasSignatureNostr()
 describe("hasSiblingSpasm() function tests", () => {
   test("hasSibling...() should return true if event has specified siblings", () => {
     const inputDmp = JSON.parse(JSON.stringify(validDmpEventSignedOpenedConvertedToSpasmV2));
@@ -1738,7 +1736,6 @@ describe("hasSiblingSpasm() function tests", () => {
     const inputNostrSpasm = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
     const inputWeb2 = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
     const inputSpasm = JSON.parse(JSON.stringify(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
-    const inputSpasmUnsigned = JSON.parse(JSON.stringify(validSpasmEventBodyV2ConvertedToSpasmV2));
 
     // hasSiblingSpasm()
     expect(hasSiblingSpasm(inputSpasm)).toEqual(true);
@@ -1764,6 +1761,19 @@ describe("hasSiblingSpasm() function tests", () => {
     expect(hasSiblingWeb2(inputNostr)).toEqual(false);
     expect(hasSiblingWeb2(inputNostrSpasm)).toEqual(false);
     expect(hasSiblingWeb2(inputWeb2)).toEqual(true);
+  });
+});
+
+// hasSignatureEthereum()
+// hasSignatureNostr()
+describe("hasSiblingSpasm() function tests", () => {
+  test("hasSibling...() should return true if event has specified siblings", () => {
+    const inputDmp = JSON.parse(JSON.stringify(validDmpEventSignedOpenedConvertedToSpasmV2));
+    const inputNostr = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
+    const inputNostrSpasm = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
+    const inputWeb2 = JSON.parse(JSON.stringify(validSpasmEventRssItemV0ConvertedToSpasmV2));
+    const inputSpasm = JSON.parse(JSON.stringify(validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
+    const inputSpasmUnsigned = JSON.parse(JSON.stringify(validSpasmEventBodyV2ConvertedToSpasmV2));
 
     // hasSignatureEthereum()
     expect(hasSignatureEthereum(inputSpasmUnsigned)).toEqual(false);

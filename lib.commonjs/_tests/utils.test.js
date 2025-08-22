@@ -1429,8 +1429,6 @@ describe("mergeConfigs() function tests", () => {
 // hasSiblingNostr()
 // hasSiblingWeb2()
 // hasSiblingSpasm()
-// hasSignatureEthereum()
-// hasSignatureNostr()
 describe("hasSiblingSpasm() function tests", () => {
     test("hasSibling...() should return true if event has specified siblings", () => {
         const inputDmp = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
@@ -1438,7 +1436,6 @@ describe("hasSiblingSpasm() function tests", () => {
         const inputNostrSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
         const inputWeb2 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2));
         const inputSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
-        const inputSpasmUnsigned = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodyV2ConvertedToSpasmV2));
         // hasSiblingSpasm()
         expect((0, index_js_1.hasSiblingSpasm)(inputSpasm)).toEqual(true);
         expect((0, index_js_1.hasSiblingSpasm)(inputDmp)).toEqual(false);
@@ -1463,6 +1460,18 @@ describe("hasSiblingSpasm() function tests", () => {
         expect((0, index_js_1.hasSiblingWeb2)(inputNostr)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputNostrSpasm)).toEqual(false);
         expect((0, index_js_1.hasSiblingWeb2)(inputWeb2)).toEqual(true);
+    });
+});
+// hasSignatureEthereum()
+// hasSignatureNostr()
+describe("hasSiblingSpasm() function tests", () => {
+    test("hasSibling...() should return true if event has specified siblings", () => {
+        const inputDmp = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
+        const inputNostr = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
+        const inputNostrSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
+        const inputWeb2 = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventRssItemV0ConvertedToSpasmV2));
+        const inputSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodySignedClosedV2ConvertedToSpasmV2));
+        const inputSpasmUnsigned = JSON.parse(JSON.stringify(_events_data_js_1.validSpasmEventBodyV2ConvertedToSpasmV2));
         // hasSignatureEthereum()
         expect((0, index_js_1.hasSignatureEthereum)(inputSpasmUnsigned)).toEqual(false);
         expect((0, index_js_1.hasSignatureEthereum)(inputSpasm)).toEqual(true);
