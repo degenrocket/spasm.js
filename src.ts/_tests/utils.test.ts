@@ -1765,11 +1765,11 @@ describe("hasSiblingSpasm() function tests", () => {
   });
 });
 
-// hasSignatureOfFormat
+// hasSignatureOfFormat()
 // hasSignatureEthereum()
 // hasSignatureNostr()
-describe("hasSiblingSpasm() function tests", () => {
-  test("hasSibling...() should return true if event has specified siblings", () => {
+describe("hasSignatureOfFormat() function tests", () => {
+  test("hasSignatureOfFormat...() should return true if event has specified signature", () => {
     const inputDmp = JSON.parse(JSON.stringify(validDmpEventSignedOpenedConvertedToSpasmV2));
     const inputNostr = JSON.parse(JSON.stringify(validNostrEventSignedOpenedConvertedToSpasmV2));
     const inputNostrSpasm = JSON.parse(JSON.stringify(validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
@@ -1839,6 +1839,30 @@ describe("hasSiblingSpasm() function tests", () => {
     expect(hasSignatureNostr(inputNostr)).toEqual(true);
     expect(hasSignatureNostr(inputNostrSpasm)).toEqual(true);
     expect(hasSignatureNostr(inputWeb2)).toEqual(false);
+  });
+
+  test("hasSignatureOfFormat...() should return false if event is invalid type", () => {
+    // hasSignatureOfFormat for ethereum
+    expect(hasSignatureOfFormat(fakeAsObject(null) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(undefined) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(0) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(1) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(true) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(false) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject("abc") as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject([1,2,3]) as SpasmEventV2, "ethereum")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject({a:1}) as SpasmEventV2, "ethereum")).toEqual(false);
+
+    // hasSignatureOfFormat for nostr
+    expect(hasSignatureOfFormat(fakeAsObject(null) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(undefined) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(0) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(1) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(true) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject(false) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject("abc") as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject([1,2,3]) as SpasmEventV2, "nostr")).toEqual(false);
+    expect(hasSignatureOfFormat(fakeAsObject({a:1}) as SpasmEventV2, "nostr")).toEqual(false);
   });
 });
 

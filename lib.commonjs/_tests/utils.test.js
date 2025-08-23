@@ -1462,11 +1462,11 @@ describe("hasSiblingSpasm() function tests", () => {
         expect((0, index_js_1.hasSiblingWeb2)(inputWeb2)).toEqual(true);
     });
 });
-// hasSignatureOfFormat
+// hasSignatureOfFormat()
 // hasSignatureEthereum()
 // hasSignatureNostr()
-describe("hasSiblingSpasm() function tests", () => {
-    test("hasSibling...() should return true if event has specified siblings", () => {
+describe("hasSignatureOfFormat() function tests", () => {
+    test("hasSignatureOfFormat...() should return true if event has specified signature", () => {
         const inputDmp = JSON.parse(JSON.stringify(_events_data_js_1.validDmpEventSignedOpenedConvertedToSpasmV2));
         const inputNostr = JSON.parse(JSON.stringify(_events_data_js_1.validNostrEventSignedOpenedConvertedToSpasmV2));
         const inputNostrSpasm = JSON.parse(JSON.stringify(_events_data_js_1.validNostrSpasmEventSignedOpenedConvertedToSpasmV2));
@@ -1529,6 +1529,28 @@ describe("hasSiblingSpasm() function tests", () => {
         expect((0, index_js_1.hasSignatureNostr)(inputNostr)).toEqual(true);
         expect((0, index_js_1.hasSignatureNostr)(inputNostrSpasm)).toEqual(true);
         expect((0, index_js_1.hasSignatureNostr)(inputWeb2)).toEqual(false);
+    });
+    test("hasSignatureOfFormat...() should return false if event is invalid type", () => {
+        // hasSignatureOfFormat for ethereum
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(null), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(undefined), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(0), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(1), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(true), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(false), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)("abc"), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)([1, 2, 3]), "ethereum")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)({ a: 1 }), "ethereum")).toEqual(false);
+        // hasSignatureOfFormat for nostr
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(null), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(undefined), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(0), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(1), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(true), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)(false), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)("abc"), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)([1, 2, 3]), "nostr")).toEqual(false);
+        expect((0, index_js_1.hasSignatureOfFormat)((0, index_js_1.fakeAsObject)({ a: 1 }), "nostr")).toEqual(false);
     });
 });
 describe("extractNostrEvents() function tests", () => {
